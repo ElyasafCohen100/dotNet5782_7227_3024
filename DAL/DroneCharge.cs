@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IDAL
 {
-    namespace Do
+    namespace DO
     {
         public struct DroneCharge
         {

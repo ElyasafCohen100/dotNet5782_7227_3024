@@ -27,5 +27,10 @@ namespace IDAL
             maintenance,
             shipment
         }
+
+        public enum Datetime
+        {
+
+        }
     }
 }

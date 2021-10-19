@@ -24,7 +24,6 @@ namespace IDAL
                 $"Longitude: {Longitude}, " +
                 $"Lattitude: {Lattitude}," +
                 $"ChargeSlots: {ChargeSlots}";
-
             }
         }
     }
