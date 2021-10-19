@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{E74F89A5-81AD-4842-836C-7248534BDB22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{C7396071-616D-4645-9D29-439EF2479D43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{1BEBFCDB-D470-4C0C-B06B-3252B71E642B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BEBFCDB-D470-4C0C-B06B-3252B71E642B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BEBFCDB-D470-4C0C-B06B-3252B71E642B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E74F89A5-81AD-4842-836C-7248534BDB22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E74F89A5-81AD-4842-836C-7248534BDB22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E74F89A5-81AD-4842-836C-7248534BDB22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E74F89A5-81AD-4842-836C-7248534BDB22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7396071-616D-4645-9D29-439EF2479D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7396071-616D-4645-9D29-439EF2479D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7396071-616D-4645-9D29-439EF2479D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7396071-616D-4645-9D29-439EF2479D43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
