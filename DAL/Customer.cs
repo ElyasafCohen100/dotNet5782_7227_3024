@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Targil0
+namespace IDAL
 {
-    partial class Program
+    namespace DO
     {
-
         public struct Customer
         {
             public int Id { get; set; }
@@ -21,28 +20,6 @@ namespace Targil0
                     $"Longitude: {Longitude}\n" +
                     $"Lattitude: {Lattitude}\n";
             }
-        }
-
-
-        static void Main(string[] args)
-        {
-
-
-
-            Customer elyasaf = new Customer();
-            Console.WriteLine(elyasaf.ToString());
-
-
-            Welcome7227();
-            Welcome3024();
-            Console.ReadKey();
-        }
-        static partial void Welcome3024();
-        private static void Welcome7227()
-        {
-            Console.Write("Enter your name:");
-            string userName = Console.ReadLine();
-            Console.WriteLine("{0}, welcome to my first console application", userName);
         }
     }
 }
