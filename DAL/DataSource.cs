@@ -23,59 +23,105 @@ namespace DalObject
             internal static int StationIndex = 0;
             internal static int CustomerIndex = 0;
             internal static int ParcelIndex = 0;
+            internal static int SerialNumber = 0;
 
-            internal static int SerialNumber;
+            private static Random randomNumber = new Random();
+            private static DateTime currentDate = DateTime.Now;
 
-            static Random r = new Random();
-            static DateTime currentDate = DateTime.Now;
 
             internal static void Initialize()
             {
+                int Number_Of_Drones_Available_For_Delivery = 0;
+                int[] AvailableDronesIdArray = new int[5];
+                int AvailableDronesIdIndex = 0;
+                int[] ShipmentDronesIdArray = new int[5];
+                int ShipmentDronesIdIndex = 0;
+
 
                 for (int i = 0; i < 2; i++)
                 {
-                    Stations[i].Id = r.Next();
-                    Stations[i].Name = r.Next();
-                    Stations[i].Longitude = r.Next() / r.Next();
-                    Stations[i].Lattitude = r.Next() / r.Next();
+                    Stations[i].Id = randomNumber.Next(1000, 10000);
+                    Stations[i].Name = "Station" + i;
+                    Stations[i].Longitude = 35 + randomNumber.NextDouble();
+                    Stations[i].Lattitude = 31 + randomNumber.NextDouble();
+                    Stations[i].ChargeSlots = randomNumber.Next(0, 2);
                 }
-
 
 
                 for (int i = 0; i < 5; i++)
                 {
-                    Drones[i].Id = r.Next();
+                    Drones[i].Id = randomNumber.Next(1000, 10000);
                     Drones[i].Model = "V" + i;
-                    Drones[0].MaxWeight = WeightCategiries.average;
-                    Drones[0].Status = DroneStatuses.available;
-                    Drones[i].Battery = r.Next();
+                    Drones[i].Battery = randomNumber.Next(0, 1001) / randomNumber.Next(1, 11);
+                    Drones[i].MaxWeight = (WeightCategiries)randomNumber.Next(2);
+                    Drones[i].Status = (DroneStatuses)(i % 3);
+                    if (Drones[i].Status != DroneStatuses.maintenance)
+                    {
+                        Number_Of_Drones_Available_For_Delivery++;
+                        if (Drones[i].Status == DroneStatuses.available)
+                        {
+                            AvailableDronesIdArray[AvailableDronesIdIndex] = Drones[i].Id;
+                            AvailableDronesIdIndex++;
+                        }
+                        else
+                        {
+                            ShipmentDronesIdArray[ShipmentDronesIdIndex] = Drones[i].Id;
+                            ShipmentDronesIdIndex++;
+                        }
+                    }
                 }
+
 
                 for (int i = 0; i < 10; i++)
                 {
-                    Customers[i].Id = r.Next();
+                    Customers[i].Id = randomNumber.Next(1000, 10000);
                     Customers[i].Name = "Name" + i;
                     Customers[i].Phone = "050123456" + i;
-                    Customers[i].Longitude = r.Next() / r.Next();
-                    Customers[i].Lattitude = r.Next() / r.Next();
+                    Customers[i].Longitude = 35 + randomNumber.NextDouble();
+                    Customers[i].Lattitude = 31 + randomNumber.NextDouble();
                 }
 
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 1; i < 10; i++)
                 {
-                    Parcels[i].Id = r.Next();
-                    Parcels[i].SenderId = r.Next();
-                    Parcels[i].TargetId = r.Next();
-                    Parcels[i].Weight = WeightCategiries.average;
-                    Parcels[i].Priority = Priorities.Regular;
-                    Parcels[i].Requested = currentDate;
-                    Parcels[i].DroneId = r.Next();
-                    Parcels[i].Scheduled = currentDate;
-                    Parcels[i].PickedUp = currentDate;
-                    Parcels[i].Delivered = currentDate;
-                }
+                    Parcels[i].Id = randomNumber.Next(1000, 10000);
+                    Parcels[i].SenderId = randomNumber.Next(1000, 10000);
+                    Parcels[i].TargetId = randomNumber.Next(1000, 10000);
+                    Parcels[i].Weight = (WeightCategiries)randomNumber.Next(2);
+                    Parcels[i].Priority = (Priorities)randomNumber.Next(2);
 
-                SerialNumber = 100;
+                    if (i < Number_Of_Drones_Available_For_Delivery)
+                    {
+
+                        switch (randomNumber.Next(1, 4))
+                        {
+                            case 1:
+
+                                Parcels[i].Scheduled = currentDate;
+                                Parcels[i].DroneId = ShipmentDronesIdArray[--ShipmentDronesIdIndex];
+                                break;
+
+                            case 2:
+                                Parcels[i].PickedUp = currentDate;
+                                Parcels[i].DroneId = ShipmentDronesIdArray[--ShipmentDronesIdIndex];
+                                break;
+
+                            case 3:
+                            //falling-through - because it's do the same thing 
+                            default:
+                                Parcels[i].Delivered = currentDate;
+                                Parcels[i].DroneId = AvailableDronesIdArray[--AvailableDronesIdIndex];
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Parcels[i].Requested = currentDate;
+                    }
+
+
+                    SerialNumber++;
+                }
             }
         }
     }
