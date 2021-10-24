@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Targil0", "Targil0\Targil0.csproj", "{1BEBFCDB-D470-4C0C-B06B-3252B71E642B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EFD76707-48E7-4F90-AED3-CC57977D209F}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
@@ -20,10 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1BEBFCDB-D470-4C0C-B06B-3252B71E642B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BEBFCDB-D470-4C0C-B06B-3252B71E642B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BEBFCDB-D470-4C0C-B06B-3252B71E642B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BEBFCDB-D470-4C0C-B06B-3252B71E642B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E74F89A5-81AD-4842-836C-7248534BDB22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E74F89A5-81AD-4842-836C-7248534BDB22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E74F89A5-81AD-4842-836C-7248534BDB22}.Release|Any CPU.ActiveCfg = Release|Any CPU
