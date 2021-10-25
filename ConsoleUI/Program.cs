@@ -9,14 +9,10 @@ namespace ConsoleUI
 {
     class Program
     {
-
-
         static void Main(string[] args)
         {
             Menu();
-            Console.Read();
         }
-
 
         internal static void Menu()
         {
@@ -79,7 +75,7 @@ namespace ConsoleUI
                         ListsViewMenu(subChoice);
                         break;
                     case 5:
-                        /* Exit from the program. Do nothing */
+                        /* Exit from the program. Nothing to do*/
                         break;
                     default:
                         Console.WriteLine("Bad choice, please Enter new choice:");
@@ -89,7 +85,7 @@ namespace ConsoleUI
             } while (choice < 0 || choice > 5);
         }
 
-
+        //----------------- SUB MENU FUNCTOINS -------------------//
         internal static void AddMenu(int subChoice)
         {
             switch (subChoice)
@@ -109,29 +105,27 @@ namespace ConsoleUI
             }
         }
 
-
         internal static void UpdateMenu(int subChoice)
         {
             switch (subChoice)
             {
                 case 1:
-                    /* call to the first function */
+                    AssociateParcelToDrone();
                     break;
                 case 2:
-                    /* call to the secound function */
+                    ParcelCollectByDrone();
                     break;
                 case 3:
-                    /* call to the third function */
+                    ParcelDeliveredToCustomer();
                     break;
                 case 4:
-                    SendingDroneForCharging();
+                    SendDroneForCharging();
                     break;
                 case 5:
                     /* call to the fourth function */
                     break;
             }
         }
-
 
         internal static void ViewMenu(int subChoice)
         {
@@ -151,7 +145,6 @@ namespace ConsoleUI
                     break;
             }
         }
-
 
         internal static void ListsViewMenu(int subChoice)
         {
@@ -178,7 +171,7 @@ namespace ConsoleUI
             }
         }
 
-        //-------------- ADD MENU FUNCTOINS ---------------//
+        //----------------- ADD MENU FUNCTOINS ------------------//
         public static void AddNewBaseStation()
         {
             int intTemp;
@@ -208,7 +201,6 @@ namespace ConsoleUI
 
             Console.WriteLine("A new base station has been added");
         }
-
 
         public static void AddNewDrone()
         {
@@ -240,7 +232,6 @@ namespace ConsoleUI
             Console.WriteLine("New drone added");
         }
 
-
         public static void AddNewCustomr()
         {
             int intTemp;
@@ -269,7 +260,6 @@ namespace ConsoleUI
 
             Console.WriteLine("New customer added");
         }
-
 
         public static void AddNewParcel()
         {
@@ -328,9 +318,7 @@ namespace ConsoleUI
             Console.WriteLine("A new parcel has been added");
         }
 
-        //----------------------- UPDATE FANCTIONS ---------------------------//
-
-
+        //------------------- UPDATE FANCTIONS ------------------//
         public static void AssociateParcelToDrone()
         {
             int parcelId;
@@ -347,9 +335,7 @@ namespace ConsoleUI
             Console.WriteLine("The drone has been successfully associated");
         }
 
-        //------------------------------------------------------------------------//
-
-        public static void CollectingPackageByDrone()
+        public static void ParcelCollectByDrone()
         {
             int parcelId;
 
@@ -362,10 +348,7 @@ namespace ConsoleUI
             Console.WriteLine("Picked up time updated successfully");
         }
 
-
-        //------------------------------------------------------------------------//
-
-        public static void DeliveryParcelToCustomer()
+        public static void ParcelDeliveredToCustomer()
         {
             int ParcelId;
 
@@ -378,9 +361,7 @@ namespace ConsoleUI
             Console.WriteLine("Delivery time updated successfully");
         }
 
-
-
-        public static void SendingDroneForCharging()
+        public static void SendDroneForCharging()
         {
             int droneId;
             int stationId;
@@ -397,8 +378,10 @@ namespace ConsoleUI
             Console.WriteLine("Drone sent to charging slot");
         }
 
+        // TODO: the rest functions
 
-
+        //---------------- LISTS VIEW MENU FUNCTION -----------------//
+        // TODO: Create the previous functions 
         public static void ViewStationsWithAvailableChargingSlots()
         {
             List<Station> Stations = new List<Station>();

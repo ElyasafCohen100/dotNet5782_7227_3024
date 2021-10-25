@@ -15,8 +15,7 @@ namespace DalObject
         }
 
 
-
-        //-------- SETTERS -------//
+        //----------------------------- SETTERS -------------------------------//
         public static void SetNewDrone(Drone drone)
         {
             DataSource.Drones[DataSource.Config.DroneIndex] = drone;
@@ -42,10 +41,7 @@ namespace DalObject
         }
 
 
-
-
-        //--------------- UPDATE FUNCTIONS --------------//
-
+        //-------------------------- UPDATE FUNCTIONS -------------------------//
         public static void UpdateDronIdOfParcel(int parcelId, int droneId)
         {
             int parcelIndex = 0;
@@ -66,12 +62,6 @@ namespace DalObject
             DataSource.Drones[droneIndex].Status = DroneStatuses.shipment;
         }
 
-
-
-        //----------------------------------------------------------------------//
-
-
-
         public static void UpdatePickedUpParcelById(int parcelId)
         {
             int parcelIndex = 0;
@@ -84,12 +74,6 @@ namespace DalObject
 
             DataSource.Parcels[parcelIndex].PickedUp = currentDate;
         }
-
-
-
-        //----------------------------------------------------------------------//
-
-
 
         public static void UpdateDeliveredParcelById(int parcelId)
         {
@@ -104,10 +88,6 @@ namespace DalObject
 
             DataSource.Parcels[parcelIndex].Delivered = currentDate;
         }
-
-
-
-
 
         public static void UpdateDroneToCharging(int droneId, int stationId)
         {
@@ -128,8 +108,7 @@ namespace DalObject
         }
 
 
-
-
+        //------------------------------ GETTER -------------------------------//
         public static List<Station> GetStationsWithAvailableChargingSlots()
         {
             List<Station> list = new List<Station>();
