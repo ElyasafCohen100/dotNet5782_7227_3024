@@ -10,11 +10,12 @@ namespace ConsoleUI
       
         static void Main(string[] args)
         {
-            Manu();
+            Menu();
+            Console.Read();
         }
 
     
-        internal static void Manu()
+        internal static void Menu()
         {
             int choice;
             int subChoice;
@@ -59,7 +60,7 @@ namespace ConsoleUI
                             Console.WriteLine("3. Customer view");
                             Console.WriteLine("4. Parcel view");
                             
-                        int.TryParse(Console.ReadLine(), out subChoice);
+                            int.TryParse(Console.ReadLine(), out subChoice);
                             ViewMenu(subChoice);
                             break;
                         case 4:
@@ -90,16 +91,16 @@ namespace ConsoleUI
             switch (subChoice)
             {
                 case 1:
-                    /* call to the first function */
+                    AddNewBaseStation();
                     break;
                 case 2:
-                    /* call to the secound function */
+                    AddNewDrone();
                     break;
                 case 3:
-                    /* call to the third function */
+                    AddNewCustomr();
                     break;
                 case 4:
-                    /* call to the fourth function */
+                    AddNewParcel();
                     break;
             }
         }
@@ -177,7 +178,6 @@ namespace ConsoleUI
             Station station = new();
 
             Console.WriteLine("Enter id:");
-            //station.Id = int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             station.Id = intTemp;
 
@@ -185,17 +185,14 @@ namespace ConsoleUI
             station.Name = Console.ReadLine();
 
             Console.WriteLine("Enter number of charging station:");
-            //station.ChargeSlots = int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             station.ChargeSlots = intTemp;
 
             Console.WriteLine("Enter the longitude:");
-            //station.Longitude = double.Parse(Console.ReadLine());
             double.TryParse(Console.ReadLine(), out doubleTemp);
             station.Longitude = doubleTemp;
 
             Console.WriteLine("Enter the latitude:");
-            //station.Lattitude = double.Parse(Console.ReadLine());
             double.TryParse(Console.ReadLine(), out doubleTemp);
             station.Lattitude = doubleTemp;
 
@@ -211,7 +208,6 @@ namespace ConsoleUI
             Drone drone = new();
             
             Console.WriteLine("Enter id:");
-            //drone.Id = int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.Id = intTemp;
 
@@ -219,17 +215,14 @@ namespace ConsoleUI
             drone.Model = Console.ReadLine();
 
             Console.WriteLine("Enter max weight: (1 - Light,  2- average,  3- Heavy)");
-            //drone.MaxWeight = (WeightCategiries)int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.MaxWeight = (WeightCategiries)intTemp;
 
             Console.WriteLine("Enter the battery status: (0% - 100%)");
-            //drone.Battery = double.Parse(Console.ReadLine());
             double.TryParse(Console.ReadLine(), out doubleTemp);
             drone.Battery = doubleTemp;
 
             Console.WriteLine("Enter drone status: (1 - available, 2 - maintenance,  3- shipment)");
-            //drone.Status = (DroneStatuses)int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.Status = (DroneStatuses)intTemp;
 
@@ -245,7 +238,6 @@ namespace ConsoleUI
             Customer customer = new();
 
             Console.WriteLine("Enter id:");
-            //customer.Id = int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             customer.Id = intTemp;
 
@@ -256,14 +248,12 @@ namespace ConsoleUI
             customer.Name = Console.ReadLine();
 
             Console.WriteLine("Enter longitude:");
-           //customer.Longitude = double.Parse(Console.ReadLine());
             double.TryParse(Console.ReadLine(), out doubleTemp);
             customer.Longitude = doubleTemp;
 
             Console.WriteLine("Enter latitude:");
-            //customer.Latitude = double.Parse(Console.ReadLine());
             double.TryParse(Console.ReadLine(), out doubleTemp);
-            customer.Latitude = doubleTemp;
+            customer.Lattitude = doubleTemp;
 
             DalObject.DalObject.SetNewCustomer(customer);
 
@@ -273,7 +263,6 @@ namespace ConsoleUI
         public static void AddNewParcel()
         {
             int intTemp;
-            double doubleTemp;
 
             int choice;
             Parcel parcel = new();
@@ -281,32 +270,26 @@ namespace ConsoleUI
             DateTime currentDate = DateTime.Now;
 
             Console.WriteLine("Enter id:");
-            //parcel.Id = int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Id = intTemp;
 
             Console.WriteLine("Enter sender id:");
-            //parcel.SenderId = int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.SenderId = intTemp;
 
             Console.WriteLine("Enter target id:");
-            //parcel.TargetId = int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.TargetId = intTemp;
 
             Console.WriteLine("Enter drone id:");
-            //parcel.DroneId = int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.DroneId = intTemp;
 
             Console.WriteLine("Enter parcel weight: (1 - Light, 2 - average, 3 - Heavy)");
-            //parcel.Weight = (WeightCategiries)int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Weight = (WeightCategiries)intTemp;
 
             Console.WriteLine("Enter parcel priority: (1 - Regular, 2 - fast, 3 - emergency)");
-            //parcel.Priority = (Priorities)int.Parse(Console.ReadLine());
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Priority = (Priorities)intTemp;
 

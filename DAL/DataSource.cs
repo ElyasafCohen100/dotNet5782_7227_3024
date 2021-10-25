@@ -72,7 +72,7 @@ namespace DalObject
                 Customers[i].Name = "Name" + i;
                 Customers[i].Phone = "050123456" + i;
                 Customers[i].Longitude = 35 + Config.randomNumber.NextDouble();
-                Customers[i].Latitude = 31 + Config.randomNumber.NextDouble();
+                Customers[i].Lattitude = 31 + Config.randomNumber.NextDouble();
                 Config.CustomerIndex++;
             }
 
