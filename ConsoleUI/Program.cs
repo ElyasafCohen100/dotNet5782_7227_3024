@@ -1,20 +1,23 @@
 ﻿using System;
 using DalObject;
+using System.Linq;
+using System.Text;
 using IDAL.DO;
+using System.Collections.Generic;
 
 namespace ConsoleUI
 {
     class Program
     {
 
-      
+
         static void Main(string[] args)
         {
             Menu();
             Console.Read();
         }
 
-    
+
         internal static void Menu()
         {
             int choice;
@@ -30,61 +33,62 @@ namespace ConsoleUI
             do
             {
                 int.TryParse(Console.ReadLine(), out choice);
-                    switch (choice)
-                    {
-                        case 1:
-                            Console.WriteLine("\nEnter option number:");
-                            Console.WriteLine("1. Add a new base-station");
-                            Console.WriteLine("2. Add a new drone");
-                            Console.WriteLine("3. Add new customer");
-                            Console.WriteLine("4. Add a new parcel");
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine("\nEnter option number:");
+                        Console.WriteLine("1. Add a new base-station");
+                        Console.WriteLine("2. Add a new drone");
+                        Console.WriteLine("3. Add new customer");
+                        Console.WriteLine("4. Add a new parcel");
 
-                            int.TryParse(Console.ReadLine(), out subChoice);                          
-                            AddMenu(subChoice);
-                            break;
-                        case 2:
-                            Console.WriteLine("\nEnter option number:");
-                            Console.WriteLine("1. Associate parcel to drone");
-                            Console.WriteLine("2. Collect parcel by drone");
-                            Console.WriteLine("3. Delivered parcel to customer");
-                            Console.WriteLine("4. Send drone to base-station for charging");
-                            Console.WriteLine("5. Release drone from charging");
-                            
-                            int.TryParse(Console.ReadLine(), out subChoice);
-                            UpdateMenu(subChoice);
-                            break;
-                        case 3:
-                            Console.WriteLine("\nEnter option number:");
-                            Console.WriteLine("1. Base-station view");
-                            Console.WriteLine("2. Drone view");
-                            Console.WriteLine("3. Customer view");
-                            Console.WriteLine("4. Parcel view");
-                            
-                            int.TryParse(Console.ReadLine(), out subChoice);
-                            ViewMenu(subChoice);
-                            break;
-                        case 4:
-                            Console.WriteLine("\nEnter option number:");
-                            Console.WriteLine("1. Base-stations view");
-                            Console.WriteLine("2. Drones view");
-                            Console.WriteLine("3. Customers view");
-                            Console.WriteLine("4. Associate parcels view");
-                            Console.WriteLine("5. Non-associate parcels view");
-                            Console.WriteLine("6. Base-stations with available charging slots");
-                            
-                            int.TryParse(Console.ReadLine(), out subChoice);
-                            ListsViewMenu(subChoice);
-                            break;
-                        case 5:
-                            /* Exit from the program. Do nothing */
-                            break;
-                        default:
-                            Console.WriteLine("Bad choice, please Enter new choice:");
-                            break;
-                    }
-                
+                        int.TryParse(Console.ReadLine(), out subChoice);
+                        AddMenu(subChoice);
+                        break;
+                    case 2:
+                        Console.WriteLine("\nEnter option number:");
+                        Console.WriteLine("1. Associate parcel to drone");
+                        Console.WriteLine("2. Collect parcel by drone");
+                        Console.WriteLine("3. Delivered parcel to customer");
+                        Console.WriteLine("4. Send drone to base-station for charging");
+                        Console.WriteLine("5. Release drone from charging");
+
+                        int.TryParse(Console.ReadLine(), out subChoice);
+                        UpdateMenu(subChoice);
+                        break;
+                    case 3:
+                        Console.WriteLine("\nEnter option number:");
+                        Console.WriteLine("1. Base-station view");
+                        Console.WriteLine("2. Drone view");
+                        Console.WriteLine("3. Customer view");
+                        Console.WriteLine("4. Parcel view");
+
+                        int.TryParse(Console.ReadLine(), out subChoice);
+                        ViewMenu(subChoice);
+                        break;
+                    case 4:
+                        Console.WriteLine("\nEnter option number:");
+                        Console.WriteLine("1. Base-stations view");
+                        Console.WriteLine("2. Drones view");
+                        Console.WriteLine("3. Customers view");
+                        Console.WriteLine("4. Associate parcels view");
+                        Console.WriteLine("5. Non-associate parcels view");
+                        Console.WriteLine("6. Base-stations with available charging slots");
+
+                        int.TryParse(Console.ReadLine(), out subChoice);
+                        ListsViewMenu(subChoice);
+                        break;
+                    case 5:
+                        /* Exit from the program. Do nothing */
+                        break;
+                    default:
+                        Console.WriteLine("Bad choice, please Enter new choice:");
+                        break;
+                }
+
             } while (choice < 0 || choice > 5);
         }
+
 
         internal static void AddMenu(int subChoice)
         {
@@ -105,6 +109,7 @@ namespace ConsoleUI
             }
         }
 
+
         internal static void UpdateMenu(int subChoice)
         {
             switch (subChoice)
@@ -119,13 +124,14 @@ namespace ConsoleUI
                     /* call to the third function */
                     break;
                 case 4:
-                    /* call to the fourth function */
+                    SendingDroneForCharging();
                     break;
                 case 5:
                     /* call to the fourth function */
                     break;
             }
         }
+
 
         internal static void ViewMenu(int subChoice)
         {
@@ -145,6 +151,7 @@ namespace ConsoleUI
                     break;
             }
         }
+
 
         internal static void ListsViewMenu(int subChoice)
         {
@@ -171,6 +178,7 @@ namespace ConsoleUI
             }
         }
 
+        //-------------- ADD MENU FUNCTOINS ---------------//
         public static void AddNewBaseStation()
         {
             int intTemp;
@@ -201,12 +209,13 @@ namespace ConsoleUI
             Console.WriteLine("A new base station has been added");
         }
 
+
         public static void AddNewDrone()
         {
             int intTemp;
             double doubleTemp;
             Drone drone = new();
-            
+
             Console.WriteLine("Enter id:");
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.Id = intTemp;
@@ -230,6 +239,7 @@ namespace ConsoleUI
 
             Console.WriteLine("New drone added");
         }
+
 
         public static void AddNewCustomr()
         {
@@ -260,13 +270,13 @@ namespace ConsoleUI
             Console.WriteLine("New customer added");
         }
 
+
         public static void AddNewParcel()
         {
             int intTemp;
 
             int choice;
             Parcel parcel = new();
-            Random randomNumber = new();
             DateTime currentDate = DateTime.Now;
 
             Console.WriteLine("Enter id:");
@@ -316,6 +326,88 @@ namespace ConsoleUI
             DalObject.DalObject.SetNewParcel(parcel);
 
             Console.WriteLine("A new parcel has been added");
+        }
+
+        //----------------------- UPDATE FANCTIONS ---------------------------//
+
+
+        public static void AssociateParcelToDrone()
+        {
+            int parcelId;
+            int droneId;
+
+            Console.WriteLine("Enter parcel ID: ");
+            int.TryParse(Console.ReadLine(), out parcelId);
+
+            Console.WriteLine("Enter drone ID: ");
+            int.TryParse(Console.ReadLine(), out droneId);
+
+            DalObject.DalObject.UpdateDronIdOfParcel(parcelId, droneId);
+
+            Console.WriteLine("The drone has been successfully associated");
+        }
+
+        //------------------------------------------------------------------------//
+
+        public static void CollectingPackageByDrone()
+        {
+            int parcelId;
+
+            Console.WriteLine("Please enter your parcel id: ");
+            int.TryParse(Console.ReadLine(), out parcelId);
+
+
+            DalObject.DalObject.UpdatePickedUpParcelById(parcelId);
+
+            Console.WriteLine("Picked up time updated successfully");
+        }
+
+
+        //------------------------------------------------------------------------//
+
+        public static void DeliveryParcelToCustomer()
+        {
+            int ParcelId;
+
+            Console.WriteLine("Please enter your parcel id: ");
+            int.TryParse(Console.ReadLine(), out ParcelId);
+
+
+            DalObject.DalObject.UpdateDeliveredParcelById(ParcelId);
+
+            Console.WriteLine("Delivery time updated successfully");
+        }
+
+
+
+        public static void SendingDroneForCharging()
+        {
+            int droneId;
+            int stationId;
+
+            Console.WriteLine("Enter Drone id: ");
+            int.TryParse(Console.ReadLine(), out droneId);
+
+            Console.WriteLine("Enter station id: ");
+            ViewStationsWithAvailableChargingSlots();
+            int.TryParse(Console.ReadLine(), out stationId);
+
+            DalObject.DalObject.UpdateDroneToCharging(droneId, stationId);
+
+            Console.WriteLine("Drone sent to charging slot");
+        }
+
+
+
+        public static void ViewStationsWithAvailableChargingSlots()
+        {
+            List<Station> Stations = new List<Station>();
+            Stations = DalObject.DalObject.GetStationsWithAvailableChargingSlots();
+
+            foreach (var station in Stations)
+            {
+                Console.WriteLine(station.Id);
+            }
         }
     }
 }
