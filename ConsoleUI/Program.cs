@@ -172,54 +172,82 @@ namespace ConsoleUI
 
         public static void AddNewBaseStation()
         {
+            int intTemp;
+            double doubleTemp;
             Station station = new();
 
             Console.WriteLine("Enter id:");
-            station.Id = int.Parse(Console.ReadLine());
+            //station.Id = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            station.Id = intTemp;
 
             Console.WriteLine("Enter station name:");
             station.Name = Console.ReadLine();
 
             Console.WriteLine("Enter number of charging station:");
-            station.ChargeSlots = int.Parse(Console.ReadLine());
+            //station.ChargeSlots = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            station.ChargeSlots = intTemp;
 
             Console.WriteLine("Enter the longitude:");
-            station.Longitude = double.Parse(Console.ReadLine());
+            //station.Longitude = double.Parse(Console.ReadLine());
+            double.TryParse(Console.ReadLine(), out doubleTemp);
+            station.Longitude = doubleTemp;
 
             Console.WriteLine("Enter the latitude:");
-            station.Lattitude = double.Parse(Console.ReadLine());
+            //station.Lattitude = double.Parse(Console.ReadLine());
+            double.TryParse(Console.ReadLine(), out doubleTemp);
+            station.Lattitude = doubleTemp;
 
             DalObject.DalObject.SetNewStation(station);
+
+            Console.WriteLine("A new base station has been added");
         }
 
         public static void AddNewDrone()
         {
+            int intTemp;
+            double doubleTemp;
             Drone drone = new();
             
             Console.WriteLine("Enter id:");
-            drone.Id = int.Parse(Console.ReadLine());
+            //drone.Id = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            drone.Id = intTemp;
 
             Console.WriteLine("Enter model of drone:");
             drone.Model = Console.ReadLine();
 
             Console.WriteLine("Enter max weight: (1 - Light,  2- average,  3- Heavy)");
-            drone.MaxWeight = (WeightCategiries)int.Parse(Console.ReadLine());
+            //drone.MaxWeight = (WeightCategiries)int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            drone.MaxWeight = (WeightCategiries)intTemp;
 
             Console.WriteLine("Enter the battery status: (0% - 100%)");
-            drone.Battery = double.Parse(Console.ReadLine());
+            //drone.Battery = double.Parse(Console.ReadLine());
+            double.TryParse(Console.ReadLine(), out doubleTemp);
+            drone.Battery = doubleTemp;
 
             Console.WriteLine("Enter drone status: (1 - available, 2 - maintenance,  3- shipment)");
-            drone.Status = (DroneStatuses)int.Parse(Console.ReadLine());
+            //drone.Status = (DroneStatuses)int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            drone.Status = (DroneStatuses)intTemp;
 
-            DalObject.DalObject.SetNewDrone(drone);          
+            DalObject.DalObject.SetNewDrone(drone);
+
+            Console.WriteLine("New drone added");
         }
 
         public static void AddNewCustomr()
         {
+            int intTemp;
+            double doubleTemp;
             Customer customer = new();
 
             Console.WriteLine("Enter id:");
-            customer.Id = int.Parse(Console.ReadLine());
+            //customer.Id = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            customer.Id = intTemp;
 
             Console.WriteLine("Enter phone number:");
             customer.Phone = Console.ReadLine();
@@ -228,38 +256,59 @@ namespace ConsoleUI
             customer.Name = Console.ReadLine();
 
             Console.WriteLine("Enter longitude:");
-            customer.Longitude = double.Parse(Console.ReadLine());
+           //customer.Longitude = double.Parse(Console.ReadLine());
+            double.TryParse(Console.ReadLine(), out doubleTemp);
+            customer.Longitude = doubleTemp;
 
             Console.WriteLine("Enter latitude:");
-            customer.Latitude = double.Parse(Console.ReadLine());
+            //customer.Latitude = double.Parse(Console.ReadLine());
+            double.TryParse(Console.ReadLine(), out doubleTemp);
+            customer.Latitude = doubleTemp;
 
             DalObject.DalObject.SetNewCustomer(customer);
+
+            Console.WriteLine("New customer added");
         }
 
         public static void AddNewParcel()
         {
+            int intTemp;
+            double doubleTemp;
+
             int choice;
             Parcel parcel = new();
             Random randomNumber = new();
             DateTime currentDate = DateTime.Now;
 
-        Console.WriteLine("Enter id:");
-            parcel.Id = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter id:");
+            //parcel.Id = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.Id = intTemp;
 
             Console.WriteLine("Enter sender id:");
-            parcel.SenderId = int.Parse(Console.ReadLine());
+            //parcel.SenderId = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.SenderId = intTemp;
 
             Console.WriteLine("Enter target id:");
-            parcel.TargetId = int.Parse(Console.ReadLine());
+            //parcel.TargetId = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.TargetId = intTemp;
 
             Console.WriteLine("Enter drone id:");
-            parcel.DroneId = int.Parse(Console.ReadLine());
+            //parcel.DroneId = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.DroneId = intTemp;
 
             Console.WriteLine("Enter parcel weight: (1 - Light, 2 - average, 3 - Heavy)");
-            parcel.Weight = (WeightCategiries)int.Parse(Console.ReadLine());
+            //parcel.Weight = (WeightCategiries)int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.Weight = (WeightCategiries)intTemp;
 
             Console.WriteLine("Enter parcel priority: (1 - Regular, 2 - fast, 3 - emergency)");
-            parcel.Priority = (Priorities)int.Parse(Console.ReadLine());
+            //parcel.Priority = (Priorities)int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.Priority = (Priorities)intTemp;
 
             Console.WriteLine("Enter parcel status: (1 - Requested, 2 - Scheduled, 3 - PickedUp, 4 - Delivered)");
             choice = int.Parse(Console.ReadLine());
@@ -281,8 +330,9 @@ namespace ConsoleUI
                     parcel.Requested = currentDate;
                     break;
             }
-            DalObject.DalObject.SetNewParcel(parcel);            
-        }
+            DalObject.DalObject.SetNewParcel(parcel);
 
+            Console.WriteLine("A new parcel has been added");
+        }
     }
 }
