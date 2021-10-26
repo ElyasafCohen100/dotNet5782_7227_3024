@@ -141,10 +141,10 @@ namespace ConsoleUI
                     AssociateParcelToDrone();
                     break;
                 case 2:
-                    CollectParcelByDrone();
+                    ParcelCollectByDrone();
                     break;
                 case 3:
-                    DeliveredParcelToCustomer();
+                    ParcelDeliveredToCustomer();
                     break;
                 case 4:
                     SendDroneForCharging();
@@ -383,7 +383,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out droneId);
 
-            DalObject.DalObject.UpdateDronIdOfParcel(parcelId, droneId);
+            DalObject.DalObject.UpdateDroneIdOfParcel(parcelId, droneId);
 
             Console.WriteLine("The drone has been successfully associated");
         }
