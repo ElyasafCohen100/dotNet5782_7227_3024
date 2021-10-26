@@ -8,24 +8,34 @@ namespace IDAL
 {
     namespace DO
     {
+        /// <summary>
+        /// Parcel priorety categiries 
+        /// </summary>
         public enum Priorities
         {
             Regular,
-            fast,
-            emergency
+            Fast,
+            Emergency
         }
 
+        /// <summary>
+        /// Parcel Weight categiries
+        /// </summary>
         public enum WeightCategiries
         {
             Light,
-            average,
+            Average,
             Heavy
         }
+
+        /// <summary>
+        /// Drone Statuses
+        /// </summary>
         public enum DroneStatuses
         {
-            available,
-            maintenance,
-            shipment
+            Available,
+            Maintenance,
+            Shipment
         }
     }
 }

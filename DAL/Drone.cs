@@ -8,6 +8,9 @@ namespace IDAL
 {
     namespace DO
     {
+        /// <summary>
+        /// Represent drone
+        /// </summary>
         public struct Drone
         {
             public int Id { get; set; }
@@ -16,14 +19,18 @@ namespace IDAL
             public DroneStatuses Status;
             public double Battery { get; set; }
 
+            /// <summary>
+            /// Return describe of Drone struct string
+            /// </summary>
+            /// <returns>describe of Drone struct string</returns>
             public override string ToString()
             {
                 return $"Drone: " +
-                $"Id: {Id}, " +
-                $"Model: {Model}, " +
-                $"WeightCategiries: {MaxWeight}, " +
-                $"DroneStatuses: {Status}," +
-                $"Battery: {Battery}";
+                       $"Id: {Id}, " +
+                       $"Model: {Model}, " +
+                       $"WeightCategiries: {MaxWeight}, " +
+                       $"DroneStatuses: {Status}," +
+                       $"Battery: {Battery}";
             }
         }
     }

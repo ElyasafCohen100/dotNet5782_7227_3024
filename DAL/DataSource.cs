@@ -1,15 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using IDAL.DO;
 
 namespace DalObject
 {
+    /// <summary>
+    /// Contain the data source
+    /// </summary>
     public class DataSource
     {
         internal static Drone[] Drones = new Drone[10];
         internal static Station[] Stations = new Station[5];
         internal static Customer[] Customers = new Customer[100];
         internal static Parcel[] Parcels = new Parcel[1000];
+        internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
 
+        /// <summary>
+        /// Inner class.
+        /// Contain all the configuring values 
+        /// </summary>
         internal class Config
         {
             internal static int DroneIndex = 0;
@@ -22,15 +31,11 @@ namespace DalObject
             internal static readonly DateTime currentDate = DateTime.Now;
         }
 
+        /// <summary>
+        /// Initialize the arryas.
+        /// </summary>
         internal static void Initialize()
         {
-            
-            int numberOfDronesAvailableForDelivery = 0;
-            int[] AvailableDronesIdArray = new int[5];
-            int AvailableDronesIdIndex = 0;
-            int[] ShipmentDronesIdArray = new int[5];
-            int ShipmentDronesIdIndex = 0;
-
             for (int i = 0; i < 2; i++)
             {
                 Stations[i].Id = Config.randomNumber.Next(1000, 10000);
@@ -47,24 +52,14 @@ namespace DalObject
                 Drones[i].Model = "V" + i;
                 Drones[i].Battery = Config.randomNumber.Next(0, 1001) / Config.randomNumber.Next(1, 11);
                 Drones[i].MaxWeight = (WeightCategiries)Config.randomNumber.Next(2);
-                Drones[i].Status = (DroneStatuses)(i % 3);
-                if (Drones[i].Status != DroneStatuses.maintenance)
-                {
-
-                    numberOfDronesAvailableForDelivery++;
-                    if (Drones[i].Status == DroneStatuses.available)
-                    {
-                        AvailableDronesIdArray[AvailableDronesIdIndex] = Drones[i].Id;
-                        AvailableDronesIdIndex++;
-                    }
-                    else
-                    {
-                        ShipmentDronesIdArray[ShipmentDronesIdIndex] = Drones[i].Id;
-                        ShipmentDronesIdIndex++;
-                    }
-                }
                 Config.DroneIndex++;
             }
+
+            Drones[0].Status = DroneStatuses.Available;
+            Drones[1].Status = DroneStatuses.Maintenance;
+            Drones[2].Status = DroneStatuses.Shipment;
+            Drones[3].Status = DroneStatuses.Available;
+            Drones[4].Status = DroneStatuses.Maintenance;
 
             for (int i = 0; i <= 10; i++)
             {
@@ -80,39 +75,26 @@ namespace DalObject
             {
                 Parcels[i].Id = 1 + i;
                 Parcels[i].SenderId = Customers[i].Id;
-                Parcels[i].TargetId = Customers[i+1].Id;
+                Parcels[i].TargetId = Customers[i + 1].Id;
                 Parcels[i].Weight = (WeightCategiries)Config.randomNumber.Next(2);
                 Parcels[i].Priority = (Priorities)Config.randomNumber.Next(2);
-
-                if (i < numberOfDronesAvailableForDelivery)
-                {
-                    switch (Config.randomNumber.Next(1, 4))
-                    {
-                        case 1:
-                            Parcels[i].Scheduled = Config.currentDate;
-                            Parcels[i].DroneId = ShipmentDronesIdArray[--ShipmentDronesIdIndex];
-                            break;
-                        case 2:
-                            Parcels[i].PickedUp = Config.currentDate;
-                            Parcels[i].DroneId = ShipmentDronesIdArray[--ShipmentDronesIdIndex];
-                            break;
-                        case 3:
-                        //falling-through - because it's do the same thing 
-                        default:
-                            Parcels[i].Delivered = Config.currentDate;
-                            Parcels[i].DroneId = AvailableDronesIdArray[--AvailableDronesIdIndex];
-                            break;
-                    }
-                    if (ShipmentDronesIdIndex == -1) ShipmentDronesIdIndex++;
-                    if (AvailableDronesIdIndex == -1) AvailableDronesIdIndex++;
-                }
-                else
-                {
-                    Parcels[i].Requested = Config.currentDate;
-                }
+                Parcels[i].Requested = Config.currentDate;
                 Config.SerialNumber++;
+                Config.ParcelIndex++;
             }
-            Config.ParcelIndex++;
+
+            Parcels[0].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 10));
+            Parcels[0].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 30));
+            Parcels[0].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(20, 40));
+            Parcels[0].DroneId = Drones[0].Id;
+
+            Parcels[1].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 5));
+            Parcels[1].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 20));
+            Parcels[1].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(10, 28));
+            Parcels[1].DroneId = Drones[3].Id;
+
+            Parcels[2].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(5, 7));
+            Parcels[2].DroneId = Drones[2].Id;
         }
     }
 }

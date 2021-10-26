@@ -8,6 +8,9 @@ namespace IDAL
 {
     namespace DO
     {
+        /// <summary>
+        /// Represent drone base-station with charge slots 
+        /// </summary>
         public struct Station
         {
             public int Id { get; set; }
@@ -16,14 +19,18 @@ namespace IDAL
             public double Lattitude { get; set; }
             public int ChargeSlots { get; set; }
 
+            /// <summary>
+            /// Return describe of Station struct string
+            /// </summary>
+            /// <returns>describe of Station struct string</returns>
             public override string ToString()
             {
                 return $"Station: " +
-                $"Id: {Id}, " +
-                $"Name: {Name}, " +
-                $"Longitude: {Longitude}, " +
-                $"Lattitude: {Lattitude}," +
-                $"ChargeSlots: {ChargeSlots}";
+                       $"Id: {Id}, " +
+                       $"Name: {Name}, " +
+                       $"Longitude: {DalObject.DalObject.SexagesimalPresentation(Longitude)}, " +
+                       $"Lattitude: {DalObject.DalObject.SexagesimalPresentation(Lattitude)}," +
+                       $"ChargeSlots: {ChargeSlots}";
             }
         }
     }

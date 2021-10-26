@@ -7,30 +7,49 @@ using System.Collections.Generic;
 
 namespace ConsoleUI
 {
+    /// <summary>
+    /// Program class.
+    /// Contains the main fuction
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// The main fantion
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             Menu();
         }
 
+
+        /// <summary>
+        /// Menu of choice.
+        /// </summary>
         internal static void Menu()
         {
             int choice;
             int subChoice;
 
-            Console.WriteLine("Enter option number:");
-            Console.WriteLine("1. Add options");
-            Console.WriteLine("2. Update options");
-            Console.WriteLine("3. View options");
-            Console.WriteLine("4. View lists options");
-            Console.WriteLine("5. Exit");
-
             do
             {
+                // MAIN MENU
+                Console.WriteLine("Enter option number:");
+                Console.WriteLine("0. Calculate Distance between two points");
+                Console.WriteLine("1. Add options");
+                Console.WriteLine("2. Update options");
+                Console.WriteLine("3. View options");
+                Console.WriteLine("4. View lists options");
+                Console.WriteLine("5. Exit");
+
                 int.TryParse(Console.ReadLine(), out choice);
+
+                // SUB MENU
                 switch (choice)
                 {
+                    case 0:
+                        DistanceBetweenTwoPointsOnEarth();
+                        break;
                     case 1:
                         Console.WriteLine("\nEnter option number:");
                         Console.WriteLine("1. Add a new base-station");
@@ -82,10 +101,15 @@ namespace ConsoleUI
                         break;
                 }
 
-            } while (choice < 0 || choice > 5);
+            } while (choice != 5);
         }
 
-        //----------------- SUB MENU FUNCTOINS -------------------//
+        //---------------------- SUB MENU FUNCTOINS -----------------------//
+
+        /// <summary>
+        /// Menu of add functions.
+        /// </summary>
+        /// <param name="subChoice"> cohice </param>
         internal static void AddMenu(int subChoice)
         {
             switch (subChoice)
@@ -105,6 +129,10 @@ namespace ConsoleUI
             }
         }
 
+        /// <summary>
+        /// Menu of update functions.
+        /// </summary>
+        /// <param name="subChoice">choice</param>
         internal static void UpdateMenu(int subChoice)
         {
             switch (subChoice)
@@ -113,65 +141,77 @@ namespace ConsoleUI
                     AssociateParcelToDrone();
                     break;
                 case 2:
-                    ParcelCollectByDrone();
+                    CollectParcelByDrone();
                     break;
                 case 3:
-                    ParcelDeliveredToCustomer();
+                    DeliveredParcelToCustomer();
                     break;
                 case 4:
                     SendDroneForCharging();
                     break;
                 case 5:
-                    /* call to the fourth function */
+                    ReleaseDroneFromChargingSlot();
                     break;
             }
         }
 
+        /// <summary>
+        /// Menu of view functions.
+        /// </summary>
+        /// <param name="subChoice">xhoice</param>
         internal static void ViewMenu(int subChoice)
         {
             switch (subChoice)
             {
                 case 1:
-                    /* call to the first function */
+                    ViewBaseStation();
                     break;
                 case 2:
-                    /* call to the secound function */
+                    ViewDrone();
                     break;
                 case 3:
-                    /* call to the third function */
+                    ViewCustomer();
                     break;
                 case 4:
-                    /* call to the fourth function */
+                    ViewParcel();
                     break;
             }
         }
 
-        internal static void ListsViewMenu(int subChoice)
+        /// <summary>
+        /// Menu of view List.
+        /// </summary>
+        /// <param name="subChoice"> choice </param>
+        public static void ListsViewMenu(int subChoice)
         {
             switch (subChoice)
             {
                 case 1:
-                    /* call to the first function */
+                    ViewBaseStationsList();
                     break;
                 case 2:
-                    /* call to the secound function */
+                    ViewDronesList();
                     break;
                 case 3:
-                    /* call to the third function */
+                    ViewCustomersList();
                     break;
                 case 4:
-                    /* call to the fourth function */
+                    ViewParcelsList();
                     break;
                 case 5:
-                    /* call to the fourth function */
+                    ViewNonAssociateParcelsList();
                     break;
                 case 6:
-                    /* call to the fourth function */
+                    ViewStationsWithAvailableChargingSlots();
                     break;
             }
         }
 
         //----------------- ADD MENU FUNCTOINS ------------------//
+
+        /// <summary>
+        /// Add new Base-Station.
+        /// </summary>
         public static void AddNewBaseStation()
         {
             int intTemp;
@@ -202,6 +242,9 @@ namespace ConsoleUI
             Console.WriteLine("A new base station has been added");
         }
 
+        /// <summary>
+        /// Add new Drone.
+        /// </summary>
         public static void AddNewDrone()
         {
             int intTemp;
@@ -232,6 +275,9 @@ namespace ConsoleUI
             Console.WriteLine("New drone added");
         }
 
+        /// <summary>
+        /// Add new Customer.
+        /// </summary>
         public static void AddNewCustomr()
         {
             int intTemp;
@@ -260,7 +306,10 @@ namespace ConsoleUI
 
             Console.WriteLine("New customer added");
         }
-
+        
+        /// <summary>
+        /// Add new Parcel.
+        /// </summary>
         public static void AddNewParcel()
         {
             int intTemp;
@@ -319,6 +368,10 @@ namespace ConsoleUI
         }
 
         //------------------- UPDATE FANCTIONS ------------------//
+
+        /// <summary>
+        /// Update Parcel status by the recived Id.
+        /// </summary>
         public static void AssociateParcelToDrone()
         {
             int parcelId;
@@ -335,6 +388,9 @@ namespace ConsoleUI
             Console.WriteLine("The drone has been successfully associated");
         }
 
+        /// <summary>
+        /// Update Parcel status by the recived Id.
+        /// </summary>
         public static void ParcelCollectByDrone()
         {
             int parcelId;
@@ -348,6 +404,9 @@ namespace ConsoleUI
             Console.WriteLine("Picked up time updated successfully");
         }
 
+        /// <summary>
+        /// Update Parcel  by the recived Id.
+        /// </summary>
         public static void ParcelDeliveredToCustomer()
         {
             int ParcelId;
@@ -361,6 +420,9 @@ namespace ConsoleUI
             Console.WriteLine("Delivery time updated successfully");
         }
 
+        /// <summary>
+        /// Update Drone status by the recived Id.
+        /// </summary>
         public static void SendDroneForCharging()
         {
             int droneId;
@@ -378,19 +440,179 @@ namespace ConsoleUI
             Console.WriteLine("Drone sent to charging slot");
         }
 
-        // TODO: the rest functions
+        /// <summary>
+        /// Update Drone status by the recived Id.
+        /// </summary>
+        public static void ReleaseDroneFromChargingSlot()
+        {
+            int droneId;
+
+            Console.WriteLine("Enter Drone ID: ");
+            int.TryParse(Console.ReadLine(), out droneId);
+
+            DalObject.DalObject.UpdateDroneFromCharging(droneId);
+            Console.WriteLine("The drone released from charging succesfully");
+        }
+
+
+        //------------------- VIEW MENU FUNCTION --------------------//
+        /// <summary>
+        /// Print base station details
+        /// </summary>
+        public static void ViewBaseStation()
+        {
+            Console.WriteLine("Enter Base-Station ID: ");
+            int.TryParse(Console.ReadLine(), out int baseStatinId);
+
+            Station myBaseStation = DalObject.DalObject.FindStationById(baseStatinId);
+            Console.WriteLine(myBaseStation.ToString());
+        }
+
+        /// <summary>
+        /// Print Drone details.
+        /// </summary>
+        public static void ViewDrone()
+        {
+            Console.WriteLine("Enter drone ID: ");
+            int.TryParse(Console.ReadLine(), out int droneId);
+
+            Drone myDrone = DalObject.DalObject.FindDroneById(droneId);
+            Console.WriteLine(myDrone.ToString());
+        }
+
+        /// <summary>
+        /// Print Customer details.
+        /// </summary>
+        public static void ViewCustomer()
+        {
+            Console.WriteLine("Enter customer ID: ");
+            int.TryParse(Console.ReadLine(), out int customerId);
+
+            Customer myCusromer = DalObject.DalObject.FindCustomerById(customerId);
+            Console.WriteLine(myCusromer.ToString());
+        }
+
+        /// <summary>
+        /// Print Parcel details.
+        /// </summary>
+        public static void ViewParcel()
+        {
+            Console.WriteLine("Enter parcel ID: ");
+            int.TryParse(Console.ReadLine(), out int parcelId);
+
+            Parcel myParcel = DalObject.DalObject.FindParcelById(parcelId);
+            Console.WriteLine(myParcel.ToString());
+        }
 
         //---------------- LISTS VIEW MENU FUNCTION -----------------//
-        // TODO: Create the previous functions 
+
+        /// <summary>
+        /// Print List of Base-Stations.
+        /// </summary>
+        public static void ViewBaseStationsList()
+        {
+            Console.WriteLine("The stations are:");
+            int i = 1;
+            List<Station> stations = DalObject.DalObject.GetBaseStationList();
+
+            foreach (var station in stations)
+            {
+                Console.WriteLine($"{i++}.\n {station}\n");
+            }
+        }
+
+        /// <summary>
+        /// Print List of Drones.
+        /// </summary>
+        public static void ViewDronesList()
+        {
+            Console.WriteLine("The drones are:");
+            int i = 1;
+            List<Drone> myDrones = DalObject.DalObject.GetDroneList();
+
+            foreach (var drone in myDrones)
+            {
+                Console.WriteLine($"{i++}.\n {drone}\n");
+            }
+        }
+
+        /// <summary>
+        /// Print list of Customers.
+        /// </summary>
+        public static void ViewCustomersList()
+        {
+            Console.WriteLine("The customers are:");
+            int i = 1;
+            List<Customer> myCustomers = DalObject.DalObject.GetCustomerList();
+
+            foreach (var customer in myCustomers)
+            {
+                Console.WriteLine($"{i++}. {customer}\n");
+            }
+        }
+
+        /// <summary>
+        /// Print list of Parcels.
+        /// </summary>
+        public static void ViewParcelsList()
+        {
+            Console.WriteLine("The parcels are:");
+            int i = 1;
+            List<Parcel> myParcels = DalObject.DalObject.GetParcelList();
+
+            foreach (var parcel in myParcels)
+            {
+                Console.WriteLine($"{i++}.\n {parcel}\n");
+            }
+        }
+
+        /// <summary>
+        /// Print list of non associate Parcels.
+        /// </summary>
+        public static void ViewNonAssociateParcelsList()
+        {
+            Console.WriteLine("The non-associate parcels are:");
+            int i = 1;
+            List<Parcel> myNonAssociateParcels = DalObject.DalObject.GetNonAssociateParcelList();
+
+            foreach (var nonAssociateParcel in myNonAssociateParcels)
+            {
+                Console.WriteLine($"{i++}.\n {nonAssociateParcel}\n");
+            }
+        }
+
+        /// <summary>
+        /// Print Stations with available charging slots.
+        /// </summary>
         public static void ViewStationsWithAvailableChargingSlots()
         {
             List<Station> Stations = new List<Station>();
+            int i = 1;
             Stations = DalObject.DalObject.GetStationsWithAvailableChargingSlots();
-
             foreach (var station in Stations)
             {
-                Console.WriteLine(station.Id);
+                Console.WriteLine($"{i++}.\n {station}\n");
             }
+        }
+
+        /// <summary>
+        ///  Calculate distance between two points on earth.
+        /// </summary>
+        public static void DistanceBetweenTwoPointsOnEarth()
+        {
+            Console.WriteLine("Enter the first point coordinats: ");
+            Console.Write("longitude: ");
+            double.TryParse(Console.ReadLine(), out double longitudeA);
+            Console.Write("lattitude: ");
+            double.TryParse(Console.ReadLine(), out double lattitudeA);
+
+            Console.WriteLine("Enter the second point coordinats: ");
+            Console.Write("longitude: ");
+            double.TryParse(Console.ReadLine(), out double longitudeB);
+            Console.Write("lattitude: ");
+            double.TryParse(Console.ReadLine(), out double lattitudeB);
+
+            Console.WriteLine(DalObject.DalObject.Distance(lattitudeA, lattitudeB, longitudeA, longitudeB));
         }
     }
 }
