@@ -220,6 +220,7 @@ namespace DalObject
         {
             Drone myDrone = FindDroneById(droneId);
             myDrone.Status = DroneStatuses.Available;
+            myDrone.Battery = 100;
 
             DroneCharge myDroneCharge = FindDroneChargeByDroneId(droneId);
 
