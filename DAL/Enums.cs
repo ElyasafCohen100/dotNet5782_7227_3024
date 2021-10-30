@@ -27,15 +27,5 @@ namespace IDAL
             Average,
             Heavy
         }
-
-        /// <summary>
-        /// Drone Statuses
-        /// </summary>
-        public enum DroneStatuses
-        {
-            Available,
-            Maintenance,
-            Shipment
-        }
     }
 }

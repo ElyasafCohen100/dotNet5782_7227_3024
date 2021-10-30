@@ -13,6 +13,9 @@ namespace ConsoleUI
     /// </summary>
     class Program
     {
+
+        public static IDAL.IDal dalObject = new DalObject.DalObject();
+
         /// <summary>
         /// The main fantion
         /// </summary>
@@ -262,14 +265,6 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.MaxWeight = (WeightCategiries)intTemp;
 
-            Console.WriteLine("Enter the battery status: (0% - 100%)");
-            double.TryParse(Console.ReadLine(), out doubleTemp);
-            drone.Battery = doubleTemp;
-
-            Console.WriteLine("Enter drone status: (1 - available, 2 - maintenance,  3- shipment)");
-            int.TryParse(Console.ReadLine(), out intTemp);
-            drone.Status = (DroneStatuses)intTemp;
-
             DalObject.DalObject.SetNewDrone(drone);
 
             Console.WriteLine("New drone added");
@@ -306,7 +301,7 @@ namespace ConsoleUI
 
             Console.WriteLine("New customer added");
         }
-        
+
         /// <summary>
         /// Add new Parcel.
         /// </summary>
@@ -503,6 +498,7 @@ namespace ConsoleUI
             Parcel myParcel = DalObject.DalObject.FindParcelById(parcelId);
             Console.WriteLine(myParcel.ToString());
         }
+    
 
         //---------------- LISTS VIEW MENU FUNCTION -----------------//
 
@@ -513,7 +509,8 @@ namespace ConsoleUI
         {
             Console.WriteLine("The stations are:");
             int i = 1;
-            List<Station> stations = DalObject.DalObject.GetBaseStationList();
+            IEnumerable<Station> stations = DalObject.DalObject.GetBaseStationList();
+
 
             foreach (var station in stations)
             {
@@ -528,7 +525,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The drones are:");
             int i = 1;
-            List<Drone> myDrones = DalObject.DalObject.GetDroneList();
+            IEnumerable<Drone> myDrones = DalObject.DalObject.GetDroneList();
 
             foreach (var drone in myDrones)
             {
@@ -543,7 +540,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The customers are:");
             int i = 1;
-            List<Customer> myCustomers = DalObject.DalObject.GetCustomerList();
+            IEnumerable<Customer> myCustomers = DalObject.DalObject.GetCustomerList();
 
             foreach (var customer in myCustomers)
             {
@@ -558,7 +555,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The parcels are:");
             int i = 1;
-            List<Parcel> myParcels = DalObject.DalObject.GetParcelList();
+            IEnumerable<Parcel> myParcels = DalObject.DalObject.GetParcelList();
 
             foreach (var parcel in myParcels)
             {
@@ -573,7 +570,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The non-associate parcels are:");
             int i = 1;
-            List<Parcel> myNonAssociateParcels = DalObject.DalObject.GetNonAssociateParcelList();
+            IEnumerable<Parcel> myNonAssociateParcels = DalObject.DalObject.GetNonAssociateParcelList();
 
             foreach (var nonAssociateParcel in myNonAssociateParcels)
             {
@@ -586,7 +583,7 @@ namespace ConsoleUI
         /// </summary>
         public static void ViewStationsWithAvailableChargingSlots()
         {
-            List<Station> Stations = new List<Station>();
+            IEnumerable<Station> Stations = new List<Station>();
             int i = 1;
             Stations = DalObject.DalObject.GetStationsWithAvailableChargingSlots();
             foreach (var station in Stations)

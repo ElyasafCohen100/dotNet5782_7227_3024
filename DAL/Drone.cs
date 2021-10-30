@@ -16,8 +16,6 @@ namespace IDAL
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategiries MaxWeight;
-            public DroneStatuses Status;
-            public double Battery { get; set; }
 
             /// <summary>
             /// Return describe of Drone struct string
@@ -28,9 +26,7 @@ namespace IDAL
                 return $"Drone: " +
                        $"Id: {Id}, " +
                        $"Model: {Model}, " +
-                       $"WeightCategiries: {MaxWeight}, " +
-                       $"DroneStatuses: {Status}," +
-                       $"Battery: {Battery}";
+                       $"WeightCategiries: {MaxWeight}";
             }
         }
     }

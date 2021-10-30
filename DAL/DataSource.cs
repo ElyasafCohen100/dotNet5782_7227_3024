@@ -9,10 +9,10 @@ namespace DalObject
     /// </summary>
     public class DataSource
     {
-        internal static Drone[] Drones = new Drone[10];
-        internal static Station[] Stations = new Station[5];
-        internal static Customer[] Customers = new Customer[100];
-        internal static Parcel[] Parcels = new Parcel[1000];
+        internal static List<Drone> Drones = new List<Drone>();
+        internal static List<Station> Stations = new List<Station>();
+        internal static List<Customer> Customers = new List<Customer>();
+        internal static List<Parcel> Parcels = new List<Parcel>();
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
 
         /// <summary>
@@ -21,12 +21,13 @@ namespace DalObject
         /// </summary>
         internal class Config
         {
-            internal static int DroneIndex = 0;
-            internal static int StationIndex = 0;
-            internal static int CustomerIndex = 0;
-            internal static int ParcelIndex = 0;
-            internal static int SerialNumber = 0;
+            internal static double Light;
+            internal static double Average;
+            internal static double Heavy;
+            internal static double Available;
+            internal static double DroneChargingRate;
 
+            internal static int SerialNumber = 0;
             internal static readonly Random randomNumber = new();
             internal static readonly DateTime currentDate = DateTime.Now;
         }
@@ -38,63 +39,75 @@ namespace DalObject
         {
             for (int i = 0; i < 2; i++)
             {
-                Stations[i].Id = Config.randomNumber.Next(1000, 10000);
-                Stations[i].Name = "Station" + i;
-                Stations[i].Longitude = 35 + Config.randomNumber.NextDouble();
-                Stations[i].Lattitude = 31 + Config.randomNumber.NextDouble();
-                Stations[i].ChargeSlots = Config.randomNumber.Next(0, 2);
-                Config.StationIndex++;
+                Station myStation = new();
+
+                myStation.Id = Config.randomNumber.Next(1000, 10000);
+                myStation.Name = "Station" + i;
+                myStation.Longitude = 35 + Config.randomNumber.NextDouble();
+                myStation.Lattitude = 31 + Config.randomNumber.NextDouble();
+                myStation.ChargeSlots = Config.randomNumber.Next(0, 2);
+
+                Stations.Add(myStation);
             }
 
             for (int i = 0; i < 5; i++)
             {
-                Drones[i].Id = Config.randomNumber.Next(1000, 10000);
-                Drones[i].Model = "V" + i;
-                Drones[i].Battery = Config.randomNumber.Next(0, 1001) / Config.randomNumber.Next(1, 11);
-                Drones[i].MaxWeight = (WeightCategiries)Config.randomNumber.Next(2);
-                Config.DroneIndex++;
-            }
+                Drone myDrone = new();
 
-            Drones[0].Status = DroneStatuses.Available;
-            Drones[1].Status = DroneStatuses.Maintenance;
-            Drones[2].Status = DroneStatuses.Shipment;
-            Drones[3].Status = DroneStatuses.Available;
-            Drones[4].Status = DroneStatuses.Maintenance;
+                myDrone.Id = Config.randomNumber.Next(1000, 10000);
+                myDrone.Model = "V" + i;
+                myDrone.MaxWeight = (WeightCategiries)Config.randomNumber.Next(2);
+
+                Drones.Add(myDrone);
+            }
 
             for (int i = 0; i <= 10; i++)
             {
-                Customers[i].Id = Config.randomNumber.Next(1000, 10000);
-                Customers[i].Name = "Name" + i;
-                Customers[i].Phone = "050123456" + i;
-                Customers[i].Longitude = 35 + Config.randomNumber.NextDouble();
-                Customers[i].Lattitude = 31 + Config.randomNumber.NextDouble();
-                Config.CustomerIndex++;
+                Customer myCustumer = new();
+
+                myCustumer.Id = Config.randomNumber.Next(1000, 10000);
+                myCustumer.Name = "Name" + i;
+                myCustumer.Phone = "050123456" + i;
+                myCustumer.Longitude = 35 + Config.randomNumber.NextDouble();
+                myCustumer.Lattitude = 31 + Config.randomNumber.NextDouble();
+
+                Customers.Add(myCustumer);
             }
 
             for (int i = 0; i < 10; i++)
             {
-                Parcels[i].Id = 1 + i;
-                Parcels[i].SenderId = Customers[i].Id;
-                Parcels[i].TargetId = Customers[i + 1].Id;
-                Parcels[i].Weight = (WeightCategiries)Config.randomNumber.Next(2);
-                Parcels[i].Priority = (Priorities)Config.randomNumber.Next(2);
-                Parcels[i].Requested = Config.currentDate;
+                Parcel myParcel = new Parcel();
+
+                myParcel.Id = 1 + i;
+                myParcel.SenderId = Customers[i].Id;
+                myParcel.TargetId = Customers[i + 1].Id;
+                myParcel.Weight = (WeightCategiries)Config.randomNumber.Next(2);
+                myParcel.Priority = (Priorities)Config.randomNumber.Next(2);
+                myParcel.Requested = Config.currentDate;
+
+                Parcels.Add(myParcel);
+
                 Config.SerialNumber++;
-                Config.ParcelIndex++;
+
+                /**
+                 * TODO: to figure out if those line nedded
+                 * 
+                 * Parcels[0].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 10));
+                 * Parcels[0].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 30));
+                 * Parcels[0].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(20, 40));
+                 * Parcels[0].DroneId = Drones[0].Id;
+                 * 
+                 * Parcels[1].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 5));
+                 * Parcels[1].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 20));
+                 * Parcels[1].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(10, 28));
+                 * Parcels[1].DroneId = Drones[3].Id;
+                 * 
+                 * Parcels[2].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(5, 7));
+                 * Parcels[2].DroneId = Drones[2].Id;
+                 * */
             }
-
-            Parcels[0].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 10));
-            Parcels[0].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 30));
-            Parcels[0].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(20, 40));
-            Parcels[0].DroneId = Drones[0].Id;
-
-            Parcels[1].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 5));
-            Parcels[1].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 20));
-            Parcels[1].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(10, 28));
-            Parcels[1].DroneId = Drones[3].Id;
-
-            Parcels[2].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(5, 7));
-            Parcels[2].DroneId = Drones[2].Id;
         }
     }
 }
+
+
