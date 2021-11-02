@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace IBL
 {
-    namespace BO
+    partial class BL : IBL
     {
-        class Exeptions
+        public BL()
         {
-            //TODO: add exeption in refer to BL 
+         IDAL.IDal dalObject = new DalObject.DalObject();
         }
     }
 }
+

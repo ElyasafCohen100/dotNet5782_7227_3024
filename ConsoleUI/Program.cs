@@ -13,8 +13,8 @@ namespace ConsoleUI
     /// </summary>
     class Program
     {
-
-        public static IDAL.IDal dalObject = new DalObject.DalObject();
+        // public static IDAL.IDal dalObject = new DalObject.DalObject();
+        public static DalObject.DalObject dalObject = new DalObject.DalObject();
 
         /// <summary>
         /// The main fantion
@@ -210,7 +210,7 @@ namespace ConsoleUI
             }
         }
 
-        //----------------- ADD MENU FUNCTOINS ------------------//
+        //-------------------- ADD MENU FUNCTOINS ---------------------//
 
         /// <summary>
         /// Add new Base-Station.
@@ -240,7 +240,7 @@ namespace ConsoleUI
             double.TryParse(Console.ReadLine(), out doubleTemp);
             station.Lattitude = doubleTemp;
 
-            DalObject.DalObject.SetNewStation(station);
+            dalObject.SetNewStation(station);
 
             Console.WriteLine("A new base station has been added");
         }
@@ -265,7 +265,7 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.MaxWeight = (WeightCategiries)intTemp;
 
-            DalObject.DalObject.SetNewDrone(drone);
+            dalObject.SetNewDrone(drone);
 
             Console.WriteLine("New drone added");
         }
@@ -297,7 +297,7 @@ namespace ConsoleUI
             double.TryParse(Console.ReadLine(), out doubleTemp);
             customer.Lattitude = doubleTemp;
 
-            DalObject.DalObject.SetNewCustomer(customer);
+            dalObject.SetNewCustomer(customer);
 
             Console.WriteLine("New customer added");
         }
@@ -357,7 +357,7 @@ namespace ConsoleUI
                     parcel.Requested = currentDate;
                     break;
             }
-            DalObject.DalObject.SetNewParcel(parcel);
+            dalObject.SetNewParcel(parcel);
 
             Console.WriteLine("A new parcel has been added");
         }
@@ -378,7 +378,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out droneId);
 
-            DalObject.DalObject.UpdateDroneIdOfParcel(parcelId, droneId);
+            dalObject.UpdateDroneIdOfParcel(parcelId, droneId);
 
             Console.WriteLine("The drone has been successfully associated");
         }
@@ -394,7 +394,7 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out parcelId);
 
 
-            DalObject.DalObject.UpdatePickedUpParcelById(parcelId);
+            dalObject.UpdatePickedUpParcelById(parcelId);
 
             Console.WriteLine("Picked up time updated successfully");
         }
@@ -410,7 +410,7 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out ParcelId);
 
 
-            DalObject.DalObject.UpdateDeliveredParcelById(ParcelId);
+            dalObject.UpdateDeliveredParcelById(ParcelId);
 
             Console.WriteLine("Delivery time updated successfully");
         }
@@ -430,7 +430,7 @@ namespace ConsoleUI
             ViewStationsWithAvailableChargingSlots();
             int.TryParse(Console.ReadLine(), out stationId);
 
-            DalObject.DalObject.UpdateDroneToCharging(droneId, stationId);
+            dalObject.UpdateDroneToCharging(droneId, stationId);
 
             Console.WriteLine("Drone sent to charging slot");
         }
@@ -445,12 +445,13 @@ namespace ConsoleUI
             Console.WriteLine("Enter Drone ID: ");
             int.TryParse(Console.ReadLine(), out droneId);
 
-            DalObject.DalObject.UpdateDroneFromCharging(droneId);
+            dalObject.UpdateDroneFromCharging(droneId);
             Console.WriteLine("The drone released from charging succesfully");
         }
 
 
         //------------------- VIEW MENU FUNCTION --------------------//
+
         /// <summary>
         /// Print base station details
         /// </summary>
@@ -459,7 +460,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter Base-Station ID: ");
             int.TryParse(Console.ReadLine(), out int baseStatinId);
 
-            Station myBaseStation = DalObject.DalObject.FindStationById(baseStatinId);
+            Station myBaseStation = dalObject.FindStationById(baseStatinId);
             Console.WriteLine(myBaseStation.ToString());
         }
 
@@ -471,7 +472,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            Drone myDrone = DalObject.DalObject.FindDroneById(droneId);
+            Drone myDrone = dalObject.FindDroneById(droneId);
             Console.WriteLine(myDrone.ToString());
         }
 
@@ -483,7 +484,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter customer ID: ");
             int.TryParse(Console.ReadLine(), out int customerId);
 
-            Customer myCusromer = DalObject.DalObject.FindCustomerById(customerId);
+            Customer myCusromer = dalObject.FindCustomerById(customerId);
             Console.WriteLine(myCusromer.ToString());
         }
 
@@ -495,10 +496,10 @@ namespace ConsoleUI
             Console.WriteLine("Enter parcel ID: ");
             int.TryParse(Console.ReadLine(), out int parcelId);
 
-            Parcel myParcel = DalObject.DalObject.FindParcelById(parcelId);
+            Parcel myParcel = dalObject.FindParcelById(parcelId);
             Console.WriteLine(myParcel.ToString());
         }
-    
+
 
         //---------------- LISTS VIEW MENU FUNCTION -----------------//
 
@@ -509,7 +510,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The stations are:");
             int i = 1;
-            IEnumerable<Station> stations = DalObject.DalObject.GetBaseStationList();
+            IEnumerable<Station> stations = dalObject.GetBaseStationList();
 
 
             foreach (var station in stations)
@@ -525,7 +526,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The drones are:");
             int i = 1;
-            IEnumerable<Drone> myDrones = DalObject.DalObject.GetDroneList();
+            IEnumerable<Drone> myDrones = dalObject.GetDroneList();
 
             foreach (var drone in myDrones)
             {
@@ -540,7 +541,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The customers are:");
             int i = 1;
-            IEnumerable<Customer> myCustomers = DalObject.DalObject.GetCustomerList();
+            IEnumerable<Customer> myCustomers = dalObject.GetCustomerList();
 
             foreach (var customer in myCustomers)
             {
@@ -555,7 +556,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The parcels are:");
             int i = 1;
-            IEnumerable<Parcel> myParcels = DalObject.DalObject.GetParcelList();
+            IEnumerable<Parcel> myParcels = dalObject.GetParcelList();
 
             foreach (var parcel in myParcels)
             {
@@ -570,7 +571,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("The non-associate parcels are:");
             int i = 1;
-            IEnumerable<Parcel> myNonAssociateParcels = DalObject.DalObject.GetNonAssociateParcelList();
+            IEnumerable<Parcel> myNonAssociateParcels = dalObject.GetNonAssociateParcelList();
 
             foreach (var nonAssociateParcel in myNonAssociateParcels)
             {
@@ -585,7 +586,7 @@ namespace ConsoleUI
         {
             IEnumerable<Station> Stations = new List<Station>();
             int i = 1;
-            Stations = DalObject.DalObject.GetStationsWithAvailableChargingSlots();
+            Stations = dalObject.GetStationsWithAvailableChargingSlots();
             foreach (var station in Stations)
             {
                 Console.WriteLine($"{i++}.\n {station}\n");
@@ -609,7 +610,7 @@ namespace ConsoleUI
             Console.Write("lattitude: ");
             double.TryParse(Console.ReadLine(), out double lattitudeB);
 
-            Console.WriteLine(DalObject.DalObject.Distance(lattitudeA, lattitudeB, longitudeA, longitudeB));
+            Console.WriteLine(dalObject.Distance(lattitudeA, lattitudeB, longitudeA, longitudeB));
         }
     }
 }

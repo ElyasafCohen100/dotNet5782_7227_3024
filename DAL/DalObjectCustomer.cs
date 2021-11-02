@@ -15,7 +15,7 @@ namespace DalObject
         /// </summary>
         /// <param name="customerId"> Id of customer </param>
         /// <returns> Customer object </returns>
-        public static Customer FindCustomerById(int customerId)
+        public Customer FindCustomerById(int customerId)
         {
             foreach (var customer in DataSource.Customers)
             {
@@ -31,7 +31,7 @@ namespace DalObject
         /// Set new Customer.
         /// </summary>
         /// <param name="customer"> Customer object </param>
-        public static void SetNewCustomer(Customer Customer)
+        public void SetNewCustomer(Customer Customer)
         {
             DataSource.Customers.Add(Customer);
         }
@@ -41,7 +41,7 @@ namespace DalObject
         /// Return List of Customers.
         /// </summary>
         /// <returns> List of Customers </returns>
-        public static IEnumerable<Customer> GetCustomerList()
+        public IEnumerable<Customer> GetCustomerList()
         {
             return DataSource.Customers;
         }

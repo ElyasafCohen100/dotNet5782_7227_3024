@@ -16,7 +16,7 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId"> Id of Drone </param> 
         /// <returns> Drone object </returns>
-        public static Drone FindDroneById(int droneId)
+        public Drone FindDroneById(int droneId)
         {
             foreach (var myDrone in DataSource.Drones)
             {
@@ -32,7 +32,7 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId">Id of Drone </param>
         /// <returns> DroneCharge object </returns>
-        public static DroneCharge FindDroneChargeByDroneId(int droneId)
+        public DroneCharge FindDroneChargeByDroneId(int droneId)
         {
             foreach (var droneCharge in DataSource.DroneCharges)
             {
@@ -50,7 +50,7 @@ namespace DalObject
         /// Set new Drone.
         /// </summary>
         /// <param name="drone">Drone object</param>
-        public static void SetNewDrone(Drone drone)
+        public void SetNewDrone(Drone drone)
         {
             DataSource.Drones.Add(drone);
         }
@@ -63,7 +63,7 @@ namespace DalObject
         /// </summary>
         /// <param name="parcelId"> Id of Parcel </param>
         /// <param name="droneId"> Id of Drone </param>
-        public static void UpdateDroneIdOfParcel(int parcelId, int droneId)
+        public void UpdateDroneIdOfParcel(int parcelId, int droneId)
         {
             Parcel myParcel = FindParcelById(parcelId);
             myParcel.DroneId = droneId;
@@ -74,7 +74,7 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId"> Id of Drone </param>
         /// <param name="stationId"> Id of Station </param>
-        public static void UpdateDroneToCharging(int droneId, int stationId)
+        public void UpdateDroneToCharging(int droneId, int stationId)
         {
             Station myStation = FindStationById(stationId);
             myStation.ChargeSlots--;
@@ -89,7 +89,7 @@ namespace DalObject
         /// increse the number of charge slots in the Base-Station.
         /// </summary>
         /// <param name="droneId"> Id of Drone </param> 
-        public static void UpdateDroneFromCharging(int droneId)
+        public void UpdateDroneFromCharging(int droneId)
         {
             DroneCharge myDroneCharge = FindDroneChargeByDroneId(droneId);
 
@@ -105,7 +105,7 @@ namespace DalObject
         /// Return list of Drones.
         /// </summary>
         /// <returns> List of Drones </returns>
-        public static IEnumerable<Drone> GetDroneList()
+        public IEnumerable<Drone> GetDroneList()
         {
             return DataSource.Drones;
         }

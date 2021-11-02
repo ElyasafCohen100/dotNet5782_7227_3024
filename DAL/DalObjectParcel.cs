@@ -16,7 +16,7 @@ namespace DalObject
         /// </summary>
         /// <param name="parcelId"> Id of Parcel </param>
         /// <returns> Parcel </returns>
-        public static Parcel FindParcelById(int parcelId)
+        public Parcel FindParcelById(int parcelId)
         {
             foreach (var parcel in DataSource.Parcels)
             {
@@ -33,7 +33,7 @@ namespace DalObject
         /// Set new Parcel.
         /// </summary>
         /// <param name="parcel"> Parcel object </param>
-        public static void SetNewParcel(Parcel Parcel)
+        public void SetNewParcel(Parcel Parcel)
         {
             DataSource.Parcels.Add(Parcel);
         }
@@ -45,7 +45,7 @@ namespace DalObject
         /// Update Parcel status to picked up.
         /// </summary>
         /// <param name="parcelId"> Id of Parcel </param>
-        public static void UpdatePickedUpParcelById(int parcelId)
+        public void UpdatePickedUpParcelById(int parcelId)
         {
             DateTime currentDate = DateTime.Now;
             Parcel myParcel = FindParcelById(parcelId);
@@ -57,7 +57,7 @@ namespace DalObject
         /// Update Parcel status to Delivered. 
         /// </summary>
         /// <param name="parcelId">Id of Parcel</param>
-        public static void UpdateDeliveredParcelById(int parcelId)
+        public void UpdateDeliveredParcelById(int parcelId)
         {
             DateTime currentDate = DateTime.Now;
             Parcel myParcel = FindParcelById(parcelId);
@@ -72,7 +72,7 @@ namespace DalObject
         /// Return List of Parcels.
         /// </summary>
         /// <returns>List of Parcels </returns>
-        public static IEnumerable<Parcel> GetParcelList()
+        public IEnumerable<Parcel> GetParcelList()
         {
             return DataSource.Parcels;
         }
@@ -81,7 +81,7 @@ namespace DalObject
         /// Return List of non associate Parcels.
         /// </summary>
         /// <returns> List of non associate Parcels </returns>
-        public static IEnumerable<Parcel> GetNonAssociateParcelList()
+        public IEnumerable<Parcel> GetNonAssociateParcelList()
         {
             List<Parcel> MyParcels = new List<Parcel>();
 
@@ -97,7 +97,7 @@ namespace DalObject
         /// Return List of Stations with available charging slot.
         /// </summary>
         /// <returns> List of Stations with available charging slot </returns>
-        public static IEnumerable<Station> GetStationsWithAvailableChargingSlots()
+        public IEnumerable<Station> GetStationsWithAvailableChargingSlots()
         {
             List<Station> MyStations = new List<Station>();
             foreach (var station in DataSource.Stations)

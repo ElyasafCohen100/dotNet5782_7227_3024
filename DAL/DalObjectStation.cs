@@ -16,7 +16,7 @@ namespace DalObject
         /// </summary>
         /// <param name="stationId"> Id of Station </param>
         /// <returns>Station object</returns>
-        public static Station FindStationById(int stationId)
+        public Station FindStationById(int stationId)
         {
             foreach (var myStation in DataSource.Stations)
             {
@@ -33,7 +33,7 @@ namespace DalObject
         /// Set new Station.
         /// </summary>
         /// <param name="station">Station object</param>
-        public static void SetNewStation(Station station)
+        public void SetNewStation(Station station)
         {
             DataSource.Stations.Add(station);
         }
@@ -43,7 +43,7 @@ namespace DalObject
         /// Return list of Stations.
         /// </summary>
         /// <returns>List of Stations</returns>
-        public static IEnumerable<Station> GetBaseStationList()
+        public IEnumerable<Station> GetBaseStationList()
         {
             return DataSource.Stations;
         }

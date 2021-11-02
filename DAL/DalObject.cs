@@ -17,7 +17,7 @@ namespace DalObject
             DataSource.Initialize();
         }
 
-        public static double[] ElectricityUseRequest()
+        public double[] ElectricityUseRequest()
         {
             return new double[5] { DataSource.Config.Available,
                                    DataSource.Config.Light,
@@ -54,7 +54,7 @@ namespace DalObject
         /// </summary>
         /// <param name="angleIn10thofDegree"></param>
         /// <returns> Radian degree (double)</returns>
-        static double ToRadians(double angleIn10thofDegree)
+        double ToRadians(double angleIn10thofDegree)
         {
             //Angle in 10th of a degree
             return (angleIn10thofDegree * Math.PI) / 180;
@@ -68,7 +68,7 @@ namespace DalObject
         /// <param name="longitude1">Longitude point A</param>
         /// <param name="longitude2">Longitude point B</param>
         /// <returns> Distance between the points </returns>
-        public static double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2)
+        public double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2)
         {
             //Convert longitude and lattitude values to radians.
             longitude1 = ToRadians(longitude1);
