@@ -8,37 +8,34 @@ namespace IBL
 {
     namespace BO
     {
-        class Enum
+        /// <summary>
+        /// Parcel priorety categiries 
+        /// </summary>
+        public enum Priorities
         {
-            /// <summary>
-            /// Parcel priorety categiries 
-            /// </summary>
-            public enum Priorities
-            {
-                Regular,
-                Fast,
-                Emergency
-            }
+            Regular,
+            Fast,
+            Emergency
+        }
 
-            /// <summary>
-            /// Parcel Weight categiries
-            /// </summary>
-            public enum WeightCategiries
-            {
-                Light,
-                Average,
-                Heavy
-            }
+        /// <summary>
+        /// Parcel Weight categiries
+        /// </summary>
+        public enum WeightCategiries
+        {
+            Light,
+            Average,
+            Heavy
+        }
 
-            /// <summary>
-            /// Drone Statuses
-            /// </summary>
-            public enum DroneStatuses
-            {
-                Available,
-                Maintenance,
-                Shipment
-            }
+        /// <summary>
+        /// Drone Statuses
+        /// </summary>
+        public enum DroneStatuses
+        {
+            Available,
+            Maintenance,
+            Shipment
         }
     }
 }

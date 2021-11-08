@@ -13,8 +13,10 @@ namespace IBL
             public int Id { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
-            public double Longitude { get; set; }
-            public double Lattitude { get; set; }
+            public Location location = new Location();
+
+            //TODO: create parcel from Coustomer
+            //TODO: create parcel to Coustomer
 
             /// <summary>
             /// Return describe of Customer struct string
@@ -25,8 +27,7 @@ namespace IBL
                 return $"Customer name: {Name}\n" +
                        $"Id: {Id}\n" +
                        $"Phone: {Phone}\n" +
-                       $"Longitude: {DalObject.DalObject.SexagesimalPresentation(Longitude)}, " +
-                       $"Lattitude: {DalObject.DalObject.SexagesimalPresentation(Lattitude)},";
+                       location.ToString();
             }
         }
     }

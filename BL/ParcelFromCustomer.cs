@@ -1,16 +1,15 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDL
+namespace iBL
 {
-    namespace DO
+    namespace Bo
     {
-        class Exeptions
+        class ParcelFromCustomer
         {
-            //TODO: add exeption in refer to BL 
         }
     }
 }
