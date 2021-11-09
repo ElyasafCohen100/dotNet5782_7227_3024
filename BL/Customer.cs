@@ -15,8 +15,8 @@ namespace IBL
             public string Phone { get; set; }
             public Location location = new Location();
 
-            //TODO: create parcel from Coustomer
-            //TODO: create parcel to Coustomer
+            public List<ParcelInCustomer> ParcelsToTakeList;
+            public List<ParcelInCustomer> ParcelsToSendList;
 
             /// <summary>
             /// Return describe of Customer struct string

@@ -11,7 +11,7 @@ namespace IBL
         class DroneCharge
         {
             public int DroneId { get; set; }
-            public int StationId { get; set; }
+            public double BatteryStatus { get; set; }
 
             /// <summary>
             /// Return describe of DroneCharge struct string
@@ -19,9 +19,9 @@ namespace IBL
             /// <returns>describe of DroneCharge struct string</returns>
             public override string ToString()
             {
-                return $"DroneCharge: " +
-                       $"Id: {DroneId}, " +
-                       $"StationId: {StationId}, ";
+                return $"DroneCharge:\n " +
+                       $"Id: {DroneId}\n" +
+                       $"Battery status: {BatteryStatus}\n";
             }
         }
     }

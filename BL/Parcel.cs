@@ -11,12 +11,13 @@ namespace IBL
         class Parcel
         {
             public int Id { get; set; }
-            public int SenderId { get; set; }
-            public int TargetId { get; set; }
-            public int DroneId { get; set; }
+
+            public CustomerInParcel receiverCustomer;
+            public CustomerInParcel senderCustomer;
+            public DroneInParcel Drone { get; set; }
 
             public Priorities Priority;
-            public WeightCategiries Weight;
+            public WeightCategories Weight;
 
             public DateTime Requested;
             public DateTime Scheduled;
@@ -31,8 +32,8 @@ namespace IBL
             {
                 return $"Parcel:\n " +
                        $"Id: {Id}:\n " +
-                       $"Senderld: {SenderId}\n " +
-                       $"Targetld: {TargetId}\n" +
+                       senderCustomer.ToString() +
+                       receiverCustomer.ToString() +
                        $"Weight: {Weight}\n" +
                        $"Requested: {Requested}\n" +
                        $"Priority: {Priority}\n" +

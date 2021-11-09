@@ -8,17 +8,10 @@ namespace IBL
 {
     namespace BO
     {
-        class Drone
+        class DroneInParcel
         {
             public int Id { get; set; }
-            public string Model { get; set; }
-            public WeightCategories MaxWeight;
             public double BatteryStatus { get; set; }
-
-            public DroneStatuses DroneStatus;
-
-            public ParcelInDelivery ParcelInDelivery;
-
             public Location CurrentLocation;
 
             /// <summary>
@@ -27,13 +20,9 @@ namespace IBL
             /// <returns>describe of Drone struct string</returns>
             public override string ToString()
             {
-                return $"Drone: \n" +
+                return $"Drone in parcel:\n " +
                        $"Id: {Id}\n " +
-                       $"Model: {Model}\n " +
-                       $"WeightCategories: {MaxWeight}\n" +
                        $"Battery status: {BatteryStatus}\n" +
-                       $"Drone status: {DroneStatus}\n" +
-                       ParcelInDelivery.ToString()+
                        $"Current location: {CurrentLocation}\n";
             }
         }

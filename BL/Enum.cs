@@ -21,7 +21,7 @@ namespace IBL
         /// <summary>
         /// Parcel Weight categiries
         /// </summary>
-        public enum WeightCategiries
+        public enum WeightCategories
         {
             Light,
             Average,
@@ -36,6 +36,14 @@ namespace IBL
             Available,
             Maintenance,
             Shipment
+        }
+
+        public enum ParcelStatus
+        {
+            Requested,
+            Scheduled,
+            PickedUp,
+            Delivered
         }
     }
 }

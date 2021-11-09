@@ -11,10 +11,8 @@ namespace IBL
         class CustomerToList
         {
             public int Id { get; set; }
-
             public string Name { get; set; }
             public string Phone { get; set; }
-
             public int SendAndDeliveredParcels { get; set; }
             public int SendAndNotDeliveredParcels { get; set; }
             public int DeliveredParcels { get; set; }
@@ -26,7 +24,8 @@ namespace IBL
             /// <returns> Describe of CustomerToList class string </returns>
             public override string ToString()
             {
-                return $"Customer: Id: {Id}\n" +
+                return $"Customer to list: \n" +
+                    $" Id: {Id}\n" +
                     $"Name: {Name}\n" +
                     $"Phone: {Phone}\n" +
                     $"Send And Delivered Parcels: { SendAndDeliveredParcels}\n" +
