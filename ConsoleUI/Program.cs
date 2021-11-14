@@ -263,7 +263,7 @@ namespace ConsoleUI
 
             Console.WriteLine("Enter max weight: (1 - Light,  2- average,  3- Heavy)");
             int.TryParse(Console.ReadLine(), out intTemp);
-            drone.MaxWeight = (WeightCategiries)intTemp;
+            drone.MaxWeight = (WeightCategories)intTemp;
 
             dalObject.SetNewDrone(drone);
 
@@ -331,7 +331,7 @@ namespace ConsoleUI
 
             Console.WriteLine("Enter parcel weight: (1 - Light, 2 - average, 3 - Heavy)");
             int.TryParse(Console.ReadLine(), out intTemp);
-            parcel.Weight = (WeightCategiries)intTemp;
+            parcel.Weight = (WeightCategories)intTemp;
 
             Console.WriteLine("Enter parcel priority: (1 - Regular, 2 - fast, 3 - emergency)");
             int.TryParse(Console.ReadLine(), out intTemp);

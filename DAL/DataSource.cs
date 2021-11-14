@@ -56,7 +56,7 @@ namespace DalObject
 
                 myDrone.Id = Config.randomNumber.Next(1000, 10000);
                 myDrone.Model = "V" + i;
-                myDrone.MaxWeight = (WeightCategiries)Config.randomNumber.Next(2);
+                myDrone.MaxWeight = (WeightCategories)Config.randomNumber.Next(2);
 
                 Drones.Add(myDrone);
             }
@@ -81,7 +81,7 @@ namespace DalObject
                 myParcel.Id = 1 + i;
                 myParcel.SenderId = Customers[i].Id;
                 myParcel.TargetId = Customers[i + 1].Id;
-                myParcel.Weight = (WeightCategiries)Config.randomNumber.Next(2);
+                myParcel.Weight = (WeightCategories)Config.randomNumber.Next(2);
                 myParcel.Priority = (Priorities)Config.randomNumber.Next(2);
                 myParcel.Requested = Config.currentDate;
 

@@ -21,7 +21,7 @@ namespace IDAL
         /// <summary>
         /// Parcel Weight categiries
         /// </summary>
-        public enum WeightCategiries
+        public enum WeightCategories
         {
             Light,
             Average,

@@ -19,7 +19,7 @@ namespace IDAL
             public int DroneId { get; set; }
 
             public Priorities Priority;
-            public WeightCategiries Weight;
+            public WeightCategories Weight;
            
             public DateTime Requested;
             public DateTime Scheduled;
