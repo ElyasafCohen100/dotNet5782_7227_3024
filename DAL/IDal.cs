@@ -42,7 +42,6 @@ namespace IDAL
         IEnumerable<Station> GetStationsWithAvailableChargingSlots() { return new List<Station>(); }
 
         double[] ElectricityUseRequest() { return new double[5] { 0, 0, 0, 0, 0 }; }
-
-        public double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
+        double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
     }
 }
