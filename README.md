@@ -1,3 +1,3 @@
-Hello Elyasaf it's Yakir whats up?
 # dotNet5782_7227_3024
-we are the champion!!!:)
+
+In this project we create a drone delivery system refer to the "Layer Model" (The Microsoft implementation).
