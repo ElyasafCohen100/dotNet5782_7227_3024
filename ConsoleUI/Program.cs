@@ -251,7 +251,6 @@ namespace ConsoleUI
         public static void AddNewDrone()
         {
             int intTemp;
-            double doubleTemp;
             Drone drone = new();
 
             Console.WriteLine("Enter id:");
