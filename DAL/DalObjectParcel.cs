@@ -106,8 +106,6 @@ namespace DalObject
                     MyStations.Add(station);
             }
             return MyStations;
-
         }
-
     }
 }
