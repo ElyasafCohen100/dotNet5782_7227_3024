@@ -17,13 +17,7 @@ namespace DalObject
         /// <returns> Customer object </returns>
         public Customer FindCustomerById(int customerId)
         {
-            foreach (var customer in DataSource.Customers)
-            {
-                if (customer.Id == customerId)
-                    return customer;
-            }
-
-            return new Customer();
+            return DataSource.Customers.Find(x=>x.Id == customerId);
         }
 
         //-------------------------- SETTERS --------------------------//

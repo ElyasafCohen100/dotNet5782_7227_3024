@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        class ParcelToList
+        public class ParcelToList
         {
             public int Id { set; get; }
             public string ReceiverName { get; set; }

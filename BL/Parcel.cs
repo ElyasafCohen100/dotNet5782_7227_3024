@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        class Parcel
+        public class Parcel
         {
             public int Id { get; set; }
 
@@ -37,7 +37,7 @@ namespace IBL
                        $"Weight: {Weight}\n" +
                        $"Requested: {Requested}\n" +
                        $"Priority: {Priority}\n" +
-                       $"Droneld: {DroneId}\n" +
+                       Drone.ToString() +
                        $"Scheduled: {Scheduled}\n" +
                        $"PickedUp: {PickedUp}\n" +
                        $"Delivered: {Delivered}\n";
