@@ -152,5 +152,68 @@ namespace ConsoleUI_BL
             BLObject.SetNewDroneBL(drone, intTemp);
         }
 
+        internal static void addNewCostumer()
+        {
+            int intTemp;
+            double doubleTemp;
+            Customer customer = new();
+
+            Console.WriteLine("Enter id");
+            int.TryParse(Console.ReadLine(), out intTemp);
+            customer.Id = intTemp;
+
+            Console.WriteLine("Enter Customer name: ");
+            customer.Name = Console.ReadLine();
+
+            Console.WriteLine("Enter phone number: ");
+            customer.Phone = Console.ReadLine();
+
+            Console.WriteLine("Enter your location: ");
+            Console.WriteLine("longtitude: ");
+            double.TryParse(Console.ReadLine(), out doubleTemp);
+            customer.location.Longitude = doubleTemp;   
+            
+            Console.WriteLine("Lattitude: ");
+            double.TryParse(Console.ReadLine(), out doubleTemp);
+            customer.location.Lattitude = doubleTemp;
+
+            BLObject.AddNewCustomerBL(customer);
+        }
+
+        internal static void addNewParcel()
+        {
+            int intTemp;
+            Parcel parcel = new();
+            
+
+            Console.WriteLine("Enter sender id: ");
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.senderCustomer.Id = intTemp;
+
+
+            Console.WriteLine("Enter reciver id: ");
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.receiverCustomer.Id = intTemp;
+
+            Console.WriteLine("Enter weight: (1 - Light,  2- average,  3- Heavy)");
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.Weight = (WeightCategories)intTemp;
+
+            Console.WriteLine("Enter your choice:  (1 - fast,  2- regular,  3- Slow)");
+            int.TryParse(Console.ReadLine(), out intTemp);
+            parcel.Priority = (Priorities)intTemp;
+
+            parcel.Drone = null;
+
+
+            BLObject.AddNewParcelBL(parcel);
+        }
+
+
+
+
+
+
+
     }
 }

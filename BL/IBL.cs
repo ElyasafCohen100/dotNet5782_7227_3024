@@ -10,8 +10,8 @@ namespace IBL
     public interface IBL
     {
         void SetNewStationBL(Station station) { }
-
         void SetNewDroneBL(Drone drone, int baseStationID) { }
-        
+        void AddNewCustomerBL(Customer customer) { }
+        void AddNewParcelBL(Parcel parcel) { }
     }
 }
