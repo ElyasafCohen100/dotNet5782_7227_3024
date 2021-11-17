@@ -18,13 +18,7 @@ namespace DalObject
         /// <returns> Parcel </returns>
         public Parcel FindParcelById(int parcelId)
         {
-            foreach (var parcel in DataSource.Parcels)
-            {
-                if (parcelId == parcel.Id)
-                    return parcel;
-            }
-
-            return new Parcel();
+            return DataSource.Parcels.Find(x => x.Id == parcelId);
         }
 
         //------------------------- SETTERS ---------------------------//

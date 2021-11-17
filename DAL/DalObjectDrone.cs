@@ -18,13 +18,7 @@ namespace DalObject
         /// <returns> Drone object </returns>
         public Drone FindDroneById(int droneId)
         {
-            foreach (var myDrone in DataSource.Drones)
-            {
-                if (myDrone.Id == droneId)
-                    return myDrone;
-            }
-
-            return new Drone();
+            return DataSource.Drones.Find(x => x.Id == droneId);
         }
 
         /// <summary>
@@ -34,13 +28,7 @@ namespace DalObject
         /// <returns> DroneCharge object </returns>
         public DroneCharge FindDroneChargeByDroneId(int droneId)
         {
-            foreach (var droneCharge in DataSource.DroneCharges)
-            {
-                if (droneCharge.DroneId == droneId)
-                    return droneCharge;
-            }
-
-            return new DroneCharge();
+            return DataSource.DroneCharges.Find(x => x.DroneId == droneId);
         }
 
 

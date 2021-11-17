@@ -18,13 +18,7 @@ namespace DalObject
         /// <returns>Station object</returns>
         public Station FindStationById(int stationId)
         {
-            foreach (var myStation in DataSource.Stations)
-            {
-                if (myStation.Id == stationId)
-                    return myStation;
-            }
-
-            return new Station();
+            return DataSource.Stations.Find(x => x.Id == stationId);
         }
 
         //------------------------- SETTERS --------------------------//
