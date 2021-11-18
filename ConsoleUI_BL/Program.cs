@@ -294,5 +294,13 @@ namespace ConsoleUI_BL
             BLObject.UpdateCustomerDetailes(coustomerId, newCustomerName, newCustomerPhoneNumber);
         }
 
+        public static void UpdateDroneToCharging()
+        {
+            Console.WriteLine("Entar drone ID: ");
+            int.TryParse(Console.ReadLine(),out int droneID);
+
+            BLObject.UpdateDroneToChargingBL(droneID);
+        }
+
     }
 }

@@ -30,10 +30,66 @@ namespace BL
 
         public void UpdateDroneModelBL(int droneId, string newModel)
         {
-           IDAL.DO.Drone drone = new();
+            IDAL.DO.Drone drone = new();
 
-           drone =  dalObject.FindDroneById(droneId);
-           drone.Model = newModel;
+            drone = dalObject.FindDroneById(droneId);
+            drone.Model = newModel;
+        }
+
+       public Drone FindDroneByIdBL(int droneId)
+        {
+            //var drone = from Item in droneToLists 
+            //            where Item.Id == droneId 
+            //            select Item;
+
+            DroneToList drone = droneToLists.Find(x => x.Id == droneId);
+
+            Drone myDrone = new();
+            myDrone.Id = drone.Id;
+            myDrone.MaxWeight = drone.MaxWeight;
+            myDrone.Model = drone.Model;
+            myDrone.DroneStatus = drone.DroneStatus;
+            myDrone.BatteryStatus = drone.BatteryStatus;
+            myDrone.CurrentLocation = drone.CurrentLocation;
+
+            if (drone.DroneStatus == DroneStatuses.Shipment)
+            { 
+                myDrone.ParcelInDelivery = SetParcelInDelivery(drone.DeliveryParcelId);
+
+                return myDrone;
+            }
+            else
+            {
+                return myDrone;
+            }
+        }
+
+        internal ParcelInDelivery SetParcelInDelivery(int parcelId)
+        {
+            ParcelInDelivery parcelInDalivery = new();
+            IDAL.DO.Parcel parcel = dalObject.FindParcelById(parcelId);
+
+            parcelInDalivery.Id = parcel.Id;
+            parcelInDalivery.WeightCategory = (WeightCategories)parcel.Weight;
+            parcelInDalivery.Priority = (Priorities)parcel.Priority;
+
+            IDAL.DO.Customer sender = dalObject.FindCustomerById(parcel.SenderId);
+            IDAL.DO.Customer target = dalObject.FindCustomerById(parcel.TargetId);
+            parcelInDalivery.DeliveryDistance = dalObject.Distance(sender.Lattitude, target.Lattitude, sender.Longitude, target.Longitude);
+
+            parcelInDalivery.receiverCustomer.Id = target.Id;
+            parcelInDalivery.receiverCustomer.Name = target.Name;
+
+            parcelInDalivery.senderCustomer.Id = sender.Id;
+            parcelInDalivery.senderCustomer.Name = sender.Name;
+
+            parcelInDalivery.SourceLocation.Lattitude = sender.Lattitude;
+            parcelInDalivery.SourceLocation.Longitude = sender.Longitude;
+
+            parcelInDalivery.TargetLocation.Lattitude = target.Lattitude;
+            parcelInDalivery.TargetLocation.Longitude = target.Longitude;
+
+            return parcelInDalivery;
         }
     }
 }

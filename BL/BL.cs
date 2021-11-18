@@ -16,6 +16,7 @@ namespace BL
 
         //Create instance of dalObject for reference to DAL
         internal static IDAL.IDal dalObject = new DalObject.DalObject();
+        List<DroneToList> droneToLists = new();
 
         /// <summary>
         /// c-tor of BL.
@@ -34,8 +35,6 @@ namespace BL
             {
                 electricityUse[i] = tempArray[i];
             }
-
-            List<DroneToList> droneToLists = new();
 
             // Initialize all the drones
             foreach (var drone in dalObject.GetDroneList())
@@ -156,8 +155,7 @@ namespace BL
         /// <param name="location">The location information to calculate the distance</param>
         /// <returns>The id of the nearest base-station with at least one available charge-slot</returns>
         int FindNearestBaseStationWithAvailableChargingSlots(Location location)
-        {
-            IDAL.IDal dalObject = new DalObject.DalObject();
+        {   
             double minDistance = double.MaxValue;
             int nearestBaseStationID = 0;
 
