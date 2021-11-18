@@ -5,13 +5,12 @@ namespace ConsoleUI_BL
 {
     class Program
     {
-        internal static IBL.IBL BLObject = new IBL.BL();
+        internal static IBL.IBL BLObject = new BL.BL();
         static void Main(string[] args)
         {
             Menu();
             Console.WriteLine("Have a nice day!");
         }
-
 
         internal static void Menu()
         {
@@ -39,19 +38,23 @@ namespace ConsoleUI_BL
                         Console.WriteLine("2. Add new Drone");
                         Console.WriteLine("3. Add new customer");
                         Console.WriteLine("4. Add new parcel");
+
                         int.TryParse(Console.ReadLine(), out subChoice);
+                        AddMenu(subChoice);
                         break;
                     case 2:
                         Console.WriteLine("\nPlease enter your choice: ");
-                        Console.WriteLine("1. Update drone name (by ID)");
+                        Console.WriteLine("1. Update drone model");
                         Console.WriteLine("2. Update base-station detailes");
-                        Console.WriteLine("3. Send drone to charge");
-                        Console.WriteLine("4. Release drone from charging");
-                        Console.WriteLine("5. Associate parcel to drone");
-                        Console.WriteLine("6. Pick-up parcel by drone");
-                        Console.WriteLine("7. Deliverd parcel by drone");
+                        Console.WriteLine("3. Update customer detailes");
+                        Console.WriteLine("4. Send drone to charge");
+                        Console.WriteLine("5. Release drone from charging");
+                        Console.WriteLine("6. Associate parcel to drone");
+                        Console.WriteLine("7. Pick-up parcel by drone");
+                        Console.WriteLine("8. Deliverd parcel by drone");
 
                         int.TryParse(Console.ReadLine(), out subChoice);
+                        UpdateMenu(subChoice);
                         break;
                     case 3:
                         Console.WriteLine("\nPlease enter your choice:");
@@ -80,6 +83,8 @@ namespace ConsoleUI_BL
             } while (choice != 5);
         }
 
+        //---------------------- SUB MENU FUNCTOINS -----------------------//
+
         internal static void AddMenu(int subChoice)
         {
             switch (subChoice)
@@ -91,22 +96,62 @@ namespace ConsoleUI_BL
                     AddNewDrone();
                     break;
                 case 3:
+                    AddNewCostumer();
+                    break;
+                case 4:
+                    AddNewParcel();
+                    break;
+                default:
+                    Console.WriteLine("Not valid choice!\n");
+                    Menu();
+                    break;
+            }
+        }
 
+        internal static void UpdateMenu(int subChoice)
+        {
+            switch (subChoice)
+            {
+                case 1:
+                    UpdateDroneModelByID();
+                    break;
+                case 2:
+                    UpdateBaseStationdetailes();
+                    break;
+                case 3:
+                    UpdateCustomerDetailes();
                     break;
                 case 4:
 
                     break;
+                case 5:
+
+                    break;
+                case 6:
+
+                    break;
+                case 7:
+
+                    break;
+                case 8:
+
+                    break;
                 default:
+                    Console.WriteLine("Not valid choice!\n");
+                    Menu();
                     break;
             }
         }
-        internal static void AddNewBaseStation()
+
+        //-------------------- ADD MENU FUNCTOINS ---------------------//
+
+        public static void AddNewBaseStation()
         {
             int intTemp;
             double doubleTemp;
             Station station = new();
 
-            Console.WriteLine("Enter id:");
+            Console.WriteLine("Enter base-station number:");
             int.TryParse(Console.ReadLine(), out intTemp);
             station.Id = intTemp;
 
@@ -127,10 +172,10 @@ namespace ConsoleUI_BL
 
             station.DroneChargesList = new();
 
-            BLObject.SetNewStationBL(station);
+            BLObject.AddNewStationBL(station);
         }
 
-        internal static void AddNewDrone()
+        public static void AddNewDrone()
         {
             int intTemp;
             Drone drone = new();
@@ -149,10 +194,10 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter base staion ID to put the drone for first charge");
             int.TryParse(Console.ReadLine(), out intTemp);
 
-            BLObject.SetNewDroneBL(drone, intTemp);
+            BLObject.AddNewDroneBL(drone, intTemp);
         }
 
-        internal static void addNewCostumer()
+        public static void AddNewCostumer()
         {
             int intTemp;
             double doubleTemp;
@@ -180,40 +225,74 @@ namespace ConsoleUI_BL
             BLObject.AddNewCustomerBL(customer);
         }
 
-        internal static void addNewParcel()
+        public static void AddNewParcel()
         {
             int intTemp;
             Parcel parcel = new();
-            
 
             Console.WriteLine("Enter sender id: ");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.senderCustomer.Id = intTemp;
 
-
             Console.WriteLine("Enter reciver id: ");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.receiverCustomer.Id = intTemp;
 
-            Console.WriteLine("Enter weight: (1 - Light,  2- average,  3- Heavy)");
+            Console.WriteLine("Enter parcel weight category: (1 - Light,  2- average,  3- Heavy)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Weight = (WeightCategories)intTemp;
 
-            Console.WriteLine("Enter your choice:  (1 - fast,  2- regular,  3- Slow)");
+            Console.WriteLine("Enter parcel priority:  (1 - fast,  2- regular,  3- Slow)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Priority = (Priorities)intTemp;
 
             parcel.Drone = null;
 
-
             BLObject.AddNewParcelBL(parcel);
         }
 
+        //------------------- UPDATE FANCTIONS ------------------//
 
+        public static void UpdateDroneModelByID()
+        {
+            Console.WriteLine("Enter drone ID:");
+            int.TryParse(Console.ReadLine(), out int droneId);
 
+            Console.WriteLine("Enter new name:");
+            string newModel = Console.ReadLine();
 
+            BLObject.UpdateDroneModelBL(droneId, newModel);
+        }
 
+        public static void UpdateBaseStationdetailes()
+        {
+            Console.WriteLine("Enter base-station number:");
+            int.TryParse(Console.ReadLine(), out int baseStationId);
 
+            Console.WriteLine("Enter detailes to change: \n (if you don't want to change leave empty)\n");
+            Console.WriteLine("Enter base-station name: ");
+            string baseStationNewName = Console.ReadLine();
+
+            Console.WriteLine("Enter number of base-station charge slots: ");
+            int.TryParse(Console.ReadLine(), out int baseStationChargeSlots);
+
+            BLObject.UpdateBaseStationDetailes(baseStationId, baseStationNewName, baseStationChargeSlots);
+        }
+
+        public static void UpdateCustomerDetailes()
+        {
+            Console.WriteLine("Enter customer ID:");
+            int.TryParse(Console.ReadLine(), out int coustomerId);
+
+            Console.WriteLine("Enter detailes to change: \n (if you don't want to change leave empty)\n");
+            Console.WriteLine("Enter new name:");
+            string newCustomerName = Console.ReadLine();
+
+            Console.WriteLine("Enter new Phone number:");
+            string newCustomerPhoneNumber = Console.ReadLine();
+            
+            BLObject.UpdateCustomerDetailes(coustomerId, newCustomerName, newCustomerPhoneNumber);
+        }
 
     }
 }

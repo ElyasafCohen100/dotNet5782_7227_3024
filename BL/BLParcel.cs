@@ -12,7 +12,6 @@ namespace BL
         public void AddNewParcelBL(Parcel parcel)
         {
             IDAL.DO.Parcel newParcel = new();
-            IDAL.IDal dalObject = new DalObject.DalObject();
 
             newParcel.SenderId = parcel.senderCustomer.Id;
             newParcel.TargetId = parcel.receiverCustomer.Id;
@@ -21,8 +20,10 @@ namespace BL
 
             newParcel.Requested = DateTime.Now;
             newParcel.Scheduled = DateTime.MinValue;
-            newParcel.PickedUp = DateTime.MinValue;
+            newParcel.PickedUp  = DateTime.MinValue;
             newParcel.Delivered = DateTime.MinValue;
+
+            dalObject.SetNewParcel(newParcel);
         }
     }
 }

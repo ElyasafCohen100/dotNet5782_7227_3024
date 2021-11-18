@@ -9,15 +9,10 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
-        public void SetNewDroneBL(Drone drone, int baseStationID)
+        public void AddNewDroneBL(Drone drone, int baseStationID)
         {
-
-            //TODO: change the function refer to the exercise requirments
             Random r = new();
             IDAL.DO.Drone newDrone = new();
-            IDAL.IDal dalObject = new DalObject.DalObject();
-
-
 
             newDrone.Id = drone.Id;
             newDrone.Model = drone.Model;
@@ -31,6 +26,14 @@ namespace BL
             drone.CurrentLocation.Longitude = myStaion.Longitude;
 
             dalObject.SetNewDrone(newDrone);
+        }
+
+        public void UpdateDroneModelBL(int droneId, string newModel)
+        {
+           IDAL.DO.Drone drone = new();
+
+           drone =  dalObject.FindDroneById(droneId);
+           drone.Model = newModel;
         }
     }
 }

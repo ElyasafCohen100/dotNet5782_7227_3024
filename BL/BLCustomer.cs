@@ -12,7 +12,6 @@ namespace BL
         public void AddNewCustomerBL(Customer customer)
         {
             IDAL.DO.Customer newCustomer = new();
-            IDAL.IDal dalObject = new DalObject.DalObject();
 
             newCustomer.Id = customer.Id;
             newCustomer.Name = customer.Name;
@@ -22,5 +21,21 @@ namespace BL
 
             dalObject.SetNewCustomer(newCustomer);
         }
+
+        public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
+        {
+            IDAL.DO.Customer customer = dalObject.FindCustomerById(customerId);
+
+            if (newName != null)
+            {
+                customer.Name = newName;
+            }
+
+            if (newPhoneNumber != null)
+            {
+                customer.Phone = newPhoneNumber;
+            }
+        }
+        
     }
 }

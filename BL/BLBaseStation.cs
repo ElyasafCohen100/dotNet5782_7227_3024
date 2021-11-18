@@ -10,8 +10,7 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
-        IDAL.IDal dalObject = new DalObject.DalObject();
-        public void SetNewStationBL(Station station)
+        public void AddNewStationBL(Station station)
         {
             IDAL.DO.Station newStation = new();
 
@@ -24,5 +23,19 @@ namespace BL
             dalObject.SetNewStation(newStation);
         }
 
+        public void UpdateBaseStationDetailes(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
+        {
+            IDAL.DO.Station baseStation = dalObject.FindStationById(baseStationId);
+
+            if (baseStationNewName != "")
+            {
+                baseStation.Name = baseStationNewName;
+            }
+
+            if (baseStationChargeSlots != 0)
+            {
+                baseStation.ChargeSlots = baseStationChargeSlots;
+            }
+        }
     }
 }

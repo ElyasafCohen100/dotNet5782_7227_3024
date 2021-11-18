@@ -5,21 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using IBL.BO;
 
-namespace IBL
+namespace BL
 {
     /// <summary>
     /// The Bissnes Layer wich responsible for the logic in the project refer to the Layer Model
     /// </summary>
-    public partial class BL : IBL
+    public partial class BL : IBL.IBL
     {
+
+
+        //Create instance of dalObject for reference to DAL
+        internal static IDAL.IDal dalObject = new DalObject.DalObject();
+
         /// <summary>
         /// c-tor of BL.
         /// Initiate DroneToList list.
         /// </summary>
         public BL()
         {
-            //Create instance of dalObject for reference to DAL
-            IDAL.IDal dalObject = new DalObject.DalObject();
 
             // Import from DAL the 4 weight categiries and the charging rate in seperate varibales
             double[] tempArray = dalObject.ElectricityUseRequest();
@@ -37,7 +40,7 @@ namespace IBL
             // Initialize all the drones
             foreach (var drone in dalObject.GetDroneList())
             {
-                BO.DroneToList newDrone = new();
+                DroneToList newDrone = new();
                 //Take all the information from the drone entity in DAL and set it in the DroneToList object (newDrone)
                 newDrone.Id = drone.Id;
                 newDrone.Model = drone.Model;
@@ -178,7 +181,7 @@ namespace IBL
         /// <param name="drone">The drone to calculate his needed minimum power suply</param>
         /// <param name="targetId">The target id to calculate the needed power suply for the drone to get there</param>
         /// <returns>The minimum needed power suply to go to the target</returns>
-        double FindMinPowerSuply(BO.DroneToList drone, int targetId)
+        double FindMinPowerSuply(DroneToList drone, int targetId)
         {
             IDAL.IDal dalObject = new DalObject.DalObject();
             //Step 1: Find the distance between the drone current location and the destination location
@@ -191,14 +194,14 @@ namespace IBL
             double suply1 = 0;
             switch (drone.MaxWeight)
             {
-                case BO.WeightCategories.Heavy:
+                case WeightCategories.Heavy:
                     //Available-0, Light-1, Intermediate-2, Heavy-3, DroneChargingRate-4
                     suply1 = distance1 / dalObject.ElectricityUseRequest()[3];
                     break;
-                case BO.WeightCategories.Average:
+                case WeightCategories.Average:
                     suply1 = distance1 / dalObject.ElectricityUseRequest()[2];
                     break;
-                case BO.WeightCategories.Light:
+                case WeightCategories.Light:
                     suply1 = distance1 / dalObject.ElectricityUseRequest()[1];
                     break;
             }
@@ -225,7 +228,7 @@ namespace IBL
         /// </summary>
         /// <param name="drone">The drone to caclculate the minimum needed power suply</param>
         /// <returns>The minimum needed power suply</returns>
-        double FindMinPowerSuplyForCharging(BO.DroneToList drone)
+        double FindMinPowerSuplyForCharging(DroneToList drone)
         {
             IDAL.IDal dalObject = new DalObject.DalObject();
 
