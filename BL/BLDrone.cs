@@ -36,7 +36,8 @@ namespace BL
             drone.Model = newModel;
         }
 
-       public Drone FindDroneByIdBL(int droneId)
+
+        public Drone FindDroneByIdBL(int droneId)
         {
             //var drone = from Item in droneToLists 
             //            where Item.Id == droneId 
@@ -53,7 +54,7 @@ namespace BL
             myDrone.CurrentLocation = drone.CurrentLocation;
 
             if (drone.DroneStatus == DroneStatuses.Shipment)
-            { 
+            {
                 myDrone.ParcelInDelivery = SetParcelInDelivery(drone.DeliveryParcelId);
 
                 return myDrone;
@@ -63,7 +64,6 @@ namespace BL
                 return myDrone;
             }
         }
-
         internal ParcelInDelivery SetParcelInDelivery(int parcelId)
         {
             ParcelInDelivery parcelInDalivery = new();
@@ -90,6 +90,37 @@ namespace BL
             parcelInDalivery.TargetLocation.Longitude = target.Longitude;
 
             return parcelInDalivery;
+        }
+        public void UpdateDroneToChargingBL(int droneId)
+        {
+            var drone = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Available);
+            double minBatteryForCharging = FindMinPowerSuplyForCharging(drone);
+
+
+            if (drone.BatteryStatus < minBatteryForCharging)
+            {
+                // TODO: create an exeption
+            }
+            else
+            {
+                //-----------Drone --------//
+                int nearestBaseStationID;
+                Station myStation = new();
+
+
+                drone.BatteryStatus = drone.BatteryStatus - minBatteryForCharging;
+
+                nearestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
+
+                myStation = FindStationByIdBL(nearestBaseStationID);
+
+                drone.CurrentLocation = myStation.Location;
+
+                drone.DroneStatus = DroneStatuses.Maintenance;
+
+                //---------Station + DroneCharge-------//
+                dalObject.UpdateDroneToCharging(drone.Id, myStation.Id);
+            }
         }
     }
 }

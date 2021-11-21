@@ -58,7 +58,8 @@ namespace DalObject
         }
 
         /// <summary>
-        /// decrese the number of charge slots in the Base-Station.
+        /// Decrese the number of charge slots in the Base-Station,
+        /// and the buttery to 100%.
         /// </summary>
         /// <param name="droneId"> Id of Drone </param>
         /// <param name="stationId"> Id of Station </param>
@@ -73,8 +74,8 @@ namespace DalObject
             DataSource.DroneCharges.Add(droneCharge);
         }
 
-        /// <summary>,
-        /// increse the number of charge slots in the Base-Station.
+        /// <summary>
+        /// Increse the number of charge slots in the Base-Station.
         /// </summary>
         /// <param name="droneId"> Id of Drone </param> 
         public void UpdateDroneFromCharging(int droneId)
@@ -96,6 +97,11 @@ namespace DalObject
         public IEnumerable<Drone> GetDroneList()
         {
             return DataSource.Drones;
+        }
+
+        public IEnumerable<DroneCharge> GetDroneChargeListByStationId(int stationId)
+        {
+            return DataSource.DroneCharges.FindAll(x => x.StationId == stationId);
         }
     }
 }

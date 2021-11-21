@@ -11,37 +11,39 @@ namespace IDAL
     {
         //----------------------- FIND FUNCTIONS -----------------------//
 
-        Drone FindDroneById(int droneId) { return new Drone(); }
-        Station FindStationById(int stationId) { return new Station(); }
-        DroneCharge FindDroneChargeByDroneId(int droneId) { return new DroneCharge(); }
-        Customer FindCustomerById(int customerId) { return new Customer(); }
-        Parcel FindParcelById(int parcelId) { return new Parcel(); }
+        Drone FindDroneById(int droneId);
+        Station FindStationById(int stationId);
+        DroneCharge FindDroneChargeByDroneId(int droneId);
+        Customer FindCustomerById(int customerId);
+        Parcel FindParcelById(int parcelId);
 
         //----------------------- SETTERS -----------------------//
 
-        void SetNewDrone(Drone drone) { }
-        void SetNewStation(Station station) { }
-        void SetNewCustomer(Customer Customer) { }
-        void SetNewParcel(Parcel Parcel) { }
+        void SetNewDrone(Drone drone);
+        void SetNewStation(Station station);
+        void SetNewCustomer(Customer customer);
+        void SetNewParcel(Parcel parcel);
 
         //----------------------- UPDATE FUNCTIONS -----------------------//
 
-        void UpdateDroneIdOfParcel(int parcelId, int droneId) { }
-        void UpdatePickedUpParcelById(int parcelId) { }
-        void UpdateDeliveredParcelById(int parcelId) { }
-        void UpdateDroneToCharging(int droneId, int stationId) { }
-        void UpdateDroneFromCharging(int droneId) { }
+        void UpdateDroneIdOfParcel(int parcelId, int droneId);
+        void UpdatePickedUpParcelById(int parcelId);
+        void UpdateDeliveredParcelById(int parcelId);
+        void UpdateDroneToCharging(int droneId, int stationId);
+        void UpdateDroneFromCharging(int droneId);
+
 
         //--------------------------- GETTERS ---------------------------//
 
-        IEnumerable<Station> GetBaseStationList() { return new List<Station>(); }
-        IEnumerable<Drone> GetDroneList() { return new List<Drone>(); }
-        IEnumerable<Customer> GetCustomerList() { return new List<Customer>(); }
-        IEnumerable<Parcel> GetParcelList() { return new List<Parcel>(); }
-        IEnumerable<Parcel> GetNonAssociateParcelList() { return new List<Parcel>(); }
-        IEnumerable<Station> GetStationsWithAvailableChargingSlots() { return new List<Station>(); }
+        IEnumerable<Station> GetBaseStationList();
+        IEnumerable<Drone> GetDroneList();
+        IEnumerable<Customer> GetCustomerList();
+        IEnumerable<Parcel> GetParcelList();
+        IEnumerable<Parcel> GetNonAssociateParcelList();
+        IEnumerable<Station> GetStationsWithAvailableChargingSlots();
+        IEnumerable<DroneCharge> GetDroneChargeListByStationId(int stationId);
 
-        double[] ElectricityUseRequest() { return new double[5] { 0, 0, 0, 0, 0 }; }
+        double[] ElectricityUseRequest();
         double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
     }
 }
