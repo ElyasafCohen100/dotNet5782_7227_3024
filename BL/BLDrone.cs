@@ -9,6 +9,7 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
+        //-------------------Add Functions-----------------//
         public void AddNewDroneBL(Drone drone, int baseStationID)
         {
             Random r = new();
@@ -24,19 +25,11 @@ namespace BL
             IDAL.DO.Station myStaion = dalObject.FindStationById(baseStationID);
             drone.CurrentLocation.Lattitude = myStaion.Lattitude;
             drone.CurrentLocation.Longitude = myStaion.Longitude;
-
+            
             dalObject.SetNewDrone(newDrone);
         }
 
-        public void UpdateDroneModelBL(int droneId, string newModel)
-        {
-            IDAL.DO.Drone drone = new();
-
-            drone = dalObject.FindDroneById(droneId);
-            drone.Model = newModel;
-        }
-
-
+        //-------------------Find Functions-----------------//
         public Drone FindDroneByIdBL(int droneId)
         {
             //var drone = from Item in droneToLists 
@@ -64,18 +57,20 @@ namespace BL
                 return myDrone;
             }
         }
+
+        //-------------------Set Functions-----------------//
         internal ParcelInDelivery SetParcelInDelivery(int parcelId)
         {
             ParcelInDelivery parcelInDalivery = new();
             IDAL.DO.Parcel parcel = dalObject.FindParcelById(parcelId);
 
             parcelInDalivery.Id = parcel.Id;
-            parcelInDalivery.WeightCategory = (WeightCategories)parcel.Weight;
+            parcelInDalivery.WeightCategory= (WeightCategories)parcel.Weight;
             parcelInDalivery.Priority = (Priorities)parcel.Priority;
 
             IDAL.DO.Customer sender = dalObject.FindCustomerById(parcel.SenderId);
             IDAL.DO.Customer target = dalObject.FindCustomerById(parcel.TargetId);
-            parcelInDalivery.DeliveryDistance = dalObject.Distance(sender.Lattitude, target.Lattitude, sender.Longitude, target.Longitude);
+            parcelInDalivery.DeliveryDistance= dalObject.Distance(sender.Lattitude, target.Lattitude, sender.Longitude, target.Longitude);
 
             parcelInDalivery.receiverCustomer.Id = target.Id;
             parcelInDalivery.receiverCustomer.Name = target.Name;
@@ -91,6 +86,8 @@ namespace BL
 
             return parcelInDalivery;
         }
+
+        //-------------------Update Functions-----------------//
         public void UpdateDroneToChargingBL(int droneId)
         {
             var drone = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Available);
@@ -120,6 +117,87 @@ namespace BL
 
                 //---------Station + DroneCharge-------//
                 dalObject.UpdateDroneToCharging(drone.Id, myStation.Id);
+            }
+
+
+        }
+        public void UpdateDroneModelBL(int droneId, string newModel)
+        {
+            IDAL.DO.Drone drone = new();
+
+            drone = dalObject.FindDroneById(droneId);
+            drone.Model = newModel;
+        }
+        public void UpdateDroneFromChargingBL(int droneId, double chargeTime)
+        {
+            Drone myDrone = FindDroneByIdBL(droneId);
+            if (myDrone.DroneStatus == DroneStatuses.Maintenance)
+            {
+                dalObject.UpdateDroneFromCharging(droneId);
+                myDrone.DroneStatus = DroneStatuses.Available;
+                myDrone.BatteryStatus += dalObject.ElectricityUseRequest()[4] * chargeTime;
+            }
+            else
+            {
+                //TODO throw an exeption 
+            }
+
+        }
+        public void UpdateDroneIdOfParcelBL(int droneId)
+        {
+            Drone myDrone = FindDroneByIdBL(droneId);
+
+            if (myDrone.DroneStatus == DroneStatuses.Available)
+            {
+                IDAL.DO.Parcel myParcel = new();
+                myParcel.Priority = IDAL.DO.Priorities.Regular;
+                myParcel.Weight = IDAL.DO.WeightCategories.Light;
+
+                double disFromMyParcelSenderToMyDrone = double.MaxValue;
+
+                Customer customerOfParcel = new();
+
+                bool flag = false;
+
+                foreach (var parcel in dalObject.GetParcelList())
+                {
+
+                    if ((int)myDrone.MaxWeight <= (int)parcel.Weight)
+                    {
+                        customerOfParcel = FindCustomerByIdBL(parcel.SenderId);
+                        double disFromParcelSenderToMyDrone = dalObject.Distance(myDrone.CurrentLocation.Lattitude,
+                        customerOfParcel.location.Lattitude,
+                        myDrone.CurrentLocation.Longitude,
+                        customerOfParcel.location.Longitude);
+
+                        if (myDrone.BatteryStatus >= FindMinSuplyForAllPath(myDrone.Id, customerOfParcel.Id))
+                        {
+                            if ((int)parcel.Priority > (int)myParcel.Priority)
+                            {
+                                myParcel = parcel;
+                                flag = true;
+                            }
+                            else if (((int)parcel.Weight < (int)myParcel.Weight) && ((int)parcel.Priority == (int)myParcel.Priority))
+                            {
+                                myParcel = parcel;
+                                flag = true;
+                            }
+                            else if ((disFromParcelSenderToMyDrone < disFromMyParcelSenderToMyDrone) && ((int)parcel.Weight == (int)myParcel.Weight) && ((int)parcel.Priority == (int)myParcel.Priority))
+                            {
+                                myParcel = parcel;
+                                flag = true;
+                            }
+
+                            if (flag)
+                            {
+                                myDrone.DroneStatus = DroneStatuses.Shipment;
+                                myParcel.DroneId = myDrone.Id;
+                                myParcel.Scheduled = DateTime.Now;
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }

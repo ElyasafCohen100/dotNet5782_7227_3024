@@ -15,7 +15,6 @@ namespace IBL
 
             public Location Location;
             public int AvailableChargeSlots { get; set; }
-
             public List<DroneCharge> DroneChargesList;
 
             /// <summary>

@@ -29,35 +29,36 @@ namespace BL
         public Parcel FindParcelByIdBL(int parcelId)
         {
             IDAL.DO.Parcel dalParcel = dalObject.FindParcelById(parcelId);
-            Parcel myParcel = new();
-            IDAL.DO.Customer myCustomer = new();
-            Drone myDrone = new();
+            Parcel blParcel = new();
+           
+            IDAL.DO.Customer blCustomer = new();
+            Drone blDrone = new();
 
-            myParcel.Id = dalParcel.Id;
+            blParcel.Id = dalParcel.Id;
 
-            myParcel.senderCustomer.Id = dalParcel.SenderId;
-            myCustomer = dalObject.FindCustomerById(myParcel.senderCustomer.Id);
-            myParcel.senderCustomer.Name = myCustomer.Name;
+            blParcel.senderCustomer.Id = dalParcel.SenderId;
+            blCustomer = dalObject.FindCustomerById(blParcel.senderCustomer.Id);
+            blParcel.senderCustomer.Name = blCustomer.Name;
 
-            myParcel.receiverCustomer.Id = dalParcel.TargetId;
-            myCustomer = dalObject.FindCustomerById(myParcel.receiverCustomer.Id);
-            myParcel.receiverCustomer.Name = myCustomer.Name;
+            blParcel.receiverCustomer.Id = dalParcel.TargetId;
+            blCustomer = dalObject.FindCustomerById(blParcel.receiverCustomer.Id);
+            blParcel.receiverCustomer.Name = blCustomer.Name;
 
-            myParcel.Weight = (WeightCategories)dalParcel.Weight;
-            myParcel.Priority = (Priorities)dalParcel.Priority;
+            blParcel.Weight = (WeightCategories)dalParcel.Weight;
+            blParcel.Priority = (Priorities)dalParcel.Priority;
 
-            myParcel.Drone.Id = dalParcel.DroneId;
-            myDrone = FindDroneByIdBL(myParcel.Drone.Id);
-            myParcel.Drone.BatteryStatus = myDrone.BatteryStatus;
-            myParcel.Drone.CurrentLocation.Lattitude = myDrone.CurrentLocation.Lattitude;
-            myParcel.Drone.CurrentLocation.Longitude = myDrone.CurrentLocation.Longitude;
+            blParcel.Drone.Id = dalParcel.DroneId;
+            blDrone = FindDroneByIdBL(blParcel.Drone.Id);
+            blParcel.Drone.BatteryStatus = blDrone.BatteryStatus;
+            blParcel.Drone.CurrentLocation.Lattitude = blDrone.CurrentLocation.Lattitude;
+            blParcel.Drone.CurrentLocation.Longitude = blDrone.CurrentLocation.Longitude;
 
-            myParcel.Requested = dalParcel.Requested;
-            myParcel.Scheduled = dalParcel.Scheduled;
-            myParcel.PickedUp = dalParcel.PickedUp;
-            myParcel.Delivered = dalParcel.Delivered;
+            blParcel.Requested = dalParcel.Requested;
+            blParcel.Scheduled = dalParcel.Scheduled;
+            blParcel.PickedUp = dalParcel.PickedUp;
+            blParcel.Delivered = dalParcel.Delivered;
 
-            return myParcel;
+            return blParcel;
         }
     }
 }

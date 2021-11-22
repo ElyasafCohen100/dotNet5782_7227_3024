@@ -9,7 +9,6 @@ namespace ConsoleUI_BL
         static void Main(string[] args)
         {
             Menu();
-            Console.WriteLine("Have a nice day!");
         }
 
         internal static void Menu()
@@ -20,7 +19,7 @@ namespace ConsoleUI_BL
             do
             {
                 // MAIN MENU
-                Console.WriteLine("Please enter your choice:");
+                Console.WriteLine("Enter a choice:");
                 Console.WriteLine("1. Add options");
                 Console.WriteLine("2. Update options");
                 Console.WriteLine("3. View options");
@@ -33,7 +32,7 @@ namespace ConsoleUI_BL
                 switch (choice)
                 {
                     case 1:
-                        Console.WriteLine("Please enter your choice: ");
+                        Console.WriteLine("Enter a choice:");
                         Console.WriteLine("1. Add new base-station");
                         Console.WriteLine("2. Add new Drone");
                         Console.WriteLine("3. Add new customer");
@@ -43,7 +42,7 @@ namespace ConsoleUI_BL
                         AddMenu(subChoice);
                         break;
                     case 2:
-                        Console.WriteLine("\nPlease enter your choice: ");
+                        Console.WriteLine("\nEnter a choice:");
                         Console.WriteLine("1. Update drone model");
                         Console.WriteLine("2. Update base-station detailes");
                         Console.WriteLine("3. Update customer detailes");
@@ -57,13 +56,14 @@ namespace ConsoleUI_BL
                         UpdateMenu(subChoice);
                         break;
                     case 3:
-                        Console.WriteLine("\nPlease enter your choice:");
+                        Console.WriteLine("\nEnter a choice:");
                         Console.WriteLine("1. Base-station view");
                         Console.WriteLine("2. Drone view");
                         Console.WriteLine("3. Customer view");
                         Console.WriteLine("4. Parcel view");
 
                         int.TryParse(Console.ReadLine(), out subChoice);
+                        ViewMenu(subChoice);
                         break;
                     case 4:
                         Console.WriteLine("\nPlease enter your choice:");
@@ -122,13 +122,13 @@ namespace ConsoleUI_BL
                     UpdateCustomerDetailes();
                     break;
                 case 4:
-
+                    UpdateDroneToCharging();
                     break;
                 case 5:
-
+                    UpdateDroneFromCharging();
                     break;
                 case 6:
-
+                    AssociateParcelToDrone();
                     break;
                 case 7:
 
@@ -143,6 +143,25 @@ namespace ConsoleUI_BL
             }
         }
 
+        internal static void ViewMenu(int subChoice)
+        {
+            switch (subChoice)
+            {
+                case 1:
+                    ViewBaseStation();
+                    break;
+                case 2:
+                    ViewDrone();
+                    break;
+                case 3:
+                    ViewCustomer();
+                    break;
+                case 4:
+                    ViewParcel();
+                    break;
+            }
+        }
+
         //-------------------- ADD MENU FUNCTOINS ---------------------//
 
         public static void AddNewBaseStation()
@@ -151,7 +170,7 @@ namespace ConsoleUI_BL
             double doubleTemp;
             Station station = new();
 
-            Console.WriteLine("Enter base-station number:");
+            Console.WriteLine("Enter base-station ID:");
             int.TryParse(Console.ReadLine(), out intTemp);
             station.Id = intTemp;
 
@@ -187,7 +206,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter model of drone:");
             drone.Model = Console.ReadLine();
 
-            Console.WriteLine("Enter max weight: (1 - Light,  2- average,  3- Heavy)");
+            Console.WriteLine("Enter max weight: (1 - Light,  2 - Intermediate,  3 - Heavy)");
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.MaxWeight = (WeightCategories)intTemp;
 
@@ -203,7 +222,7 @@ namespace ConsoleUI_BL
             double doubleTemp;
             Customer customer = new();
 
-            Console.WriteLine("Enter id");
+            Console.WriteLine("Enter ID: ");
             int.TryParse(Console.ReadLine(), out intTemp);
             customer.Id = intTemp;
 
@@ -213,11 +232,11 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter phone number: ");
             customer.Phone = Console.ReadLine();
 
-            Console.WriteLine("Enter your location: ");
+            Console.WriteLine("Enter location: ");
             Console.WriteLine("longtitude: ");
             double.TryParse(Console.ReadLine(), out doubleTemp);
-            customer.location.Longitude = doubleTemp;   
-            
+            customer.location.Longitude = doubleTemp;
+
             Console.WriteLine("Lattitude: ");
             double.TryParse(Console.ReadLine(), out doubleTemp);
             customer.location.Lattitude = doubleTemp;
@@ -230,7 +249,7 @@ namespace ConsoleUI_BL
             int intTemp;
             Parcel parcel = new();
 
-            Console.WriteLine("Enter sender id: ");
+            Console.WriteLine("Enter sender ID: ");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.senderCustomer.Id = intTemp;
 
@@ -238,11 +257,11 @@ namespace ConsoleUI_BL
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.receiverCustomer.Id = intTemp;
 
-            Console.WriteLine("Enter parcel weight category: (1 - Light,  2- average,  3- Heavy)");
+            Console.WriteLine("Enter parcel weight category: (1 - Light,  2 - Intermediate,  3 - Heavy)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Weight = (WeightCategories)intTemp;
 
-            Console.WriteLine("Enter parcel priority:  (1 - fast,  2- regular,  3- Slow)");
+            Console.WriteLine("Enter parcel priority:  (1 - Fast,  2 - Regular,  3 - Slow)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Priority = (Priorities)intTemp;
 
@@ -255,10 +274,10 @@ namespace ConsoleUI_BL
 
         public static void UpdateDroneModelByID()
         {
-            Console.WriteLine("Enter drone ID:");
+            Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            Console.WriteLine("Enter new name:");
+            Console.WriteLine("Enter new name: ");
             string newModel = Console.ReadLine();
 
             BLObject.UpdateDroneModelBL(droneId, newModel);
@@ -266,7 +285,7 @@ namespace ConsoleUI_BL
 
         public static void UpdateBaseStationdetailes()
         {
-            Console.WriteLine("Enter base-station number:");
+            Console.WriteLine("Enter base-station number: ");
             int.TryParse(Console.ReadLine(), out int baseStationId);
 
             Console.WriteLine("Enter detailes to change: \n (if you don't want to change leave empty)\n");
@@ -281,26 +300,101 @@ namespace ConsoleUI_BL
 
         public static void UpdateCustomerDetailes()
         {
-            Console.WriteLine("Enter customer ID:");
+            Console.WriteLine("Enter customer ID: ");
             int.TryParse(Console.ReadLine(), out int coustomerId);
 
             Console.WriteLine("Enter detailes to change: \n (if you don't want to change leave empty)\n");
-            Console.WriteLine("Enter new name:");
+            Console.WriteLine("Enter new name: ");
             string newCustomerName = Console.ReadLine();
 
-            Console.WriteLine("Enter new Phone number:");
+            Console.WriteLine("Enter new Phone number: ");
             string newCustomerPhoneNumber = Console.ReadLine();
-            
+
             BLObject.UpdateCustomerDetailes(coustomerId, newCustomerName, newCustomerPhoneNumber);
         }
 
         public static void UpdateDroneToCharging()
         {
-            Console.WriteLine("Entar drone ID: ");
-            int.TryParse(Console.ReadLine(),out int droneID);
+            Console.WriteLine("Enter drone ID: ");
+            int.TryParse(Console.ReadLine(), out int droneId);
 
-            BLObject.UpdateDroneToChargingBL(droneID);
+            BLObject.UpdateDroneToChargingBL(droneId);
         }
 
+        public static void UpdateDroneFromCharging()
+        {
+            Console.WriteLine("Enter drone ID: ");
+            int.TryParse(Console.ReadLine(), out int droneId);
+
+            Console.WriteLine("Enter time for charging in minutes: ");
+            double.TryParse(Console.ReadLine(), out double chargeTime);
+
+            BLObject.UpdateDroneFromChargingBL(droneId, chargeTime);
+        }
+
+        public static void AssociateParcelToDrone()
+        {
+
+            Console.WriteLine("Enter Drone ID:");
+            int.TryParse(Console.ReadLine(), out int droneId);
+
+            BLObject.UpdateDroneIdOfParcelBL(droneId);
+
+            Console.WriteLine("Drone associated successfully");
+        }
+
+        //--------------------- VIEW MENU FUNCTION ----------------------//
+
+        /// <summary>
+        /// Print BaseStation details.
+        /// </summary>
+        public static void ViewBaseStation()
+        {
+            Console.WriteLine("Enter Base-Station ID: ");
+            int.TryParse(Console.ReadLine(), out int baseStatinId);
+
+            Station myBaseStation = BLObject.FindStationByIdBL(baseStatinId);
+            Console.WriteLine(myBaseStation.ToString());
+        }
+
+        /// <summary>
+        /// Print Drone details.
+        /// </summary>
+        public static void ViewDrone()
+        {
+            Console.WriteLine("Enter drone ID: ");
+            int.TryParse(Console.ReadLine(), out int droneId);
+
+            Drone myDrone = BLObject.FindDroneByIdBL(droneId);
+            Console.WriteLine(myDrone.ToString());
+        }
+
+        /// <summary>
+        /// Print Customer details.
+        /// </summary>
+        public static void ViewCustomer()
+        {
+            Console.WriteLine("Enter customer ID: ");
+            int.TryParse(Console.ReadLine(), out int customerId);
+
+            Customer myCusromer = BLObject.FindCustomerByIdBL(customerId);
+            Console.WriteLine(myCusromer.ToString());
+        }
+
+        /// <summary>
+        /// Print Parcel details.
+        /// </summary>
+        public static void ViewParcel()
+        {
+            Console.WriteLine("Enter parcel ID: ");
+            int.TryParse(Console.ReadLine(), out int parcelId);
+
+            Parcel myParcel = BLObject.FindParcelByIdBL(parcelId);
+            Console.WriteLine(myParcel.ToString());
+        }
+
+        //--------------------- LIST VIEW MENU FUNCTION ----------------------//
+
     }
+
 }

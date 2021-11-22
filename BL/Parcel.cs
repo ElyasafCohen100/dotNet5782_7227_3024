@@ -12,8 +12,8 @@ namespace IBL
         {
             public int Id { get; set; }
 
-            public CustomerInParcel receiverCustomer;
             public CustomerInParcel senderCustomer;
+            public CustomerInParcel receiverCustomer;
             public DroneInParcel Drone { get; set; }
 
             public Priorities Priority;

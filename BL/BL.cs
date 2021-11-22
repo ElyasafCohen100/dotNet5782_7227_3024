@@ -12,12 +12,9 @@ namespace BL
     /// </summary>
     public partial class BL : IBL.IBL
     {
-
-
         //Create instance of dalObject for reference to DAL
         internal static IDAL.IDal dalObject = new DalObject.DalObject();
         List<DroneToList> droneToLists = new();
-
         /// <summary>
         /// c-tor of BL.
         /// Initiate DroneToList list.
@@ -155,7 +152,8 @@ namespace BL
         /// <param name="location">The location information to calculate the distance</param>
         /// <returns>The id of the nearest base-station with at least one available charge-slot</returns>
         int FindNearestBaseStationWithAvailableChargingSlots(Location location)
-        {   
+        {
+            IDAL.IDal dalObject = new DalObject.DalObject();
             double minDistance = double.MaxValue;
             int nearestBaseStationID = 0;
 
@@ -181,7 +179,6 @@ namespace BL
         /// <returns>The minimum needed power suply to go to the target</returns>
         double FindMinPowerSuply(DroneToList drone, int targetId)
         {
-            IDAL.IDal dalObject = new DalObject.DalObject();
             //Step 1: Find the distance between the drone current location and the destination location
             Location location = new();
             location.Lattitude = dalObject.FindCustomerById(targetId).Lattitude;
@@ -228,8 +225,6 @@ namespace BL
         /// <returns>The minimum needed power suply</returns>
         double FindMinPowerSuplyForCharging(DroneToList drone)
         {
-            IDAL.IDal dalObject = new DalObject.DalObject();
-
             //Step 1: Find the nearest base-station with available charge-slot and calcuolate the needed power suply
             int closestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
 
@@ -241,6 +236,46 @@ namespace BL
             double minBatteryValue = distance / dalObject.ElectricityUseRequest()[0];
 
             return minBatteryValue;
+        }
+
+        double FindMinPowerSuplyForDistanceBetweenDroneToTarget(int droneId, int targetId)
+        {
+            DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
+            Customer myCustomer = FindCustomerByIdBL(targetId);
+
+            double myDistantce = dalObject.Distance(myDrone.CurrentLocation.Lattitude, myCustomer.location.Lattitude,
+                myDrone.CurrentLocation.Longitude, myCustomer.location.Longitude);
+
+            double mySuply = 0;
+
+            switch (myDrone.MaxWeight)
+            {
+                case WeightCategories.Heavy:
+                    //Available-0, Light-1, Intermediate-2, Heavy-3, DroneChargingRate-4
+                    mySuply = myDistantce / dalObject.ElectricityUseRequest()[3];
+                    break;
+                case WeightCategories.Average:
+                    mySuply = myDistantce / dalObject.ElectricityUseRequest()[2];
+                    break;
+                case WeightCategories.Light:
+                    mySuply = myDistantce / dalObject.ElectricityUseRequest()[1];
+                    break;
+            }
+
+            return mySuply;
+        }
+
+        internal double FindMinSuplyForAllPath(int droneId, int targetId)
+        {
+            DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
+
+            double minSuply1 = FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, targetId);
+
+            Customer myTarget = FindCustomerByIdBL(targetId);
+            myDrone.CurrentLocation = myTarget.location;
+
+            double minSuply2 = FindMinPowerSuply(myDrone, targetId);
+            return minSuply1 + minSuply2;
         }
     }
 }
