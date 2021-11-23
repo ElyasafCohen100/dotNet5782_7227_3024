@@ -75,6 +75,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("6. Base-stations with available charging slots");
 
                         int.TryParse(Console.ReadLine(), out subChoice);
+                        ViewListMenu(subChoice);
                         break;
                     default:
                         Console.WriteLine("Bad choice, please Enter new choice:");
@@ -107,7 +108,6 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-
         internal static void UpdateMenu(int subChoice)
         {
             switch (subChoice)
@@ -131,10 +131,10 @@ namespace ConsoleUI_BL
                     AssociateParcelToDrone();
                     break;
                 case 7:
-
+                    CollectParcelByDrone();
                     break;
                 case 8:
-
+                    DeliveredParcelToCustomer();
                     break;
                 default:
                     Console.WriteLine("Not valid choice!\n");
@@ -142,7 +142,6 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-
         internal static void ViewMenu(int subChoice)
         {
             switch (subChoice)
@@ -150,14 +149,54 @@ namespace ConsoleUI_BL
                 case 1:
                     ViewBaseStation();
                     break;
+
                 case 2:
-                    ViewDrone();
+                    try
+                    {
+                      ViewDrone();
+                    }
+                    catch(UnvalidInputException)
+                    {
+                        Console.WriteLine("Unvalid Input Exception, Please Try Again.");
+                    }
                     break;
                 case 3:
                     ViewCustomer();
                     break;
                 case 4:
                     ViewParcel();
+                    break;
+                default:
+                    Console.WriteLine("Not valid choice!\n");
+                    Menu();
+                    break;
+            }
+        }
+        internal static void ViewListMenu(int subChoice)
+        {
+            switch (subChoice)
+            {
+                case 1:
+                    ViewBaseStationsList();
+                    break;
+                case 2:
+                    ViewDronesList();
+                    break;
+                case 3:
+                    ViewCustomersList();
+                    break;
+                case 4:
+                    ViewParcelsList();
+                    break;
+                case 5:
+                    ViewNonAssociateParcelsList();
+                    break;
+                case 6:
+                    ViewStationsWithAvailableChargingSlots();
+                    break;
+                default:
+                    Console.WriteLine("Not valid choice!\n");
+                    Menu();
                     break;
             }
         }
@@ -193,7 +232,6 @@ namespace ConsoleUI_BL
 
             BLObject.AddNewStationBL(station);
         }
-
         public static void AddNewDrone()
         {
             int intTemp;
@@ -215,7 +253,6 @@ namespace ConsoleUI_BL
 
             BLObject.AddNewDroneBL(drone, intTemp);
         }
-
         public static void AddNewCostumer()
         {
             int intTemp;
@@ -235,15 +272,14 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter location: ");
             Console.WriteLine("longtitude: ");
             double.TryParse(Console.ReadLine(), out doubleTemp);
-            customer.location.Longitude = doubleTemp;
+            customer.Location.Longitude = doubleTemp;
 
             Console.WriteLine("Lattitude: ");
             double.TryParse(Console.ReadLine(), out doubleTemp);
-            customer.location.Lattitude = doubleTemp;
+            customer.Location.Lattitude = doubleTemp;
 
             BLObject.AddNewCustomerBL(customer);
         }
-
         public static void AddNewParcel()
         {
             int intTemp;
@@ -282,7 +318,6 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateDroneModelBL(droneId, newModel);
         }
-
         public static void UpdateBaseStationdetailes()
         {
             Console.WriteLine("Enter base-station number: ");
@@ -297,7 +332,6 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateBaseStationDetailes(baseStationId, baseStationNewName, baseStationChargeSlots);
         }
-
         public static void UpdateCustomerDetailes()
         {
             Console.WriteLine("Enter customer ID: ");
@@ -312,7 +346,6 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateCustomerDetailes(coustomerId, newCustomerName, newCustomerPhoneNumber);
         }
-
         public static void UpdateDroneToCharging()
         {
             Console.WriteLine("Enter drone ID: ");
@@ -320,7 +353,6 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateDroneToChargingBL(droneId);
         }
-
         public static void UpdateDroneFromCharging()
         {
             Console.WriteLine("Enter drone ID: ");
@@ -331,7 +363,6 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateDroneFromChargingBL(droneId, chargeTime);
         }
-
         public static void AssociateParcelToDrone()
         {
 
@@ -341,6 +372,25 @@ namespace ConsoleUI_BL
             BLObject.UpdateDroneIdOfParcelBL(droneId);
 
             Console.WriteLine("Drone associated successfully");
+        }
+        public static void CollectParcelByDrone()
+        {
+
+            Console.WriteLine("Enter Drone ID: ");
+            int.TryParse(Console.ReadLine(), out int droneId);
+
+            BLObject.UpdatePickedUpParcelByDroneIDBL(droneId);
+
+            Console.WriteLine("Picked up time updated successfully");
+        }
+        public static void DeliveredParcelToCustomer()
+        {
+            Console.WriteLine("Enter Drone ID: ");
+            int.TryParse(Console.ReadLine(), out int droneId);
+
+            BLObject.UpdateDeliveredParcelByDroneIdBL(droneId);
+
+            Console.WriteLine("Delivery time updated successfully");
         }
 
         //--------------------- VIEW MENU FUNCTION ----------------------//
@@ -354,7 +404,9 @@ namespace ConsoleUI_BL
             int.TryParse(Console.ReadLine(), out int baseStatinId);
 
             Station myBaseStation = BLObject.FindStationByIdBL(baseStatinId);
+
             Console.WriteLine(myBaseStation.ToString());
+
         }
 
         /// <summary>
@@ -395,6 +447,65 @@ namespace ConsoleUI_BL
 
         //--------------------- LIST VIEW MENU FUNCTION ----------------------//
 
-    }
+        public static void ViewBaseStationsList()
+        {
+            Console.WriteLine("The stations are:");
 
+            foreach (var station in BLObject.ViewBaseStationsToList())
+            {
+                Console.WriteLine(station.ToString());
+                Console.WriteLine();
+            }
+        }
+        public static void ViewDronesList()
+        {
+            Console.WriteLine("The drones are:");
+
+            foreach (var drone in BLObject.ViewDroneToList())
+            {
+                Console.WriteLine(drone.ToString());
+                Console.WriteLine();
+            }
+        }
+        public static void ViewCustomersList()
+        {
+            Console.WriteLine("The customers are:");
+
+            foreach (var customer in BLObject.ViewCustomerToList())
+            {
+                Console.WriteLine(customer.ToString());
+                Console.WriteLine();
+            }
+        }
+        public static void ViewParcelsList()
+        {
+            Console.WriteLine("The parcels are:");
+
+            foreach (var parcel in BLObject.ViewParcelToList())
+            {
+                Console.WriteLine(parcel.ToString());
+                Console.WriteLine();
+            }
+        }
+        public static void ViewNonAssociateParcelsList()
+        {
+            Console.WriteLine("The non-associate parcels are:");
+
+            foreach (var nonAssociateParcel in BLObject.ViewNonAssociateParcelsListBL())
+            {
+                Console.WriteLine(nonAssociateParcel.ToString());
+                Console.WriteLine();
+            }
+        }
+        public static void ViewStationsWithAvailableChargingSlots()
+        {
+            Console.WriteLine("The stations with available charging slots are:");
+
+            foreach (var station in BLObject.ViewStationsWithAvailableChargingSlotstBL())
+            {
+                Console.WriteLine(station.ToString());
+                Console.WriteLine();
+            }
+        }
+    }
 }

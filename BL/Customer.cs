@@ -15,7 +15,7 @@ namespace IBL
             public string Name { get; set; }
             public string Phone { get; set; }
 
-            public Location location;
+            public Location Location;
             public List<ParcelInCustomer> ParcelFromCustomerList;
             public List<ParcelInCustomer> ParcelToCustomerList;
 
@@ -43,7 +43,7 @@ namespace IBL
                     $"Id: {Id}\n" +
                     $"Name: {Name}\n" +
                     $"Phone: {Phone}\n" +
-                    location.ToString() +
+                    Location.ToString() +
                     $"Parcel From Customer: \n{stringParcelFromCustomerList}\n" +
                     $"Parcel To Customer: \n{stringParcelFromCustomerList}\n";
             }

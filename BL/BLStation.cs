@@ -10,6 +10,12 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
+        //---------------------------------- ADD FUNCTIONS ----------------------------------------//
+
+        /// <summary>
+        /// add new BL station by using DAL 
+        /// </summary>
+        /// <param name="station"> the station </param>
         public void AddNewStationBL(Station station)
         {
             IDAL.DO.Station dalStation = new();
@@ -22,22 +28,13 @@ namespace BL
 
             dalObject.SetNewStation(dalStation);
         }
+        //--------------------------------- FIND FUNCTIONS ---------------------------------------//
 
-        public void UpdateBaseStationDetailes(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
-        {
-            IDAL.DO.Station dalBaseStation = dalObject.FindStationById(baseStationId);
-
-            if (baseStationNewName != "")
-            {
-                dalBaseStation.Name = baseStationNewName;
-            }
-
-            if (baseStationChargeSlots != 0)
-            {
-                dalBaseStation.ChargeSlots = baseStationChargeSlots;
-            }
-        }
-
+        /// <summary>
+        /// find BL station by station ID
+        /// </summary>
+        /// <param name="stationId"></param>
+        /// <returns> the station </returns>
         public Station FindStationByIdBL(int stationId)
         {
             IDAL.DO.Station dalStation = dalObject.FindStationById(stationId);
@@ -69,6 +66,35 @@ namespace BL
             return Station;
         }
 
+        //--------------------------------- UPDATE FUNCTIONS --------------------------------------//
+
+        /// <summary>
+        /// update the dateils of base station
+        /// </summary>
+        /// <param name="baseStationId"> the ID of the bace station </param>
+        /// <param name="baseStationNewName"> the new name of the base station </param>
+        /// <param name="baseStationChargeSlots"> how many chargen slots the base station has </param>
+        public void UpdateBaseStationDetailes(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
+        {
+            IDAL.DO.Station dalBaseStation = dalObject.FindStationById(baseStationId);
+
+            if (baseStationNewName != "")
+            {
+                dalBaseStation.Name = baseStationNewName;
+            }
+
+            if (baseStationChargeSlots != 0)
+            {
+                dalBaseStation.ChargeSlots = baseStationChargeSlots;
+            }
+        }
+
+        //---------------------------------- VIEW FUNCTIONS ---------------------------------------//
+
+        /// <summary>
+        /// view list of BL "StationToList"
+        /// </summary>
+        /// <returns> list of BL "StationToList" </returns>
         public IEnumerable<StationToList> ViewBaseStationsToList()
         {
             List<StationToList> stationToList = new();
@@ -89,6 +115,10 @@ namespace BL
             return stationToList;
         }
 
+        /// <summary>
+        /// view stations with available charging slots 
+        /// </summary>
+        /// <returns> list of stations with available charging slots </returns>
         public IEnumerable<StationToList> ViewStationsWithAvailableChargingSlotstBL()
         {
             List<StationToList> stationList = ViewBaseStationsToList().ToList();

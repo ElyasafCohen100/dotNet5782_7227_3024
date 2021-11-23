@@ -12,11 +12,10 @@ namespace BL
     /// </summary>
     public partial class BL : IBL.IBL
     {
-
-
         //Create instance of dalObject for reference to DAL
         internal static IDAL.IDal dalObject = new DalObject.DalObject();
         List<DroneToList> droneToLists = new();
+
         /// <summary>
         /// c-tor of BL.
         /// Initiate DroneToList list.
@@ -89,6 +88,7 @@ namespace BL
                     int size = List.Count();
                     int index = r.Next(0, size);
 
+                    newDrone.CurrentLocation = new();
                     newDrone.CurrentLocation.Lattitude = List[index].Lattitude;
                     newDrone.CurrentLocation.Longitude = List[index].Longitude;
 
@@ -118,6 +118,8 @@ namespace BL
                 droneToLists.Add(newDrone);
             }
         }
+
+        //----------------------------------- FIND FUNCTIONS --------------------------------------------//
 
         /// <summary>
         /// Find the nearest base-station to the customer by customer id
@@ -240,13 +242,19 @@ namespace BL
             return minBatteryValue;
         }
 
+        /// <summary>
+        /// get the minimun power of battery for distance between the drone and the dastination
+        /// </summary>
+        /// <param name="droneId"> ID of drone </param>
+        /// <param name="targetId"> ID of the client </param>
+        /// <returns> return the minimun power of battery for distance between the drone and the dastination </returns>
         double FindMinPowerSuplyForDistanceBetweenDroneToTarget(int droneId, int targetId)
         {
             DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
             Customer myCustomer = FindCustomerByIdBL(targetId);
 
-            double myDistantce = dalObject.Distance(myDrone.CurrentLocation.Lattitude, myCustomer.location.Lattitude,
-                myDrone.CurrentLocation.Longitude, myCustomer.location.Longitude);
+            double myDistantce = dalObject.Distance(myDrone.CurrentLocation.Lattitude, myCustomer.Location.Lattitude,
+                myDrone.CurrentLocation.Longitude, myCustomer.Location.Longitude);
 
             double mySuply = 0;
 
@@ -267,6 +275,12 @@ namespace BL
             return mySuply;
         }
 
+        /// <summary>
+        /// get the minimun power of battery for all the jurney of the drone
+        /// </summary>
+        /// <param name="droneId"> ID of drone </param>
+        /// <param name="targetId"> ID of the client </param>
+        /// <returns> return the minimun power of battery for all the jurney of the drone </returns>
         double FindMinSuplyForAllPath(int droneId, int targetId)
         {
             DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
@@ -274,7 +288,7 @@ namespace BL
             double minSuply1 = FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, targetId);
 
             Customer myTarget = FindCustomerByIdBL(targetId);
-            myDrone.CurrentLocation = myTarget.location;
+            myDrone.CurrentLocation = myTarget.Location;
 
             double minSuply2 = FindMinPowerSuply(myDrone, targetId);
             return minSuply1 + minSuply2;

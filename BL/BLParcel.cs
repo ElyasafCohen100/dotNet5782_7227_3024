@@ -9,6 +9,12 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
+        //---------------------------------- ADD FUNCTIONS ----------------------------------------//
+
+        /// <summary>
+        /// add new BL parcel to the DATA SOURSCE by DAL
+        /// </summary>
+        /// <param name="parcel"> the new parcel</param>
         public void AddNewParcelBL(Parcel parcel)
         {
             IDAL.DO.Parcel newParcel = new();
@@ -26,6 +32,13 @@ namespace BL
             dalObject.SetNewParcel(newParcel);
         }
 
+        //--------------------------------- FIND FUNCTIONS ---------------------------------------//
+
+        /// <summary>
+        /// get the parcel from DAL by parcel ID 
+        /// </summary>
+        /// <param name="parcelId">id of parcel </param>
+        /// <returns> BL parcel </returns>
         public Parcel FindParcelByIdBL(int parcelId)
         {
             IDAL.DO.Parcel dalParcel = dalObject.FindParcelById(parcelId);
@@ -64,6 +77,12 @@ namespace BL
             return Parcel;
         }
 
+        //---------------------------------- VIEW FUNCTIONS ---------------------------------------//
+
+        /// <summary>
+        /// view list of parcelTOLIst detailes
+        /// </summary>
+        /// <returns>list of parcelTOLIst detailes</returns>
         public IEnumerable<ParcelToList> ViewParcelToList()
         {
             List<ParcelToList> ParcelList = new();
@@ -107,6 +126,10 @@ namespace BL
             return ParcelList;
         }
 
+        /// <summary>
+        /// view list of nonassociate ParcelsList 
+        /// </summary>
+        /// <returns> list of nonassociate ParcelsList </returns>
         public IEnumerable<ParcelToList> ViewNonAssociateParcelsListBL()
         {
             List<ParcelToList> ParcelToList = new();

@@ -9,8 +9,13 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
-        //-------------------Add Functions-----------------//
-        
+        //---------------------------------- ADD FUNCTIONS ----------------------------------------//
+
+        /// <summary>
+        /// add new BLdrone to the list in the DATA SOURCE
+        /// </summary>
+        /// <param name="drone"> drone </param>
+        /// <param name="baseStationID"> ID of bace station </param>
         public void AddNewDroneBL(Drone drone, int baseStationID)
         {
             Random r = new();
@@ -30,15 +35,16 @@ namespace BL
             dalObject.SetNewDrone(newDrone);
         }
 
+        //--------------------------------- FIND FUNCTIONS ---------------------------------------//
 
-        //-------------------Find Functions-----------------//
-        
+        /// <summary>
+        /// find BL drone by droneID
+        /// </summary>
+        /// <param name="droneId">the ID of drone</param>
+        /// <returns> BL drone </returns>
         public Drone FindDroneByIdBL(int droneId)
         {
-            //var drone = from Item in droneToLists 
-            //            where Item.Id == droneId 
-            //            select Item;
-
+           
             DroneToList drone = droneToLists.Find(x => x.Id == droneId);
 
             Drone myDrone = new();
@@ -61,9 +67,13 @@ namespace BL
             }
         }
 
+        //---------------------------------- SET FUNCTIONS ---------------------------------------//
 
-        //-------------------Set Functions-----------------//
-       
+        /// <summary>
+        /// set the detailes of the fild "parcel in dalivety" of drone
+        /// </summary>
+        /// <param name="parcelId"> the ID of parcel </param>
+        /// <returns> the parcel type of "parcel in delivery" </returns>
         internal ParcelInDelivery SetParcelInDelivery(int parcelId)
         {
             ParcelInDelivery parcelInDalivery = new();
@@ -92,14 +102,16 @@ namespace BL
             return parcelInDalivery;
         }
 
+        //--------------------------------- UPDATE FUNCTIONS --------------------------------------//
 
-        //-------------------Update Functions-----------------//
-        
+        /// <summary>
+        /// update the status of BL drone to available and decrease the battery of drone
+        /// </summary>
+        /// <param name="droneId"></param>
         public void UpdateDroneToChargingBL(int droneId)
         {
             var drone = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Available);
             double minBatteryForCharging = FindMinPowerSuplyForCharging(drone);
-
 
             if (drone.BatteryStatus < minBatteryForCharging)
             {
@@ -111,21 +123,24 @@ namespace BL
                 int nearestBaseStationID;
                 Station myStation = new();
 
-
                 drone.BatteryStatus = drone.BatteryStatus - minBatteryForCharging;
 
                 nearestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
-
                 myStation = FindStationByIdBL(nearestBaseStationID);
 
                 drone.CurrentLocation = myStation.Location;
-
                 drone.DroneStatus = DroneStatuses.Maintenance;
 
                 //---------Station + DroneCharge-------//
                 dalObject.UpdateDroneToCharging(drone.Id, myStation.Id);
             }
         }
+
+        /// <summary>
+        /// update the ID and the model of the BL drone by using DAL
+        /// </summary>
+        /// <param name="droneId"> ID of drone </param>
+        /// <param name="newModel"> The model we are changing to </param>
         public void UpdateDroneModelBL(int droneId, string newModel)
         {
             IDAL.DO.Drone drone = new();
@@ -133,6 +148,12 @@ namespace BL
             drone = dalObject.FindDroneById(droneId);
             drone.Model = newModel;
         }
+
+        /// <summary>
+        /// update the status of drone to available and increase the battery of drone
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <param name="chargeTime"></param>
         public void UpdateDroneFromChargingBL(int droneId, double chargeTime)
         {
             Drone myDrone = FindDroneByIdBL(droneId);
@@ -148,6 +169,11 @@ namespace BL
             }
 
         }
+
+        /// <summary>
+        /// update drone ID of parcel
+        /// </summary>
+        /// <param name="droneId"> the ID of drone </param>
         public void UpdateDroneIdOfParcelBL(int droneId)
         {
             Drone myDrone = FindDroneByIdBL(droneId);
@@ -171,9 +197,9 @@ namespace BL
                     {
                         customerOfParcel = FindCustomerByIdBL(parcel.SenderId);
                         double disFromParcelSenderToMyDrone = dalObject.Distance(myDrone.CurrentLocation.Lattitude,
-                        customerOfParcel.location.Lattitude,
+                        customerOfParcel.Location.Lattitude,
                         myDrone.CurrentLocation.Longitude,
-                        customerOfParcel.location.Longitude);
+                        customerOfParcel.Location.Longitude);
 
                         if (myDrone.BatteryStatus >= FindMinSuplyForAllPath(myDrone.Id, customerOfParcel.Id))
                         {
@@ -204,6 +230,11 @@ namespace BL
                 }
             }
         }
+
+        /// <summary>
+        /// update the parcel status to picked up by the drone
+        /// </summary>
+        /// <param name="droneId"> the ID of the drone </param>
         public void UpdatePickedUpParcelByDroneIDBL(int droneId)
         {
             Drone myDrone = FindDroneByIdBL(droneId);
@@ -214,7 +245,7 @@ namespace BL
                 myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
 
                 Customer myCostomer = FindCustomerByIdBL(myDrone.ParcelInDelivery.senderCustomer.Id);
-                myDrone.CurrentLocation = myCostomer.location;
+                myDrone.CurrentLocation = myCostomer.Location;
 
                 myParcel.PickedUp = DateTime.Now;
             }
@@ -223,6 +254,11 @@ namespace BL
                 //TODO throw an exepion.
             }
         }
+
+        /// <summary>
+        /// update the parcel status to delivered by the drone 
+        /// </summary>
+        /// <param name="droneId">the ID of drone </param>
         public void UpdateDeliveredParcelByDroneIdBL(int droneId)
         {
             Drone myDrone = FindDroneByIdBL(droneId);
@@ -233,7 +269,7 @@ namespace BL
                 myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
 
                 Customer myCostomer = FindCustomerByIdBL(myDrone.ParcelInDelivery.senderCustomer.Id);
-                myDrone.CurrentLocation = myCostomer.location;
+                myDrone.CurrentLocation = myCostomer.Location;
 
                 myDrone.DroneStatus = DroneStatuses.Available;
 
@@ -244,10 +280,13 @@ namespace BL
                 //TODO throw an exepion.
             }
         }
-       
 
-        //-------------------view Functions-----------------//
-
+        //---------------------------------- VIEW FUNCTIONS ---------------------------------------//
+        
+        /// <summary>
+        /// view list of droneToList
+        /// </summary>
+        /// <returns> the list of droneToList </returns>
         public IEnumerable<DroneToList> ViewDroneToList()
         {
             return droneToLists;

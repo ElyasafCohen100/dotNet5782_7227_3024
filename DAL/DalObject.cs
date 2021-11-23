@@ -17,6 +17,10 @@ namespace DalObject
             DataSource.Initialize();
         }
 
+        /// <summary>
+        /// request of eletricity use by drone
+        /// </summary>
+        /// <returns> return array with electricity use request </returns>
         public double[] ElectricityUseRequest()
         {
             return new double[5] { DataSource.Config.Available,

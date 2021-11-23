@@ -97,6 +97,12 @@ namespace DalObject
         {
             return DataSource.Drones;
         }
+
+        /// <summary>
+        /// get the drone charge list by given staionID
+        /// </summary>
+        /// <param name="stationId"> ID of station </param>
+        /// <returns> drone charge list  </returns>
         public IEnumerable<DroneCharge> GetDroneChargeListByStationId(int stationId)
         {
             return DataSource.DroneCharges.FindAll(x => x.StationId == stationId);
