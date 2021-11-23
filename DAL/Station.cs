@@ -16,7 +16,7 @@ namespace IDAL
             public int Id { get; set; }
             public string Name { get; set; }
             public double Longitude { get; set; }
-            public double Lattitude { get; set; }
+            public double Latitude { get; set; }
             public int ChargeSlots { get; set; }
 
             /// <summary>
@@ -29,7 +29,7 @@ namespace IDAL
                        $"Id: {Id}, " +
                        $"Name: {Name}, " +
                        $"Longitude: {DalObject.DalObject.SexagesimalPresentation(Longitude)}, " +
-                       $"Lattitude: {DalObject.DalObject.SexagesimalPresentation(Lattitude)}," +
+                       $"Lattitude: {DalObject.DalObject.SexagesimalPresentation(Latitude)}," +
                        $"ChargeSlots: {ChargeSlots}";
             }
         }

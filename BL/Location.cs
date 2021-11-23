@@ -11,7 +11,7 @@ namespace IBL
         public class Location
         {
             public double Longitude { get; set; }
-            public double Lattitude { get; set; }
+            public double Latitude { get; set; }
 
             /// <summary>
             /// Return describe of Station struct string
@@ -21,7 +21,7 @@ namespace IBL
             {
                 return $"Location: " +
                        $"Longitude: {DalObject.DalObject.SexagesimalPresentation(Longitude)}, " +
-                       $"Lattitude: {DalObject.DalObject.SexagesimalPresentation(Lattitude)}";
+                       $"Lattitude: {DalObject.DalObject.SexagesimalPresentation(Latitude)}";
             }
         }
     }

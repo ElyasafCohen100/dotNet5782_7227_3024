@@ -19,7 +19,7 @@ namespace IBL
 
             public int DeliveryParcelId { get; set; }
 
-            public Location CurrentLocation;
+            public Location CurrentLocation = new();
 
             /// <summary>
             /// Return describe of Drone struct string

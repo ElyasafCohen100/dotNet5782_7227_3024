@@ -18,7 +18,9 @@ namespace DalObject
         /// <returns> Parcel </returns>
         public Parcel FindParcelById(int parcelId)
         {
-            return DataSource.Parcels.Find(x => x.Id == parcelId);
+            Parcel parcel = DataSource.Parcels.Find(x => x.Id == parcelId);
+            if (parcel.Id != parcelId) throw new RequiredObjectIsNotFoundException();
+            return parcel;
         }
 
         //------------------------- SETTERS ---------------------------//
@@ -41,10 +43,8 @@ namespace DalObject
         /// <param name="parcelId"> Id of Parcel </param>
         public void UpdatePickedUpParcelById(int parcelId)
         {
-            DateTime currentDate = DateTime.Now;
             Parcel myParcel = FindParcelById(parcelId);
-
-            myParcel.PickedUp = currentDate;
+            myParcel.PickedUp = DateTime.Now;
         }
 
         /// <summary>
@@ -53,10 +53,8 @@ namespace DalObject
         /// <param name="parcelId">Id of Parcel</param>
         public void UpdateDeliveredParcelById(int parcelId)
         {
-            DateTime currentDate = DateTime.Now;
             Parcel myParcel = FindParcelById(parcelId);
-
-            myParcel.Delivered = currentDate;
+            myParcel.Delivered = DateTime.Now;
         }
 
 
@@ -77,14 +75,7 @@ namespace DalObject
         /// <returns> List of non associate Parcels </returns>
         public IEnumerable<Parcel> GetNonAssociateParcelList()
         {
-            List<Parcel> MyParcels = new List<Parcel>();
-
-            foreach (var parcel in DataSource.Parcels)
-            {
-                if (parcel.DroneId == 0)
-                    MyParcels.Add(parcel);
-            }
-            return MyParcels;
+           return DataSource.Parcels.FindAll(x => x.DroneId == 0);
         }
 
         /// <summary>
@@ -93,13 +84,7 @@ namespace DalObject
         /// <returns> List of Stations with available charging slot </returns>
         public IEnumerable<Station> GetStationsWithAvailableChargingSlots()
         {
-            List<Station> MyStations = new List<Station>();
-            foreach (var station in DataSource.Stations)
-            {
-                if (station.ChargeSlots > 0)
-                    MyStations.Add(station);
-            }
-            return MyStations;
+            return DataSource.Stations.FindAll(x => x.ChargeSlots > 0);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace BL
             Customer.Id = dalCustomer.Id;
             Customer.Name = dalCustomer.Name;
             Customer.Phone = dalCustomer.Phone;
-            Customer.Location.Lattitude = dalCustomer.Lattitude;
+            Customer.Location.Latitude = dalCustomer.Lattitude;
             Customer.Location.Longitude = dalCustomer.Longitude;
 
 
@@ -73,7 +73,7 @@ namespace BL
             dalCustomer.Name = customer.Name;
             dalCustomer.Phone = customer.Phone;
             dalCustomer.Longitude = customer.Location.Longitude;
-            dalCustomer.Lattitude = customer.Location.Lattitude;
+            dalCustomer.Lattitude = customer.Location.Latitude;
 
             dalObject.SetNewCustomer(dalCustomer);
         }

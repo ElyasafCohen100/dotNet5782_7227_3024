@@ -56,11 +56,11 @@ namespace BL
                         {
                             int baseStationId = FindNearestBaseStationByCustomerId(parcel.SenderId);
 
-                            double baseStationLatitude = dalObject.FindStationById(baseStationId).Lattitude;
+                            double baseStationLatitude = dalObject.FindStationById(baseStationId).Latitude;
                             double baseStationLongitude = dalObject.FindStationById(baseStationId).Longitude;
 
                             // Update the location coordinates of the droneToList same as the closest base station to the sender location
-                            newDrone.CurrentLocation.Lattitude = baseStationLatitude;
+                            newDrone.CurrentLocation.Latitude = baseStationLatitude;
                             newDrone.CurrentLocation.Longitude = baseStationLongitude;
                         }
                         else
@@ -69,7 +69,7 @@ namespace BL
                             double senderLongitude = dalObject.FindCustomerById(parcel.SenderId).Longitude;
 
                             // Update the location coordinates of the droneToList same as the sender location
-                            newDrone.CurrentLocation.Lattitude = senderLatitude;
+                            newDrone.CurrentLocation.Latitude = senderLatitude;
                             newDrone.CurrentLocation.Longitude = senderLongitude;
                         }
 
@@ -89,7 +89,7 @@ namespace BL
                     int index = r.Next(0, size);
 
                     newDrone.CurrentLocation = new();
-                    newDrone.CurrentLocation.Lattitude = List[index].Lattitude;
+                    newDrone.CurrentLocation.Latitude = List[index].Latitude;
                     newDrone.CurrentLocation.Longitude = List[index].Longitude;
 
                     newDrone.BatteryStatus = r.Next(0, 21);
@@ -107,14 +107,39 @@ namespace BL
                     }
 
                     int size = CustomerIdList.Count();
-                    int index = r.Next(0, size);
-                    int targetId = CustomerIdList[index];
-                    IDAL.DO.Customer target = dalObject.FindCustomerById(targetId);
-                    newDrone.CurrentLocation.Lattitude = target.Lattitude;
-                    newDrone.CurrentLocation.Longitude = target.Longitude;
+                    if (size > 0)
+                    {
+                        int index = r.Next(0, size);
+                        int targetId = CustomerIdList[index];
+                        IDAL.DO.Customer target = dalObject.FindCustomerById(targetId);
+                        newDrone.CurrentLocation.Latitude = target.Lattitude;
+                        newDrone.CurrentLocation.Longitude = target.Longitude;
 
-                    newDrone.BatteryStatus = FindMinPowerSuplyForCharging(newDrone);
+                        newDrone.BatteryStatus = FindMinPowerSuplyForCharging(newDrone);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            StationToList baseStation = ViewStationsWithAvailableChargingSlotstBL().First();
+                            IDAL.DO.Station newStation = dalObject.FindStationById(baseStation.Id);
+
+                            newDrone.CurrentLocation.Longitude = newStation.Longitude;
+                            newDrone.CurrentLocation.Latitude = newStation.Latitude;
+                            newDrone.BatteryStatus = 100;
+
+                            baseStation.AvailableChargeSlots--;
+                            baseStation.NotAvailableChargeSlots++;
+
+                            dalObject.UpdateDroneToCharging(newDrone.Id, baseStation.Id);
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            throw new NoBaseStationToAssociateDroneToException();
+                        }
+                    }
                 }
+
                 droneToLists.Add(newDrone);
             }
         }
@@ -139,7 +164,7 @@ namespace BL
             foreach (var baseStation in dalObject.GetBaseStationList())
             {
                 // calculate the distance between the sender and the current base 
-                double distance = dalObject.Distance(baseStation.Lattitude, customerLatitude, baseStation.Longitude, customerLongitude);
+                double distance = dalObject.Distance(baseStation.Latitude, customerLatitude, baseStation.Longitude, customerLongitude);
 
                 if (distance < minDistance)
                 {
@@ -163,7 +188,7 @@ namespace BL
 
             foreach (var myBaseStation in dalObject.GetStationsWithAvailableChargingSlots())
             {
-                double distance = dalObject.Distance(myBaseStation.Lattitude, location.Lattitude, myBaseStation.Longitude, location.Longitude);
+                double distance = dalObject.Distance(myBaseStation.Latitude, location.Latitude, myBaseStation.Longitude, location.Longitude);
 
                 if (distance < minDistance)
                 {
@@ -185,9 +210,9 @@ namespace BL
         {
             //Step 1: Find the distance between the drone current location and the destination location
             Location location = new();
-            location.Lattitude = dalObject.FindCustomerById(targetId).Lattitude;
+            location.Latitude = dalObject.FindCustomerById(targetId).Lattitude;
             location.Longitude = dalObject.FindCustomerById(targetId).Longitude;
-            double distance1 = dalObject.Distance(drone.CurrentLocation.Lattitude, location.Lattitude, drone.CurrentLocation.Longitude, location.Longitude);
+            double distance1 = dalObject.Distance(drone.CurrentLocation.Latitude, location.Latitude, drone.CurrentLocation.Longitude, location.Longitude);
 
             //Step 2: Find the minimal needed power suply to go to the destination
             double suply1 = 0;
@@ -209,9 +234,9 @@ namespace BL
             //        and calculate the distance between the cutomer and the base-station
             int closestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(location);
 
-            double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Lattitude;
+            double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Latitude;
             double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationID).Longitude;
-            double distance2 = dalObject.Distance(location.Lattitude, nearestBaseStationLatitude, location.Longitude, nearestBaseStationLongitude);
+            double distance2 = dalObject.Distance(location.Latitude, nearestBaseStationLatitude, location.Longitude, nearestBaseStationLongitude);
 
             //Step 4: Find the minimal needed power suply to go to the destination
             double suply2 = distance2 / dalObject.ElectricityUseRequest()[0];
@@ -232,9 +257,9 @@ namespace BL
             //Step 1: Find the nearest base-station with available charge-slot and calcuolate the needed power suply
             int closestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
 
-            double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Lattitude;
+            double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Latitude;
             double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationID).Longitude;
-            double distance = dalObject.Distance(drone.CurrentLocation.Lattitude, nearestBaseStationLatitude, drone.CurrentLocation.Longitude, nearestBaseStationLongitude);
+            double distance = dalObject.Distance(drone.CurrentLocation.Latitude, nearestBaseStationLatitude, drone.CurrentLocation.Longitude, nearestBaseStationLongitude);
 
             //Step 2: Find the minimal needed power suply to go to the destination
             double minBatteryValue = distance / dalObject.ElectricityUseRequest()[0];
@@ -253,7 +278,7 @@ namespace BL
             DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
             Customer myCustomer = FindCustomerByIdBL(targetId);
 
-            double myDistantce = dalObject.Distance(myDrone.CurrentLocation.Lattitude, myCustomer.Location.Lattitude,
+            double myDistantce = dalObject.Distance(myDrone.CurrentLocation.Latitude, myCustomer.Location.Latitude,
                 myDrone.CurrentLocation.Longitude, myCustomer.Location.Longitude);
 
             double mySuply = 0;

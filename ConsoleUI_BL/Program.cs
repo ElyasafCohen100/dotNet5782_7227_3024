@@ -7,7 +7,7 @@ namespace ConsoleUI_BL
     {
         internal static IBL.IBL BLObject = new BL.BL();
         static void Main(string[] args)
-        {
+        {       
             Menu();
         }
 
@@ -155,11 +155,16 @@ namespace ConsoleUI_BL
                     {
                       ViewDrone();
                     }
-                    catch(UnvalidInputException)
+                    catch(System.FormatException)
                     {
-                        Console.WriteLine("Unvalid Input Exception, Please Try Again.");
+                        Console.WriteLine("invalid Input Of Drone Id Exception, Please Try Again.");
+                    }
+                    catch (System.ArgumentNullException)
+                    {
+                        Console.WriteLine("please enter valid ID ");
                     }
                     break;
+
                 case 3:
                     ViewCustomer();
                     break;
@@ -222,7 +227,7 @@ namespace ConsoleUI_BL
 
             Console.WriteLine("Enter the latitude:");
             double.TryParse(Console.ReadLine(), out doubleTemp);
-            station.Location.Lattitude = doubleTemp;
+            station.Location.Latitude = doubleTemp;
 
             Console.WriteLine("Enter number of charging station:");
             int.TryParse(Console.ReadLine(), out intTemp);
@@ -276,7 +281,7 @@ namespace ConsoleUI_BL
 
             Console.WriteLine("Lattitude: ");
             double.TryParse(Console.ReadLine(), out doubleTemp);
-            customer.Location.Lattitude = doubleTemp;
+            customer.Location.Latitude = doubleTemp;
 
             BLObject.AddNewCustomerBL(customer);
         }
@@ -415,10 +420,16 @@ namespace ConsoleUI_BL
         public static void ViewDrone()
         {
             Console.WriteLine("Enter drone ID: ");
-            int.TryParse(Console.ReadLine(), out int droneId);
-
-            Drone myDrone = BLObject.FindDroneByIdBL(droneId);
-            Console.WriteLine(myDrone.ToString());
+            try
+            {
+                int.TryParse(Console.ReadLine(), out int droneId);
+                Drone myDrone = BLObject.FindDroneByIdBL(droneId);
+                Console.WriteLine(myDrone.ToString());
+            }
+            catch (System.FormatException)
+            {
+                Console.WriteLine("please enter a valid integer for drone ID ");
+            }
         }
 
         /// <summary>

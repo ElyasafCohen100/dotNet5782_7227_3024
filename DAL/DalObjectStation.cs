@@ -18,9 +18,11 @@ namespace DalObject
         /// <returns>Station object</returns>
         public Station FindStationById(int stationId)
         {
-            return DataSource.Stations.Find(x => x.Id == stationId);
+            Station station  = DataSource.Stations.Find(x => x.Id == stationId);
+            if (station.Id != stationId) throw new IDAL.DO.RequiredObjectIsNotFoundException();
+            return station;
         }
-
+        
         //------------------------- SETTERS --------------------------//
 
         /// <summary>

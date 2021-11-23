@@ -238,7 +238,7 @@ namespace ConsoleUI
 
             Console.WriteLine("Enter the latitude:");
             double.TryParse(Console.ReadLine(), out doubleTemp);
-            station.Lattitude = doubleTemp;
+            station.Latitude = doubleTemp;
 
             dalObject.SetNewStation(station);
 

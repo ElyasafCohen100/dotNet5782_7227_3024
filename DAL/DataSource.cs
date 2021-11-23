@@ -21,11 +21,11 @@ namespace DalObject
         /// </summary>
         internal class Config
         {
-            internal static double Light;
-            internal static double Average;
-            internal static double Heavy;
-            internal static double Available;
-            internal static double DroneChargingRate;
+            internal static double Light = 1;
+            internal static double Average= 1.5;
+            internal static double Heavy = 2;
+            internal static double Available = 0.5;
+            internal static double DroneChargingRate = 5;
 
             internal static int SerialNumber = 0;
             internal static readonly Random randomNumber = new();
@@ -44,8 +44,8 @@ namespace DalObject
                 myStation.Id = Config.randomNumber.Next(1000, 10000);
                 myStation.Name = "Station" + i;
                 myStation.Longitude = 35 + Config.randomNumber.NextDouble();
-                myStation.Lattitude = 31 + Config.randomNumber.NextDouble();
-                myStation.ChargeSlots = Config.randomNumber.Next(0, 2);
+                myStation.Latitude = 31 + Config.randomNumber.NextDouble();
+                myStation.ChargeSlots = Config.randomNumber.Next(1, 2);
 
                 Stations.Add(myStation);
             }
@@ -89,22 +89,18 @@ namespace DalObject
 
                 Config.SerialNumber++;
 
-                /**
-                 * TODO: to figure out if those line nedded
-                 * 
-                 * Parcels[0].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 10));
-                 * Parcels[0].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 30));
-                 * Parcels[0].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(20, 40));
-                 * Parcels[0].DroneId = Drones[0].Id;
-                 * 
-                 * Parcels[1].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 5));
-                 * Parcels[1].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 20));
-                 * Parcels[1].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(10, 28));
-                 * Parcels[1].DroneId = Drones[3].Id;
-                 * 
-                 * Parcels[2].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(5, 7));
-                 * Parcels[2].DroneId = Drones[2].Id;
-                 * */
+                //Parcels[0].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 10));
+                //Parcels[0].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 30));
+                //Parcels[0].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(20, 40));
+                //Parcels[0].DroneId = Drones[0].Id;
+
+                //Parcels[1].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(2, 5));
+                //Parcels[1].PickedUp = Config.currentDate.AddMinutes(Config.randomNumber.Next(15, 20));
+                //Parcels[1].Delivered = Config.currentDate.AddMinutes(Config.randomNumber.Next(10, 28));
+                //Parcels[1].DroneId = Drones[3].Id;
+
+                //Parcels[2].Scheduled = Config.currentDate.AddMinutes(Config.randomNumber.Next(5, 7));
+                //Parcels[2].DroneId = Drones[2].Id;
             }
         }
     }

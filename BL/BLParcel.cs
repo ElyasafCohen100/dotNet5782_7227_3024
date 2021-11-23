@@ -65,7 +65,7 @@ namespace BL
                 Parcel.Drone.Id = dalParcel.DroneId;
                 Drone = FindDroneByIdBL(Parcel.Drone.Id);
                 Parcel.Drone.BatteryStatus = Drone.BatteryStatus;
-                Parcel.Drone.CurrentLocation.Lattitude = Drone.CurrentLocation.Lattitude;
+                Parcel.Drone.CurrentLocation.Latitude = Drone.CurrentLocation.Latitude;
                 Parcel.Drone.CurrentLocation.Longitude = Drone.CurrentLocation.Longitude;
             }
 

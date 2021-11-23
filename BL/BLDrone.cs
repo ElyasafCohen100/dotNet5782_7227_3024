@@ -29,7 +29,7 @@ namespace BL
             drone.BatteryStatus = r.Next(20, 41);
 
             IDAL.DO.Station myStaion = dalObject.FindStationById(baseStationID);
-            drone.CurrentLocation.Lattitude = myStaion.Lattitude;
+            drone.CurrentLocation.Latitude = myStaion.Latitude;
             drone.CurrentLocation.Longitude = myStaion.Longitude;
 
             dalObject.SetNewDrone(newDrone);
@@ -42,10 +42,11 @@ namespace BL
         /// </summary>
         /// <param name="droneId">the ID of drone</param>
         /// <returns> BL drone </returns>
+        /// <exception cref="IBL.BO.NoBaseStationToAssociateDroneToException"> the exception of the function</exception>
         public Drone FindDroneByIdBL(int droneId)
         {
-           
             DroneToList drone = droneToLists.Find(x => x.Id == droneId);
+            if (drone == null) throw new System.ArgumentNullException();
 
             Drone myDrone = new();
             myDrone.Id = drone.Id;
@@ -93,10 +94,10 @@ namespace BL
             parcelInDalivery.senderCustomer.Id = sender.Id;
             parcelInDalivery.senderCustomer.Name = sender.Name;
 
-            parcelInDalivery.SourceLocation.Lattitude = sender.Lattitude;
+            parcelInDalivery.SourceLocation.Latitude = sender.Lattitude;
             parcelInDalivery.SourceLocation.Longitude = sender.Longitude;
 
-            parcelInDalivery.TargetLocation.Lattitude = target.Lattitude;
+            parcelInDalivery.TargetLocation.Latitude = target.Lattitude;
             parcelInDalivery.TargetLocation.Longitude = target.Longitude;
 
             return parcelInDalivery;
@@ -107,7 +108,7 @@ namespace BL
         /// <summary>
         /// update the status of BL drone to available and decrease the battery of drone
         /// </summary>
-        /// <param name="droneId"></param>
+        /// <param name="droneId"> the ID of the drone </param>
         public void UpdateDroneToChargingBL(int droneId)
         {
             var drone = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Available);
@@ -131,7 +132,7 @@ namespace BL
                 drone.CurrentLocation = myStation.Location;
                 drone.DroneStatus = DroneStatuses.Maintenance;
 
-                //---------Station + DroneCharge-------//
+                //--------- Station + DroneCharge -------//
                 dalObject.UpdateDroneToCharging(drone.Id, myStation.Id);
             }
         }
@@ -196,8 +197,8 @@ namespace BL
                     if ((int)myDrone.MaxWeight <= (int)parcel.Weight)
                     {
                         customerOfParcel = FindCustomerByIdBL(parcel.SenderId);
-                        double disFromParcelSenderToMyDrone = dalObject.Distance(myDrone.CurrentLocation.Lattitude,
-                        customerOfParcel.Location.Lattitude,
+                        double disFromParcelSenderToMyDrone = dalObject.Distance(myDrone.CurrentLocation.Latitude,
+                        customerOfParcel.Location.Latitude,
                         myDrone.CurrentLocation.Longitude,
                         customerOfParcel.Location.Longitude);
 

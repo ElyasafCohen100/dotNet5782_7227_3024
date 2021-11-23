@@ -22,7 +22,7 @@ namespace BL
 
             dalStation.Id = station.Id;
             dalStation.Name = station.Name;
-            dalStation.Lattitude = station.Location.Lattitude;
+            dalStation.Latitude = station.Location.Latitude;
             dalStation.Longitude = station.Location.Longitude;
             dalStation.ChargeSlots = station.AvailableChargeSlots;
 
@@ -44,7 +44,7 @@ namespace BL
             Station.Id = dalStation.Id;
             Station.Name = dalStation.Name;
             Station.Location.Longitude = dalStation.Longitude;
-            Station.Location.Longitude = dalStation.Lattitude;
+            Station.Location.Longitude = dalStation.Latitude;
 
 
             foreach (var droneCharge in dalObject.GetDroneChargeListByStationId(stationId))

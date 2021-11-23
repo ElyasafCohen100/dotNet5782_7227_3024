@@ -17,7 +17,9 @@ namespace DalObject
         /// <returns> Customer object </returns>
         public Customer FindCustomerById(int customerId)
         {
-            return DataSource.Customers.Find(x=>x.Id == customerId);
+            Customer customer = DataSource.Customers.Find(x => x.Id == customerId);
+            if (customer.Id != customerId) throw new IDAL.DO.RequiredObjectIsNotFoundException();
+            return customer;
         }
 
         //-------------------------- SETTERS --------------------------//

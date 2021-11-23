@@ -18,7 +18,10 @@ namespace DalObject
         /// <returns> Drone object </returns>
         public Drone FindDroneById(int droneId)
         {
-            return DataSource.Drones.Find(x => x.Id == droneId);
+            Drone drone = DataSource.Drones.Find(x => x.Id == droneId);
+            if (drone.Id != droneId) throw new IDAL.DO.RequiredObjectIsNotFoundException();
+
+            return drone;
         }
 
         /// <summary>
@@ -28,7 +31,10 @@ namespace DalObject
         /// <returns> DroneCharge object </returns>
         public DroneCharge FindDroneChargeByDroneId(int droneId)
         {
-            return DataSource.DroneCharges.Find(x => x.DroneId == droneId);
+            DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
+            if (droneCharge.DroneId != droneId) throw new IDAL.DO.RequiredObjectIsNotFoundException();
+
+            return droneCharge;
         }
 
 
