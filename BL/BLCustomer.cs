@@ -41,43 +41,43 @@ namespace BL
         {
 
             IDAL.DO.Customer dalCustomer = dalObject.FindCustomerById(customerId);
-            ParcelInCustomer myParcelInCustomer = new();
+            ParcelInCustomer ParcelInCustomer = new();
 
-            Customer myCustomer = new();
-            myCustomer.Id = dalCustomer.Id;
-            myCustomer.Name = dalCustomer.Name;
-            myCustomer.Phone = dalCustomer.Phone;
-            myCustomer.location.Lattitude = dalCustomer.Lattitude;
-            myCustomer.location.Longitude = dalCustomer.Longitude;
+            Customer Customer = new();
+            Customer.Id = dalCustomer.Id;
+            Customer.Name = dalCustomer.Name;
+            Customer.Phone = dalCustomer.Phone;
+            Customer.location.Lattitude = dalCustomer.Lattitude;
+            Customer.location.Longitude = dalCustomer.Longitude;
 
 
             foreach (var parcel in dalObject.GetParcelList())
             {
                 if (customerId == parcel.SenderId || customerId == parcel.TargetId)
                 {
-                    myParcelInCustomer.Id = parcel.Id;
-                    myParcelInCustomer.WeightCategory= (WeightCategories)parcel.Weight;
-                    myParcelInCustomer.Priority = (Priorities)parcel.Priority;
+                    ParcelInCustomer.Id = parcel.Id;
+                    ParcelInCustomer.WeightCategory= (WeightCategories)parcel.Weight;
+                    ParcelInCustomer.Priority = (Priorities)parcel.Priority;
 
                     if (parcel.Delivered != DateTime.MinValue)
-                        myParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
+                        ParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
                     else if (parcel.PickedUp != DateTime.MinValue)
-                        myParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
+                        ParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
                     else if (parcel.Scheduled != DateTime.MinValue)
-                        myParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
+                        ParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
                     else
-                        myParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
+                        ParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
 
-                    myParcelInCustomer.Customer.Id = myCustomer.Id;
-                    myParcelInCustomer.Customer.Name = myCustomer.Name;
+                    ParcelInCustomer.Customer.Id = Customer.Id;
+                    ParcelInCustomer.Customer.Name = Customer.Name;
 
                     if (customerId == parcel.SenderId)
-                        myCustomer.ParcelsToSendList.Add(myParcelInCustomer);
+                        Customer.ParcelFromCustomerList.Add(ParcelInCustomer);
                     else
-                        myCustomer.ParcelsToTakeList.Add(myParcelInCustomer);
+                        Customer.ParcelToCustomerList.Add(ParcelInCustomer);
                 }
             }
-            return myCustomer;
+            return Customer;
         }
 
         public IEnumerable<CustomerToList> ViewCustomerToList()

@@ -70,12 +70,12 @@ namespace BL
             IDAL.DO.Parcel parcel = dalObject.FindParcelById(parcelId);
 
             parcelInDalivery.Id = parcel.Id;
-            parcelInDalivery.WeightCategory = (WeightCategories)parcel.Weight;
+            parcelInDalivery.Weight = (WeightCategories)parcel.Weight;
             parcelInDalivery.Priority = (Priorities)parcel.Priority;
 
             IDAL.DO.Customer sender = dalObject.FindCustomerById(parcel.SenderId);
             IDAL.DO.Customer target = dalObject.FindCustomerById(parcel.TargetId);
-            parcelInDalivery.DeliveryDistance = dalObject.Distance(sender.Lattitude, target.Lattitude, sender.Longitude, target.Longitude);
+            parcelInDalivery.DistanceDelivery = dalObject.Distance(sender.Lattitude, target.Lattitude, sender.Longitude, target.Longitude);
 
             parcelInDalivery.receiverCustomer.Id = target.Id;
             parcelInDalivery.receiverCustomer.Name = target.Name;
