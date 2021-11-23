@@ -10,6 +10,7 @@ namespace BL
     public partial class BL : IBL.IBL
     {
         //-------------------Add Functions-----------------//
+        
         public void AddNewDroneBL(Drone drone, int baseStationID)
         {
             Random r = new();
@@ -25,11 +26,13 @@ namespace BL
             IDAL.DO.Station myStaion = dalObject.FindStationById(baseStationID);
             drone.CurrentLocation.Lattitude = myStaion.Lattitude;
             drone.CurrentLocation.Longitude = myStaion.Longitude;
-            
+
             dalObject.SetNewDrone(newDrone);
         }
 
+
         //-------------------Find Functions-----------------//
+        
         public Drone FindDroneByIdBL(int droneId)
         {
             //var drone = from Item in droneToLists 
@@ -58,19 +61,21 @@ namespace BL
             }
         }
 
+
         //-------------------Set Functions-----------------//
+       
         internal ParcelInDelivery SetParcelInDelivery(int parcelId)
         {
             ParcelInDelivery parcelInDalivery = new();
             IDAL.DO.Parcel parcel = dalObject.FindParcelById(parcelId);
 
             parcelInDalivery.Id = parcel.Id;
-            parcelInDalivery.WeightCategory= (WeightCategories)parcel.Weight;
+            parcelInDalivery.WeightCategory = (WeightCategories)parcel.Weight;
             parcelInDalivery.Priority = (Priorities)parcel.Priority;
 
             IDAL.DO.Customer sender = dalObject.FindCustomerById(parcel.SenderId);
             IDAL.DO.Customer target = dalObject.FindCustomerById(parcel.TargetId);
-            parcelInDalivery.DeliveryDistance= dalObject.Distance(sender.Lattitude, target.Lattitude, sender.Longitude, target.Longitude);
+            parcelInDalivery.DeliveryDistance = dalObject.Distance(sender.Lattitude, target.Lattitude, sender.Longitude, target.Longitude);
 
             parcelInDalivery.receiverCustomer.Id = target.Id;
             parcelInDalivery.receiverCustomer.Name = target.Name;
@@ -87,7 +92,9 @@ namespace BL
             return parcelInDalivery;
         }
 
+
         //-------------------Update Functions-----------------//
+        
         public void UpdateDroneToChargingBL(int droneId)
         {
             var drone = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Available);
@@ -118,8 +125,6 @@ namespace BL
                 //---------Station + DroneCharge-------//
                 dalObject.UpdateDroneToCharging(drone.Id, myStation.Id);
             }
-
-
         }
         public void UpdateDroneModelBL(int droneId, string newModel)
         {
@@ -197,8 +202,55 @@ namespace BL
                         }
                     }
                 }
-
             }
+        }
+        public void UpdatePickedUpParcelByDroneIDBL(int droneId)
+        {
+            Drone myDrone = FindDroneByIdBL(droneId);
+            Parcel myParcel = FindParcelByIdBL(myDrone.ParcelInDelivery.Id);
+
+            if (myParcel.PickedUp == DateTime.MinValue)
+            {
+                myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
+
+                Customer myCostomer = FindCustomerByIdBL(myDrone.ParcelInDelivery.senderCustomer.Id);
+                myDrone.CurrentLocation = myCostomer.location;
+
+                myParcel.PickedUp = DateTime.Now;
+            }
+            else
+            {
+                //TODO throw an exepion.
+            }
+        }
+        public void UpdateDeliveredParcelByDroneIdBL(int droneId)
+        {
+            Drone myDrone = FindDroneByIdBL(droneId);
+            Parcel myParcel = FindParcelByIdBL(myDrone.ParcelInDelivery.Id);
+
+            if ((myParcel.PickedUp != DateTime.MinValue) && (myParcel.Delivered == DateTime.MinValue))
+            {
+                myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
+
+                Customer myCostomer = FindCustomerByIdBL(myDrone.ParcelInDelivery.senderCustomer.Id);
+                myDrone.CurrentLocation = myCostomer.location;
+
+                myDrone.DroneStatus = DroneStatuses.Available;
+
+                myParcel.Delivered = DateTime.Now;
+            }
+            else
+            {
+                //TODO throw an exepion.
+            }
+        }
+       
+
+        //-------------------view Functions-----------------//
+
+        public IEnumerable<DroneToList> ViewDroneToList()
+        {
+            return droneToLists;
         }
     }
 }

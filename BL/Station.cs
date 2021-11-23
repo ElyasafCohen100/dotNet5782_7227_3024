@@ -12,17 +12,23 @@ namespace IBL
         {
             public int Id { get; set; }
             public string Name { get; set; }
-
             public Location Location;
             public int AvailableChargeSlots { get; set; }
             public List<DroneCharge> DroneChargesList;
 
             /// <summary>
-            /// Return describe of Station struct string
+            /// Return describe of Station class string.
             /// </summary>
-            /// <returns>describe of Station struct string</returns>
+            /// <returns> Describe of Station class string </returns>
             public override string ToString()
             {
+                string stringDroneChargeList = "";
+
+                foreach (var droneCharge in DroneChargesList)
+                {
+                    stringDroneChargeList += droneCharge.ToString();
+                }
+
                 return $"Station:\n " +
                        $"Id: {Id}\n" +
                        $"Name: {Name}\n " +

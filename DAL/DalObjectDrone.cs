@@ -33,7 +33,6 @@ namespace DalObject
 
 
         //-------------------------- SETTERS ---------------------------//
-
         /// <summary>
         /// Set new Drone.
         /// </summary>
@@ -98,7 +97,6 @@ namespace DalObject
         {
             return DataSource.Drones;
         }
-
         public IEnumerable<DroneCharge> GetDroneChargeListByStationId(int stationId)
         {
             return DataSource.DroneCharges.FindAll(x => x.StationId == stationId);

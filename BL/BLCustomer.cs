@@ -37,9 +37,9 @@ namespace BL
             }
         }
 
-
         public Customer FindCustomerByIdBL(int customerId)
         {
+
             IDAL.DO.Customer dalCustomer = dalObject.FindCustomerById(customerId);
             ParcelInCustomer myParcelInCustomer = new();
 
@@ -50,12 +50,13 @@ namespace BL
             myCustomer.location.Lattitude = dalCustomer.Lattitude;
             myCustomer.location.Longitude = dalCustomer.Longitude;
 
+
             foreach (var parcel in dalObject.GetParcelList())
             {
                 if (customerId == parcel.SenderId || customerId == parcel.TargetId)
                 {
                     myParcelInCustomer.Id = parcel.Id;
-                    myParcelInCustomer.WeightCategory = (WeightCategories)parcel.Weight;
+                    myParcelInCustomer.WeightCategory= (WeightCategories)parcel.Weight;
                     myParcelInCustomer.Priority = (Priorities)parcel.Priority;
 
                     if (parcel.Delivered != DateTime.MinValue)
@@ -71,12 +72,57 @@ namespace BL
                     myParcelInCustomer.Customer.Name = myCustomer.Name;
 
                     if (customerId == parcel.SenderId)
-                        myCustomer.ParcelsToTakeList.Add(myParcelInCustomer);
-                    else
                         myCustomer.ParcelsToSendList.Add(myParcelInCustomer);
+                    else
+                        myCustomer.ParcelsToTakeList.Add(myParcelInCustomer);
                 }
             }
             return myCustomer;
+        }
+
+        public IEnumerable<CustomerToList> ViewCustomerToList()
+        {
+            List<CustomerToList> myCustomerList = new();
+
+            foreach (var customer in dalObject.GetCustomerList())
+            {
+                CustomerToList myCustomer = new();
+
+                myCustomer.Id = customer.Id;
+                myCustomer.Name = customer.Name;
+                myCustomer.Phone = customer.Phone;
+
+                foreach (var parcel in dalObject.GetParcelList())
+                {
+                    if (myCustomer.Id == parcel.SenderId)
+                    {
+                        if (parcel.Delivered != DateTime.MinValue)
+                        {
+                            myCustomer.SendAndDeliveredParcels++;
+                        }
+                        else if (parcel.PickedUp != DateTime.MinValue)
+                        {
+                            myCustomer.SendAndNotDeliveredParcels++;
+                        }
+                    }
+                    else if (myCustomer.Id == parcel.TargetId)
+                    {
+                        if (parcel.Delivered != DateTime.MinValue)
+                        {
+                            myCustomer.DeliveredParcels++;
+                        }
+                        else if (parcel.PickedUp != DateTime.MinValue)
+                        {
+                            myCustomer.PickedUpParcels++;
+                        }
+                    }
+
+                }
+
+
+                myCustomerList.Add(myCustomer);
+            }
+            return myCustomerList;
         }
     }
 }

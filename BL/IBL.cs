@@ -24,6 +24,8 @@ namespace IBL
         void UpdateDroneToChargingBL(int droneID);
         void UpdateDroneFromChargingBL(int droneId, double chargeTime);
         void UpdateDroneIdOfParcelBL(int droneId);
+        void UpdateDeliveredParcelByDroneIdBL(int droneId);
+        void UpdatePickedUpParcelByDroneIDBL(int droneId);
 
         //------------------- FIND FANCTIONS ------------------//
 
@@ -31,6 +33,14 @@ namespace IBL
         Drone FindDroneByIdBL(int droneId);
         Customer FindCustomerByIdBL(int customerId);
         Parcel FindParcelByIdBL(int parcelId);
-        double FindMinPowerSuplyForDistanceBetweenDroneToTarget(int droneId, int targetId);
+
+        //------------------- VIEW FANCTIONS ------------------//
+
+        IEnumerable<StationToList> ViewBaseStationsToList();
+        IEnumerable<DroneToList> ViewDroneToList();
+        IEnumerable<CustomerToList> ViewCustomerToList();
+        IEnumerable<ParcelToList> ViewParcelToList();
+        IEnumerable<ParcelToList> ViewNonAssociateParcelsListBL();
+        IEnumerable<StationToList> ViewStationsWithAvailableChargingSlotstBL();
     }
 }

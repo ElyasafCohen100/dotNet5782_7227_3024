@@ -12,6 +12,8 @@ namespace BL
     /// </summary>
     public partial class BL : IBL.IBL
     {
+
+
         //Create instance of dalObject for reference to DAL
         internal static IDAL.IDal dalObject = new DalObject.DalObject();
         List<DroneToList> droneToLists = new();
@@ -265,7 +267,7 @@ namespace BL
             return mySuply;
         }
 
-        internal double FindMinSuplyForAllPath(int droneId, int targetId)
+        double FindMinSuplyForAllPath(int droneId, int targetId)
         {
             DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
 

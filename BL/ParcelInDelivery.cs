@@ -10,32 +10,31 @@ namespace IBL
     {
         public class ParcelInDelivery
         {
-            public int Id { set; get; }
-            public double DeliveryDistance { get; set; }
-            
-            public bool ParcelStatus;
-
-
-            public WeightCategories WeightCategory;
-            public Priorities Priority;
+            public int Id { get; set; }
+            public bool ParcelStatus { get; set; }
+          
+            public Priorities Priority { get; set; }
+            public WeightCategories Weight { get; set; }
 
             public CustomerInParcel receiverCustomer;
             public CustomerInParcel senderCustomer;
 
-            public Location TargetLocation;
-            public Location SourceLocation;
+            public Location SourceLocation { get; set; }
+            public Location TargetLocation { get; set; }
+            public double DistanceDelivery { get; set; }
 
             public override string ToString()
             {
-                return $"Id: {Id}\n" +
-                    $"PickedUp: {ParcelStatus}\n" +
-                    $"Weight: {WeightCategory}\n" +
-                    $"Priority: {Priority}\n" +
-                    $"receiver: {receiverCustomer.ToString()}" +
-                    $"sender: {senderCustomer.ToString()}" +
-                    $"Target location: {TargetLocation}\n" +
-                    $"Soutce location: {SourceLocation}\n" +
-                    $"Delivery distance: {DeliveryDistance}\n";
+                return $"Parcel In Delivery:\n" +
+                       $"Id: {Id}\n" +
+                       $"Parcel Status: {ParcelStatus}\n" +
+                       $"Priority: {Priority}\n" +
+                       $"Weight: {Weight}\n" +
+                       receiverCustomer.ToString() +
+                       senderCustomer.ToString() +
+                       $"Source Locaion:" + SourceLocation.ToString() + "\n" +
+                       $"Target Location:" + TargetLocation.ToString() + "\n" +
+                       $"Distance Delivery: {DistanceDelivery}\n";
             }
         }
     }

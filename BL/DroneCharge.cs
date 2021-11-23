@@ -14,9 +14,9 @@ namespace IBL
             public double BatteryStatus { get; set; }
 
             /// <summary>
-            /// Return describe of DroneCharge struct string
+            /// Return describe of DroneCharge class string.
             /// </summary>
-            /// <returns>describe of DroneCharge struct string</returns>
+            /// <returns> Describe of DroneCharge class string </returns>
             public override string ToString()
             {
                 return $"DroneCharge:\n " +
