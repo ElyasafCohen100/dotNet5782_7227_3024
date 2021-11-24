@@ -69,9 +69,9 @@ namespace DalObject
             {
                 Customer myCustumer = new();
 
-                myCustumer.Id = Config.randomNumber.Next(1000, 10000);
+                myCustumer.Id = Config.randomNumber.Next(100000000, 1000000000);
                 myCustumer.Name = "Name" + i;
-                myCustumer.Phone = "0501234" + Config.randomNumber.Next(111, 1000); ;
+                myCustumer.Phone = "0501234" + Config.randomNumber.Next(111, 1000);
                 myCustumer.Longitude = 35 + Config.randomNumber.NextDouble();
                 myCustumer.Lattitude = 31 + Config.randomNumber.NextDouble();
 

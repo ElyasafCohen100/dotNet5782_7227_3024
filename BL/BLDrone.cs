@@ -18,6 +18,12 @@ namespace BL
         /// <param name="baseStationID"> ID of bace station </param>
         public void AddNewDroneBL(Drone drone, int baseStationID)
         {
+
+            if (drone.Id < 1000 || drone.Id >= 10000) throw new InvalidInputException($"Id (Drone)");
+            if (drone.Model == null) throw new InvalidInputException($"Model");
+            if ((int)drone.MaxWeight < 0 || (int)drone.MaxWeight > 2) throw new InvalidInputException($"Max weight");
+            if (baseStationID < 1000 || baseStationID >= 10000) throw new InvalidInputException($"Id (base-station)");
+
             Random r = new();
             IDAL.DO.Drone newDrone = new();
 
@@ -28,9 +34,17 @@ namespace BL
             drone.DroneStatus = DroneStatuses.Maintenance;
             drone.BatteryStatus = r.Next(20, 41);
 
-            IDAL.DO.Station myStaion = dalObject.FindStationById(baseStationID);
-            drone.CurrentLocation.Latitude = myStaion.Latitude;
-            drone.CurrentLocation.Longitude = myStaion.Longitude;
+            try
+            {
+                IDAL.DO.Station myStaion = dalObject.FindStationById(baseStationID);
+
+                drone.CurrentLocation.Latitude = myStaion.Latitude;
+                drone.CurrentLocation.Longitude = myStaion.Longitude;
+            }
+            catch (IDAL.DO.RequiredObjectIsNotFoundException)
+            {
+                throw new ObjectNotFountException("base station");
+            }
 
             dalObject.SetNewDrone(newDrone);
         }

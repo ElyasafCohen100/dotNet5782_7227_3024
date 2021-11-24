@@ -8,6 +8,7 @@ namespace IDAL
 {
     namespace DO
     {
+
         [Serializable]
         public class RequiredObjectIsNotFoundException : Exception
         {

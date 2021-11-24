@@ -9,55 +9,7 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
-        //--------------------------------- FIND FUNCTIONS ---------------------------------------//
-
-        /// <summary>
-        /// find BLcustomer by ID by using DAL
-        /// </summary>
-        /// <param name="customerId"> the id of customer </param>
-        /// <returns> return BL customer object </returns>
-        public Customer FindCustomerByIdBL(int customerId)
-        {
-            IDAL.DO.Customer dalCustomer = dalObject.FindCustomerById(customerId);
-            ParcelInCustomer ParcelInCustomer = new();
-
-            Customer Customer = new();
-            Customer.Id = dalCustomer.Id;
-            Customer.Name = dalCustomer.Name;
-            Customer.Phone = dalCustomer.Phone;
-            Customer.Location.Latitude = dalCustomer.Lattitude;
-            Customer.Location.Longitude = dalCustomer.Longitude;
-
-
-            foreach (var parcel in dalObject.GetParcelList())
-            {
-                if (customerId == parcel.SenderId || customerId == parcel.TargetId)
-                {
-                    ParcelInCustomer.Id = parcel.Id;
-                    ParcelInCustomer.WeightCategory = (WeightCategories)parcel.Weight;
-                    ParcelInCustomer.Priority = (Priorities)parcel.Priority;
-
-                    if (parcel.Delivered != DateTime.MinValue)
-                        ParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
-                    else if (parcel.PickedUp != DateTime.MinValue)
-                        ParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
-                    else if (parcel.Scheduled != DateTime.MinValue)
-                        ParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
-                    else
-                        ParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
-
-                    ParcelInCustomer.Customer.Id = Customer.Id;
-                    ParcelInCustomer.Customer.Name = Customer.Name;
-
-                    if (customerId == parcel.SenderId)
-                        Customer.ParcelFromCustomerList.Add(ParcelInCustomer);
-                    else
-                        Customer.ParcelToCustomerList.Add(ParcelInCustomer);
-                }
-            }
-            return Customer;
-        }
-
+       
         //---------------------------------- ADD FUNCTIONS ----------------------------------------//
 
         /// <summary>
@@ -67,6 +19,11 @@ namespace BL
         public void AddNewCustomerBL(Customer customer)
         {
             IDAL.DO.Customer dalCustomer = new();
+            if (dalCustomer.Id < 100000000 || dalCustomer.Id >= 1000000000) throw new InvalidInputException($"Id");
+            if (dalCustomer.Name == null) throw new InvalidInputException($"Name");
+            if (dalCustomer.Phone == null) throw new InvalidInputException($"Phone number");
+            if (dalCustomer.Longitude == 0.0) throw new InvalidInputException($"Longitude");
+            if (dalCustomer.Lattitude == 0.0) throw new InvalidInputException($"Lattitude");
 
             dalCustomer.Id = customer.Id;
             dalCustomer.Name = customer.Name;
@@ -87,17 +44,82 @@ namespace BL
         /// <param name="newPhoneNumber"> the new phone of the customer</param>
         public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
         {
-            IDAL.DO.Customer customer = dalObject.FindCustomerById(customerId);
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException($"Id");
+            if (newName == null) throw new InvalidInputException($"Name");
+            if (newPhoneNumber == null) throw new InvalidInputException($"Phone number");
 
-            if (newName != null)
+            try
             {
+                IDAL.DO.Customer customer = dalObject.FindCustomerById(customerId);
                 customer.Name = newName;
+                customer.Phone = newPhoneNumber;
+
+            }
+            catch (IDAL.DO.RequiredObjectIsNotFoundException)
+            {
+
+                throw new ObjectNotFountException("Customer");
+            }
+        }
+
+        //--------------------------------- FIND FUNCTIONS ---------------------------------------//
+
+        /// <summary>
+        /// find BLcustomer by ID by using DAL
+        /// </summary>
+        /// <param name="customerId"> the id of customer </param>
+        /// <returns> return BL customer object </returns>
+        public Customer FindCustomerByIdBL(int customerId)
+        {
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException($"Id");
+
+            Customer Customer = new();
+            try
+            {
+                IDAL.DO.Customer dalCustomer = dalObject.FindCustomerById(customerId);
+                Customer.Id = dalCustomer.Id;
+                Customer.Name = dalCustomer.Name;
+                Customer.Phone = dalCustomer.Phone;
+                Customer.Location.Latitude = dalCustomer.Lattitude;
+                Customer.Location.Longitude = dalCustomer.Longitude;
+            }
+            catch (IDAL.DO.RequiredObjectIsNotFoundException)
+            {
+                throw new ObjectNotFountException("Customer");
             }
 
-            if (newPhoneNumber != null)
+            IEnumerable<IDAL.DO.Parcel> dalParcelsList = dalObject.GetParcelList();
+            if (dalParcelsList.Count() > 0)
             {
-                customer.Phone = newPhoneNumber;
+                foreach (var parcel in dalParcelsList)
+                {
+                    if (customerId == parcel.SenderId || customerId == parcel.TargetId)
+                    {
+                        ParcelInCustomer ParcelInCustomer = new();
+                        ParcelInCustomer.Id = parcel.Id;
+                        ParcelInCustomer.WeightCategory = (WeightCategories)parcel.Weight;
+                        ParcelInCustomer.Priority = (Priorities)parcel.Priority;
+
+                        if (parcel.Delivered != DateTime.MinValue)
+                            ParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
+                        else if (parcel.PickedUp != DateTime.MinValue)
+                            ParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
+                        else if (parcel.Scheduled != DateTime.MinValue)
+                            ParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
+                        else
+                            ParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
+
+                        ParcelInCustomer.Customer.Id = Customer.Id;
+                        ParcelInCustomer.Customer.Name = Customer.Name;
+
+                        if (customerId == parcel.SenderId)
+                            Customer.ParcelFromCustomerList.Add(ParcelInCustomer);
+                        else
+                            Customer.ParcelToCustomerList.Add(ParcelInCustomer);
+                    }
+                }
             }
+            return Customer;
         }
 
         //---------------------------------- VIEW FUNCTIONS ---------------------------------------//
@@ -110,41 +132,50 @@ namespace BL
         {
             List<CustomerToList> myCustomerList = new();
 
-            foreach (var customer in dalObject.GetCustomerList())
+            IEnumerable<IDAL.DO.Customer> dalCustomers = dalObject.GetCustomerList();
+            if (dalCustomers.Count() > 0)
             {
-                CustomerToList myCustomer = new();
-
-                myCustomer.Id = customer.Id;
-                myCustomer.Name = customer.Name;
-                myCustomer.Phone = customer.Phone;
-
-                foreach (var parcel in dalObject.GetParcelList())
+                IEnumerable<IDAL.DO.Parcel> dalParcels = dalObject.GetParcelList();
+                
+                foreach (var customer in dalCustomers)
                 {
-                    if (myCustomer.Id == parcel.SenderId)
-                    {
-                        if (parcel.Delivered != DateTime.MinValue)
-                        {
-                            myCustomer.SendAndDeliveredParcels++;
-                        }
-                        else if (parcel.PickedUp != DateTime.MinValue)
-                        {
-                            myCustomer.SendAndNotDeliveredParcels++;
-                        }
-                    }
-                    else if (myCustomer.Id == parcel.TargetId)
-                    {
-                        if (parcel.Delivered != DateTime.MinValue)
-                        {
-                            myCustomer.DeliveredParcels++;
-                        }
-                        else if (parcel.PickedUp != DateTime.MinValue)
-                        {
-                            myCustomer.PickedUpParcels++;
-                        }
-                    }
+                    CustomerToList myCustomer = new();
 
+                    myCustomer.Id = customer.Id;
+                    myCustomer.Name = customer.Name;
+                    myCustomer.Phone = customer.Phone;
+
+                    if (dalParcels.Count() > 0)
+                    {
+                        foreach (var parcel in dalParcels)
+                        {
+                            if (myCustomer.Id == parcel.SenderId)
+                            {
+                                if (parcel.Delivered != DateTime.MinValue)
+                                {
+                                    myCustomer.SendAndDeliveredParcels++;
+                                }
+                                else if (parcel.PickedUp != DateTime.MinValue)
+                                {
+                                    myCustomer.SendAndNotDeliveredParcels++;
+                                }
+                            }
+                            else if (myCustomer.Id == parcel.TargetId)
+                            {
+                                if (parcel.Delivered != DateTime.MinValue)
+                                {
+                                    myCustomer.DeliveredParcels++;
+                                }
+                                else if (parcel.PickedUp != DateTime.MinValue)
+                                {
+                                    myCustomer.PickedUpParcels++;
+                                }
+                            }
+
+                        }
+                    }
+                    myCustomerList.Add(myCustomer);
                 }
-                myCustomerList.Add(myCustomer);
             }
             return myCustomerList;
         }
