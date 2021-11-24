@@ -19,7 +19,7 @@ namespace DalObject
         public Drone FindDroneById(int droneId)
         {
             Drone drone = DataSource.Drones.Find(x => x.Id == droneId);
-            if (drone.Id != droneId) throw new IDAL.DO.RequiredObjectIsNotFoundException();
+            if (drone.Id != droneId) throw new RequiredObjectIsNotFoundException();
 
             return drone;
         }
@@ -32,7 +32,7 @@ namespace DalObject
         public DroneCharge FindDroneChargeByDroneId(int droneId)
         {
             DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
-            if (droneCharge.DroneId != droneId) throw new IDAL.DO.RequiredObjectIsNotFoundException();
+            if (droneCharge.DroneId != droneId) throw new RequiredObjectIsNotFoundException();
 
             return droneCharge;
         }
@@ -71,6 +71,8 @@ namespace DalObject
         public void UpdateDroneToCharging(int droneId, int stationId)
         {
             Station myStation = FindStationById(stationId);
+
+            if (myStation.ChargeSlots == 0) throw new ArgumentOutOfRangeException();
             myStation.ChargeSlots--;
 
             DroneCharge droneCharge = new DroneCharge();

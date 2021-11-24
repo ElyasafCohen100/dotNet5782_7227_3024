@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using IDAL.DO;
 
 namespace DalObject
@@ -19,7 +15,7 @@ namespace DalObject
         public Station FindStationById(int stationId)
         {
             Station station  = DataSource.Stations.Find(x => x.Id == stationId);
-            if (station.Id != stationId) throw new IDAL.DO.RequiredObjectIsNotFoundException();
+            if (station.Id != stationId) throw new RequiredObjectIsNotFoundException();
             return station;
         }
         

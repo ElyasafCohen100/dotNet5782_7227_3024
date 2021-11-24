@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using IDAL.DO;
 
 namespace DalObject
@@ -18,7 +14,7 @@ namespace DalObject
         public Customer FindCustomerById(int customerId)
         {
             Customer customer = DataSource.Customers.Find(x => x.Id == customerId);
-            if (customer.Id != customerId) throw new IDAL.DO.RequiredObjectIsNotFoundException();
+            if (customer.Id != customerId) throw new RequiredObjectIsNotFoundException();
             return customer;
         }
 

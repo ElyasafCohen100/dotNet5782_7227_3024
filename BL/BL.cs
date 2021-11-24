@@ -14,6 +14,7 @@ namespace BL
     {
         //Create instance of dalObject for reference to DAL
         internal static IDAL.IDal dalObject = new DalObject.DalObject();
+
         List<DroneToList> droneToLists = new();
 
         /// <summary>
@@ -22,12 +23,12 @@ namespace BL
         /// </summary>
         public BL()
         {
+            Random r = new();
 
-            // Import from DAL the 4 weight categiries and the charging rate in seperate varibales
+            // Import from DAL the 4 weight categories and the charging rate in seperate varibales
             double[] tempArray = dalObject.ElectricityUseRequest();
             double dorneChargingRate = tempArray[4];
             double[] electricityUse = new double[4];
-            Random r = new();
 
             for (int i = 0; i < tempArray.Length - 1; i++)
             {
@@ -44,7 +45,7 @@ namespace BL
                 newDrone.MaxWeight = (WeightCategories)drone.MaxWeight;
 
                 // Get the rest of the information and fill the other fileds in the new DroneToList object
-                //Set DroneStatus, DeliveryParcelId and CurrentLocation (and BatteryStatus - if needed) fileds
+                // Set DroneStatus, DeliveryParcelId and CurrentLocation (and BatteryStatus - if needed) fileds
                 foreach (var parcel in dalObject.GetParcelList())
                 {
                     if (parcel.DroneId == newDrone.Id && parcel.Delivered == DateTime.MinValue)

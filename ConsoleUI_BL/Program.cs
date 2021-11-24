@@ -6,6 +6,7 @@ namespace ConsoleUI_BL
     class Program
     {
         internal static IBL.IBL BLObject = new BL.BL();
+
         static void Main(string[] args)
         {       
             Menu();
@@ -108,6 +109,7 @@ namespace ConsoleUI_BL
                     break;
             }
         }
+        
         internal static void UpdateMenu(int subChoice)
         {
             switch (subChoice)
@@ -142,6 +144,7 @@ namespace ConsoleUI_BL
                     break;
             }
         }
+        
         internal static void ViewMenu(int subChoice)
         {
             switch (subChoice)
@@ -177,6 +180,7 @@ namespace ConsoleUI_BL
                     break;
             }
         }
+        
         internal static void ViewListMenu(int subChoice)
         {
             switch (subChoice)
@@ -237,6 +241,7 @@ namespace ConsoleUI_BL
 
             BLObject.AddNewStationBL(station);
         }
+        
         public static void AddNewDrone()
         {
             int intTemp;
@@ -258,6 +263,7 @@ namespace ConsoleUI_BL
 
             BLObject.AddNewDroneBL(drone, intTemp);
         }
+        
         public static void AddNewCostumer()
         {
             int intTemp;
@@ -285,6 +291,7 @@ namespace ConsoleUI_BL
 
             BLObject.AddNewCustomerBL(customer);
         }
+        
         public static void AddNewParcel()
         {
             int intTemp;
@@ -323,6 +330,7 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateDroneModelBL(droneId, newModel);
         }
+
         public static void UpdateBaseStationdetailes()
         {
             Console.WriteLine("Enter base-station number: ");
@@ -337,6 +345,7 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateBaseStationDetailes(baseStationId, baseStationNewName, baseStationChargeSlots);
         }
+
         public static void UpdateCustomerDetailes()
         {
             Console.WriteLine("Enter customer ID: ");
@@ -351,6 +360,7 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateCustomerDetailes(coustomerId, newCustomerName, newCustomerPhoneNumber);
         }
+
         public static void UpdateDroneToCharging()
         {
             Console.WriteLine("Enter drone ID: ");
@@ -358,6 +368,7 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateDroneToChargingBL(droneId);
         }
+
         public static void UpdateDroneFromCharging()
         {
             Console.WriteLine("Enter drone ID: ");
@@ -368,6 +379,7 @@ namespace ConsoleUI_BL
 
             BLObject.UpdateDroneFromChargingBL(droneId, chargeTime);
         }
+
         public static void AssociateParcelToDrone()
         {
 
@@ -378,6 +390,7 @@ namespace ConsoleUI_BL
 
             Console.WriteLine("Drone associated successfully");
         }
+
         public static void CollectParcelByDrone()
         {
 
@@ -388,6 +401,7 @@ namespace ConsoleUI_BL
 
             Console.WriteLine("Picked up time updated successfully");
         }
+
         public static void DeliveredParcelToCustomer()
         {
             Console.WriteLine("Enter Drone ID: ");
@@ -468,6 +482,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
+
         public static void ViewDronesList()
         {
             Console.WriteLine("The drones are:");
@@ -478,6 +493,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
+
         public static void ViewCustomersList()
         {
             Console.WriteLine("The customers are:");
@@ -488,6 +504,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
+
         public static void ViewParcelsList()
         {
             Console.WriteLine("The parcels are:");
@@ -498,6 +515,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
+
         public static void ViewNonAssociateParcelsList()
         {
             Console.WriteLine("The non-associate parcels are:");
@@ -508,6 +526,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
+
         public static void ViewStationsWithAvailableChargingSlots()
         {
             Console.WriteLine("The stations with available charging slots are:");

@@ -18,7 +18,6 @@ namespace BL
         /// <returns> return BL customer object </returns>
         public Customer FindCustomerByIdBL(int customerId)
         {
-
             IDAL.DO.Customer dalCustomer = dalObject.FindCustomerById(customerId);
             ParcelInCustomer ParcelInCustomer = new();
 

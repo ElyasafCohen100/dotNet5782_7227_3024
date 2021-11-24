@@ -8,9 +8,16 @@ namespace IBL
 {
     namespace BO
     {
-        class Exeptions
+        [Serializable]
+        public class NoBaseStationToAssociateDroneToException : Exception
         {
-
+            public NoBaseStationToAssociateDroneToException() { }
+            public NoBaseStationToAssociateDroneToException(string message) : base(message) { }
+            public NoBaseStationToAssociateDroneToException(string message, Exception inner) : base(message, inner) { }
+            public override string ToString()
+            {
+                return "ERROR - there is no base station to associate the drone ";
+            }
         }
     }
 }
