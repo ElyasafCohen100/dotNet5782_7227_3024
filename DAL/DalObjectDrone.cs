@@ -19,9 +19,7 @@ namespace DalObject
         public Drone FindDroneById(int droneId)
         {
             Drone drone = DataSource.Drones.Find(x => x.Id == droneId);
-            if (drone.Id != droneId) throw new RequiredObjectIsNotFoundException();
-
-            return drone;
+            return drone.Id != droneId ? throw new RequiredObjectIsNotFoundException(drone.GetType().ToString()) : drone;
         }
 
         /// <summary>
@@ -32,9 +30,7 @@ namespace DalObject
         public DroneCharge FindDroneChargeByDroneId(int droneId)
         {
             DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
-            if (droneCharge.DroneId != droneId) throw new RequiredObjectIsNotFoundException();
-
-            return droneCharge;
+            return droneCharge.DroneId != droneId ? throw new RequiredObjectIsNotFoundException(droneCharge.GetType().ToString()) : droneCharge;
         }
 
 
@@ -58,8 +54,15 @@ namespace DalObject
         /// <param name="droneId"> Id of Drone </param>
         public void UpdateDroneIdOfParcel(int parcelId, int droneId)
         {
-            Parcel myParcel = FindParcelById(parcelId);
-            myParcel.DroneId = droneId;
+            try
+            {
+                Parcel myParcel = FindParcelById(parcelId);
+                myParcel.DroneId = droneId;
+            }
+            catch(RequiredObjectIsNotFoundException)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -70,7 +73,15 @@ namespace DalObject
         /// <param name="stationId"> Id of Station </param>
         public void UpdateDroneToCharging(int droneId, int stationId)
         {
-            Station myStation = FindStationById(stationId);
+            Station myStation = new();
+            try
+            {
+                myStation = FindStationById(stationId);
+            }
+            catch (RequiredObjectIsNotFoundException)
+            {
+                throw;
+            }
 
             if (myStation.ChargeSlots == 0) throw new ArgumentOutOfRangeException();
             myStation.ChargeSlots--;
@@ -87,12 +98,16 @@ namespace DalObject
         /// <param name="droneId"> Id of Drone </param> 
         public void UpdateDroneFromCharging(int droneId)
         {
-            DroneCharge myDroneCharge = FindDroneChargeByDroneId(droneId);
-
-            Station myStation = FindStationById(myDroneCharge.StationId);
-            myStation.ChargeSlots++;
-
-            DataSource.DroneCharges.Remove(myDroneCharge);
+            try
+            {
+                DroneCharge myDroneCharge = FindDroneChargeByDroneId(droneId);
+                Station myStation = FindStationById(myDroneCharge.StationId);
+                myStation.ChargeSlots++;
+                DataSource.DroneCharges.Remove(myDroneCharge);
+            }catch(RequiredObjectIsNotFoundException)
+            {
+                throw;
+            }
         }
 
         //--------------------------- GETTERS ---------------------------//

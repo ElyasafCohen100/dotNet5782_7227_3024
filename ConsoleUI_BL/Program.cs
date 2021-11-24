@@ -8,7 +8,7 @@ namespace ConsoleUI_BL
         internal static IBL.IBL BLObject = new BL.BL();
 
         static void Main(string[] args)
-        {       
+        {
             Menu();
         }
 

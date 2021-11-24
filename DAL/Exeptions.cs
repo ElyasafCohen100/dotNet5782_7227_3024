@@ -13,12 +13,8 @@ namespace IDAL
         public class RequiredObjectIsNotFoundException : Exception
         {
             public RequiredObjectIsNotFoundException() { }
-            public RequiredObjectIsNotFoundException(string message) : base(message) { }
+            public RequiredObjectIsNotFoundException(string message) : base($"The {message} was not found") { }
             public RequiredObjectIsNotFoundException(string message, Exception inner) : base(message, inner) { }
-            public override string ToString()
-            {
-                return "Required object is not found ";
-            }
         }
     }
    

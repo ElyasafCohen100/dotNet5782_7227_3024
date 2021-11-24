@@ -19,8 +19,7 @@ namespace DalObject
         public Parcel FindParcelById(int parcelId)
         {
             Parcel parcel = DataSource.Parcels.Find(x => x.Id == parcelId);
-            if (parcel.Id != parcelId) throw new RequiredObjectIsNotFoundException();
-            return parcel;
+            return parcel.Id != parcelId ? throw new RequiredObjectIsNotFoundException(parcel.GetType().ToString()) : parcel;
         }
 
         //------------------------- SETTERS ---------------------------//
@@ -43,8 +42,15 @@ namespace DalObject
         /// <param name="parcelId"> Id of Parcel </param>
         public void UpdatePickedUpParcelById(int parcelId)
         {
-            Parcel myParcel = FindParcelById(parcelId);
-            myParcel.PickedUp = DateTime.Now;
+            try
+            {
+                Parcel myParcel = FindParcelById(parcelId);
+                myParcel.PickedUp = DateTime.Now;
+            }
+            catch (RequiredObjectIsNotFoundException)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -53,8 +59,15 @@ namespace DalObject
         /// <param name="parcelId">Id of Parcel</param>
         public void UpdateDeliveredParcelById(int parcelId)
         {
-            Parcel myParcel = FindParcelById(parcelId);
-            myParcel.Delivered = DateTime.Now;
+            try
+            {
+                Parcel myParcel = FindParcelById(parcelId);
+                myParcel.Delivered = DateTime.Now;
+            }
+            catch (RequiredObjectIsNotFoundException)
+            {
+                throw;
+            }
         }
 
 

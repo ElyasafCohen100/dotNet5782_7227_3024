@@ -59,6 +59,8 @@ namespace BL
         /// <exception cref="IBL.BO.NoBaseStationToAssociateDroneToException"> the exception of the function</exception>
         public Drone FindDroneByIdBL(int droneId)
         {
+            if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException($"Id");
+
             DroneToList drone = droneToLists.Find(x => x.Id == droneId);
             if (drone == null) throw new System.ArgumentNullException();
 
@@ -91,8 +93,19 @@ namespace BL
         /// <returns> the parcel type of "parcel in delivery" </returns>
         internal ParcelInDelivery SetParcelInDelivery(int parcelId)
         {
+            if (parcelId <= 0) throw new InvalidInputException("Id");
+
             ParcelInDelivery parcelInDalivery = new();
-            IDAL.DO.Parcel parcel = dalObject.FindParcelById(parcelId);
+
+            IDAL.DO.Parcel parcel = new();
+            try
+            {
+                parcel = dalObject.FindParcelById(parcelId);
+            }
+            catch (IDAL.DO.RequiredObjectIsNotFoundException)
+            {
+                throw new ObjectNotFountException("Parcel");
+            }
 
             parcelInDalivery.Id = parcel.Id;
             parcelInDalivery.Weight = (WeightCategories)parcel.Weight;
@@ -104,15 +117,13 @@ namespace BL
 
             parcelInDalivery.receiverCustomer.Id = target.Id;
             parcelInDalivery.receiverCustomer.Name = target.Name;
+            parcelInDalivery.TargetLocation.Latitude = target.Lattitude;
+            parcelInDalivery.TargetLocation.Longitude = target.Longitude;
 
             parcelInDalivery.senderCustomer.Id = sender.Id;
             parcelInDalivery.senderCustomer.Name = sender.Name;
-
             parcelInDalivery.SourceLocation.Latitude = sender.Lattitude;
             parcelInDalivery.SourceLocation.Longitude = sender.Longitude;
-
-            parcelInDalivery.TargetLocation.Latitude = target.Lattitude;
-            parcelInDalivery.TargetLocation.Longitude = target.Longitude;
 
             return parcelInDalivery;
         }
@@ -125,12 +136,16 @@ namespace BL
         /// <param name="droneId"> the ID of the drone </param>
         public void UpdateDroneToChargingBL(int droneId)
         {
+            if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException($"Id");
+
             var drone = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Available);
+            if (drone.Id != droneId) throw new ObjectNotFountException("drone");
+
             double minBatteryForCharging = FindMinPowerSuplyForCharging(drone);
 
             if (drone.BatteryStatus < minBatteryForCharging)
             {
-                // TODO: create an exeption
+                throw new OutOfBatteryException(droneId.ToString());
             }
             else
             {

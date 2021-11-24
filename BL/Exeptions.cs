@@ -10,6 +10,15 @@ namespace IBL
     {
 
         [Serializable]
+        public class OutOfBatteryException : Exception
+        {
+            public OutOfBatteryException() { }
+            public OutOfBatteryException(string message) : base($"Could not send the drone {message} to charging " +
+                                                                $"because he is have not enough battery") { }
+            public OutOfBatteryException(string message, Exception inner) : base(message, inner) { }
+        }
+
+        [Serializable]
         public class InvalidInputException : Exception
         {
             public InvalidInputException() { }
