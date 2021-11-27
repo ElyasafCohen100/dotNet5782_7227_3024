@@ -10,11 +10,11 @@ namespace IDAL
     {
 
         [Serializable]
-        public class RequiredObjectIsNotFoundException : Exception
+        public class ObjectNotFoundException : Exception
         {
-            public RequiredObjectIsNotFoundException() { }
-            public RequiredObjectIsNotFoundException(string message) : base($"The {message} was not found") { }
-            public RequiredObjectIsNotFoundException(string message, Exception inner) : base(message, inner) { }
+            public ObjectNotFoundException() { }
+            public ObjectNotFoundException(string message) : base($"The {message} hasn't been found") { }
+            public ObjectNotFoundException(string message, Exception inner) : base(message, inner) { }
         }
     }
    

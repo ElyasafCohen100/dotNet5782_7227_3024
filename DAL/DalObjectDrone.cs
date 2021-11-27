@@ -19,7 +19,7 @@ namespace DalObject
         public Drone FindDroneById(int droneId)
         {
             Drone drone = DataSource.Drones.Find(x => x.Id == droneId);
-            return drone.Id != droneId ? throw new RequiredObjectIsNotFoundException(drone.GetType().ToString()) : drone;
+            return drone.Id != droneId ? throw new ObjectNotFoundException(drone.GetType().ToString()) : drone;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace DalObject
         public DroneCharge FindDroneChargeByDroneId(int droneId)
         {
             DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
-            return droneCharge.DroneId != droneId ? throw new RequiredObjectIsNotFoundException(droneCharge.GetType().ToString()) : droneCharge;
+            return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException(droneCharge.GetType().ToString()) : droneCharge;
         }
 
 
@@ -59,7 +59,7 @@ namespace DalObject
                 Parcel myParcel = FindParcelById(parcelId);
                 myParcel.DroneId = droneId;
             }
-            catch(RequiredObjectIsNotFoundException)
+            catch(ObjectNotFoundException)
             {
                 throw;
             }
@@ -78,7 +78,7 @@ namespace DalObject
             {
                 myStation = FindStationById(stationId);
             }
-            catch (RequiredObjectIsNotFoundException)
+            catch (ObjectNotFoundException)
             {
                 throw;
             }
@@ -98,16 +98,10 @@ namespace DalObject
         /// <param name="droneId"> Id of Drone </param> 
         public void UpdateDroneFromCharging(int droneId)
         {
-            try
-            {
                 DroneCharge myDroneCharge = FindDroneChargeByDroneId(droneId);
                 Station myStation = FindStationById(myDroneCharge.StationId);
                 myStation.ChargeSlots++;
                 DataSource.DroneCharges.Remove(myDroneCharge);
-            }catch(RequiredObjectIsNotFoundException)
-            {
-                throw;
-            }
         }
 
         //--------------------------- GETTERS ---------------------------//

@@ -15,7 +15,7 @@ namespace DalObject
         public Station FindStationById(int stationId)
         {
             Station station  = DataSource.Stations.Find(x => x.Id == stationId);
-            return station.Id != stationId ? throw new RequiredObjectIsNotFoundException(station.GetType().ToString()) : station;
+            return station.Id != stationId ? throw new ObjectNotFoundException(station.GetType().ToString()) : station;
         }
 
         //------------------------- SETTERS --------------------------//

@@ -158,7 +158,8 @@ namespace BL
         /// <returns>The id of the nearest base-station to the recieven coustomer as parameter</returns>
         int FindNearestBaseStationByCustomerId(int customerId)
         {
-            IDAL.IDal dalObject = new DalObject.DalObject();
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
+
             double minDistance = double.MaxValue;
             int nearestBaseStationId = 0;
 
@@ -184,14 +185,16 @@ namespace BL
         /// Find the nearest base-station with at least one available charging-slot by id
         /// </summary>
         /// <param name="location">The location information to calculate the distance</param>
-        /// <returns>The id of the nearest base-station with at least one available charge-slot</returns>
+        /// <returns>The id of the nearest base-station with at least one available charge-slot if found/returns>
         int FindNearestBaseStationWithAvailableChargingSlots(Location location)
         {
-            IDAL.IDal dalObject = new DalObject.DalObject();
             double minDistance = double.MaxValue;
             int nearestBaseStationID = 0;
 
-            foreach (var myBaseStation in dalObject.GetStationsWithAvailableChargingSlots())
+            IEnumerable<IDAL.DO.Station> stations = dalObject.GetStationsWithAvailableChargingSlots();
+            if (stations.Count() == 0) throw new ObjectNotFoundException("Stations with available charging slots");
+
+            foreach (var myBaseStation in stations)
             {
                 double distance = dalObject.Distance(myBaseStation.Latitude, location.Latitude, myBaseStation.Longitude, location.Longitude);
 
@@ -209,14 +212,17 @@ namespace BL
         /// and go to the nearest base-station for charging
         /// </summary>
         /// <param name="drone">The drone to calculate his needed minimum power suply</param>
-        /// <param name="targetId">The target id to calculate the needed power suply for the drone to get there</param>
-        /// <returns>The minimum needed power suply to go to the target</returns>
-        double FindMinPowerSuply(DroneToList drone, int targetId)
+        /// <param name="customerId">The target id to calculate the needed power suply for the drone to get there</param>
+        /// <returns>The minimum needed power suply to go to the target and to base station for charging if found, otherwise retun 0</returns>
+        double FindMinPowerSuply(DroneToList drone, int customerId)
         {
+            if (drone.Id < 1000 || drone.Id > 10000) throw new InvalidInputException("drone");
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("customer Id");
+
             //Step 1: Find the distance between the drone current location and the destination location
             Location location = new();
-            location.Latitude = dalObject.FindCustomerById(targetId).Lattitude;
-            location.Longitude = dalObject.FindCustomerById(targetId).Longitude;
+            location.Latitude = dalObject.FindCustomerById(customerId).Lattitude;
+            location.Longitude = dalObject.FindCustomerById(customerId).Longitude;
             double distance1 = dalObject.Distance(drone.CurrentLocation.Latitude, location.Latitude, drone.CurrentLocation.Longitude, location.Longitude);
 
             //Step 2: Find the minimal needed power suply to go to the destination
@@ -238,18 +244,25 @@ namespace BL
             //Step 3: Find the nearest base-station with available charge-slot and calcuolate the needed power suply 
             //        and calculate the distance between the cutomer and the base-station
             int closestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(location);
+            if (closestBaseStationID != 0)
+            {
 
-            double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Latitude;
-            double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationID).Longitude;
-            double distance2 = dalObject.Distance(location.Latitude, nearestBaseStationLatitude, location.Longitude, nearestBaseStationLongitude);
+                double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Latitude;
+                double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationID).Longitude;
+                double distance2 = dalObject.Distance(location.Latitude, nearestBaseStationLatitude, location.Longitude, nearestBaseStationLongitude);
 
-            //Step 4: Find the minimal needed power suply to go to the destination
-            double suply2 = distance2 / dalObject.ElectricityUseRequest()[0];
+                //Step 4: Find the minimal needed power suply to go to the destination
+                double suply2 = distance2 / dalObject.ElectricityUseRequest()[0];
 
-            //Step 5: Calculate the final needed power suply
-            double minBatteryValue = suply1 + suply2;
+                //Step 5: Calculate the final needed power suply
+                double minBatteryValue = suply1 + suply2;
 
-            return minBatteryValue;
+                return minBatteryValue;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         /// <summary>
@@ -259,8 +272,11 @@ namespace BL
         /// <returns>The minimum needed power suply</returns>
         double FindMinPowerSuplyForCharging(DroneToList drone)
         {
+            if (drone.Id < 1000 || drone.Id > 10000) throw new InvalidInputException("drone");
+
             //Step 1: Find the nearest base-station with available charge-slot and calcuolate the needed power suply
             int closestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
+            if (closestBaseStationID == 0) throw new ObjectNotFoundException("base-Station");
 
             double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Latitude;
             double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationID).Longitude;
@@ -276,12 +292,18 @@ namespace BL
         /// get the minimun power of battery for distance between the drone and the dastination
         /// </summary>
         /// <param name="droneId"> ID of drone </param>
-        /// <param name="targetId"> ID of the client </param>
+        /// <param name="customerId"> ID of the client </param>
         /// <returns> return the minimun power of battery for distance between the drone and the dastination </returns>
-        double FindMinPowerSuplyForDistanceBetweenDroneToTarget(int droneId, int targetId)
+        double FindMinPowerSuplyForDistanceBetweenDroneToTarget(int droneId, int customerId)
         {
+            if (droneId < 1000 || droneId > 10000) throw new InvalidInputException("drone");
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("customer Id");
+
+
             DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
-            Customer myCustomer = FindCustomerByIdBL(targetId);
+            if (myDrone.Id != droneId) throw new ObjectNotFoundException("drone");
+            
+            Customer myCustomer = FindCustomerByIdBL(customerId);
 
             double myDistantce = dalObject.Distance(myDrone.CurrentLocation.Latitude, myCustomer.Location.Latitude,
                 myDrone.CurrentLocation.Longitude, myCustomer.Location.Longitude);
@@ -309,18 +331,22 @@ namespace BL
         /// get the minimun power of battery for all the jurney of the drone
         /// </summary>
         /// <param name="droneId"> ID of drone </param>
-        /// <param name="targetId"> ID of the client </param>
+        /// <param name="customerId"> ID of the client </param>
         /// <returns> return the minimun power of battery for all the jurney of the drone </returns>
-        double FindMinSuplyForAllPath(int droneId, int targetId)
+        double FindMinSuplyForAllPath(int droneId, int customerId)
         {
+            if (droneId < 1000 || droneId > 10000) throw new InvalidInputException("drone");
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("customer Id");
+
             DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
+            if (myDrone.Id != droneId) throw new ObjectNotFoundException("drone");
 
-            double minSuply1 = FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, targetId);
+            double minSuply1 = FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, customerId);
 
-            Customer myTarget = FindCustomerByIdBL(targetId);
+            Customer myTarget = FindCustomerByIdBL(customerId);
             myDrone.CurrentLocation = myTarget.Location;
 
-            double minSuply2 = FindMinPowerSuply(myDrone, targetId);
+            double minSuply2 = FindMinPowerSuply(myDrone, customerId);
             return minSuply1 + minSuply2;
         }
     }

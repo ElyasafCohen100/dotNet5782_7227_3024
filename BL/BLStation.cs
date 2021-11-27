@@ -18,6 +18,10 @@ namespace BL
         /// <param name="station"> the station </param>
         public void AddNewStationBL(Station station)
         {
+            if (station.Id < 1000 || station.Id >= 10000) throw new InvalidInputException("id");
+            IfExistBaseStation(station);
+            if (station.AvailableChargeSlots < 0) throw new InvalidInputException("charge slots");
+
             IDAL.DO.Station dalStation = new();
 
             dalStation.Id = station.Id;
@@ -28,6 +32,20 @@ namespace BL
 
             dalObject.SetNewStation(dalStation);
         }
+
+        /// <summary>
+        /// Check if the base-station has already exist
+        /// </summary>
+        /// <param name="station">The base-station</param>
+        /// <exception cref="ObjectAlreadyExistException">If the id or the name has already exist</exception>
+        static void IfExistBaseStation(Station station)
+        {
+            foreach (var myStation in dalObject.GetBaseStationList())
+            {
+                if (myStation.Id == station.Id) throw new ObjectAlreadyExistException("base-station Id");
+                if (myStation.Name == station.Name) throw new ObjectAlreadyExistException("base-station Name");
+            }
+        }
         //--------------------------------- FIND FUNCTIONS ---------------------------------------//
 
         /// <summary>
@@ -37,6 +55,8 @@ namespace BL
         /// <returns> the station </returns>
         public Station FindStationByIdBL(int stationId)
         {
+            if (stationId < 1000 || stationId >= 10000) throw new InvalidInputException("id");
+
             IDAL.DO.Station dalStation = dalObject.FindStationById(stationId);
             Station Station = new();
             int numOfUnAvailableChargeSlots = 0;
@@ -71,22 +91,17 @@ namespace BL
         /// <summary>
         /// update the dateils of base station
         /// </summary>
-        /// <param name="baseStationId"> the ID of the bace station </param>
+        /// <param name="baseStationId"> the ID of the base station </param>
         /// <param name="baseStationNewName"> the new name of the base station </param>
         /// <param name="baseStationChargeSlots"> how many chargen slots the base station has </param>
-        public void UpdateBaseStationDetailes(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
+        public void UpdateBaseStationDetails(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
         {
+            if (baseStationNewName == "") throw new InvalidInputException("name"); 
+            if (baseStationChargeSlots < 0) throw new InvalidInputException("number of charge slots"); 
+
             IDAL.DO.Station dalBaseStation = dalObject.FindStationById(baseStationId);
-
-            if (baseStationNewName != "")
-            {
-                dalBaseStation.Name = baseStationNewName;
-            }
-
-            if (baseStationChargeSlots != 0)
-            {
-                dalBaseStation.ChargeSlots = baseStationChargeSlots;
-            }
+            dalBaseStation.Name = baseStationNewName;
+            dalBaseStation.ChargeSlots = baseStationChargeSlots;
         }
 
         //---------------------------------- VIEW FUNCTIONS ---------------------------------------//

@@ -17,19 +17,27 @@ namespace BL
         /// <param name="parcel"> the new parcel</param>
         public void AddNewParcelBL(Parcel parcel)
         {
-            IDAL.DO.Parcel newParcel = new();
+            if (parcel.senderCustomer.Id < 100000000 || parcel.senderCustomer.Id >= 1000000000) 
+                throw new InvalidInputException("sender Id");
+            if (parcel.receiverCustomer.Id < 100000000 || parcel.receiverCustomer.Id >= 1000000000) 
+                throw new InvalidInputException("receiver Id");
+            if((int)parcel.Weight < 0 || (int)parcel.Weight > 2) throw new InvalidInputException("Weight");
+            if((int)parcel.Priority < 0 || (int)parcel.Priority > 2) throw new InvalidInputException("priority");
+            
 
-            newParcel.SenderId = parcel.senderCustomer.Id;
-            newParcel.TargetId = parcel.receiverCustomer.Id;
-            newParcel.Weight = (IDAL.DO.WeightCategories)parcel.Weight;
-            newParcel.Priority = (IDAL.DO.Priorities)parcel.Priority;
+            IDAL.DO.Parcel dalParcel = new();
 
-            newParcel.Requested = DateTime.Now;
-            newParcel.Scheduled = DateTime.MinValue;
-            newParcel.PickedUp = DateTime.MinValue;
-            newParcel.Delivered = DateTime.MinValue;
+            dalParcel.SenderId = parcel.senderCustomer.Id;
+            dalParcel.TargetId = parcel.receiverCustomer.Id;
+            dalParcel.Weight = (IDAL.DO.WeightCategories)parcel.Weight;
+            dalParcel.Priority = (IDAL.DO.Priorities)parcel.Priority;
 
-            dalObject.SetNewParcel(newParcel);
+            dalParcel.Requested = DateTime.Now;
+            dalParcel.Scheduled = DateTime.MinValue;
+            dalParcel.PickedUp = DateTime.MinValue;
+            dalParcel.Delivered = DateTime.MinValue;
+
+            dalObject.SetNewParcel(dalParcel);
         }
 
         //--------------------------------- FIND FUNCTIONS ---------------------------------------//
@@ -41,32 +49,34 @@ namespace BL
         /// <returns> BL parcel </returns>
         public Parcel FindParcelByIdBL(int parcelId)
         {
+            if (parcelId <= 0) throw new InvalidInputException("Id");
+
             IDAL.DO.Parcel dalParcel = dalObject.FindParcelById(parcelId);
             Parcel Parcel = new();
          
-            IDAL.DO.Customer myCustomer = new();
-            Drone Drone = new();
 
             Parcel.Id = dalParcel.Id;
 
+            IDAL.DO.Customer dalCustomer = new();
+            dalCustomer = dalObject.FindCustomerById(Parcel.senderCustomer.Id);
             Parcel.senderCustomer.Id = dalParcel.SenderId;
-            myCustomer = dalObject.FindCustomerById(Parcel.senderCustomer.Id);
-            Parcel.senderCustomer.Name = myCustomer.Name;
+            Parcel.senderCustomer.Name = dalCustomer.Name;
 
+            dalCustomer = dalObject.FindCustomerById(Parcel.receiverCustomer.Id);
             Parcel.receiverCustomer.Id = dalParcel.TargetId;
-            myCustomer = dalObject.FindCustomerById(Parcel.receiverCustomer.Id);
-            Parcel.receiverCustomer.Name = myCustomer.Name;
+            Parcel.receiverCustomer.Name = dalCustomer.Name;
 
             Parcel.Weight = (WeightCategories)dalParcel.Weight;
             Parcel.Priority = (Priorities)dalParcel.Priority;
 
             if (dalParcel.DroneId != 0)
             {
+                Drone blDrone = new();
                 Parcel.Drone.Id = dalParcel.DroneId;
-                Drone = FindDroneByIdBL(Parcel.Drone.Id);
-                Parcel.Drone.BatteryStatus = Drone.BatteryStatus;
-                Parcel.Drone.CurrentLocation.Latitude = Drone.CurrentLocation.Latitude;
-                Parcel.Drone.CurrentLocation.Longitude = Drone.CurrentLocation.Longitude;
+                blDrone = FindDroneByIdBL(Parcel.Drone.Id);
+                Parcel.Drone.BatteryStatus = blDrone.BatteryStatus;
+                Parcel.Drone.CurrentLocation.Latitude = blDrone.CurrentLocation.Latitude;
+                Parcel.Drone.CurrentLocation.Longitude = blDrone.CurrentLocation.Longitude;
             }
 
             Parcel.Requested = dalParcel.Requested;

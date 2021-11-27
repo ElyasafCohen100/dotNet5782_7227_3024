@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using IBL.BO;
 
 namespace ConsoleUI_BL
@@ -305,11 +306,11 @@ namespace ConsoleUI_BL
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.receiverCustomer.Id = intTemp;
 
-            Console.WriteLine("Enter parcel weight category: (1 - Light,  2 - Intermediate,  3 - Heavy)");
+            Console.WriteLine("Enter parcel weight category: (0 - Light,  1 - Average,  2 - Heavy)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Weight = (WeightCategories)intTemp;
 
-            Console.WriteLine("Enter parcel priority:  (1 - Fast,  2 - Regular,  3 - Slow)");
+            Console.WriteLine("Enter parcel priority:  (0 - Fast,  1 - Regular,  2 - Slow)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Priority = (Priorities)intTemp;
 
@@ -343,7 +344,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter number of base-station charge slots: ");
             int.TryParse(Console.ReadLine(), out int baseStationChargeSlots);
 
-            BLObject.UpdateBaseStationDetailes(baseStationId, baseStationNewName, baseStationChargeSlots);
+            BLObject.UpdateBaseStationDetails(baseStationId, baseStationNewName, baseStationChargeSlots);
         }
 
         public static void UpdateCustomerDetailes()
@@ -374,7 +375,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            Console.WriteLine("Enter time for charging in minutes: ");
+            Console.WriteLine("Enter the charging time in minutes: ");
             double.TryParse(Console.ReadLine(), out double chargeTime);
 
             BLObject.UpdateDroneFromChargingBL(droneId, chargeTime);
@@ -386,9 +387,20 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter Drone ID:");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            BLObject.UpdateDroneIdOfParcelBL(droneId);
+            try
+            {
+                BLObject.UpdateDroneIdOfParcelBL(droneId);
+                Console.WriteLine("Drone associated successfully");
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (InvalidInputException)
+            {
+                Console.WriteLine("invalid drone id");
+            }
 
-            Console.WriteLine("Drone associated successfully");
         }
 
         public static void CollectParcelByDrone()

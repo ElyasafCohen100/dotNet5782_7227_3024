@@ -14,7 +14,7 @@ namespace DalObject
         public Customer FindCustomerById(int customerId)
         {
             Customer customer = DataSource.Customers.Find(x => x.Id == customerId);
-            return customer.Id != customerId ? throw new RequiredObjectIsNotFoundException(customer.GetType().ToString()) : customer;
+            return customer.Id != customerId ? throw new ObjectNotFoundException(customer.GetType().ToString()) : customer;
         }
 
         //-------------------------- SETTERS --------------------------//

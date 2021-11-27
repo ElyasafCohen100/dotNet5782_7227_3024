@@ -27,7 +27,7 @@ namespace DalObject
             internal static double Available = 0.5;
             internal static double DroneChargingRate = 5;
 
-            internal static int SerialNumber = 0;
+            internal static int SerialNumber = 1;
             internal static readonly Random randomNumber = new();
             internal static readonly DateTime currentDate = DateTime.Now;
         }
@@ -83,7 +83,7 @@ namespace DalObject
             {
                 Parcel myParcel = new Parcel();
 
-                myParcel.Id = 1 + i;
+                myParcel.Id = Config.SerialNumber;
                 myParcel.SenderId = Customers[i].Id;
                 myParcel.TargetId = Customers[i + 1].Id;
                 myParcel.Weight = (WeightCategories)Config.randomNumber.Next(2);

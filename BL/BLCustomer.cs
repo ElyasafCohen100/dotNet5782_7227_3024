@@ -19,11 +19,12 @@ namespace BL
         public void AddNewCustomerBL(Customer customer)
         {
             IDAL.DO.Customer dalCustomer = new();
-            if (dalCustomer.Id < 100000000 || dalCustomer.Id >= 1000000000) throw new InvalidInputException($"Id");
-            if (dalCustomer.Name == null) throw new InvalidInputException($"Name");
-            if (dalCustomer.Phone == null) throw new InvalidInputException($"Phone number");
-            if (dalCustomer.Longitude == 0.0) throw new InvalidInputException($"Longitude");
-            if (dalCustomer.Lattitude == 0.0) throw new InvalidInputException($"Lattitude");
+            if (dalCustomer.Id < 100000000 || dalCustomer.Id >= 1000000000) throw new InvalidInputException("Id");
+            if (dalCustomer.Phone == null) throw new InvalidInputException("Phone number");
+            IfExistCustomer(customer);
+            if (dalCustomer.Name == null) throw new InvalidInputException("Name");
+            if (dalCustomer.Longitude == 0.0) throw new InvalidInputException("Longitude");
+            if (dalCustomer.Lattitude == 0.0) throw new InvalidInputException("Lattitude");
 
             dalCustomer.Id = customer.Id;
             dalCustomer.Name = customer.Name;
@@ -32,6 +33,19 @@ namespace BL
             dalCustomer.Lattitude = customer.Location.Latitude;
 
             dalObject.SetNewCustomer(dalCustomer);
+        }
+
+        /// <summary>
+        /// check if the customer is already exist
+        /// </summary>
+        /// <param name="customer">The customer</param>
+        static void IfExistCustomer(Customer customer)
+        {
+            foreach (var myCustomer in dalObject.GetCustomerList())
+            {
+                if (customer.Id == myCustomer.Id) throw new ObjectAlreadyExistException("customer");
+                if (customer.Phone == myCustomer.Phone) throw new ObjectAlreadyExistException("phone");
+            }
         }
 
         //--------------------------------- UPDATE FUNCTIONS --------------------------------------//
@@ -55,10 +69,10 @@ namespace BL
                 customer.Phone = newPhoneNumber;
 
             }
-            catch (IDAL.DO.RequiredObjectIsNotFoundException)
+            catch (IDAL.DO.ObjectNotFoundException)
             {
 
-                throw new ObjectNotFountException("Customer");
+                throw new ObjectNotFoundException("Customer");
             }
         }
 
@@ -83,9 +97,9 @@ namespace BL
                 Customer.Location.Latitude = dalCustomer.Lattitude;
                 Customer.Location.Longitude = dalCustomer.Longitude;
             }
-            catch (IDAL.DO.RequiredObjectIsNotFoundException)
+            catch (IDAL.DO.ObjectNotFoundException)
             {
-                throw new ObjectNotFountException("Customer");
+                throw new ObjectNotFoundException("Customer");
             }
 
             IEnumerable<IDAL.DO.Parcel> dalParcelsList = dalObject.GetParcelList();
