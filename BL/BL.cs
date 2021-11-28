@@ -145,7 +145,6 @@ namespace BL
                             }
                         }
                     }
-
                     droneToLists.Add(newDrone);
                 }
             }

@@ -240,7 +240,18 @@ namespace ConsoleUI_BL
 
             station.DroneChargesList = new();
 
-            BLObject.AddNewStationBL(station);
+            try
+            {
+                BLObject.AddNewStationBL(station);
+            }
+            catch(InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch(ObjectAlreadyExistException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
         
         public static void AddNewDrone()
@@ -262,7 +273,22 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter base staion ID to put the drone for first charge");
             int.TryParse(Console.ReadLine(), out intTemp);
 
-            BLObject.AddNewDroneBL(drone, intTemp);
+            try
+            {
+                BLObject.AddNewDroneBL(drone, intTemp);
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectAlreadyExistException e)
+            {
+                Console.WriteLine( e.Message);
+            }
         }
         
         public static void AddNewCostumer()
@@ -290,7 +316,18 @@ namespace ConsoleUI_BL
             double.TryParse(Console.ReadLine(), out doubleTemp);
             customer.Location.Latitude = doubleTemp;
 
-            BLObject.AddNewCustomerBL(customer);
+            try
+            {
+                BLObject.AddNewCustomerBL(customer);
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine( e.Message);
+            }
+            catch (ObjectAlreadyExistException e)
+            {
+                Console.WriteLine( e.Message);
+            }
         }
         
         public static void AddNewParcel()
@@ -316,7 +353,14 @@ namespace ConsoleUI_BL
 
             parcel.Drone = null;
 
-            BLObject.AddNewParcelBL(parcel);
+            try
+            {
+                BLObject.AddNewParcelBL(parcel);
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         //------------------- UPDATE FANCTIONS ------------------//
@@ -329,7 +373,18 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter new name: ");
             string newModel = Console.ReadLine();
 
-            BLObject.UpdateDroneModelBL(droneId, newModel);
+            try
+            {
+                BLObject.UpdateDroneModelBL(droneId, newModel);
+            }
+            catch(InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public static void UpdateBaseStationdetailes()
@@ -344,7 +399,18 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter number of base-station charge slots: ");
             int.TryParse(Console.ReadLine(), out int baseStationChargeSlots);
 
-            BLObject.UpdateBaseStationDetails(baseStationId, baseStationNewName, baseStationChargeSlots);
+            try
+            {
+                BLObject.UpdateBaseStationDetails(baseStationId, baseStationNewName, baseStationChargeSlots);
+            }
+            catch (InvalidInputException e) 
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch(ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public static void UpdateCustomerDetailes()
@@ -359,7 +425,18 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter new Phone number: ");
             string newCustomerPhoneNumber = Console.ReadLine();
 
-            BLObject.UpdateCustomerDetailes(coustomerId, newCustomerName, newCustomerPhoneNumber);
+            try
+            {
+                BLObject.UpdateCustomerDetailes(coustomerId, newCustomerName, newCustomerPhoneNumber);
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public static void UpdateDroneToCharging()
@@ -367,7 +444,22 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            BLObject.UpdateDroneToChargingBL(droneId);
+            try
+            {
+                BLObject.UpdateDroneToChargingBL(droneId);
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch(ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (OutOfBatteryException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public static void UpdateDroneFromCharging()
@@ -378,7 +470,22 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter the charging time in minutes: ");
             double.TryParse(Console.ReadLine(), out double chargeTime);
 
-            BLObject.UpdateDroneFromChargingBL(droneId, chargeTime);
+            try
+            {
+                BLObject.UpdateDroneFromChargingBL(droneId, chargeTime);
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (NotValidRequestException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public static void AssociateParcelToDrone()
@@ -392,26 +499,37 @@ namespace ConsoleUI_BL
                 BLObject.UpdateDroneIdOfParcelBL(droneId);
                 Console.WriteLine("Drone associated successfully");
             }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
             catch (ObjectNotFoundException e)
             {
                 Console.WriteLine(e.Message);
             }
-            catch (InvalidInputException)
-            {
-                Console.WriteLine("invalid drone id");
-            }
-
         }
 
         public static void CollectParcelByDrone()
         {
-
             Console.WriteLine("Enter Drone ID: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            BLObject.UpdatePickedUpParcelByDroneIDBL(droneId);
-
-            Console.WriteLine("Picked up time updated successfully");
+            try
+            {
+                BLObject.UpdatePickedUpParcelByDroneIDBL(droneId);
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }       
+            catch (NotValidRequestException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public static void DeliveredParcelToCustomer()
@@ -419,9 +537,22 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter Drone ID: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            BLObject.UpdateDeliveredParcelByDroneIdBL(droneId);
-
-            Console.WriteLine("Delivery time updated successfully");
+            try
+            {
+                BLObject.UpdateDeliveredParcelByDroneIdBL(droneId);
+            }
+            catch (NotValidRequestException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch(InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         //--------------------- VIEW MENU FUNCTION ----------------------//
@@ -434,10 +565,19 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter Base-Station ID: ");
             int.TryParse(Console.ReadLine(), out int baseStatinId);
 
-            Station myBaseStation = BLObject.FindStationByIdBL(baseStatinId);
-
-            Console.WriteLine(myBaseStation.ToString());
-
+            try
+            {
+                Station myBaseStation = BLObject.FindStationByIdBL(baseStatinId);
+                Console.WriteLine(myBaseStation.ToString());
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -446,17 +586,23 @@ namespace ConsoleUI_BL
         public static void ViewDrone()
         {
             Console.WriteLine("Enter drone ID: ");
+
+            int.TryParse(Console.ReadLine(), out int droneId);
+
             try
             {
-                int.TryParse(Console.ReadLine(), out int droneId);
                 Drone myDrone = BLObject.FindDroneByIdBL(droneId);
                 Console.WriteLine(myDrone.ToString());
             }
-            catch (System.FormatException)
+            catch (InvalidInputException e)
             {
-                Console.WriteLine("please enter a valid integer for drone ID ");
+                Console.WriteLine(e.Message);
             }
-        }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+    }
 
         /// <summary>
         /// Print Customer details.
@@ -466,8 +612,19 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter customer ID: ");
             int.TryParse(Console.ReadLine(), out int customerId);
 
-            Customer myCusromer = BLObject.FindCustomerByIdBL(customerId);
-            Console.WriteLine(myCusromer.ToString());
+            try
+            {
+                Customer myCusromer = BLObject.FindCustomerByIdBL(customerId);
+                Console.WriteLine(myCusromer.ToString());
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -478,8 +635,19 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter parcel ID: ");
             int.TryParse(Console.ReadLine(), out int parcelId);
 
-            Parcel myParcel = BLObject.FindParcelByIdBL(parcelId);
-            Console.WriteLine(myParcel.ToString());
+            try
+            {
+                Parcel myParcel = BLObject.FindParcelByIdBL(parcelId);
+                Console.WriteLine(myParcel.ToString());
+            }
+            catch (InvalidInputException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         //--------------------- LIST VIEW MENU FUNCTION ----------------------//

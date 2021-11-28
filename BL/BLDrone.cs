@@ -92,7 +92,6 @@ namespace BL
             if (drone.DroneStatus == DroneStatuses.Shipment)
             {
                 myDrone.ParcelInDelivery = SetParcelInDelivery(drone.DeliveryParcelId);
-
                 return myDrone;
             }
             else
