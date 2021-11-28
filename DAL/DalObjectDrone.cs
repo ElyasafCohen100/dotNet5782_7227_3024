@@ -16,6 +16,7 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId"> Id of Drone </param> 
         /// <returns> Drone object </returns>
+        /// <exception cref="ObjectNotFoundException">Throw if drone with such id has not found</exception>
         public Drone FindDroneById(int droneId)
         {
             Drone drone = DataSource.Drones.Find(x => x.Id == droneId);
@@ -27,6 +28,7 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId">Id of Drone </param>
         /// <returns> DroneCharge object </returns>
+        /// <exception cref="ObjectNotFoundException">Throw if drone-charge with such drone id has not found</exception>
         public DroneCharge FindDroneChargeByDroneId(int droneId)
         {
             DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
@@ -54,15 +56,8 @@ namespace DalObject
         /// <param name="droneId"> Id of Drone </param>
         public void UpdateDroneIdOfParcel(int parcelId, int droneId)
         {
-            try
-            {
                 Parcel myParcel = FindParcelById(parcelId);
-                myParcel.DroneId = droneId;
-            }
-            catch(ObjectNotFoundException)
-            {
-                throw;
-            }
+                myParcel.DroneId = droneId; 
         }
 
         /// <summary>
@@ -71,17 +66,13 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId"> Id of Drone </param>
         /// <param name="stationId"> Id of Station </param>
+        /// <exception cref="ArgumentOutOfRangeException">Throw if there no available charging-slots 
+        ///                                                 left in the receiving base-station</exception>
         public void UpdateDroneToCharging(int droneId, int stationId)
         {
             Station myStation = new();
-            try
-            {
-                myStation = FindStationById(stationId);
-            }
-            catch (ObjectNotFoundException)
-            {
-                throw;
-            }
+
+            myStation = FindStationById(stationId);
 
             if (myStation.ChargeSlots == 0) throw new ArgumentOutOfRangeException();
             myStation.ChargeSlots--;

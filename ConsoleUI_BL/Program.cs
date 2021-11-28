@@ -105,7 +105,7 @@ namespace ConsoleUI_BL
                     AddNewParcel();
                     break;
                 default:
-                    Console.WriteLine("Not valid choice!\n");
+                    Console.WriteLine("Invalid choice!\n");
                     Menu();
                     break;
             }
@@ -140,7 +140,7 @@ namespace ConsoleUI_BL
                     DeliveredParcelToCustomer();
                     break;
                 default:
-                    Console.WriteLine("Not valid choice!\n");
+                    Console.WriteLine("Invalid choice!\n");
                     Menu();
                     break;
             }
@@ -176,7 +176,7 @@ namespace ConsoleUI_BL
                     ViewParcel();
                     break;
                 default:
-                    Console.WriteLine("Not valid choice!\n");
+                    Console.WriteLine("Invalid choice!\n");
                     Menu();
                     break;
             }
@@ -205,7 +205,7 @@ namespace ConsoleUI_BL
                     ViewStationsWithAvailableChargingSlots();
                     break;
                 default:
-                    Console.WriteLine("Not valid choice!\n");
+                    Console.WriteLine("Invalid choice!\n");
                     Menu();
                     break;
             }

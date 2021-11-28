@@ -16,6 +16,7 @@ namespace BL
         /// add BL customer by using DAL
         /// </summary>
         /// <param name="customer"> the customer </param>
+        /// <exception cref="InvalidInputException">Thrown if one of the customer details are invalid</exception>
         public void AddNewCustomerBL(Customer customer)
         {
             IDAL.DO.Customer dalCustomer = new();
@@ -39,6 +40,7 @@ namespace BL
         /// check if the customer is already exist
         /// </summary>
         /// <param name="customer">The customer</param>
+        /// <exception cref="ObjectAlreadyExistException">Thrown if customer id or cusomer phone is already exist</exception>
         static void IfExistCustomer(Customer customer)
         {
             foreach (var myCustomer in dalObject.GetCustomerList())
@@ -56,11 +58,13 @@ namespace BL
         /// <param name="customerId"> the ID of customer </param>
         /// <param name="newName"> the update name of the customer </param>
         /// <param name="newPhoneNumber"> the new phone of the customer</param>
+        /// <exception cref="InvalidInputException">Thrown if customer id or cusomer phone or customer name is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Throw if customer with such id has not found</exception>
         public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
         {
-            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException($"Id");
-            if (newName == null) throw new InvalidInputException($"Name");
-            if (newPhoneNumber == null) throw new InvalidInputException($"Phone number");
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
+            if (newName == null) throw new InvalidInputException("Name");
+            if (newPhoneNumber == null) throw new InvalidInputException("Phone number");
 
             try
             {
@@ -83,9 +87,11 @@ namespace BL
         /// </summary>
         /// <param name="customerId"> the id of customer </param>
         /// <returns> return BL customer object </returns>
+        /// <exception cref="InvalidInputException">Thrown if customer id is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Throw if customer with such id has not found</exception>
         public Customer FindCustomerByIdBL(int customerId)
         {
-            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException($"Id");
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
 
             Customer Customer = new();
             try

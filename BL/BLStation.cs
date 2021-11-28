@@ -16,11 +16,12 @@ namespace BL
         /// add new BL station by using DAL 
         /// </summary>
         /// <param name="station"> the station </param>
+        /// <exception cref="InvalidInputException">Thrown if station id or number of charge-slots are invalid</exception>
         public void AddNewStationBL(Station station)
         {
             if (station.Id < 1000 || station.Id >= 10000) throw new InvalidInputException("id");
             IfExistBaseStation(station);
-            if (station.AvailableChargeSlots < 0) throw new InvalidInputException("charge slots");
+            if (station.AvailableChargeSlots < 0) throw new InvalidInputException("number of charge slots");
 
             IDAL.DO.Station dalStation = new();
 
@@ -53,6 +54,7 @@ namespace BL
         /// </summary>
         /// <param name="stationId"></param>
         /// <returns> the station </returns>
+        /// <exception cref="InvalidInputException">Thrown if station id is invalid</exception>
         public Station FindStationByIdBL(int stationId)
         {
             if (stationId < 1000 || stationId >= 10000) throw new InvalidInputException("id");
@@ -94,6 +96,7 @@ namespace BL
         /// <param name="baseStationId"> the ID of the base station </param>
         /// <param name="baseStationNewName"> the new name of the base station </param>
         /// <param name="baseStationChargeSlots"> how many chargen slots the base station has </param>
+        /// <exception cref="InvalidInputException">Thrown if station name or number of charge slots are invalid</exception>
         public void UpdateBaseStationDetails(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
         {
             if (baseStationNewName == "") throw new InvalidInputException("name"); 

@@ -16,6 +16,7 @@ namespace DalObject
         /// </summary>
         /// <param name="parcelId"> Id of Parcel </param>
         /// <returns> Parcel </returns>
+        /// <exception cref="ObjectNotFoundException">Throw if parcel with such id has not found</exception>
         public Parcel FindParcelById(int parcelId)
         {
             Parcel parcel = DataSource.Parcels.Find(x => x.Id == parcelId);
@@ -44,15 +45,8 @@ namespace DalObject
         /// <param name="parcelId"> Id of Parcel </param>
         public void UpdatePickedUpParcelById(int parcelId)
         {
-            try
-            {
-                Parcel myParcel = FindParcelById(parcelId);
-                myParcel.PickedUp = DateTime.Now;
-            }
-            catch (ObjectNotFoundException)
-            {
-                throw;
-            }
+            Parcel myParcel = FindParcelById(parcelId);
+            myParcel.PickedUp = DateTime.Now;
         }
 
         /// <summary>
@@ -61,15 +55,8 @@ namespace DalObject
         /// <param name="parcelId">Id of Parcel</param>
         public void UpdateDeliveredParcelById(int parcelId)
         {
-            try
-            {
-                Parcel myParcel = FindParcelById(parcelId);
-                myParcel.Delivered = DateTime.Now;
-            }
-            catch (ObjectNotFoundException)
-            {
-                throw;
-            }
+            Parcel myParcel = FindParcelById(parcelId);
+            myParcel.Delivered = DateTime.Now;
         }
 
 

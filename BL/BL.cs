@@ -21,6 +21,8 @@ namespace BL
         /// c-tor of BL.
         /// Initiate DroneToList list.
         /// </summary>
+        /// <exception cref="NoBaseStationToAssociateDroneToException">Thrown if there are no stations 
+        ///                                                             with available charge-slots</exception>
         public BL()
         {
             Random r = new();
@@ -156,6 +158,7 @@ namespace BL
         /// </summary>
         /// <param name="customerId">The id of the costumer</param>
         /// <returns>The id of the nearest base-station to the recieven coustomer as parameter</returns>
+        /// <exception cref="InvalidInputException">Thrown if the receiven id is invalid</exception>
         int FindNearestBaseStationByCustomerId(int customerId)
         {
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
@@ -186,6 +189,7 @@ namespace BL
         /// </summary>
         /// <param name="location">The location information to calculate the distance</param>
         /// <returns>The id of the nearest base-station with at least one available charge-slot if found/returns>
+        /// <excption cref="ObjectNotFoundException">Thrown if there are no stations with available charging slots</excption>
         int FindNearestBaseStationWithAvailableChargingSlots(Location location)
         {
             double minDistance = double.MaxValue;
@@ -213,7 +217,9 @@ namespace BL
         /// </summary>
         /// <param name="drone">The drone to calculate his needed minimum power suply</param>
         /// <param name="customerId">The target id to calculate the needed power suply for the drone to get there</param>
-        /// <returns>The minimum needed power suply to go to the target and to base station for charging if found, otherwise retun 0</returns>
+        /// <returns>The minimum needed power suply to go to the target and to base station for charging if found,
+        ///              otherwise retun 0</returns>
+        /// <exception cref="InvalidInputException">Thrown if drone id or customer id is invalid</exception>
         double FindMinPowerSuply(DroneToList drone, int customerId)
         {
             if (drone.Id < 1000 || drone.Id > 10000) throw new InvalidInputException("drone");
@@ -266,10 +272,13 @@ namespace BL
         }
 
         /// <summary>
-        /// Find the minimum needed power suply to go to the nearest base-station (with at least one available charging slot) for charging
+        /// Find the minimum needed power suply to go to the nearest base-station 
+        ///          (with at least one available charging slot) for charging
         /// </summary>
         /// <param name="drone">The drone to caclculate the minimum needed power suply</param>
         /// <returns>The minimum needed power suply</returns>
+        /// <exception cref="InvalidInputException">Thrown if drone id is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Thrown if there are no station with such id</exception>
         double FindMinPowerSuplyForCharging(DroneToList drone)
         {
             if (drone.Id < 1000 || drone.Id > 10000) throw new InvalidInputException("drone");
@@ -294,9 +303,11 @@ namespace BL
         /// <param name="droneId"> ID of drone </param>
         /// <param name="customerId"> ID of the client </param>
         /// <returns> return the minimun power of battery for distance between the drone and the dastination </returns>
+        /// /// <exception cref="InvalidInputException">Thrown if drone id or customer id is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Thrown if there are no drone with such id</exception>
         double FindMinPowerSuplyForDistanceBetweenDroneToTarget(int droneId, int customerId)
         {
-            if (droneId < 1000 || droneId > 10000) throw new InvalidInputException("drone");
+            if (droneId < 1000 || droneId > 10000) throw new InvalidInputException("drone id");
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("customer Id");
 
 
@@ -333,9 +344,11 @@ namespace BL
         /// <param name="droneId"> ID of drone </param>
         /// <param name="customerId"> ID of the client </param>
         /// <returns> return the minimun power of battery for all the jurney of the drone </returns>
+        /// /// <exception cref="InvalidInputException">Thrown if drone id or customer id is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Thrown if there are no drone with such id</exception>
         double FindMinSuplyForAllPath(int droneId, int customerId)
         {
-            if (droneId < 1000 || droneId > 10000) throw new InvalidInputException("drone");
+            if (droneId < 1000 || droneId > 10000) throw new InvalidInputException("drone id");
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("customer Id");
 
             DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);

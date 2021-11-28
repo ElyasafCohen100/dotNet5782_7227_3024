@@ -16,6 +16,8 @@ namespace BL
         /// </summary>
         /// <param name="drone"> drone </param>
         /// <param name="baseStationID"> ID of bace station </param>
+        /// <exception cref="InvalidInputException">Thrown if drone details is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Thrown if no base-station found</exception>
         public void AddNewDroneBL(Drone drone, int baseStationID)
         {
 
@@ -54,6 +56,7 @@ namespace BL
         /// check if the drone is already exist
         /// </summary>
         /// <param name="droneId">drone id</param>
+        /// <exception cref="ObjectAlreadyExistException">Thrown if drone id is already exist</exception>
         static void IfExistDrone(int droneId)
         {
             foreach (var myDrone in dalObject.GetDroneList())
@@ -69,13 +72,14 @@ namespace BL
         /// </summary>
         /// <param name="droneId">the ID of drone</param>
         /// <returns> BL drone </returns>
-        /// <exception cref="IBL.BO.NoBaseStationToAssociateDroneToException"> the exception of the function</exception>
+        /// <exception cref="InvalidInputException">Thrown if drone id is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Thrown if no drone with such id found</exception>
         public Drone FindDroneByIdBL(int droneId)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
 
             DroneToList drone = droneToLists.Find(x => x.Id == droneId);
-            if (drone == null) throw new System.ArgumentNullException();
+            if (drone.Id == 0) throw new ObjectNotFoundException("drone");
 
             Drone myDrone = new();
             myDrone.Id = drone.Id;
@@ -104,6 +108,8 @@ namespace BL
         /// </summary>
         /// <param name="parcelId"> the ID of parcel </param>
         /// <returns> the parcel type of "parcel in delivery" </returns>
+        /// <exception cref="InvalidInputException">Thrown if parcel id is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Thrown if parcel with such id not found</exception>
         internal ParcelInDelivery SetParcelInDelivery(int parcelId)
         {
             if (parcelId <= 0) throw new InvalidInputException("Id");
@@ -147,6 +153,9 @@ namespace BL
         /// update the status of BL drone to available and decrease the battery of drone
         /// </summary>
         /// <param name="droneId"> the ID of the drone </param>
+        /// <exception cref="InvalidInputException">Thrown if drone id is invalid</exception>
+        /// <exception cref="ObjectNotFoundException">Thrown if drone with such id not found</exception>
+        /// <exception cref="OutOfBatteryException">Thrown if there is not enough battery</exception>
         public void UpdateDroneToChargingBL(int droneId)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
@@ -184,6 +193,7 @@ namespace BL
         /// </summary>
         /// <param name="droneId"> ID of drone </param>
         /// <param name="newModel"> The model we are changing to </param>
+        /// <exception cref="InvalidInputException">Thrown if drone id is not valid</exception>
         public void UpdateDroneModelBL(int droneId, string newModel)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
@@ -199,6 +209,8 @@ namespace BL
         /// </summary>
         /// <param name="droneId"></param>
         /// <param name="chargeTime"></param>
+        /// <exception cref="InvalidInputException">Thrown if drone id or charging time is invalid</exception>
+        /// <exception cref="NotValidRequestException">Thrown if the drone is not in 'maintenance' status</exception>
         public void UpdateDroneFromChargingBL(int droneId, double chargeTime)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
@@ -213,7 +225,7 @@ namespace BL
             }
             else
             {
-                throw new ObjectNotFoundException("drone (in charging)");
+                throw new NotValidRequestException("The drone has not in maintenance status");
             }
         }
 
@@ -221,6 +233,7 @@ namespace BL
         /// update drone ID of parcel
         /// </summary>
         /// <param name="droneId"> the ID of drone </param>
+        /// <exception cref="InvalidInputException">Thrown if drone id is invalid</exception>
         public void UpdateDroneIdOfParcelBL(int droneId)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
@@ -292,6 +305,8 @@ namespace BL
         /// update the parcel status to picked up by the drone
         /// </summary>
         /// <param name="droneId"> the ID of the drone </param>
+        /// <exception cref="InvalidInputException">Thrown if drone id is invalid</exception>
+        /// <exception cref="NotValidRequestException">Thrown if the drone has already picked up the parcel </exception>
         public void UpdatePickedUpParcelByDroneIDBL(int droneId)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
@@ -318,6 +333,7 @@ namespace BL
         /// update the parcel status to delivered by the drone 
         /// </summary>
         /// <param name="droneId">the ID of drone </param>
+        /// <exception cref="NotValidRequestException">Thrown if the drone has already delivered the parcel </exception>
         public void UpdateDeliveredParcelByDroneIdBL(int droneId)
         {
             Drone myDrone = FindDroneByIdBL(droneId);

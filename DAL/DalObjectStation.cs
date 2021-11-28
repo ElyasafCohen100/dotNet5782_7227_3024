@@ -12,6 +12,7 @@ namespace DalObject
         /// </summary>
         /// <param name="stationId"> Id of Station </param>
         /// <returns>Station object</returns>
+        /// <exception cref="ObjectNotFoundException">Throw if station with such id has not found</exception>
         public Station FindStationById(int stationId)
         {
             Station station  = DataSource.Stations.Find(x => x.Id == stationId);

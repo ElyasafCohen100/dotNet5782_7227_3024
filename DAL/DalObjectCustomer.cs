@@ -11,6 +11,7 @@ namespace DalObject
         /// </summary>
         /// <param name="customerId"> Id of customer </param>
         /// <returns> Customer object </returns>
+        /// <exception cref="ObjectNotFoundException">Throw if customer with such id has not found</exception>
         public Customer FindCustomerById(int customerId)
         {
             Customer customer = DataSource.Customers.Find(x => x.Id == customerId);

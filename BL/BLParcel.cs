@@ -15,6 +15,7 @@ namespace BL
         /// add new BL parcel to the DATA SOURSCE by DAL
         /// </summary>
         /// <param name="parcel"> the new parcel</param>
+        /// <exception cref="InvalidInputException">Thrown if parcel details are invalid</exception>
         public void AddNewParcelBL(Parcel parcel)
         {
             if (parcel.senderCustomer.Id < 100000000 || parcel.senderCustomer.Id >= 1000000000) 
@@ -47,6 +48,7 @@ namespace BL
         /// </summary>
         /// <param name="parcelId">id of parcel </param>
         /// <returns> BL parcel </returns>
+        /// <exception cref="InvalidInputException">Thrown if drone id is invalid</exception>
         public Parcel FindParcelByIdBL(int parcelId)
         {
             if (parcelId <= 0) throw new InvalidInputException("Id");
