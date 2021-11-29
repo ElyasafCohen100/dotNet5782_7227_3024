@@ -25,12 +25,12 @@ namespace IBL
             public override string ToString()
             {
                 return $"Customer to list: \n" +
-                    $" Id: {Id}\n" +
-                    $"Name: {Name}\n" +
-                    $"Phone: {Phone}\n" +
-                    $"Send And Delivered Parcels: { SendAndDeliveredParcels}\n" +
-                    $"Delivered Parcels: {DeliveredParcels}\n" +
-                    $"PickedUp Parcels: {PickedUpParcels}\n";
+                       $" Id: {Id}\n" +
+                       $"Name: {Name}\n" +
+                       $"Phone: {Phone}\n" +
+                       $"Send And Delivered Parcels: { SendAndDeliveredParcels}\n" +
+                       $"Delivered Parcels: {DeliveredParcels}\n" +
+                       $"PickedUp Parcels: {PickedUpParcels}\n";
             }
         }
     }

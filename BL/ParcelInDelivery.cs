@@ -16,8 +16,8 @@ namespace IBL
             public Priorities Priority { get; set; }
             public WeightCategories Weight { get; set; }
 
-            public CustomerInParcel receiverCustomer;
-            public CustomerInParcel senderCustomer;
+            public CustomerInParcel receiverCustomer= new();
+            public CustomerInParcel senderCustomer =new();
 
             public Location SourceLocation { get; set; }
             public Location TargetLocation { get; set; }

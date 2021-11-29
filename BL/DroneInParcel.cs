@@ -12,7 +12,7 @@ namespace IBL
         {
             public int Id { get; set; }
             public double BatteryStatus { get; set; }
-            public Location CurrentLocation;
+            public Location CurrentLocation = new();
 
             /// <summary>
             /// Return describe of Drone struct string

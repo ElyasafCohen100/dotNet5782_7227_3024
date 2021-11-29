@@ -21,10 +21,10 @@ namespace IDAL
             public Priorities Priority;
             public WeightCategories Weight;
            
-            public DateTime Requested;
-            public DateTime Scheduled;
-            public DateTime PickedUp;
-            public DateTime Delivered;
+            public DateTime? Requested;
+            public DateTime? Scheduled;
+            public DateTime? PickedUp;
+            public DateTime? Delivered;
 
             /// <summary>
             /// Return describe of Parcel struct string

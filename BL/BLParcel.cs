@@ -34,9 +34,9 @@ namespace BL
             dalParcel.Priority = (IDAL.DO.Priorities)parcel.Priority;
 
             dalParcel.Requested = DateTime.Now;
-            dalParcel.Scheduled = DateTime.MinValue;
-            dalParcel.PickedUp = DateTime.MinValue;
-            dalParcel.Delivered = DateTime.MinValue;
+            dalParcel.Scheduled = null;
+            dalParcel.PickedUp = null;
+            dalParcel.Delivered = null;
 
             dalObject.SetNewParcel(dalParcel);
         }
@@ -116,15 +116,15 @@ namespace BL
                 Parcel.WeightCategory = (WeightCategories)dalParcel.Weight;
                 Parcel.Prioritie = (Priorities)dalParcel.Priority;
 
-                if (dalParcel.Delivered != DateTime.MinValue)
+                if (dalParcel.Delivered != null)
                 {
                     Parcel.ParcelStatus = ParcelStatus.Delivered;
                 }
-                else if (dalParcel.PickedUp != DateTime.MinValue)
+                else if (dalParcel.PickedUp != null)
                 {
                     Parcel.ParcelStatus = ParcelStatus.PickedUp;
                 }
-                else if (dalParcel.Scheduled != DateTime.MinValue)
+                else if (dalParcel.Scheduled != null)
                 {
                     Parcel.ParcelStatus = ParcelStatus.Scheduled;
                 }

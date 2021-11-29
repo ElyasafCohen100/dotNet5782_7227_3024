@@ -16,8 +16,8 @@ namespace IBL
             public override string ToString()
             {
                 return $"Customer in parcel: \n" +
-                    $"Id: {Id} \n"+
-                    $"Name: {Name} \n";
+                       $"Id: {Id} \n"+
+                       $"Name: {Name} \n";
             }
         }
     }

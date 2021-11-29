@@ -21,12 +21,12 @@ namespace IBL
             public override string ToString()
             {
                 return $"Parcel to list:\n" +
-                    $"Id: {Id}\n" +
-                    $"Receiver: {ReceiverName}\n" +
-                    $"Sender: {SenderName}\n" +
-                    $"Weight category: {WeightCategory}\n" +
-                    $"Priority: {Prioritie}\n" +
-                    $"Status: {ParcelStatus}\n";
+                       $"Id: {Id}\n" +
+                       $"Receiver: {ReceiverName}\n" +
+                       $"Sender: {SenderName}\n" +
+                       $"Weight category: {WeightCategory}\n" +
+                       $"Priority: {Prioritie}\n" +
+                       $"Status: {ParcelStatus}\n";
             }
         }
     }

@@ -12,17 +12,17 @@ namespace IBL
         {
             public int Id { get; set; }
 
-            public CustomerInParcel senderCustomer;
-            public CustomerInParcel receiverCustomer;
+            public CustomerInParcel senderCustomer = new();
+            public CustomerInParcel receiverCustomer =new();
             public DroneInParcel Drone { get; set; }
 
             public Priorities Priority;
             public WeightCategories Weight;
 
-            public DateTime Requested;
-            public DateTime Scheduled;
-            public DateTime PickedUp;
-            public DateTime Delivered;
+            public DateTime? Requested = null;
+            public DateTime? Scheduled = null;
+            public DateTime? PickedUp = null;
+            public DateTime? Delivered = null;
 
             /// <summary>
             /// Return describe of Parcel struct string

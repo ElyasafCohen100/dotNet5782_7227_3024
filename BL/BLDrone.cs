@@ -313,7 +313,7 @@ namespace BL
             Drone myDrone = FindDroneByIdBL(droneId);
             Parcel myParcel = FindParcelByIdBL(myDrone.ParcelInDelivery.Id);
 
-            if (myParcel.PickedUp == DateTime.MinValue)
+            if (myParcel.PickedUp == null)
             {
                 myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
 
@@ -338,7 +338,7 @@ namespace BL
             Drone myDrone = FindDroneByIdBL(droneId);
             Parcel myParcel = FindParcelByIdBL(myDrone.ParcelInDelivery.Id);
 
-            if ((myParcel.PickedUp != DateTime.MinValue) && (myParcel.Delivered == DateTime.MinValue))
+            if ((myParcel.PickedUp != null) && (myParcel.Delivered == null))
             {
                 myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
 

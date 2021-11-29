@@ -16,8 +16,8 @@ namespace IBL
             public double BatteryStatus { get; set; }
 
             public DroneStatuses DroneStatus;
-            public ParcelInDelivery ParcelInDelivery;
-            public Location CurrentLocation;
+            public ParcelInDelivery ParcelInDelivery = new();
+            public Location CurrentLocation = new();
 
             /// <summary>
             /// Return describe of Drone struct string

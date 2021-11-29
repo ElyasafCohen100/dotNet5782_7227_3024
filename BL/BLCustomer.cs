@@ -120,11 +120,11 @@ namespace BL
                         ParcelInCustomer.WeightCategory = (WeightCategories)parcel.Weight;
                         ParcelInCustomer.Priority = (Priorities)parcel.Priority;
 
-                        if (parcel.Delivered != DateTime.MinValue)
+                        if (parcel.Delivered != null)
                             ParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
-                        else if (parcel.PickedUp != DateTime.MinValue)
+                        else if (parcel.PickedUp != null)
                             ParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
-                        else if (parcel.Scheduled != DateTime.MinValue)
+                        else if (parcel.Scheduled != null)
                             ParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
                         else
                             ParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
@@ -171,22 +171,22 @@ namespace BL
                         {
                             if (myCustomer.Id == parcel.SenderId)
                             {
-                                if (parcel.Delivered != DateTime.MinValue)
+                                if (parcel.Delivered != null)
                                 {
                                     myCustomer.SendAndDeliveredParcels++;
                                 }
-                                else if (parcel.PickedUp != DateTime.MinValue)
+                                else if (parcel.PickedUp != null)
                                 {
                                     myCustomer.SendAndNotDeliveredParcels++;
                                 }
                             }
                             else if (myCustomer.Id == parcel.TargetId)
                             {
-                                if (parcel.Delivered != DateTime.MinValue)
+                                if (parcel.Delivered != null)
                                 {
                                     myCustomer.DeliveredParcels++;
                                 }
-                                else if (parcel.PickedUp != DateTime.MinValue)
+                                else if (parcel.PickedUp != null)
                                 {
                                     myCustomer.PickedUpParcels++;
                                 }

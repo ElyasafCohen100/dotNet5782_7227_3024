@@ -53,12 +53,12 @@ namespace BL
                     // Set DroneStatus, DeliveryParcelId and CurrentLocation (and BatteryStatus - if needed) fileds
                     foreach (var parcel in dalObject.GetParcelList())
                     {
-                        if (parcel.DroneId == newDrone.Id && parcel.Delivered == DateTime.MinValue)
+                        if (parcel.DroneId == newDrone.Id && parcel.Delivered == null)
                         {
                             newDrone.DroneStatus = DroneStatuses.Shipment;
                             newDrone.DeliveryParcelId = parcel.Id;
 
-                            if (parcel.PickedUp == DateTime.MinValue)
+                            if (parcel.PickedUp == null)
                             {
                                 int baseStationId = FindNearestBaseStationByCustomerId(parcel.SenderId);
 
@@ -106,7 +106,7 @@ namespace BL
 
                         foreach (var parcel in dalObject.GetParcelList())
                         {
-                            if (parcel.Delivered != DateTime.MinValue)
+                            if (parcel.Delivered != null)
                             {
                                 CustomerIdList.Add(parcel.TargetId);
                             }
