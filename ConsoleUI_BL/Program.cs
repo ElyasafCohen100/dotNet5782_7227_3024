@@ -20,7 +20,7 @@ namespace ConsoleUI_BL
 
             do
             {
-                // MAIN MENU
+                //MAIN MENU
                 Console.WriteLine("Enter a choice:");
                 Console.WriteLine("1. Add options");
                 Console.WriteLine("2. Update options");
@@ -30,7 +30,7 @@ namespace ConsoleUI_BL
 
                 int.TryParse(Console.ReadLine(), out choice);
 
-                // SUB MENU
+                //SUB MENU
                 switch (choice)
                 {
                     case 1:
@@ -68,7 +68,7 @@ namespace ConsoleUI_BL
                         ViewMenu(subChoice);
                         break;
                     case 4:
-                        Console.WriteLine("\nPlease enter your choice:");
+                        Console.WriteLine("\nEnter your choice:");
                         Console.WriteLine("1. Base-stations view");
                         Console.WriteLine("2. Drones view");
                         Console.WriteLine("3. Customers view");
@@ -110,7 +110,7 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-        
+
         internal static void UpdateMenu(int subChoice)
         {
             switch (subChoice)
@@ -145,7 +145,7 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-        
+
         internal static void ViewMenu(int subChoice)
         {
             switch (subChoice)
@@ -157,15 +157,15 @@ namespace ConsoleUI_BL
                 case 2:
                     try
                     {
-                      ViewDrone();
+                        ViewDrone();
                     }
-                    catch(System.FormatException)
+                    catch (System.FormatException)
                     {
-                        Console.WriteLine("invalid Input Of Drone Id Exception, Please Try Again.");
+                        Console.WriteLine("Invalid Input Of Drone Id Exception, Please Try Again.");
                     }
                     catch (System.ArgumentNullException)
                     {
-                        Console.WriteLine("please enter valid ID ");
+                        Console.WriteLine("please enter valid Id ");
                     }
                     break;
 
@@ -181,7 +181,7 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-        
+
         internal static void ViewListMenu(int subChoice)
         {
             switch (subChoice)
@@ -219,7 +219,7 @@ namespace ConsoleUI_BL
             double doubleTemp;
             Station station = new();
 
-            Console.WriteLine("Enter base-station ID:");
+            Console.WriteLine("Enter base-station Id:");
             int.TryParse(Console.ReadLine(), out intTemp);
             station.Id = intTemp;
 
@@ -229,6 +229,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter the longitude:");
             double.TryParse(Console.ReadLine(), out doubleTemp);
             station.Location.Longitude = doubleTemp;
+
 
             Console.WriteLine("Enter the latitude:");
             double.TryParse(Console.ReadLine(), out doubleTemp);
@@ -244,33 +245,33 @@ namespace ConsoleUI_BL
             {
                 BLObject.AddNewStationBL(station);
             }
-            catch(InvalidInputException e)
+            catch (InvalidInputException e)
             {
                 Console.WriteLine(e.Message);
             }
-            catch(ObjectAlreadyExistException e)
+            catch (ObjectAlreadyExistException e)
             {
                 Console.WriteLine(e.Message);
             }
         }
-        
+
         public static void AddNewDrone()
         {
             int intTemp;
             Drone drone = new();
 
-            Console.WriteLine("Enter id:");
+            Console.WriteLine("Enter Id:");
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.Id = intTemp;
 
             Console.WriteLine("Enter model of drone:");
             drone.Model = Console.ReadLine();
 
-            Console.WriteLine("Enter max weight: (1 - Light,  2 - Intermediate,  3 - Heavy)");
+            Console.WriteLine("Enter max weight: (0 - Heavy,  1 - Intermediate,  2 - Light)");
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.MaxWeight = (WeightCategories)intTemp;
 
-            Console.WriteLine("Enter base staion ID to put the drone for first charge");
+            Console.WriteLine("Enter base staion Id to put the drone for first charge");
             int.TryParse(Console.ReadLine(), out intTemp);
 
             try
@@ -287,17 +288,17 @@ namespace ConsoleUI_BL
             }
             catch (ObjectAlreadyExistException e)
             {
-                Console.WriteLine( e.Message);
+                Console.WriteLine(e.Message);
             }
         }
-        
+
         public static void AddNewCostumer()
         {
             int intTemp;
             double doubleTemp;
             Customer customer = new();
 
-            Console.WriteLine("Enter ID: ");
+            Console.WriteLine("Enter Id: ");
             int.TryParse(Console.ReadLine(), out intTemp);
             customer.Id = intTemp;
 
@@ -322,14 +323,14 @@ namespace ConsoleUI_BL
             }
             catch (InvalidInputException e)
             {
-                Console.WriteLine( e.Message);
+                Console.WriteLine(e.Message);
             }
             catch (ObjectAlreadyExistException e)
             {
-                Console.WriteLine( e.Message);
+                Console.WriteLine(e.Message);
             }
         }
-        
+
         public static void AddNewParcel()
         {
             int intTemp;
@@ -342,12 +343,11 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter reciver id: ");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.receiverCustomer.Id = intTemp;
-
-            Console.WriteLine("Enter parcel weight category: (0 - Light,  1 - Average,  2 - Heavy)");
+            Console.WriteLine("Enter parcel weight category: (0 - Heavy,  1 - Intermediate,  2 - Light)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Weight = (WeightCategories)intTemp;
 
-            Console.WriteLine("Enter parcel priority:  (0 - Fast,  1 - Regular,  2 - Slow)");
+            Console.WriteLine("Enter parcel priority:  (0 -  Regular,  1 - Fast,  2 - Emergency)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Priority = (Priorities)intTemp;
 
@@ -367,7 +367,7 @@ namespace ConsoleUI_BL
 
         public static void UpdateDroneModelByID()
         {
-            Console.WriteLine("Enter drone ID: ");
+            Console.WriteLine("Enter drone Id: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
             Console.WriteLine("Enter new name: ");
@@ -377,7 +377,7 @@ namespace ConsoleUI_BL
             {
                 BLObject.UpdateDroneModelBL(droneId, newModel);
             }
-            catch(InvalidInputException e)
+            catch (InvalidInputException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -403,11 +403,11 @@ namespace ConsoleUI_BL
             {
                 BLObject.UpdateBaseStationDetails(baseStationId, baseStationNewName, baseStationChargeSlots);
             }
-            catch (InvalidInputException e) 
+            catch (InvalidInputException e)
             {
                 Console.WriteLine(e.Message);
             }
-            catch(ObjectNotFoundException e)
+            catch (ObjectNotFoundException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -441,7 +441,7 @@ namespace ConsoleUI_BL
 
         public static void UpdateDroneToCharging()
         {
-            Console.WriteLine("Enter drone ID: ");
+            Console.WriteLine("Enter drone Id: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
             try
@@ -452,7 +452,7 @@ namespace ConsoleUI_BL
             {
                 Console.WriteLine(e.Message);
             }
-            catch(ObjectNotFoundException e)
+            catch (ObjectNotFoundException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -464,7 +464,7 @@ namespace ConsoleUI_BL
 
         public static void UpdateDroneFromCharging()
         {
-            Console.WriteLine("Enter drone ID: ");
+            Console.WriteLine("Enter drone Id: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
             Console.WriteLine("Enter the charging time in minutes: ");
@@ -491,7 +491,7 @@ namespace ConsoleUI_BL
         public static void AssociateParcelToDrone()
         {
 
-            Console.WriteLine("Enter Drone ID:");
+            Console.WriteLine("Enter Drone Id:");
             int.TryParse(Console.ReadLine(), out int droneId);
 
             try
@@ -511,7 +511,7 @@ namespace ConsoleUI_BL
 
         public static void CollectParcelByDrone()
         {
-            Console.WriteLine("Enter Drone ID: ");
+            Console.WriteLine("Enter Drone Id: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
             try
@@ -521,7 +521,7 @@ namespace ConsoleUI_BL
             catch (InvalidInputException e)
             {
                 Console.WriteLine(e.Message);
-            }       
+            }
             catch (NotValidRequestException e)
             {
                 Console.WriteLine(e.Message);
@@ -534,7 +534,7 @@ namespace ConsoleUI_BL
 
         public static void DeliveredParcelToCustomer()
         {
-            Console.WriteLine("Enter Drone ID: ");
+            Console.WriteLine("Enter Drone Id: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
             try
@@ -549,7 +549,7 @@ namespace ConsoleUI_BL
             {
                 Console.WriteLine(e.Message);
             }
-            catch(InvalidInputException e)
+            catch (InvalidInputException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -562,7 +562,7 @@ namespace ConsoleUI_BL
         /// </summary>
         public static void ViewBaseStation()
         {
-            Console.WriteLine("Enter Base-Station ID: ");
+            Console.WriteLine("Enter Base-Station Id: ");
             int.TryParse(Console.ReadLine(), out int baseStatinId);
 
             try
@@ -578,6 +578,7 @@ namespace ConsoleUI_BL
             {
                 Console.WriteLine(e.Message);
             }
+
         }
 
         /// <summary>
@@ -585,7 +586,7 @@ namespace ConsoleUI_BL
         /// </summary>
         public static void ViewDrone()
         {
-            Console.WriteLine("Enter drone ID: ");
+            Console.WriteLine("Enter drone Id: ");
 
             int.TryParse(Console.ReadLine(), out int droneId);
 
@@ -602,14 +603,14 @@ namespace ConsoleUI_BL
             {
                 Console.WriteLine(e.Message);
             }
-    }
+        }
 
         /// <summary>
         /// Print Customer details.
         /// </summary>
         public static void ViewCustomer()
         {
-            Console.WriteLine("Enter customer ID: ");
+            Console.WriteLine("Enter customer Id: ");
             int.TryParse(Console.ReadLine(), out int customerId);
 
             try
@@ -632,7 +633,7 @@ namespace ConsoleUI_BL
         /// </summary>
         public static void ViewParcel()
         {
-            Console.WriteLine("Enter parcel ID: ");
+            Console.WriteLine("Enter parcel Id: ");
             int.TryParse(Console.ReadLine(), out int parcelId);
 
             try
@@ -655,11 +656,17 @@ namespace ConsoleUI_BL
         public static void ViewBaseStationsList()
         {
             Console.WriteLine("The stations are:");
-
-            foreach (var station in BLObject.ViewBaseStationsToList())
+            try
             {
-                Console.WriteLine(station.ToString());
-                Console.WriteLine();
+                foreach (var station in BLObject.ViewBaseStationsToList())
+                {
+                    Console.WriteLine(station.ToString());
+                    Console.WriteLine();
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
 

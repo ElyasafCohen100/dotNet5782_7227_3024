@@ -18,13 +18,13 @@ namespace BL
         /// <exception cref="InvalidInputException">Thrown if parcel details are invalid</exception>
         public void AddNewParcelBL(Parcel parcel)
         {
-            if (parcel.senderCustomer.Id < 100000000 || parcel.senderCustomer.Id >= 1000000000) 
+            if (parcel.senderCustomer.Id < 100000000 || parcel.senderCustomer.Id >= 1000000000)
                 throw new InvalidInputException("sender Id");
-            if (parcel.receiverCustomer.Id < 100000000 || parcel.receiverCustomer.Id >= 1000000000) 
+            if (parcel.receiverCustomer.Id < 100000000 || parcel.receiverCustomer.Id >= 1000000000)
                 throw new InvalidInputException("receiver Id");
-            if((int)parcel.Weight < 0 || (int)parcel.Weight > 2) throw new InvalidInputException("Weight");
-            if((int)parcel.Priority < 0 || (int)parcel.Priority > 2) throw new InvalidInputException("priority");
-            
+            if ((int)parcel.Weight < 0 || (int)parcel.Weight > 2) throw new InvalidInputException("Weight");
+            if ((int)parcel.Priority < 0 || (int)parcel.Priority > 2) throw new InvalidInputException("priority");
+
 
             IDAL.DO.Parcel dalParcel = new();
 
@@ -54,8 +54,9 @@ namespace BL
             if (parcelId <= 0) throw new InvalidInputException("Id");
 
             IDAL.DO.Parcel dalParcel = dalObject.FindParcelById(parcelId);
+
             Parcel Parcel = new();
-         
+
 
             Parcel.Id = dalParcel.Id;
 

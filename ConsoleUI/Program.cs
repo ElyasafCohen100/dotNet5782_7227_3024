@@ -13,7 +13,6 @@ namespace ConsoleUI
     /// </summary>
     class Program
     {
-        // public static IDAL.IDal dalObject = new DalObject.DalObject();
         public static DalObject.DalObject dalObject = new DalObject.DalObject();
 
         /// <summary>
@@ -25,7 +24,6 @@ namespace ConsoleUI
             Menu();
         }
 
-
         /// <summary>
         /// Menu of choice.
         /// </summary>
@@ -36,7 +34,7 @@ namespace ConsoleUI
 
             do
             {
-                // MAIN MENU
+                //MAIN MENU
                 Console.WriteLine("Enter option number:");
                 Console.WriteLine("0. Calculate Distance between two points");
                 Console.WriteLine("1. Add options");
@@ -47,7 +45,7 @@ namespace ConsoleUI
 
                 int.TryParse(Console.ReadLine(), out choice);
 
-                // SUB MENU
+                //SUB MENU
                 switch (choice)
                 {
                     case 0:
@@ -97,7 +95,7 @@ namespace ConsoleUI
                         ListsViewMenu(subChoice);
                         break;
                     case 5:
-                        /* Exit from the program. Nothing to do*/
+                        // Exit from the program.
                         break;
                     default:
                         Console.WriteLine("Bad choice, please Enter new choice:");
@@ -210,7 +208,7 @@ namespace ConsoleUI
             }
         }
 
-        //-------------------- ADD MENU FUNCTOINS ---------------------//
+        //------------------- ADD MENU FUNCTOINS -------------------//
 
         /// <summary>
         /// Add new Base-Station.
@@ -221,7 +219,7 @@ namespace ConsoleUI
             double doubleTemp;
             Station station = new();
 
-            Console.WriteLine("Enter id:");
+            Console.WriteLine("Enter ID:");
             int.TryParse(Console.ReadLine(), out intTemp);
             station.Id = intTemp;
 
@@ -242,7 +240,7 @@ namespace ConsoleUI
 
             dalObject.SetNewStation(station);
 
-            Console.WriteLine("A new base station has been added");
+            Console.WriteLine("New base station added");
         }
 
         /// <summary>
@@ -253,14 +251,14 @@ namespace ConsoleUI
             int intTemp;
             Drone drone = new();
 
-            Console.WriteLine("Enter id:");
+            Console.WriteLine("Enter ID:");
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.Id = intTemp;
 
             Console.WriteLine("Enter model of drone:");
             drone.Model = Console.ReadLine();
 
-            Console.WriteLine("Enter max weight: (1 - Light,  2- average,  3- Heavy)");
+            Console.WriteLine("Enter max weight: (1 - Heavy,  2 - Intermediate,  3 - Light)");
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.MaxWeight = (WeightCategories)intTemp;
 
@@ -278,7 +276,7 @@ namespace ConsoleUI
             double doubleTemp;
             Customer customer = new();
 
-            Console.WriteLine("Enter id:");
+            Console.WriteLine("Enter ID:");
             int.TryParse(Console.ReadLine(), out intTemp);
             customer.Id = intTemp;
 
@@ -312,31 +310,32 @@ namespace ConsoleUI
             Parcel parcel = new();
             DateTime currentDate = DateTime.Now;
 
-            Console.WriteLine("Enter id:");
+            Console.WriteLine("Enter ID:");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Id = intTemp;
 
-            Console.WriteLine("Enter sender id:");
+            Console.WriteLine("Enter sender ID:");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.SenderId = intTemp;
 
-            Console.WriteLine("Enter target id:");
+            Console.WriteLine("Enter target ID:");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.TargetId = intTemp;
 
-            Console.WriteLine("Enter drone id:");
+            Console.WriteLine("Enter drone ID:");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.DroneId = intTemp;
 
-            Console.WriteLine("Enter parcel weight: (1 - Light, 2 - average, 3 - Heavy)");
+            Console.WriteLine("Enter parcel weight: (1 - Heavy, 2 - Intermediate, 3 - Light)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Weight = (WeightCategories)intTemp;
 
-            Console.WriteLine("Enter parcel priority: (1 - Regular, 2 - fast, 3 - emergency)");
+            Console.WriteLine("Enter parcel priority: (1 - Regular, 2 - Fast, 3 - Emergency)");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.Priority = (Priorities)intTemp;
 
-            Console.WriteLine("Enter parcel status: (1 - Requested, 2 - Scheduled, 3 - PickedUp, 4 - Delivered)");
+            Console.WriteLine("Enter parcel status: (1 - Requested" +
+                ", 2 - Scheduled, 3 - PickedUp, 4 - Delivered)");
             choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
@@ -361,7 +360,7 @@ namespace ConsoleUI
             Console.WriteLine("A new parcel has been added");
         }
 
-        //------------------- UPDATE FANCTIONS ------------------//
+        //------------------- UPDATE FANCTIONS -------------------//
 
         /// <summary>
         /// Update Parcel status by the recived Id.
@@ -389,7 +388,7 @@ namespace ConsoleUI
         {
             int parcelId;
 
-            Console.WriteLine("Please enter your parcel id: ");
+            Console.WriteLine("Enter parcel ID: ");
             int.TryParse(Console.ReadLine(), out parcelId);
 
 
@@ -405,7 +404,7 @@ namespace ConsoleUI
         {
             int ParcelId;
 
-            Console.WriteLine("Please enter your parcel id: ");
+            Console.WriteLine("Enter your parcel ID: ");
             int.TryParse(Console.ReadLine(), out ParcelId);
 
 
@@ -422,10 +421,10 @@ namespace ConsoleUI
             int droneId;
             int stationId;
 
-            Console.WriteLine("Enter Drone id: ");
+            Console.WriteLine("Enter Drone ID: ");
             int.TryParse(Console.ReadLine(), out droneId);
 
-            Console.WriteLine("Enter station id: ");
+            Console.WriteLine("Enter station ID: ");
             ViewStationsWithAvailableChargingSlots();
             int.TryParse(Console.ReadLine(), out stationId);
 
@@ -449,7 +448,7 @@ namespace ConsoleUI
         }
 
 
-        //------------------- VIEW MENU FUNCTION --------------------//
+        //------------------- VIEW MENU FUNCTION -------------------//
 
         /// <summary>
         /// Print base station details
@@ -500,7 +499,7 @@ namespace ConsoleUI
         }
 
 
-        //---------------- LISTS VIEW MENU FUNCTION -----------------//
+        //------------------- LISTS VIEW MENU FUNCTION -------------------//
 
         /// <summary>
         /// Print List of Base-Stations.
@@ -508,13 +507,13 @@ namespace ConsoleUI
         public static void ViewBaseStationsList()
         {
             Console.WriteLine("The stations are:");
-            int i = 1;
             IEnumerable<Station> stations = dalObject.GetBaseStationList();
 
 
             foreach (var station in stations)
             {
-                Console.WriteLine($"{i++}.\n {station}\n");
+                Console.WriteLine(station.ToString());
+                Console.WriteLine();
             }
         }
 
@@ -524,12 +523,12 @@ namespace ConsoleUI
         public static void ViewDronesList()
         {
             Console.WriteLine("The drones are:");
-            int i = 1;
             IEnumerable<Drone> myDrones = dalObject.GetDroneList();
 
             foreach (var drone in myDrones)
             {
-                Console.WriteLine($"{i++}.\n {drone}\n");
+                Console.WriteLine(drone.ToString());
+                Console.WriteLine();
             }
         }
 
@@ -539,12 +538,12 @@ namespace ConsoleUI
         public static void ViewCustomersList()
         {
             Console.WriteLine("The customers are:");
-            int i = 1;
             IEnumerable<Customer> myCustomers = dalObject.GetCustomerList();
 
             foreach (var customer in myCustomers)
             {
-                Console.WriteLine($"{i++}. {customer}\n");
+                Console.WriteLine(customer.ToString());
+                Console.WriteLine();
             }
         }
 
@@ -554,12 +553,12 @@ namespace ConsoleUI
         public static void ViewParcelsList()
         {
             Console.WriteLine("The parcels are:");
-            int i = 1;
             IEnumerable<Parcel> myParcels = dalObject.GetParcelList();
 
             foreach (var parcel in myParcels)
             {
-                Console.WriteLine($"{i++}.\n {parcel}\n");
+                Console.WriteLine(parcel.ToString());
+                Console.WriteLine();
             }
         }
 
@@ -569,12 +568,12 @@ namespace ConsoleUI
         public static void ViewNonAssociateParcelsList()
         {
             Console.WriteLine("The non-associate parcels are:");
-            int i = 1;
             IEnumerable<Parcel> myNonAssociateParcels = dalObject.GetNonAssociateParcelList();
 
             foreach (var nonAssociateParcel in myNonAssociateParcels)
             {
-                Console.WriteLine($"{i++}.\n {nonAssociateParcel}\n");
+                Console.WriteLine(nonAssociateParcel.ToString());
+                Console.WriteLine();
             }
         }
 
@@ -584,11 +583,11 @@ namespace ConsoleUI
         public static void ViewStationsWithAvailableChargingSlots()
         {
             IEnumerable<Station> Stations = new List<Station>();
-            int i = 1;
             Stations = dalObject.GetStationsWithAvailableChargingSlots();
             foreach (var station in Stations)
             {
-                Console.WriteLine($"{i++}.\n {station}\n");
+                Console.WriteLine(station.ToString());
+                Console.WriteLine();
             }
         }
 
