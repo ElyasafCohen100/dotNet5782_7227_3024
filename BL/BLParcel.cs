@@ -147,7 +147,7 @@ namespace BL
         {
             List<ParcelToList> ParcelToList = new();
 
-            foreach (var parcel in dalObject.GetNonAssociateParcelList())
+            foreach (var parcel in dalObject.GetParcels(x => x.DroneId == 0))
             {
                 IDAL.DO.Parcel dalParcel = dalObject.FindParcelById(parcel.Id);
                 ParcelToList myParcel = new();

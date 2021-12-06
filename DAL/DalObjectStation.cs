@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IDAL.DO;
 
 namespace DalObject
@@ -31,6 +32,7 @@ namespace DalObject
         }
 
         //-------------------------- GETTERS -------------------------//
+       
         /// <summary>
         /// Return list of Stations.
         /// </summary>
@@ -38,6 +40,15 @@ namespace DalObject
         public IEnumerable<Station> GetBaseStationList()
         {
             return DataSource.Stations;
+        }
+
+        /// <summary>
+        /// Return List of Stations with available charging slot.
+        /// </summary>
+        /// <returns> List of Stations with available charging slot </returns>
+        public IEnumerable<Station> GetStations(Predicate<Station> predicate)
+        {
+            return DataSource.Stations.FindAll(predicate);
         }
     }
 }

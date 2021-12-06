@@ -207,7 +207,7 @@ namespace BL
             double minDistance = double.MaxValue;
             int nearestBaseStationID = 0;
 
-            IEnumerable<IDAL.DO.Station> stations = dalObject.GetStationsWithAvailableChargingSlots();
+            IEnumerable<IDAL.DO.Station> stations = dalObject.GetStations(x => x.ChargeSlots > 0);
             if (stations.Count() == 0) throw new ObjectNotFoundException("Stations with available charging slots");
 
             foreach (var myBaseStation in stations)

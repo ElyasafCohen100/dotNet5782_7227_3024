@@ -71,22 +71,15 @@ namespace DalObject
             return DataSource.Parcels;
         }
 
+
         /// <summary>
         /// Return List of non associate Parcels.
         /// </summary>
         /// <returns> List of non associate Parcels </returns>
-        public IEnumerable<Parcel> GetNonAssociateParcelList()
+        public IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate)
         {
-           return DataSource.Parcels.FindAll(x => x.DroneId == 0);
+           return DataSource.Parcels.FindAll(predicate);
         }
 
-        /// <summary>
-        /// Return List of Stations with available charging slot.
-        /// </summary>
-        /// <returns> List of Stations with available charging slot </returns>
-        public IEnumerable<Station> GetStationsWithAvailableChargingSlots()
-        {
-            return DataSource.Stations.FindAll(x => x.ChargeSlots > 0);
-        }
     }
 }

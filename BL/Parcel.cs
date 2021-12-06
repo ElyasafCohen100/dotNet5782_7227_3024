@@ -13,7 +13,7 @@ namespace IBL
             public int Id { get; set; }
 
             public CustomerInParcel senderCustomer = new();
-            public CustomerInParcel receiverCustomer =new();
+            public CustomerInParcel receiverCustomer = new();
             public DroneInParcel Drone { get; set; }
 
             public Priorities Priority;

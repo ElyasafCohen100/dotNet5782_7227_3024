@@ -25,13 +25,13 @@ namespace DalObject
         /// </summary>
         internal class Config
         {
-            internal static double Light = 120;
-            internal static double Intermediate = 130;
-            internal static double Heavy = 150;
-            internal static double Available = 113;
-            internal static double DroneChargingRate = 58;
+            internal static double Light = 3.4;
+            internal static double Average = 3.7;
+            internal static double Heavy = 4.3;
+            internal static double Available = 3.22;
+            internal static double DroneChargingRate = 2;
 
-            internal static int SerialNum = 0;
+            internal static int SerialNumber = 0;
 
             internal static Random r = new Random();
             internal static DateTime currentDate = DateTime.Now;
@@ -79,7 +79,7 @@ namespace DalObject
             for (int i = 0; i < 10; i++)
             {
                 Parcel myParcel = new Parcel();
-                myParcel.Id = Config.SerialNum;
+                myParcel.Id = Config.SerialNumber;
                 myParcel.SenderId = Customers[i].Id;
                 myParcel.TargetId = Customers[i + 1].Id;
                 myParcel.Weight = (WeightCategories)Config.r.Next(2);
@@ -107,7 +107,7 @@ namespace DalObject
                 }
                 Parcels.Add(myParcel);
 
-                Config.SerialNum++;
+                Config.SerialNumber++;
             }
         }
     }

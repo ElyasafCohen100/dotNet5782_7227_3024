@@ -568,7 +568,7 @@ namespace ConsoleUI
         public static void ViewNonAssociateParcelsList()
         {
             Console.WriteLine("The non-associate parcels are:");
-            IEnumerable<Parcel> myNonAssociateParcels = dalObject.GetNonAssociateParcelList();
+            IEnumerable<Parcel> myNonAssociateParcels = dalObject.GetParcels(x => x.DroneId == 0);
 
             foreach (var nonAssociateParcel in myNonAssociateParcels)
             {
@@ -583,7 +583,7 @@ namespace ConsoleUI
         public static void ViewStationsWithAvailableChargingSlots()
         {
             IEnumerable<Station> Stations = new List<Station>();
-            Stations = dalObject.GetStationsWithAvailableChargingSlots();
+            Stations = dalObject.GetStations(x => x.ChargeSlots > 0);
             foreach (var station in Stations)
             {
                 Console.WriteLine(station.ToString());
