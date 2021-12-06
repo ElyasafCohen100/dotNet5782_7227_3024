@@ -7,9 +7,27 @@
         mc:Ignorable="d"
         Title="DroneList" Height="640" Width="800">
 
-    <Grid Name="MainGrid">        <Grid.RowDefinitions>            <RowDefinition Height="50*"/>            <RowDefinition Height="400*"/>        </Grid.RowDefinitions>        <Grid x:Name="UpperGrid" Grid.Row="0" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">            <Grid.ColumnDefinitions>                 <ColumnDefinition Width="*"/>                 <ColumnDefinition Width="*"/>                 <ColumnDefinition Width="*"/>                 <ColumnDefinition Width="*"/>            </Grid.ColumnDefinitions>
-            <ComboBox HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" Width="120"/>
-            <ComboBox Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120"/>        </Grid>
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="UpperGrid" Grid.Row="0" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                 <ColumnDefinition Width="*"/>
+                 <ColumnDefinition Width="*"/>
+                 <ColumnDefinition Width="*"/>
+                 <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+           
+            <ComboBox Name="DroneStatusSelector" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" Width="120"/>
+            <ComboBox Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120"/>
+           
+            <Button  Content="add new drone" Grid.Column="2" Padding ="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Content="Exit" Grid.Column="3" Padding="20,10" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        </Grid>
+
 
         </Grid>
 </Window>
