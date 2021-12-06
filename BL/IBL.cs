@@ -42,5 +42,6 @@ namespace IBL
         IEnumerable<ParcelToList> ViewParcelToList();
         IEnumerable<ParcelToList> ViewNonAssociateParcelsListBL();
         IEnumerable<StationToList> ViewStationsWithAvailableChargingSlotstBL();
+        IEnumerable<DroneToList> ViewDronesToList(Predicate<DroneToList> predicate);
     }
 }

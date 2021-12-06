@@ -69,7 +69,7 @@ namespace BL
             Station.Location.Longitude = dalStation.Latitude;
 
 
-            foreach (var droneCharge in dalObject.GetDroneChargeListByStationId(x => x.StationId == stationId)) 
+            foreach (var droneCharge in dalObject.GetDroneChargeList(x => x.StationId == stationId)) 
             {
                 DroneCharge DroneCharge = new();
                 Drone Drone = new();
@@ -124,7 +124,7 @@ namespace BL
                 station.Id = baseStation.Id;
                 station.Name = baseStation.Name;
 
-                station.NotAvailableChargeSlots = dalObject.GetDroneChargeListByStationId(x => x.StationId == baseStation.Id).Count();
+                station.NotAvailableChargeSlots = dalObject.GetDroneChargeList(x => x.StationId == baseStation.Id).Count();
                 station.AvailableChargeSlots = baseStation.ChargeSlots - station.NotAvailableChargeSlots;
 
                 stationToList.Add(station);

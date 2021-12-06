@@ -106,12 +106,17 @@ namespace DalObject
             return DataSource.Drones;
         }
 
+        public IEnumerable<Drone> GetDrones(Predicate<Drone> predicate)
+        {
+            return DataSource.Drones.FindAll(predicate);
+        }
+
         /// <summary>
         /// get the drone charge list by given staionID
         /// </summary>
         /// <param name="stationId"> ID of station </param>
         /// <returns> drone charge list  </returns>
-        public IEnumerable<DroneCharge> GetDroneChargeListByStationId(Predicate<DroneCharge> predicate)
+        public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate)
         {
             return DataSource.DroneCharges.FindAll(predicate);
         }

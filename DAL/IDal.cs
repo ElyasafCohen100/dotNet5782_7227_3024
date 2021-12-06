@@ -41,7 +41,7 @@ namespace IDAL
         IEnumerable<Parcel> GetParcelList();
         IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate);
         IEnumerable<Station> GetStations(Predicate<Station> predicate);
-        IEnumerable<DroneCharge> GetDroneChargeListByStationId(Predicate<DroneCharge> predicate);
+        IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate);
 
         double[] ElectricityUseRequest();
         double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);

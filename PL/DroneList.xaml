@@ -21,13 +21,22 @@
                  <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
            
-            <ComboBox Name="DroneStatusSelector" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" Width="120"/>
-            <ComboBox Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120"/>
+            <ComboBox Name="DroneStatusSelector" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" Width="120" SelectionChanged="DroneStatusSelector_SelectionChanged"/>
+            <ComboBox Name="DroneWeightSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120" SelectionChanged="DroneWeightSelector_SelectionChanged"/>
            
-            <Button  Content="add new drone" Grid.Column="2" Padding ="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button Content="Exit" Grid.Column="3" Padding="20,10" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+            <Button  Content="add new drone" Grid.Column="2" Padding ="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button Content="Exit" Grid.Column="3" Padding="20,10" HorizontalAlignment="Center"  VerticalAlignment="Center" Background="red"/>
         </Grid>
+        
+        
+        <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
 
-        </Grid>
+    </Grid>
 </Window>

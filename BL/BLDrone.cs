@@ -365,5 +365,10 @@ namespace BL
         {
             return droneToLists;
         }
+
+        public IEnumerable<DroneToList> ViewDronesToList(Predicate<DroneToList> predicate)
+        {
+            return droneToLists.FindAll(predicate);
+        }
     }
 }

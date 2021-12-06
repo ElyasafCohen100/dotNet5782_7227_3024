@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Button Content="Drones list" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10,0,10,0" Click="Show_Drone_List" />
     </Grid>
 </Window>
