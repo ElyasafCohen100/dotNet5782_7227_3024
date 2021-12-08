@@ -15,7 +15,7 @@ namespace BL
         //Create instance of dalObject for reference to DAL.
         internal static IDAL.IDal dalObject = new DalObject.DalObject();
 
-        List<DroneToList> droneToLists = new();
+        internal List<DroneToList> droneToLists = new();
 
         /// <summary>
         /// C-tor of BL.

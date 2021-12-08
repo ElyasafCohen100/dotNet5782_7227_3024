@@ -50,6 +50,19 @@ namespace BL
             }
 
             dalObject.SetNewDrone(newDrone);
+            UpdateDroneToListsList(drone);
+        }
+
+        private void UpdateDroneToListsList(Drone drone)
+        {
+            DroneToList newDrone = new();
+            newDrone.Id = drone.Id;
+            newDrone.Model = drone.Model;
+            newDrone.MaxWeight = drone.MaxWeight;
+            newDrone.BatteryStatus = drone.BatteryStatus;
+            newDrone.DroneStatus = drone.DroneStatus;
+            newDrone.CurrentLocation = drone.CurrentLocation;
+            droneToLists.Add(newDrone);
         }
 
         /// <summary>

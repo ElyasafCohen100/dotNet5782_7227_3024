@@ -43,12 +43,14 @@ namespace PL
             DroneListView.ItemsSource = BLObject.ViewDronesToList(x => x.MaxWeight == (WeightCategories)DroneWeightSelector.SelectedItem);
         }
 
-
-
-        //---------- מפה התחלנו --------//
-        private void Add_New_Drone(object sender, RoutedEventArgs e)
+        private void AddNewDrone_Click(object sender, RoutedEventArgs e)
         {
+           new AddNewDroneWindow(BLObject).Show();
+        }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

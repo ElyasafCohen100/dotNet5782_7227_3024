@@ -7,7 +7,19 @@
         mc:Ignorable="d"
         Title="AddNewDroneWindow" Height="450" Width="800">
     <Grid>
-        
+        <TextBox Name="DroneIdTextBox" HorizontalAlignment="Left" Margin="85,31,0,0" Text="Enter Id" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="DroneIdTextBox_GotFocus" LostFocus="DroneIdTextBox_LostFocus" PreviewTextInput="DroneIdTextBox_PreviewTextInput">
+            <TextBox.Style>
+                <Style/>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox Name="ModelTextBox" HorizontalAlignment="Left" Margin="85,71,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus"/>
+
+        <ComboBox Name="MaxWeightSelector" HorizontalAlignment="Left" Margin="85,123,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="BaseStationIdSelector" HorizontalAlignment="Left" Margin="85,180,0,0" VerticalAlignment="Top" Width="120"/>
+
+        <Button Name="AddDroneButton" Content="Add" HorizontalAlignment="Left" Margin="132,296,0,0" VerticalAlignment="Top" Click="AddDroneButton_Click"/>
+        <Button Name="ClearButton" Content="Exit" HorizontalAlignment="Left" Margin="493,296,0,0" VerticalAlignment="Top" Click="ClearButton_Click"/>
 
     </Grid>
+
 </Window>
