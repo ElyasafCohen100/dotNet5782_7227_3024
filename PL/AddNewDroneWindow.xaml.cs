@@ -23,11 +23,13 @@ namespace PL
     public partial class AddNewDroneWindow : Window
     {
         private IBL.IBL BLObject;
+        private ViewDroneList viewDroneListWindow;
 
-        public AddNewDroneWindow(IBL.IBL BLObject)
+        public AddNewDroneWindow(IBL.IBL BLObject, ViewDroneList viewDroneListWindow)
         {
             InitializeComponent();
             this.BLObject = BLObject;
+            this.viewDroneListWindow = viewDroneListWindow;
 
             MaxWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             MaxWeightSelector.SelectedItem = (WeightCategories)0;
@@ -91,6 +93,7 @@ namespace PL
             {
                 MessageBox.Show("incorrect input");
             }
+            viewDroneListWindow.DroneListView.Items.Refresh();
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)

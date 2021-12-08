@@ -1,0 +1,21 @@
+﻿<Window x:Class="PL.DroneActions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="DroneActions" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <Button Content="Exit" HorizontalAlignment="Left" Margin="364,57,0,0" VerticalAlignment="Top"/>
+            <Button Content="Update" HorizontalAlignment="Left" Margin="85,75,0,0" VerticalAlignment="Top"/>
+            <Button Content="Send Drone To Chrging" HorizontalAlignment="Left" Margin="61,176,0,0" VerticalAlignment="Top"/>
+            <Button Content="Release Drone From Charging" HorizontalAlignment="Left" Margin="330,181,0,0" VerticalAlignment="Top"/>
+            <Button Content="Send Drone To Delivery" HorizontalAlignment="Left" Margin="330,304,0,0" VerticalAlignment="Top"/>
+            <Button Content="Parcel Picked Up" HorizontalAlignment="Left" Margin="79,304,0,0" VerticalAlignment="Top"/>
+            <Button Content="Parcel Delivered" HorizontalAlignment="Left" Margin="598,186,0,0" VerticalAlignment="Top"/>
+        </Grid>
+
+    </Grid>
+</Window>
