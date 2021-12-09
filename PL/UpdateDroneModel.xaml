@@ -1,0 +1,16 @@
+﻿<Window x:Class="PL.UpdateDroneModel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="UpdateDroneModel" Height="450" Width="800">
+    <Grid>
+        <TextBox Name ="DroneIdTextBox" HorizontalAlignment="Left" Margin="110,55,0,0" Text="Enter Id" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="DroneIdTextBox_GotFocus" LostFocus="DroneIdTextBox_LostFocus" PreviewTextInput="DroneIdTextBox_PreviewTextInput"/>
+        <TextBox Name ="ModelTextBox" HorizontalAlignment="Left" Margin="421,55,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus"/>
+       
+        <Button Content="UpdateModel" HorizontalAlignment="Left" Margin="345,170,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click"/>
+
+    </Grid>
+</Window>

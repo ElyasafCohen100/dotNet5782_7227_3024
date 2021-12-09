@@ -28,6 +28,7 @@ namespace PL
             InitializeComponent();
             this.BLObject = BLObject;
 
+
             DroneListView.ItemsSource = this.BLObject.ViewDroneToList();
             DroneStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));

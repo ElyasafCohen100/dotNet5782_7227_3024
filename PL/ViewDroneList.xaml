@@ -32,7 +32,8 @@
         <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn DisplayMemberBinding ="{Binding }"/>
+                    <GridViewColumn DisplayMemberBinding ="{Binding DroneToList}"/>
                 </GridView>
             </ListView.View>
         </ListView>
