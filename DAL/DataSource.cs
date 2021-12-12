@@ -31,7 +31,7 @@ namespace DalObject
             internal static double Available = 3.2;
             internal static double DroneChargingRate = 10;
 
-            internal static int SerialNumber = 0;
+            internal static int SerialNumber = 1;
 
             internal static Random r = new Random();
             internal static DateTime currentDate = DateTime.Now;

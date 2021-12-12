@@ -24,6 +24,7 @@ namespace PL
         private IBL.IBL BLObject;
         private ViewDroneList viewDroneList;
         private int droneId;
+
         public UpdateParcelStatus(IBL.IBL BLObject, ViewDroneList viewDroneList, int droneId)
         {
             InitializeComponent();
@@ -44,6 +45,12 @@ namespace PL
             {
                 MessageBox.Show("Invalid input");
             }
+            catch (InvalidOperationException exeption)
+            {
+                MessageBox.Show(exeption.Message);
+                
+
+            }
         }
 
         private void UpdateParcelToPickedUp_Click(object sender, RoutedEventArgs e)
@@ -55,13 +62,13 @@ namespace PL
                 viewDroneList.DroneListView.Items.Refresh();
                 this.Close();
             }
-            catch (InvalidInputException)
+            catch (InvalidInputException exeption)
             {
-                MessageBox.Show("Invalid input, there is no parcel to delivered");
+                MessageBox.Show(exeption.Message);
             }
-            catch (NotValidRequestException)
+            catch (NotValidRequestException exeption)
             {
-                MessageBox.Show("Could not update parcel status to picked up");
+                MessageBox.Show(exeption.Message);
             }
         }
         private void UpdateParcelToDelivered_Click(object sender, RoutedEventArgs e)
@@ -73,13 +80,13 @@ namespace PL
                 viewDroneList.DroneListView.Items.Refresh();
                 this.Close();
             }
-            catch (InvalidInputException)
+            catch (InvalidInputException exeption)
             {
-                MessageBox.Show("Invalid input, there is no parcel to delivered");
+                MessageBox.Show(exeption.Message);
             }
-            catch (NotValidRequestException)
+            catch (NotValidRequestException exeption)
             {
-                MessageBox.Show("Could not update parcel status to delivered beacause the drone has already delivered the parcel");
+                MessageBox.Show(exeption.Message);
             }
         }
     }

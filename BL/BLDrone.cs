@@ -315,6 +315,10 @@ namespace BL
                     throw new ObjectNotFoundException("parcel");
                 }
             }
+            else
+            {
+                throw new InvalidOperationException("cannot send this drone");
+            }
         }
 
         /// <summary>
@@ -330,7 +334,7 @@ namespace BL
             Drone myDrone = FindDroneByIdBL(droneId);
             Parcel myParcel = FindParcelByIdBL(myDrone.ParcelInDelivery.Id);
 
-            if (myParcel.PickedUp == null)
+            if (myParcel.PickedUp == null && myDrone.DroneStatus == DroneStatuses.Shipment)
             {
                 myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
 
@@ -341,7 +345,7 @@ namespace BL
             }
             else
             {
-                throw new NotValidRequestException("The drone has already picked up the parcel");
+                throw new NotValidRequestException("The drone not in Shipment status or alredy picked up the parcel");
             }
         }
 

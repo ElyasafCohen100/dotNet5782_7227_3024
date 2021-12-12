@@ -16,8 +16,8 @@ namespace IBL
             public string Phone { get; set; }
 
             public Location Location = new();
-            public List<ParcelInCustomer> ParcelFromCustomerList;
-            public List<ParcelInCustomer> ParcelToCustomerList;
+            public List<ParcelInCustomer> ParcelFromCustomerList = new();
+            public List<ParcelInCustomer> ParcelToCustomerList = new();
 
             /// <summary>
             /// Return describe of Customer class string.
