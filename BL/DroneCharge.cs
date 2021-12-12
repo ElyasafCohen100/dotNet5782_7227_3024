@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IBL
 {
@@ -13,7 +9,7 @@ namespace IBL
             public int DroneId { get; set; }
             public double BatteryStatus { get; set; }
 
-            public DateTime chargeTime;
+            public DateTime ChargeTime { get; set; }
 
             /// <summary>
             /// Return describe of DroneCharge class string.

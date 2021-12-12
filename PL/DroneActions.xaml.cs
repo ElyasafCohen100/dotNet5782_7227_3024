@@ -40,5 +40,10 @@ namespace PL
         {
             new UpdateDroneCharging(BlObject, this.viewDroneList, selcetedDrone.Id).Show();
         }
+
+        private void UpdateParcelStatus_Click(object sender, RoutedEventArgs e)
+        {
+            new UpdateParcelStatus(BlObject, this.viewDroneList, selcetedDrone.Id).Show();
+        }
     }
 }

@@ -19,40 +19,25 @@ namespace PL
     /// <summary>
     /// Interaction logic for SendDroneToDelivery.xaml
     /// </summary>
-    public partial class UpdateDroneStatus : Window
+    public partial class UpdateParcelStatus : Window
     {
         private IBL.IBL BLObject;
-        public UpdateDroneStatus(IBL.IBL BLObject)
+        private ViewDroneList viewDroneList;
+        private int droneId;
+        public UpdateParcelStatus(IBL.IBL BLObject, ViewDroneList viewDroneList, int droneId)
         {
             InitializeComponent();
             this.BLObject = BLObject;
-        }
-        //----------------  DroneIdTextBox ----------------//
-
-        private void DroneIdTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (DroneIdTextBox.Text == "Enter Id")
-                DroneIdTextBox.Clear();
-
-        }
-        private void DroneIdTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (DroneIdTextBox.Text == String.Empty)
-                DroneIdTextBox.Text = "Enter Id";
-        }
-        private void DroneIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            this.viewDroneList = viewDroneList;
+            this.droneId = droneId;
         }
         private void SendDroneToDeliveryButton_Click(object sender, RoutedEventArgs e)
         {
-            int Id;
-            int.TryParse(DroneIdTextBox.Text, out Id);
             try
             {
-                BLObject.UpdateDroneIdOfParcelBL(Id);
+                BLObject.UpdateDroneIdOfParcelBL(droneId);
                 MessageBox.Show("Drone sent sucssesfuly");
+                viewDroneList.DroneListView.Items.Refresh();
                 this.Close();
             }
             catch (InvalidInputException)
@@ -63,37 +48,38 @@ namespace PL
 
         private void UpdateParcelToPickedUp_Click(object sender, RoutedEventArgs e)
         {
-            int Id;
-            int.TryParse(DroneIdTextBox.Text, out Id);
             try
             {
-                BLObject.UpdatePickedUpParcelByDroneIDBL(Id);
+                BLObject.UpdatePickedUpParcelByDroneIdBL(droneId);
                 MessageBox.Show("Parcel status updated sucssesfuly");
+                viewDroneList.DroneListView.Items.Refresh();
                 this.Close();
             }
             catch (InvalidInputException)
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("Invalid input, there is no parcel to delivered");
             }
             catch (NotValidRequestException)
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("Could not update parcel status to picked up");
             }
         }
-
         private void UpdateParcelToDelivered_Click(object sender, RoutedEventArgs e)
         {
-            int Id;
-            int.TryParse(DroneIdTextBox.Text, out Id);
             try
             {
-                BLObject.UpdateDeliveredParcelByDroneIdBL(Id);
+                BLObject.UpdateDeliveredParcelByDroneIdBL(droneId);
                 MessageBox.Show("Parcel status updated sucssesfuly");
+                viewDroneList.DroneListView.Items.Refresh();
                 this.Close();
+            }
+            catch (InvalidInputException)
+            {
+                MessageBox.Show("Invalid input, there is no parcel to delivered");
             }
             catch (NotValidRequestException)
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("Could not update parcel status to delivered beacause the drone has already delivered the parcel");
             }
         }
     }

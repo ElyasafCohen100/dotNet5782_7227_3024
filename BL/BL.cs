@@ -51,6 +51,7 @@ namespace BL
 
                     //Get the rest of the information and fill the other fileds in the new DroneToList object.
                     //Set DroneStatus, DeliveryParcelId and CurrentLocation (and BatteryStatus - if needed) fileds.
+                    bool isInShipment = false;
                     foreach (var parcel in dalObject.GetParcelList())
                     {
                         if (parcel.DroneId == newDrone.Id && parcel.Delivered == null)
@@ -88,24 +89,25 @@ namespace BL
 
                             double minimumOfBattery = FindMinPowerSuply(newDrone, parcel.TargetId);
                             newDrone.BatteryStatus = r.Next((int)minimumOfBattery, 101);
+                            isInShipment = true;
                         }
-                        else
-                        {
-                            newDrone.DroneStatus = (DroneStatuses)r.Next(2);
-                        }
+                    }
+                    if (!isInShipment)
+                    {
+                        newDrone.DroneStatus = (DroneStatuses)r.Next(2);
                     }
 
                     if (newDrone.DroneStatus == DroneStatuses.Maintenance)
                     {
-                        List<IDAL.DO.Station> List = (List<IDAL.DO.Station>)dalObject.GetBaseStationList();
-                        int size = List.Count();
+                        List<IDAL.DO.Station> stationsList = (List<IDAL.DO.Station>)dalObject.GetBaseStationList();
+                        int size = stationsList.Count();
                         int index = r.Next(0, size);
+                        IDAL.DO.Station station = stationsList[index];
 
-                        newDrone.CurrentLocation = new();
-                        newDrone.CurrentLocation.Latitude = List[index].Latitude;
-                        newDrone.CurrentLocation.Longitude = List[index].Longitude;
-
+                        newDrone.CurrentLocation.Latitude = station.Latitude;
+                        newDrone.CurrentLocation.Longitude = station.Longitude;
                         newDrone.BatteryStatus = r.Next(0, 21);
+                        dalObject.AddDroneCharge(newDrone.Id, station.Id);
                     }
                     else if (newDrone.DroneStatus == DroneStatuses.Available)
                     {
@@ -374,10 +376,10 @@ namespace BL
         }
         private DroneCharge FindDroneChargeByDroneIdBL(int droneId)
         {
-            IDAL.DO.DroneCharge droneChrage = dalObject.FindDroneChargeByDroneId(droneId);
+            IDAL.DO.DroneCharge droneCharge = dalObject.FindDroneChargeByDroneId(droneId);
             DroneCharge newDroneCharge = new();
-            newDroneCharge.DroneId = droneChrage.DroneId;
-            newDroneCharge.chargeTime = droneChrage.ChargeTime;
+            newDroneCharge.DroneId = droneCharge.DroneId;
+            newDroneCharge.ChargeTime = droneCharge.ChargeTime;
             return newDroneCharge;
         }
     }

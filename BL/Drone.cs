@@ -20,18 +20,18 @@ namespace IBL
             public Location CurrentLocation = new();
 
             /// <summary>
-            /// Return describe of Drone struct string
+            /// Return describe of Drone class string.
             /// </summary>
-            /// <returns>describe of Drone struct string</returns>
+            /// <returns> Describe of Drone class string </returns>
             public override string ToString()
             {
-                return $"Drone: \n" +
-                       $"Id: {Id}\n " +
-                       $"Model: {Model}\n " +
+                return $"Drone:\n" +
+                       $"Id: {Id}\n" +
+                       $"Model: {Model}\n" +
                        $"WeightCategories: {MaxWeight}\n" +
                        $"Battery status: {BatteryStatus}\n" +
                        $"Drone status: {DroneStatus}\n" +
-                       ParcelInDelivery.ToString()+
+                       ParcelInDelivery.ToString() +
                        $"Current location: {CurrentLocation}\n";
             }
         }

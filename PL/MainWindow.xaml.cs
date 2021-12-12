@@ -33,5 +33,9 @@ namespace PL
             new ViewDroneList(BLObject).Show();
         }
 
+        private void ViewDrone_Click(object sender, RoutedEventArgs e)
+        {
+      //      new ViewDrone(BLObject).Show();
+        }
     }
 }

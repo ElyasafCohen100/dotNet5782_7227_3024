@@ -50,7 +50,7 @@ namespace PL
             }
             catch (OutOfBatteryException)
             {
-                MessageBox.Show("Could not send the drone to charging because there is not enough battery");
+                MessageBox.Show("Could not send the drone to charging because there is no enough battery");
             }
             catch (ObjectNotFoundException)
             {
@@ -64,20 +64,22 @@ namespace PL
             {
                 BLObject.UpdateDroneFromChargingBL(droneId);
                 MessageBox.Show("Drone updated sucssesfuly");
+                viewDroneList.DroneListView.Items.Refresh();
                 this.Close();
+            }
+            catch (ObjectNotFoundException)
+            {
+                MessageBox.Show("Could not update drone from charging");
             }
             catch (InvalidInputException)
             {
                 MessageBox.Show("Invalid input");
             }
-            catch (ObjectAlreadyExistException)
+            catch (NotValidRequestException)
             {
-                MessageBox.Show("Drone is already exist");
+                MessageBox.Show("Could not update drone status because the drone has not in maintenance status");
             }
-            catch (OutOfBatteryException)
-            {
-                MessageBox.Show("Could not send the drone to charging because there is not enough battery");
-            }
+
         }
     }
 }

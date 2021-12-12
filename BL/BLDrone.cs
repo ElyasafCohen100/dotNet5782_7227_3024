@@ -191,6 +191,7 @@ namespace BL
             var drone = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Available);
             if (drone == null) throw new ObjectNotFoundException("drone");
 
+
             double minBatteryForCharging = FindMinPowerSuplyForCharging(drone);
 
             if (drone.BatteryStatus < minBatteryForCharging)
@@ -226,19 +227,15 @@ namespace BL
         public void UpdateDroneFromChargingBL(int droneId)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
-            Drone newDrone = FindDroneByIdBL(droneId);
-            if (newDrone.DroneStatus == DroneStatuses.Maintenance)
-            {
-                DroneCharge droneCharge = FindDroneChargeByDroneIdBL(droneId);
-                double chargingTime = TimeIntervalInMinutes(droneCharge.chargeTime, DateTime.Now);
-                newDrone.DroneStatus = DroneStatuses.Available;
-                newDrone.BatteryStatus += dalObject.ElectricityUseRequest()[4] * chargingTime;
-                dalObject.UpdateDroneFromCharging(droneId);
-            }
-            else
-            {
-                throw new NotValidRequestException("The drone has not in maintenance status");
-            }
+            DroneToList droneToList = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Maintenance);
+            if (droneToList == null) throw new NotValidRequestException("The drone has not in maintenance status");
+
+            DroneCharge droneCharge = FindDroneChargeByDroneIdBL(droneId);
+            if (droneCharge == null) throw new ObjectNotFoundException("droneCharge");
+            double chargingTime = TimeIntervalInMinutes(droneCharge.ChargeTime, DateTime.Now);
+            droneToList.DroneStatus = DroneStatuses.Available;
+            droneToList.BatteryStatus += dalObject.ElectricityUseRequest()[4] * chargingTime;
+            dalObject.UpdateDroneFromCharging(droneId);
         }
         private double TimeIntervalInMinutes(DateTime time1, DateTime time2)
         {
@@ -326,7 +323,7 @@ namespace BL
         /// <param name="droneId"> Drone Id </param>
         /// <exception cref="InvalidInputException"> Thrown if drone id is invalid </exception>
         /// <exception cref="NotValidRequestException"> Thrown if the drone has already picked up the parcel </exception>
-        public void UpdatePickedUpParcelByDroneIDBL(int droneId)
+        public void UpdatePickedUpParcelByDroneIdBL(int droneId)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
 

@@ -12,17 +12,21 @@ namespace IBL
         {
             public int Id { get; set; }
             public bool ParcelStatus { get; set; }
-          
+
             public Priorities Priority { get; set; }
             public WeightCategories Weight { get; set; }
 
-            public CustomerInParcel receiverCustomer= new();
-            public CustomerInParcel senderCustomer =new();
+            public CustomerInParcel receiverCustomer = new();
+            public CustomerInParcel senderCustomer = new();
 
-            public Location SourceLocation { get; set; }
-            public Location TargetLocation { get; set; }
+            public Location SourceLocation = new();
+            public Location TargetLocation = new();
             public double DistanceDelivery { get; set; }
 
+            /// <summary>
+            /// Return describe of ParcelInDelivery class string.
+            /// </summary>
+            /// <returns> Describe of ParcelInDelivery class string </returns>
             public override string ToString()
             {
                 return $"Parcel In Delivery:\n" +

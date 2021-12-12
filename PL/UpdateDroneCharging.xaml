@@ -8,8 +8,8 @@
         Title="UpdateDroneCharging" Height="450" Width="800">
     <Grid>
         <Grid>
-            <Button Content="Update Drone To Charging" HorizontalAlignment="Left" Margin="113,113,0,0" VerticalAlignment="Top" Click="UpdateDroneToChargingButton_Click"/>
-            <Button Content="Update Drone From Charging" HorizontalAlignment="Center" Margin="0,113,0,0" VerticalAlignment="Top" Click="UpdateDroneFromChargingButton_Click"/>
+            <Button Content="Update Drone To Charging" HorizontalAlignment="Left" Margin="113,113,0,0" VerticalAlignment="Top" Click="UpdateDroneToChargingButton_Click" Cursor="Hand"/>
+            <Button Content="Update Drone From Charging" HorizontalAlignment="Center" Margin="0,113,0,0" VerticalAlignment="Top" Click="UpdateDroneFromChargingButton_Click" Cursor="Hand"/>
         </Grid>
 
     </Grid>

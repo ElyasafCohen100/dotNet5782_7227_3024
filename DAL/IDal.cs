@@ -23,7 +23,7 @@ namespace IDAL
         void SetNewStation(Station station);
         void SetNewCustomer(Customer customer);
         void SetNewParcel(Parcel parcel);
-
+        void AddDroneCharge(int droneId, int stationId);
         //----------------------- UPDATE FUNCTIONS -----------------------//
 
         void UpdateDroneIdOfParcel(int parcelId, int droneId);

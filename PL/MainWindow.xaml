@@ -6,8 +6,47 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+    <Window.Background>
+        <ImageBrush ImageSource ="https://ieeecs-media.computer.org/wp-media/2018/09/10230454/drone-delivery.jpeg"/>
+    </Window.Background>
+
     <Grid>
-        <Button Content="Drone List" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10,0,10,0" Click="Show_Drone_List" Margin="0,145,0,0"/>
-        <Image HorizontalAlignment="Left" Height="166" Margin="31,74,0,0" VerticalAlignment="Top" Width="259" Source="https://www.kinaxis.com/sites/default/files/styles/large/public/blog/2019/08/drone-delivery-supply-chain-1200px-1024x690.jpg"/>
+        <Button Content="Drone List" Padding="10,200,10,100" Margin="10,40,584,318" Click="Show_Drone_List" Cursor="Hand" >
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" >
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ButtonBase}">
+                                <Border CornerRadius="27" Background="{TemplateBinding Background}" Name="button" Width="200" Margin="0,0,-18,0">
+                                    <Grid>
+                                        <Border BorderThickness="1,0,1,1" BorderBrush="Black" CornerRadius="{Binding ElementName=button, Path=CornerRadius}">
+                                            <Border.Effect>
+                                                <BlurEffect Radius="7" KernelType="Gaussian"/>
+                                            </Border.Effect>
+                                        </Border>
+                                        <Border BorderThickness="0,1,0,0" BorderBrush="White" Margin="-55,-6,59,10" Opacity="0.7" CornerRadius="{Binding ElementName=button, Path=CornerRadius}">
+                                            <Border.Effect>
+                                                <BlurEffect Radius="20" KernelType="Gaussian"/>
+                                            </Border.Effect>
+                                        </Border>
+                                        <ContentPresenter TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding Content}"></ContentPresenter>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Background" Value="#002060" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="FontFamily" Value="Consolas" />
+                    <Setter Property="FontStyle" Value="Italic"/>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <TextBox HorizontalAlignment="Left" Margin="400,351,0,0" Padding="20,10" Text="Yakir and Elyasaf" FontSize="40" Visibility="Visible" FontStyle="Italic" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Background="Gray" Height="73"/>
+
     </Grid>
+
 </Window>

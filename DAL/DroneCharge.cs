@@ -15,7 +15,7 @@ namespace IDAL
         {
             public int DroneId { get; set; }
             public int StationId { get; set; }
-            public DateTime ChargeTime { get { return ChargeTime; } set { ChargeTime = DateTime.Now; } }
+            public DateTime ChargeTime { get; set; }
             /// <summary>
             /// Return describe of DroneCharge class string.
             /// </summary>

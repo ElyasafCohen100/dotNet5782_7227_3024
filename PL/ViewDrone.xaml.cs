@@ -19,9 +19,18 @@ namespace PL
     /// </summary>
     public partial class ViewDrone : Window
     {
-        public ViewDrone()
+        private IBL.IBL BLObject;
+        private ViewDroneList viewDroneListWindow;
+
+        public ViewDrone(IBL.IBL BLObject, ViewDroneList viewDroneListWindow)
         {
             InitializeComponent();
+            this.BLObject = BLObject;
+        }
+
+        private void AddNewDrone_Click(object sender, RoutedEventArgs e)
+        {
+            new AddNewDroneWindow(this.BLObject, this.viewDroneListWindow).Show();
         }
     }
 }

@@ -513,7 +513,7 @@ namespace ConsoleUI_BL
 
             try
             {
-                BLObject.UpdatePickedUpParcelByDroneIDBL(droneId);
+                BLObject.UpdatePickedUpParcelByDroneIdBL(droneId);
             }
             catch (InvalidInputException e)
             {

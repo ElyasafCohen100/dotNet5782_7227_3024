@@ -37,6 +37,7 @@ namespace DalObject
 
 
         //-------------------------- SETTERS ---------------------------//
+
         /// <summary>
         /// Set new Drone.
         /// </summary>
@@ -46,6 +47,15 @@ namespace DalObject
             DataSource.Drones.Add(drone);
         }
 
+        //*****************************//
+        public void AddDroneCharge(int droneId, int stationId)
+        {
+            DroneCharge droneCharge = new();
+            droneCharge.DroneId = droneId;
+            droneCharge.StationId = stationId;
+            droneCharge.ChargeTime = DateTime.Now;
+            DataSource.DroneCharges.Add(droneCharge);
+        }
 
         //----------------------- UPDATE FUNCTIONS ----------------------//
 
@@ -70,15 +80,16 @@ namespace DalObject
         ///                                                 left in the receiving base-station</exception>
         public void UpdateDroneToCharging(int droneId, int stationId)
         {
-            Station myStation = new();
+            Station station = new();
 
-            myStation = FindStationById(stationId);
+            station = FindStationById(stationId);
 
-            if (myStation.ChargeSlots == 0) throw new ArgumentOutOfRangeException();
-            myStation.ChargeSlots--;
+            if (station.ChargeSlots == 0) throw new ArgumentOutOfRangeException();
+            station.ChargeSlots--;
 
             DroneCharge droneCharge = new DroneCharge();
             droneCharge.DroneId = droneId;
+            droneCharge.ChargeTime = DateTime.Now;
             droneCharge.StationId = stationId;
             DataSource.DroneCharges.Add(droneCharge);
         }
@@ -89,17 +100,16 @@ namespace DalObject
         /// <param name="droneId"> Id of Drone </param> 
         public void UpdateDroneFromCharging(int droneId)
         {
-            DroneCharge myDroneCharge = FindDroneChargeByDroneId(droneId);
-            Station myStation = FindStationById(myDroneCharge.StationId);
+            DroneCharge droneCharge = FindDroneChargeByDroneId(droneId);
+            Station myStation = FindStationById(droneCharge.StationId);
             myStation.ChargeSlots++;
-            DataSource.DroneCharges.Remove(myDroneCharge);
+            DataSource.DroneCharges.Remove(droneCharge);
         }
 
         public void UpdateDroneModel(int droneId, string newModel)
         {
             Drone drone = FindDroneById(droneId);
             drone.Model = newModel;
-
         }
 
         //--------------------------- GETTERS ---------------------------//

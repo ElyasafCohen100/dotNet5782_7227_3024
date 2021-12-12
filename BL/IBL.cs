@@ -25,7 +25,7 @@ namespace IBL
         void UpdateDroneFromChargingBL(int droneId);
         void UpdateDroneIdOfParcelBL(int droneId);
         void UpdateDeliveredParcelByDroneIdBL(int droneId);
-        void UpdatePickedUpParcelByDroneIDBL(int droneId);
+        void UpdatePickedUpParcelByDroneIdBL(int droneId);
 
         //------------------- FIND FANCTIONS ------------------//
 

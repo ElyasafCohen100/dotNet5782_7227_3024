@@ -37,6 +37,8 @@ namespace PL
             var baseStationsId = from b in BLObject.ViewBaseStationsToList() select b.Id;
             BaseStationIdSelector.ItemsSource = baseStationsId;
             BaseStationIdSelector.SelectedItem = baseStationsId.First();
+
+            AddDroneButton.IsEnabled = false;
         }
 
         //-------------------  DroneIdTextBox -------------------//
@@ -51,6 +53,10 @@ namespace PL
         {
             if (DroneIdTextBox.Text == String.Empty)
                 DroneIdTextBox.Text = "Enter Id";
+            else if (ModelTextBox.Text != "Enter Model")
+                AddDroneButton.IsEnabled = true;
+
+
         }
         private void DroneIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -70,6 +76,9 @@ namespace PL
         {
             if (ModelTextBox.Text == String.Empty)
                 ModelTextBox.Text = "Enter Model";
+            else if (DroneIdTextBox.Text != "Enter Id")
+                AddDroneButton.IsEnabled = true;
+
         }
 
         //------------------- AddDroneButton -------------------//
@@ -83,6 +92,7 @@ namespace PL
             newDrone.Id = Id;
             newDrone.Model = Model;
             newDrone.MaxWeight = (WeightCategories)MaxWeightSelector.SelectedItem;
+
             try
             {
                 BLObject.AddNewDroneBL(newDrone, (int)BaseStationIdSelector.SelectedItem);
@@ -98,6 +108,7 @@ namespace PL
                 MessageBox.Show("Drone is already exist");
             }
             viewDroneListWindow.DroneListView.Items.Refresh();
+
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
