@@ -15,7 +15,7 @@ namespace BL
         //Create instance of dalObject for reference to DAL.
         internal static IDAL.IDal dalObject = new DalObject.DalObject();
 
-        internal List<DroneToList> droneToLists = new();
+        List<DroneToList> droneToLists = new();
 
         /// <summary>
         /// C-tor of BL.
@@ -157,7 +157,7 @@ namespace BL
             }
         }
 
-        //------------------------------- FIND FUNCTIONS --------------------------------//
+        //----------------------- FIND FUNCTIONS -----------------------//
 
         /// <summary>
         /// Find the nearest base-station to the customer by customer id.
@@ -295,16 +295,15 @@ namespace BL
             if (drone.Id < 1000 || drone.Id > 10000) throw new InvalidInputException("drone");
 
             //Step 1: Find the nearest base-station with available charge-slot and calcuolate the needed power suply.
-            int closestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
-            if (closestBaseStationID == 0) throw new ObjectNotFoundException("base-Station");
+            int closestBaseStationId = FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
+            if (closestBaseStationId == 0) throw new ObjectNotFoundException("base-Station");
 
-            double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Latitude;
-            double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationID).Longitude;
+            double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationId).Latitude;
+            double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationId).Longitude;
             double distance = dalObject.Distance(drone.CurrentLocation.Latitude, nearestBaseStationLatitude, drone.CurrentLocation.Longitude, nearestBaseStationLongitude);
 
             //Step 2: Find the minimal needed power suply to go to the destination.
             double minBatteryValue = distance / dalObject.ElectricityUseRequest()[0];
-
             return minBatteryValue;
         }
 
@@ -372,6 +371,14 @@ namespace BL
 
             double minSuply2 = FindMinPowerSuply(myDrone, customerId);
             return minSuply1 + minSuply2;
+        }
+        private DroneCharge FindDroneChargeByDroneIdBL(int droneId)
+        {
+            IDAL.DO.DroneCharge droneChrage = dalObject.FindDroneChargeByDroneId(droneId);
+            DroneCharge newDroneCharge = new();
+            newDroneCharge.DroneId = droneChrage.DroneId;
+            newDroneCharge.chargeTime = droneChrage.ChargeTime;
+            return newDroneCharge;
         }
     }
 }

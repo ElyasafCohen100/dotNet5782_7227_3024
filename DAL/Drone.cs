@@ -23,10 +23,10 @@ namespace IDAL
             /// <returns>describe of Drone struct string</returns>
             public override string ToString()
             {
-                return $"Drone: " +
-                       $"Id: {Id}, " +
-                       $"Model: {Model}, " +
-                       $"WeightCategiries: {MaxWeight}";
+                return $"Drone:\n" +
+                       $"Id: {Id}\n" +
+                       $"Model: {Model}\n" +
+                       $"MaxWeight: {MaxWeight}";
             }
         }
     }

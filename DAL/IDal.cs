@@ -31,7 +31,7 @@ namespace IDAL
         void UpdateDeliveredParcelById(int parcelId);
         void UpdateDroneToCharging(int droneId, int stationId);
         void UpdateDroneFromCharging(int droneId);
-
+        void UpdateDroneModel(int droneId, string newModel);
 
         //--------------------------- GETTERS ---------------------------//
 

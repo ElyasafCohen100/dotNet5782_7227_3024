@@ -46,12 +46,17 @@ namespace PL
 
         private void AddNewDrone_Click(object sender, RoutedEventArgs e)
         {
-           new AddNewDroneWindow(BLObject, this).Show();
+            new AddNewDroneWindow(BLObject, this).Show();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DroneToList selectedDrone = BLObject.ViewDroneToList().ToList()[DroneListView.SelectedIndex];
+            new DroneActions(BLObject, this, selectedDrone).Show();
         }
     }
 }

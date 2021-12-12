@@ -15,16 +15,16 @@ namespace IDAL
         {
             public int DroneId { get; set; }
             public int StationId { get; set; }
-
+            public DateTime ChargeTime { get { return ChargeTime; } set { ChargeTime = DateTime.Now; } }
             /// <summary>
-            /// Return describe of DroneCharge struct string
+            /// Return describe of DroneCharge class string.
             /// </summary>
-            /// <returns>describe of DroneCharge struct string</returns>
+            /// <returns> Describe of DroneCharge class string </returns>
             public override string ToString()
             {
-                return $"DroneCharge: " +
-                       $"Id: {DroneId}, " +
-                       $"StationId: {StationId}, ";
+                return $"DroneCharge:\n" +
+                       $"Id: {DroneId}\n" +
+                       $"StationId: {StationId}";
             }
         }
     }

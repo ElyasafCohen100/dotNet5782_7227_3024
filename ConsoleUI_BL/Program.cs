@@ -467,12 +467,9 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter drone Id: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            Console.WriteLine("Enter the charging time in minutes: ");
-            double.TryParse(Console.ReadLine(), out double chargeTime);
-
             try
             {
-                BLObject.UpdateDroneFromChargingBL(droneId, chargeTime);
+                BLObject.UpdateDroneFromChargingBL(droneId);
             }
             catch (InvalidInputException e)
             {

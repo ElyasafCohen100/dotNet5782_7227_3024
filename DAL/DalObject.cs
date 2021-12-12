@@ -25,7 +25,7 @@ namespace DalObject
         {
             return new double[5] { DataSource.Config.Available,
                                    DataSource.Config.Light,
-                                   DataSource.Config.Average,
+                                   DataSource.Config.Intermediate,
                                    DataSource.Config.Heavy,
                                    DataSource.Config.DroneChargingRate
             };
@@ -95,7 +95,7 @@ namespace DalObject
             double r = 6371;
 
             //Calculate the result.
-            return (c * r);
+            return c * r;
         }
     }
 }

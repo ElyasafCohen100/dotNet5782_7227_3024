@@ -26,10 +26,10 @@ namespace DalObject
         internal class Config
         {
             internal static double Light = 3.4;
-            internal static double Average = 3.7;
+            internal static double Intermediate = 3.7;
             internal static double Heavy = 4.3;
-            internal static double Available = 3.22;
-            internal static double DroneChargingRate = 2;
+            internal static double Available = 3.2;
+            internal static double DroneChargingRate = 10;
 
             internal static int SerialNumber = 0;
 
@@ -49,8 +49,8 @@ namespace DalObject
                 {
                     Id = Config.r.Next(1000, 10000),
                     Name = "Station" + i,
-                    Latitude = 31 + Config.r.NextDouble(),
-                    Longitude = 35 + Config.r.NextDouble(),
+                    Latitude = 31.7 + Config.r.NextDouble() / 5,
+                    Longitude = 35.1 + Config.r.NextDouble() / 5,
                     ChargeSlots = Config.r.Next(5, 11)
                 });
             }
@@ -71,9 +71,9 @@ namespace DalObject
                     Id = Config.r.Next(100000000, 1000000000),
                     Name = "Customer" + i,
                     Phone = Config.r.Next(100000000, 1000000000).ToString(),
-                    Lattitude = 31 + Config.r.NextDouble(),
-                    Longitude = 35 + Config.r.NextDouble(),
-                });
+                    Lattitude = 31.7 + Config.r.NextDouble() / 5,
+                    Longitude = 35.1 + Config.r.NextDouble() / 5,
+                }); ;
             }
 
             for (int i = 0; i < 10; i++)

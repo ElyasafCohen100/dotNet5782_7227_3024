@@ -22,7 +22,7 @@ namespace IBL
         void UpdateBaseStationDetails(int baseStationId, string baseStationNewName, int baseStationChargeSlots);
         void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber);
         void UpdateDroneToChargingBL(int droneID);
-        void UpdateDroneFromChargingBL(int droneId, double chargeTime);
+        void UpdateDroneFromChargingBL(int droneId);
         void UpdateDroneIdOfParcelBL(int droneId);
         void UpdateDeliveredParcelByDroneIdBL(int droneId);
         void UpdatePickedUpParcelByDroneIDBL(int droneId);

@@ -20,38 +20,21 @@ namespace PL
     /// <summary>
     /// Interaction logic for UpdateDroneWindow.xaml
     /// </summary>
-    public partial class UpdateDroneModel: Window
+    public partial class UpdateDroneModel : Window
     {
         private IBL.IBL BlObject;
-        private DroneActions droneActions;
-
-        public UpdateDroneModel(IBL.IBL BlObject, DroneActions droneActions)
+        private ViewDroneList viewDroneList;
+        private int droneId;
+        public UpdateDroneModel(IBL.IBL BlObject, ViewDroneList viewDroneList, int droneId)
         {
             InitializeComponent();
             this.BlObject = BlObject;
-            this.droneActions = droneActions;
+            this.viewDroneList = viewDroneList;
+            this.droneId = droneId;
         }
 
-        //------------------------------  DroneIdTextBox ------------------------------//
 
-        private void DroneIdTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (DroneIdTextBox.Text == "Enter Id")
-                DroneIdTextBox.Clear();
-
-        }
-        private void DroneIdTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (DroneIdTextBox.Text == String.Empty)
-                DroneIdTextBox.Text = "Enter Id";
-        }
-        private void DroneIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        //------------------------------  ModelTextBox ------------------------------//
+        //----------------  ModelTextBox ----------------//
 
         private void ModelTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -66,24 +49,30 @@ namespace PL
         }
 
 
-        //------------------------ UpdateDroneModelButton ----------------------------//
+        //---------------- UpdateDroneModelButton ----------------//
 
         private void UpdateDroneModelButton_Click(object sender, RoutedEventArgs e)
         {
-            int Id;
-            int.TryParse(DroneIdTextBox.Text, out Id);
-            String Model = ModelTextBox.Text;
+            if (ModelTextBox.Text != "Enter Model")
+            {
+                String Model = ModelTextBox.Text;
+                try
+                {
+                    BlObject.UpdateDroneModelBL(droneId, Model);
+                    MessageBox.Show("Drone has been update sucssesfuly");
+                    viewDroneList.DroneListView.Items.Refresh();
+                    this.Close();
+                }
+                catch (InvalidInputException)
+                {
+                    MessageBox.Show("Invalid input");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Enter Model to update");
+            }
 
-            try
-            {
-                BlObject.UpdateDroneModelBL(Id, Model);
-                MessageBox.Show("Drone has been update sucssesfuly ");
-                this.Close();
-            }
-            catch (InvalidInputException)
-            {
-                MessageBox.Show("incorrect input");
-            }
         }
     }
 }

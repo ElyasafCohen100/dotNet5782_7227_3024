@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Drones list" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10,0,10,0" Click="Show_Drone_List" />
+        <Button Content="Drone List" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10,0,10,0" Click="Show_Drone_List" Margin="0,145,0,0"/>
+        <Image HorizontalAlignment="Left" Height="166" Margin="31,74,0,0" VerticalAlignment="Top" Width="259" Source="https://www.kinaxis.com/sites/default/files/styles/large/public/blog/2019/08/drone-delivery-supply-chain-1200px-1024x690.jpg"/>
     </Grid>
 </Window>

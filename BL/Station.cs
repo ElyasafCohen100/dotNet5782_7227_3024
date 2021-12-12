@@ -14,7 +14,7 @@ namespace IBL
             public string Name { get; set; }
             public Location Location = new();
             public int AvailableChargeSlots { get; set; }
-            public List<DroneCharge> DroneChargesList;
+            public List<DroneCharge> DroneChargesList = new();
 
             /// <summary>
             /// Return describe of Station class string.
@@ -38,4 +38,3 @@ namespace IBL
         }
     }
 }
-

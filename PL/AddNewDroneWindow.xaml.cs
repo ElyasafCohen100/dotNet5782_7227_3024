@@ -39,13 +39,13 @@ namespace PL
             BaseStationIdSelector.SelectedItem = baseStationsId.First();
         }
 
-        //------------------------------  DroneIdTextBox ------------------------------//
+        //-------------------  DroneIdTextBox -------------------//
 
         private void DroneIdTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(DroneIdTextBox.Text == "Enter Id")
+            if (DroneIdTextBox.Text == "Enter Id")
                 DroneIdTextBox.Clear();
-            
+
         }
         private void DroneIdTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -58,7 +58,7 @@ namespace PL
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        //------------------------------  ModelTextBox ------------------------------//
+        //-------------------  ModelTextBox -------------------//
 
         private void ModelTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -72,7 +72,7 @@ namespace PL
                 ModelTextBox.Text = "Enter Model";
         }
 
-        //------------------------------  AddDroneButton ------------------------------//
+        //------------------- AddDroneButton -------------------//
 
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)
         {
@@ -91,14 +91,18 @@ namespace PL
             }
             catch (InvalidInputException)
             {
-                MessageBox.Show("incorrect input");
+                MessageBox.Show("Invalid input");
+            }
+            catch (ObjectAlreadyExistException)
+            {
+                MessageBox.Show("Drone is already exist");
             }
             viewDroneListWindow.DroneListView.Items.Refresh();
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-           this.Close();
+            this.Close();
         }
     }
 }

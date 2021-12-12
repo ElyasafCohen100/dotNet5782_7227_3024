@@ -13,6 +13,8 @@ namespace IBL
             public int DroneId { get; set; }
             public double BatteryStatus { get; set; }
 
+            public DateTime chargeTime;
+
             /// <summary>
             /// Return describe of DroneCharge class string.
             /// </summary>

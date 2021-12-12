@@ -56,8 +56,8 @@ namespace DalObject
         /// <param name="droneId"> Id of Drone </param>
         public void UpdateDroneIdOfParcel(int parcelId, int droneId)
         {
-                Parcel myParcel = FindParcelById(parcelId);
-                myParcel.DroneId = droneId; 
+            Parcel myParcel = FindParcelById(parcelId);
+            myParcel.DroneId = droneId;
         }
 
         /// <summary>
@@ -89,10 +89,17 @@ namespace DalObject
         /// <param name="droneId"> Id of Drone </param> 
         public void UpdateDroneFromCharging(int droneId)
         {
-                DroneCharge myDroneCharge = FindDroneChargeByDroneId(droneId);
-                Station myStation = FindStationById(myDroneCharge.StationId);
-                myStation.ChargeSlots++;
-                DataSource.DroneCharges.Remove(myDroneCharge);
+            DroneCharge myDroneCharge = FindDroneChargeByDroneId(droneId);
+            Station myStation = FindStationById(myDroneCharge.StationId);
+            myStation.ChargeSlots++;
+            DataSource.DroneCharges.Remove(myDroneCharge);
+        }
+
+        public void UpdateDroneModel(int droneId, string newModel)
+        {
+            Drone drone = FindDroneById(droneId);
+            drone.Model = newModel;
+
         }
 
         //--------------------------- GETTERS ---------------------------//

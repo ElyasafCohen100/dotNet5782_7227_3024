@@ -8,13 +8,11 @@
         Title="DroneActions" Height="450" Width="800">
     <Grid>
         <Grid>
-            <Button Content="Exit" HorizontalAlignment="Left" Margin="364,57,0,0" VerticalAlignment="Top"/>
-            <Button Content="Update Model" HorizontalAlignment="Left" Margin="85,75,0,0" VerticalAlignment="Top"/>
-            <Button Content="Send Drone To Chrging" HorizontalAlignment="Left" Margin="61,176,0,0" VerticalAlignment="Top"/>
-            <Button Content="Release Drone From Charging" HorizontalAlignment="Left" Margin="330,181,0,0" VerticalAlignment="Top"/>
-            <Button Content="Send Drone To Delivery" HorizontalAlignment="Left" Margin="330,304,0,0" VerticalAlignment="Top"/>
-            <Button Content="Parcel Picked Up" HorizontalAlignment="Left" Margin="79,304,0,0" VerticalAlignment="Top"/>
-            <Button Content="Parcel Delivered" HorizontalAlignment="Left" Margin="598,186,0,0" VerticalAlignment="Top"/>
+            <Button Content="Exit" HorizontalAlignment="Left" Margin="637,65,0,0" VerticalAlignment="Top" Width="50" Foreground="#FFF60C0C"/>
+            <Button Name="UpdateModel" Content="Update Model" HorizontalAlignment="Left" Margin="300,50,0,0" VerticalAlignment="Top" Height="35" Width="110" Click="UpdateDroneModel_Click"/>
+            <Button Name="UpdateDroneCharging" Content="Update Drone Charging" HorizontalAlignment="Left" Margin="300,100,0,0" VerticalAlignment="Top" Height="29" Width="170" Click="UpdateDroneCharging_Click"/>
+            <Button Name="SendDroneToDelivery" Content="Send Drone To Delivery" HorizontalAlignment="Left" Margin="300,0,0,0" VerticalAlignment="Center" Height="33" Width="170"/>
+            <Button Name="UpdateParcelToPickedUp" Content="Update Parcel To Picked Up" HorizontalAlignment="Left" Margin="300,250,0,0" VerticalAlignment="Top" Height="26" Width="170"/>
         </Grid>
     </Grid>
 </Window>
