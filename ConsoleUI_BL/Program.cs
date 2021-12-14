@@ -336,7 +336,7 @@ namespace ConsoleUI_BL
             int intTemp;
             Parcel parcel = new();
 
-            Console.WriteLine("Enter sender ID: ");
+            Console.WriteLine("Enter sender id: ");
             int.TryParse(Console.ReadLine(), out intTemp);
             parcel.senderCustomer.Id = intTemp;
 
@@ -504,6 +504,10 @@ namespace ConsoleUI_BL
             {
                 Console.WriteLine(e.Message);
             }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public static void CollectParcelByDrone()
@@ -514,6 +518,7 @@ namespace ConsoleUI_BL
             try
             {
                 BLObject.UpdatePickedUpParcelByDroneIdBL(droneId);
+
             }
             catch (InvalidInputException e)
             {
@@ -630,7 +635,7 @@ namespace ConsoleUI_BL
         /// </summary>
         public static void ViewParcel()
         {
-            Console.WriteLine("Enter parcel Id: ");
+            Console.WriteLine("Enter parcel Id:");
             int.TryParse(Console.ReadLine(), out int parcelId);
 
             try

@@ -14,7 +14,8 @@ namespace IBL
         {
             public OutOfBatteryException() { }
             public OutOfBatteryException(string message) : base($"Could not send the drone {message} to charging " +
-                                                                $"because it hasn't enough battery") { }
+                                                                $"because it hasn't enough battery")
+            { }
             public OutOfBatteryException(string message, Exception inner) : base(message, inner) { }
         }
 
@@ -32,7 +33,7 @@ namespace IBL
         public class ObjectNotFoundException : Exception
         {
             public ObjectNotFoundException() { }
-            public ObjectNotFoundException(string message) : base($"The {message} hasn't been found") { }
+            public ObjectNotFoundException(string message) : base(message) { }
             public ObjectNotFoundException(string message, Exception inner) : base(message, inner) { }
         }
 
@@ -44,7 +45,7 @@ namespace IBL
             public NoBaseStationToAssociateDroneToException(string message, Exception inner) : base(message, inner) { }
             public override string ToString()
             {
-                return "ERROR - there is no base station to associate the drone ";
+                return "There is no base station to associate the drone ";
             }
         }
 

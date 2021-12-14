@@ -14,13 +14,13 @@ namespace DalObject
         /// <summary>
         /// Finds Parcel by specific Id.
         /// </summary>
-        /// <param name="parcelId"> Id of Parcel </param>
-        /// <returns> Parcel </returns>
-        /// <exception cref="ObjectNotFoundException">Throw if parcel with such id has not found</exception>
+        /// <param name="parcelId"> Parcel Id </param>
+        /// <returns> Parcel object </returns>
+        /// <exception cref="ObjectDisposedException"></exception>
         public Parcel FindParcelById(int parcelId)
         {
             Parcel parcel = DataSource.Parcels.Find(x => x.Id == parcelId);
-            return parcel.Id != parcelId ? throw new ObjectNotFoundException(parcel.GetType().ToString()) : parcel;
+            return parcel.Id != parcelId ? throw new ObjectNotFoundException("parcel") : parcel;
         }
 
         //------------------------- SETTERS ---------------------------//
@@ -36,29 +36,41 @@ namespace DalObject
             ++DataSource.Config.SerialNumber;
         }
 
-
         //---------------------- UPDATE FUNCTIONS ----------------------//
 
         /// <summary>
         /// Update Parcel status to picked up.
         /// </summary>
-        /// <param name="parcelId"> Id of Parcel </param>
+        /// <param name="parcelId"> Parcel Id </param>
         public void UpdatePickedUpParcelById(int parcelId)
         {
-            Parcel myParcel = FindParcelById(parcelId);
-            myParcel.PickedUp = DateTime.Now;
+            try
+            {
+                Parcel myParcel = FindParcelById(parcelId);
+                myParcel.PickedUp = DateTime.Now;
+            }
+            catch (ObjectNotFoundException)
+            {
+                throw;
+            }
         }
 
         /// <summary>
         /// Update Parcel status to Delivered. 
         /// </summary>
-        /// <param name="parcelId">Id of Parcel</param>
+        /// <param name="parcelId"> Parcel Id</param>
         public void UpdateDeliveredParcelById(int parcelId)
         {
-            Parcel myParcel = FindParcelById(parcelId);
-            myParcel.Delivered = DateTime.Now;
+            try
+            {
+                Parcel myParcel = FindParcelById(parcelId);
+                myParcel.Delivered = DateTime.Now;
+            }
+            catch (ObjectNotFoundException)
+            {
+                throw;
+            }
         }
-
 
         //--------------------------- GETTERS ---------------------------//
 
@@ -71,15 +83,13 @@ namespace DalObject
             return DataSource.Parcels;
         }
 
-
         /// <summary>
         /// Return List of non associate Parcels.
         /// </summary>
         /// <returns> List of non associate Parcels </returns>
         public IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate)
         {
-           return DataSource.Parcels.FindAll(predicate);
+            return DataSource.Parcels.FindAll(x => x.DroneId == 0);
         }
-
     }
 }

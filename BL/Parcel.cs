@@ -14,7 +14,7 @@ namespace IBL
 
             public CustomerInParcel senderCustomer = new();
             public CustomerInParcel receiverCustomer = new();
-            public DroneInParcel Drone { get; set; }
+            public DroneInParcel Drone = new();
 
             public Priorities Priority;
             public WeightCategories Weight;
@@ -25,13 +25,13 @@ namespace IBL
             public DateTime? Delivered = null;
 
             /// <summary>
-            /// Return describe of Parcel struct string
+            /// Return describe of Parcel class string.
             /// </summary>
-            /// <returns>describe of Parcel struct string</returns>
+            /// <returns> Describe of Parcel class string </returns>
             public override string ToString()
             {
-                return $"Parcel:\n " +
-                       $"Id: {Id}:\n " +
+                return $"Parcel:\n" +
+                       $"Id: {Id}:\n" +
                        senderCustomer.ToString() +
                        receiverCustomer.ToString() +
                        $"Weight: {Weight}\n" +
@@ -45,4 +45,3 @@ namespace IBL
         }
     }
 }
-

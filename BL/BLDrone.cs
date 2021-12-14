@@ -105,12 +105,11 @@ namespace BL
             if (drone.DroneStatus == DroneStatuses.Shipment)
             {
                 myDrone.ParcelInDelivery = SetParcelInDelivery(drone.DeliveryParcelId);
-                return myDrone;
             }
-            else
-            {
-                return myDrone;
-            }
+            if (dalObject.FindParcelById(drone.DeliveryParcelId).PickedUp != null)
+                myDrone.ParcelInDelivery.ParcelStatus = true;
+
+            return myDrone;
         }
 
         //----------------------- SET FUNCTIONS -----------------------//
@@ -124,7 +123,7 @@ namespace BL
         /// <exception cref="ObjectNotFoundException"> Thrown if parcel with such id not found </exception>
         internal ParcelInDelivery SetParcelInDelivery(int parcelId)
         {
-            if (parcelId <= 0) throw new InvalidInputException("Id");
+            if (parcelId < 0) throw new InvalidInputException("Id");
 
             ParcelInDelivery parcelInDalivery = new();
 
@@ -254,35 +253,35 @@ namespace BL
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
 
-            Drone blDrone = FindDroneByIdBL(droneId);
+            DroneToList droneToList = droneToLists.Find(x => x.Id == droneId);
 
-            if (blDrone.DroneStatus == DroneStatuses.Available)
+            if (droneToList.DroneStatus == DroneStatuses.Available)
             {
-                IDAL.DO.Parcel dalParcel = new();
-                dalParcel.Priority = IDAL.DO.Priorities.Regular;
-                dalParcel.Weight = IDAL.DO.WeightCategories.Light;
-
-                double minDistance = double.MaxValue;
-
-                Customer customerOfParcel = new();
-
-                bool flag = false;
-
                 IEnumerable<IDAL.DO.Parcel> parcels = dalObject.GetParcelList();
-                if (parcels.Count() > 0)
+                if (parcels.Any())
                 {
+
+                    IDAL.DO.Parcel dalParcel = new();
+                    dalParcel.Priority = IDAL.DO.Priorities.Regular;
+                    dalParcel.Weight = IDAL.DO.WeightCategories.Light;
+
+                    double minDistance = double.MaxValue;
+
+                    Customer customerOfParcel = new();
+
+                    bool flag = false;
                     foreach (var parcel in parcels)
                     {
 
-                        if ((int)blDrone.MaxWeight <= (int)parcel.Weight)
+                        if ((int)droneToList.MaxWeight <= (int)parcel.Weight)
                         {
                             customerOfParcel = FindCustomerByIdBL(parcel.SenderId);
-                            double distance = dalObject.Distance(blDrone.CurrentLocation.Latitude,
-                            customerOfParcel.Location.Latitude,
-                            blDrone.CurrentLocation.Longitude,
-                            customerOfParcel.Location.Longitude);
+                            double distance = dalObject.Distance(droneToList.CurrentLocation.Latitude,
+                                                                      customerOfParcel.Location.Latitude,
+                                                                      droneToList.CurrentLocation.Longitude,
+                                                                      customerOfParcel.Location.Longitude);
 
-                            if (blDrone.BatteryStatus >= FindMinSuplyForAllPath(blDrone.Id, customerOfParcel.Id))
+                            if (droneToList.BatteryStatus >= FindMinSuplyForAllPath(droneToList.Id, customerOfParcel.Id))
                             {
                                 if ((int)parcel.Priority > (int)dalParcel.Priority)
                                 {
@@ -302,9 +301,12 @@ namespace BL
 
                                 if (flag)
                                 {
-                                    blDrone.DroneStatus = DroneStatuses.Shipment;
-                                    dalParcel.DroneId = blDrone.Id;
+                                    droneToList.DroneStatus = DroneStatuses.Shipment;
+                                    droneToList.DeliveryParcelId = dalParcel.Id;
+
+                                    dalParcel.DroneId = droneToList.Id;
                                     dalParcel.Scheduled = DateTime.Now;
+                                    flag = false;
                                 }
                             }
                         }
@@ -314,6 +316,8 @@ namespace BL
                 {
                     throw new ObjectNotFoundException("parcel");
                 }
+
+
             }
             else
             {
@@ -331,17 +335,19 @@ namespace BL
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
 
-            Drone myDrone = FindDroneByIdBL(droneId);
-            Parcel myParcel = FindParcelByIdBL(myDrone.ParcelInDelivery.Id);
+            DroneToList droneToList = droneToLists.Find(x => x.Id == droneId);
+            if (droneToList == null) throw new ObjectNotFoundException("drone");
+            IDAL.DO.Parcel dalParcel = dalObject.FindParcelById(droneToList.DeliveryParcelId);
 
-            if (myParcel.PickedUp == null && myDrone.DroneStatus == DroneStatuses.Shipment)
+            if (dalParcel.PickedUp == null && droneToList.DroneStatus == DroneStatuses.Shipment)
             {
-                myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
+                droneToList.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(droneToList.Id, dalParcel.SenderId);
 
-                Customer myCostomer = FindCustomerByIdBL(myDrone.ParcelInDelivery.senderCustomer.Id);
-                myDrone.CurrentLocation = myCostomer.Location;
+                Customer myCostomer = FindCustomerByIdBL(dalParcel.SenderId);
+                droneToList.CurrentLocation = myCostomer.Location;
 
-                myParcel.PickedUp = DateTime.Now;
+                dalObject.UpdatePickedUpParcelById(dalParcel.Id);
+                Console.WriteLine(dalObject.FindParcelById(dalParcel.Id).ToString());
             }
             else
             {

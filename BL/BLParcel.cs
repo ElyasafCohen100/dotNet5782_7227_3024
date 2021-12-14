@@ -9,13 +9,13 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
-        //---------------------------------- ADD FUNCTIONS ----------------------------------------//
+        //----------------------- ADD FUNCTIONS -----------------------//
 
         /// <summary>
-        /// add new BL parcel to the DATA SOURSCE by DAL
+        /// Add new BL parcel to the list by using DAL.
         /// </summary>
-        /// <param name="parcel"> the new parcel</param>
-        /// <exception cref="InvalidInputException">Thrown if parcel details are invalid</exception>
+        /// <param name="parcel"> Parcel object /param>
+        /// <exception cref="InvalidInputException"> Thrown if parcel details are invalid </exception>
         public void AddNewParcelBL(Parcel parcel)
         {
             if (parcel.senderCustomer.Id < 100000000 || parcel.senderCustomer.Id >= 1000000000)
@@ -41,31 +41,36 @@ namespace BL
             dalObject.SetNewParcel(dalParcel);
         }
 
-        //--------------------------------- FIND FUNCTIONS ---------------------------------------//
+        //----------------------- FIND FUNCTIONS -----------------------//
 
         /// <summary>
-        /// get the parcel from DAL by parcel ID 
+        /// Find BL parcel by Id.
         /// </summary>
-        /// <param name="parcelId">id of parcel </param>
-        /// <returns> BL parcel </returns>
-        /// <exception cref="InvalidInputException">Thrown if drone id is invalid</exception>
+        /// <param name="parcelId"> Parcel Id </param>
+        /// <returns> BL parcel object </returns>
+        /// <exception cref="InvalidInputException"> Thrown if drone id is invalid </exception>
         public Parcel FindParcelByIdBL(int parcelId)
         {
             if (parcelId <= 0) throw new InvalidInputException("Id");
-
-            IDAL.DO.Parcel dalParcel = dalObject.FindParcelById(parcelId);
-
+            IDAL.DO.Parcel dalParcel;
+            try
+            {
+                dalParcel = dalObject.FindParcelById(parcelId);
+            }
+            catch (IDAL.DO.ObjectNotFoundException e)
+            {
+                throw new ObjectNotFoundException(e.Message);
+            }
             Parcel Parcel = new();
-
 
             Parcel.Id = dalParcel.Id;
 
             IDAL.DO.Customer dalCustomer = new();
-            dalCustomer = dalObject.FindCustomerById(Parcel.senderCustomer.Id);
+            dalCustomer = dalObject.FindCustomerById(dalParcel.SenderId);
             Parcel.senderCustomer.Id = dalParcel.SenderId;
             Parcel.senderCustomer.Name = dalCustomer.Name;
 
-            dalCustomer = dalObject.FindCustomerById(Parcel.receiverCustomer.Id);
+            dalCustomer = dalObject.FindCustomerById(dalParcel.TargetId);
             Parcel.receiverCustomer.Id = dalParcel.TargetId;
             Parcel.receiverCustomer.Name = dalCustomer.Name;
 
@@ -90,12 +95,12 @@ namespace BL
             return Parcel;
         }
 
-        //---------------------------------- VIEW FUNCTIONS ---------------------------------------//
+        //----------------------- VIEW FUNCTIONS -----------------------//
 
         /// <summary>
-        /// view list of parcelTOLIst detailes
+        /// View list of parcelToList detailes.
         /// </summary>
-        /// <returns>list of parcelTOLIst detailes</returns>
+        /// <returns> List of parcelToList detailes </returns>
         public IEnumerable<ParcelToList> ViewParcelToList()
         {
             List<ParcelToList> ParcelList = new();
@@ -140,9 +145,9 @@ namespace BL
         }
 
         /// <summary>
-        /// view list of nonassociate ParcelsList 
+        /// View list of non associate ParcelsList. 
         /// </summary>
-        /// <returns> list of nonassociate ParcelsList </returns>
+        /// <returns> List of non associate ParcelsList </returns>
         public IEnumerable<ParcelToList> ViewNonAssociateParcelsListBL()
         {
             List<ParcelToList> ParcelToList = new();

@@ -9,24 +9,24 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
-       
-        //---------------------------------- ADD FUNCTIONS ----------------------------------------//
+
+        //-----------------------  ADD FUNCTIONS ----------------------- //
 
         /// <summary>
-        /// add BL customer by using DAL
+        /// Add new BL customer by using DAL.
         /// </summary>
-        /// <param name="customer"> the customer </param>
-        /// <exception cref="InvalidInputException">Thrown if one of the customer details are invalid</exception>
+        /// <param name="customer"> Customer object </param>
+        /// <exception cref="InvalidInputException"> Thrown if one of the customer details are invalid </exception>
         public void AddNewCustomerBL(Customer customer)
         {
-            IDAL.DO.Customer dalCustomer = new();
-            if (dalCustomer.Id < 100000000 || dalCustomer.Id >= 1000000000) throw new InvalidInputException("Id");
-            if (dalCustomer.Phone == null) throw new InvalidInputException("Phone number");
+            if (customer.Id < 100000000 || customer.Id >= 1000000000) throw new InvalidInputException("Id");
+            if (customer.Phone == null) throw new InvalidInputException("Phone number");
             IfExistCustomer(customer);
-            if (dalCustomer.Name == null) throw new InvalidInputException("Name");
-            if (dalCustomer.Longitude == 0.0) throw new InvalidInputException("Longitude");
-            if (dalCustomer.Lattitude == 0.0) throw new InvalidInputException("Lattitude");
+            if (customer.Name == null) throw new InvalidInputException("Name");
+            if (customer.Location.Longitude == 0.0) throw new InvalidInputException("Longitude");
+            if (customer.Location.Latitude == 0.0) throw new InvalidInputException("Lattitude");
 
+            IDAL.DO.Customer dalCustomer = new();
             dalCustomer.Id = customer.Id;
             dalCustomer.Name = customer.Name;
             dalCustomer.Phone = customer.Phone;
@@ -37,10 +37,10 @@ namespace BL
         }
 
         /// <summary>
-        /// check if the customer is already exist
+        /// Check if the customer is already exist.
         /// </summary>
-        /// <param name="customer">The customer</param>
-        /// <exception cref="ObjectAlreadyExistException">Thrown if customer id or cusomer phone is already exist</exception>
+        /// <param name="customer">Customer object </param>
+        /// <exception cref="ObjectAlreadyExistException"> Thrown if customer id or cusomer phone is already exist </exception>
         static void IfExistCustomer(Customer customer)
         {
             foreach (var myCustomer in dalObject.GetCustomerList())
@@ -50,16 +50,16 @@ namespace BL
             }
         }
 
-        //--------------------------------- UPDATE FUNCTIONS --------------------------------------//
+        //-----------------------  UPDATE FUNCTIONS ----------------------- //
 
         /// <summary>
-        /// update customer detailes
+        /// Update customer detailes.
         /// </summary>
-        /// <param name="customerId"> the ID of customer </param>
-        /// <param name="newName"> the update name of the customer </param>
-        /// <param name="newPhoneNumber"> the new phone of the customer</param>
-        /// <exception cref="InvalidInputException">Thrown if customer id or cusomer phone or customer name is invalid</exception>
-        /// <exception cref="ObjectNotFoundException">Throw if customer with such id has not found</exception>
+        /// <param name="customerId"> Customer Id </param>
+        /// <param name="newName"> New name of the customer </param>
+        /// <param name="newPhoneNumber"> New phone of the customer</param>
+        /// <exception cref="InvalidInputException"> Thrown if customer id or cusomer phone or customer name is invalid </exception>
+        /// <exception cref="ObjectNotFoundException"> Throw if customer with such id has not found </exception>
         public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
         {
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
@@ -80,15 +80,15 @@ namespace BL
             }
         }
 
-        //--------------------------------- FIND FUNCTIONS ---------------------------------------//
+        //-----------------------  FIND FUNCTIONS ----------------------- //
 
         /// <summary>
-        /// find BLcustomer by ID by using DAL
+        /// Find BL customer by ID by using DAL.
         /// </summary>
-        /// <param name="customerId"> the id of customer </param>
-        /// <returns> return BL customer object </returns>
-        /// <exception cref="InvalidInputException">Thrown if customer id is invalid</exception>
-        /// <exception cref="ObjectNotFoundException">Throw if customer with such id has not found</exception>
+        /// <param name="customerId"> Customer Id </param>
+        /// <returns> BL customer object </returns>
+        /// <exception cref="InvalidInputException"> Thrown if customer id is invalid </exception>
+        /// <exception cref="ObjectNotFoundException"> Throw if customer with such id has not found </exception>
         public Customer FindCustomerByIdBL(int customerId)
         {
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
@@ -142,12 +142,12 @@ namespace BL
             return Customer;
         }
 
-        //---------------------------------- VIEW FUNCTIONS ---------------------------------------//
+        //-----------------------  VIEW FUNCTIONS ----------------------- //
 
         /// <summary>
-        /// view list of detailes of BL customer
+        /// View list of detailes of BL customer.
         /// </summary>
-        /// <returns>list of detailes of BL customer</returns>
+        /// <returns> List of detailes of BL customer </returns>
         public IEnumerable<CustomerToList> ViewCustomerToList()
         {
             List<CustomerToList> myCustomerList = new();
@@ -156,7 +156,7 @@ namespace BL
             if (dalCustomers.Count() > 0)
             {
                 IEnumerable<IDAL.DO.Parcel> dalParcels = dalObject.GetParcelList();
-                
+
                 foreach (var customer in dalCustomers)
                 {
                     CustomerToList myCustomer = new();

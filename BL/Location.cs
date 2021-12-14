@@ -14,14 +14,14 @@ namespace IBL
             public double Latitude { get; set; }
 
             /// <summary>
-            /// Return describe of Station struct string
+            /// Return describe of Station class string.
             /// </summary>
-            /// <returns>describe of Station struct string</returns>
+            /// <returns> Describe of Station class string </returns>
             public override string ToString()
             {
                 return $"Location: " +
                        $"Longitude: {DalObject.DalObject.SexagesimalPresentation(Longitude)}, " +
-                       $"Lattitude: {DalObject.DalObject.SexagesimalPresentation(Latitude)}";
+                       $"Lattitude: {DalObject.DalObject.SexagesimalPresentation(Latitude)}\n";
             }
         }
     }

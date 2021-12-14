@@ -29,10 +29,10 @@ namespace IBL
                     stringDroneChargeList += droneCharge.ToString();
                 }
 
-                return $"Station:\n " +
+                return $"Station:\n" +
                        $"Id: {Id}\n" +
-                       $"Name: {Name}\n " +
-                       $"Location: {Location}\n " +
+                       $"Name: {Name}\n" +
+                       $"Location: {Location}\n" +
                        $"Available charge slots: {AvailableChargeSlots}\n";
             }
         }

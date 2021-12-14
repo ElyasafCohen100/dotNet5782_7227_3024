@@ -130,7 +130,7 @@ namespace BL
                             newDrone.CurrentLocation.Latitude = target.Lattitude;
                             newDrone.CurrentLocation.Longitude = target.Longitude;
 
-                            newDrone.BatteryStatus = FindMinPowerSuplyForCharging(newDrone);
+                            newDrone.BatteryStatus = r.Next((int)FindMinPowerSuplyForCharging(newDrone), 101);
                         }
                         else
                         {
