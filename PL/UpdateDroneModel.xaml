@@ -8,9 +8,9 @@
         Title="UpdateDroneModel" Height="450" Width="800">
     <Grid>
 
-        <TextBox Name ="ModelTextBox" HorizontalAlignment="Left" Margin="421,55,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus"/>
+        <TextBox Name ="ModelTextBox" HorizontalAlignment="Left" Margin="421,55,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" Cursor="Hand"/>
 
-        <Button Content="Update Model" HorizontalAlignment="Left" Margin="345,170,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click"/>
+        <Button Content="Update Model" HorizontalAlignment="Left" Margin="345,170,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click" Cursor="Hand"/>
 
     </Grid>
 </Window>

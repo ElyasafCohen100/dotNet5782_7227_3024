@@ -47,7 +47,7 @@ namespace PL
         private void AddNewDrone_Click(object sender, RoutedEventArgs e)
         {
             //new AddNewDroneWindow(BLObject, this).Show();
-             new DroneActions(BLObject, this).Show();
+            new DroneActions(BLObject, this).Show();
 
         }
 

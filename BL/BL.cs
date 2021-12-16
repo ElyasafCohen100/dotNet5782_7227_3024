@@ -145,8 +145,14 @@ namespace BL
 
                                 baseStation.AvailableChargeSlots--;
                                 baseStation.NotAvailableChargeSlots++;
-
-                                dalObject.UpdateDroneToCharging(newDrone.Id, baseStation.Id);
+                                try
+                                {
+                                    dalObject.UpdateDroneToCharging(newDrone.Id, baseStation.Id);
+                                }
+                                catch (IDAL.DO.ObjectNotFoundException e)
+                                {
+                                    throw new ObjectNotFoundException(e.Message);
+                                }
                             }
                             catch (InvalidOperationException)
                             {
@@ -323,17 +329,17 @@ namespace BL
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("customer Id");
 
 
-            DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
-            if (myDrone.Id != droneId) throw new ObjectNotFoundException("drone");
+            DroneToList blDrone = droneToLists.Find(x => x.Id == droneId);
+            if (blDrone.Id != droneId) throw new ObjectNotFoundException("drone");
 
             Customer myCustomer = FindCustomerByIdBL(customerId);
 
-            double myDistantce = dalObject.Distance(myDrone.CurrentLocation.Latitude, myCustomer.Location.Latitude,
-                myDrone.CurrentLocation.Longitude, myCustomer.Location.Longitude);
+            double myDistantce = dalObject.Distance(blDrone.CurrentLocation.Latitude, myCustomer.Location.Latitude,
+                blDrone.CurrentLocation.Longitude, myCustomer.Location.Longitude);
 
             double mySuply = 0;
 
-            switch (myDrone.MaxWeight)
+            switch (blDrone.MaxWeight)
             {
                 case WeightCategories.Heavy:
                     //Available-0, Light-1, Intermediate-2, Heavy-3, DroneChargingRate-4.
@@ -354,24 +360,27 @@ namespace BL
         /// Get the minimun power of battery for all the jurney of the drone.
         /// </summary>
         /// <param name="droneId"> Drone Id </param>
-        /// <param name="customerId"> Customer Id </param>
+        /// <param name="senderId"> Customer Id </param>
         /// <returns> Minimun power of battery for all the jurney of the drone </returns>
         /// /// <exception cref="InvalidInputException"> Thrown if drone id or customer id is invalid </exception>
         /// <exception cref="ObjectNotFoundException"> Thrown if there are no drone with such id </exception>
-        double FindMinSuplyForAllPath(int droneId, int customerId)
+        double FindMinSuplyForAllPath(int droneId, int senderId, int targetId)
         {
             if (droneId < 1000 || droneId > 10000) throw new InvalidInputException("drone id");
-            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("customer Id");
+            if (senderId < 100000000 || senderId >= 1000000000) throw new InvalidInputException("customer Id");
+            if (targetId < 100000000 || targetId >= 1000000000) throw new InvalidInputException("customer Id");
 
-            DroneToList myDrone = droneToLists.Find(x => x.Id == droneId);
-            if (myDrone.Id != droneId) throw new ObjectNotFoundException("drone");
+            //DroneToList blDrone = droneToLists.Find(x => x.Id == droneId);
+            Drone blDrone = FindDroneByIdBL(droneId);
+            if (blDrone.Id != droneId) throw new ObjectNotFoundException("drone");
 
-            double minSuply1 = FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, customerId);
+            double minSuply1 = FindMinPowerSuplyForDistanceBetweenDroneToTarget(blDrone.Id, senderId);
 
-            Customer myTarget = FindCustomerByIdBL(customerId);
-            myDrone.CurrentLocation = myTarget.Location;
+            Customer sender = FindCustomerByIdBL(senderId);
+            blDrone.CurrentLocation = sender.Location;
 
-            double minSuply2 = FindMinPowerSuply(myDrone, customerId);
+            DroneToList drone = droneToLists.Find(x => x.Id == blDrone.Id);
+            double minSuply2 = FindMinPowerSuply(drone, targetId);
             return minSuply1 + minSuply2;
         }
         private DroneCharge FindDroneChargeByDroneIdBL(int droneId)

@@ -106,14 +106,18 @@ namespace BL
         /// <param name="baseStationNewName"> New name of the base station </param>
         /// <param name="baseStationChargeSlots"> Number of charge slots that the base station has </param>
         /// <exception cref="InvalidInputException"> Thrown if station name or number of charge slots are invalid </exception>
-        public void UpdateBaseStationDetails(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
+        public void UpdateBaseStationDetailsBL(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
         {
             if (baseStationNewName == "") throw new InvalidInputException("name");
             if (baseStationChargeSlots < 0) throw new InvalidInputException("number of charge slots");
-
-            IDAL.DO.Station dalBaseStation = dalObject.FindStationById(baseStationId);
-            dalBaseStation.Name = baseStationNewName;
-            dalBaseStation.ChargeSlots = baseStationChargeSlots;
+            try
+            {
+                dalObject.UpdateBaseStationDetails(baseStationId, baseStationNewName, baseStationChargeSlots);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         //----------------------- VIEW FUNCTIONS -----------------------//

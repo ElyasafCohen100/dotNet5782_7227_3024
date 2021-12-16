@@ -20,7 +20,7 @@ namespace IDAL
 
             public Priorities Priority;
             public WeightCategories Weight;
-           
+
             public DateTime? Requested;
             public DateTime? Scheduled;
             public DateTime? PickedUp;
@@ -32,18 +32,18 @@ namespace IDAL
             /// <returns>describe of Parcel struct string</returns>
             public override string ToString()
             {
-                return $"Parcel:\n " +
-                       $"Id: {Id}:\n " +
-                       $"Senderld: {SenderId}\n " +
+                return $"Parcel:\n" +
+                       $"Id: {Id}:\n" +
+                       $"Senderld: {SenderId}\n" +
                        $"Targetld: {TargetId}\n" +
                        $"Weight: {Weight}\n" +
-                       $"Requested: {Requested}\n" +
                        $"Priority: {Priority}\n" +
                        $"Droneld: {DroneId}\n" +
+                       $"Requested: {Requested}\n" +
                        $"Scheduled: {Scheduled}\n" +
                        $"PickedUp: {PickedUp}\n" +
                        $"Delivered: {Delivered}\n";
-            }          
+            }
         }
     }
 }

@@ -46,8 +46,6 @@ namespace DalObject
         {
             DataSource.Drones.Add(drone);
         }
-
-        //*****************************//
         public void AddDroneCharge(int droneId, int stationId)
         {
             DroneCharge droneCharge = new();
@@ -66,8 +64,12 @@ namespace DalObject
         /// <param name="droneId"> Id of Drone </param>
         public void UpdateDroneIdOfParcel(int parcelId, int droneId)
         {
-            Parcel myParcel = FindParcelById(parcelId);
-            myParcel.DroneId = droneId;
+            int index = DataSource.Parcels.FindIndex(x => x.Id == parcelId);
+            if (index == -1) throw new ObjectNotFoundException("parcel");
+            Parcel parcel = DataSource.Parcels[index];
+            parcel.DroneId = droneId;
+            parcel.Scheduled = DateTime.Now;
+            DataSource.Parcels[index] = parcel;
         }
 
         /// <summary>
@@ -80,12 +82,15 @@ namespace DalObject
         ///                                                 left in the receiving base-station</exception>
         public void UpdateDroneToCharging(int droneId, int stationId)
         {
-            Station station = new();
+            int index = DataSource.Stations.FindIndex(x => x.Id == stationId);
+            if (index == -1) throw new ObjectNotFoundException("station");
 
-            station = FindStationById(stationId);
+            Station station = DataSource.Stations[index];
 
             if (station.ChargeSlots == 0) throw new ArgumentOutOfRangeException();
+
             station.ChargeSlots--;
+            DataSource.Stations[index] = station;
 
             DroneCharge droneCharge = new DroneCharge();
             droneCharge.DroneId = droneId;
@@ -101,15 +106,25 @@ namespace DalObject
         public void UpdateDroneFromCharging(int droneId)
         {
             DroneCharge droneCharge = FindDroneChargeByDroneId(droneId);
-            Station myStation = FindStationById(droneCharge.StationId);
-            myStation.ChargeSlots++;
+
+            int index = DataSource.Stations.FindIndex(x => x.Id == droneCharge.StationId);
+            if (index == -1) throw new ObjectNotFoundException("station");
+
+            Station station = DataSource.Stations[index];
+            station.ChargeSlots++;
+            DataSource.Stations[index] = station;
+
             DataSource.DroneCharges.Remove(droneCharge);
         }
 
         public void UpdateDroneModel(int droneId, string newModel)
         {
-            Drone drone = FindDroneById(droneId);
+            int index = DataSource.Drones.FindIndex(x => x.Id == droneId);
+            if (index == -1) throw new ObjectNotFoundException("drone");
+
+            Drone drone = DataSource.Drones[index];
             drone.Model = newModel;
+            DataSource.Drones[index] = drone;
         }
 
         //--------------------------- GETTERS ---------------------------//

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IBL.BO;
 
 namespace BL
 {
@@ -72,9 +70,9 @@ namespace BL
         /// <exception cref="ObjectAlreadyExistException"> Thrown if drone id is already exist </exception>
         static void IfExistDrone(int droneId)
         {
-            foreach (var myDrone in dalObject.GetDroneList())
+            foreach (var drone in dalObject.GetDroneList())
             {
-                if (myDrone.Id == droneId) throw new ObjectAlreadyExistException("drone");
+                if (drone.Id == droneId) throw new ObjectAlreadyExistException("drone");
             }
         }
 
@@ -94,22 +92,23 @@ namespace BL
             DroneToList drone = droneToLists.Find(x => x.Id == droneId);
             if (drone == null) throw new ObjectNotFoundException("drone");
 
-            Drone myDrone = new();
-            myDrone.Id = drone.Id;
-            myDrone.MaxWeight = drone.MaxWeight;
-            myDrone.Model = drone.Model;
-            myDrone.DroneStatus = drone.DroneStatus;
-            myDrone.BatteryStatus = drone.BatteryStatus;
-            myDrone.CurrentLocation = drone.CurrentLocation;
+            Drone blDrone = new();
+            blDrone.Id = drone.Id;
+            blDrone.MaxWeight = drone.MaxWeight;
+            blDrone.Model = drone.Model;
+            blDrone.DroneStatus = drone.DroneStatus;
+            blDrone.BatteryStatus = drone.BatteryStatus;
+            blDrone.CurrentLocation = drone.CurrentLocation;
 
             if (drone.DroneStatus == DroneStatuses.Shipment)
             {
-                myDrone.ParcelInDelivery = SetParcelInDelivery(drone.DeliveryParcelId);
+                blDrone.ParcelInDelivery = SetParcelInDelivery(drone.DeliveryParcelId);
             }
-            if (dalObject.FindParcelById(drone.DeliveryParcelId).PickedUp != null)
-                myDrone.ParcelInDelivery.ParcelStatus = true;
 
-            return myDrone;
+            IDAL.DO.Parcel parcel = dalObject.FindParcelById(drone.DeliveryParcelId);
+            if (parcel.PickedUp != null && parcel.Delivered == null)
+                blDrone.ParcelInDelivery.ParcelStatus = true;
+            return blDrone;
         }
 
         //----------------------- SET FUNCTIONS -----------------------//
@@ -132,9 +131,9 @@ namespace BL
             {
                 parcel = dalObject.FindParcelById(parcelId);
             }
-            catch (IDAL.DO.ObjectNotFoundException)
+            catch (IDAL.DO.ObjectNotFoundException e)
             {
-                throw new ObjectNotFoundException("Parcel");
+                throw new ObjectNotFoundException(e.Message);
             }
 
             parcelInDalivery.Id = parcel.Id;
@@ -171,8 +170,14 @@ namespace BL
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
             if (newModel == string.Empty) throw new InvalidInputException("Model");
 
-            dalObject.UpdateDroneModel(droneId, newModel);
-
+            try
+            {
+                dalObject.UpdateDroneModel(droneId, newModel);
+            }
+            catch (IDAL.DO.ObjectNotFoundException e)
+            {
+                throw new(e.Message);
+            }
             droneToLists.Find(x => x.Id == droneId).Model = newModel;
         }
 
@@ -212,7 +217,14 @@ namespace BL
                 drone.CurrentLocation.Longitude = myStation.Location.Longitude;
                 drone.DroneStatus = DroneStatuses.Maintenance;
                 //Update Station and DroneCharge detailes.
-                dalObject.UpdateDroneToCharging(drone.Id, myStation.Id);
+                try
+                {
+                    dalObject.UpdateDroneToCharging(drone.Id, myStation.Id);
+                }
+                catch (IDAL.DO.ObjectNotFoundException e)
+                {
+                    throw new ObjectNotFoundException(e.Message);
+                }
             }
         }
 
@@ -234,7 +246,14 @@ namespace BL
             double chargingTime = TimeIntervalInMinutes(droneCharge.ChargeTime, DateTime.Now);
             droneToList.DroneStatus = DroneStatuses.Available;
             droneToList.BatteryStatus += dalObject.ElectricityUseRequest()[4] * chargingTime;
-            dalObject.UpdateDroneFromCharging(droneId);
+            try
+            {
+                dalObject.UpdateDroneFromCharging(droneId);
+            }
+            catch (IDAL.DO.ObjectNotFoundException e)
+            {
+                throw new ObjectNotFoundException(e.Message);
+            }
         }
         private double TimeIntervalInMinutes(DateTime time1, DateTime time2)
         {
@@ -257,58 +276,84 @@ namespace BL
 
             if (droneToList.DroneStatus == DroneStatuses.Available)
             {
-                IEnumerable<IDAL.DO.Parcel> parcels = dalObject.GetParcelList();
+                IEnumerable<IDAL.DO.Parcel> parcels = dalObject.GetParcels(x => x.DroneId == 0);
                 if (parcels.Any())
                 {
-
+                    //Initiate some valuse for comparation
                     IDAL.DO.Parcel dalParcel = new();
                     dalParcel.Priority = IDAL.DO.Priorities.Regular;
-                    dalParcel.Weight = IDAL.DO.WeightCategories.Light;
+                    dalParcel.Weight = IDAL.DO.WeightCategories.Heavy;
 
                     double minDistance = double.MaxValue;
 
-                    Customer customerOfParcel = new();
+                    Customer sender = new();
+                    Customer target = new();
 
-                    bool flag = false;
+                    bool haveParcelToAssociate = false;
                     foreach (var parcel in parcels)
                     {
 
                         if ((int)droneToList.MaxWeight <= (int)parcel.Weight)
                         {
-                            customerOfParcel = FindCustomerByIdBL(parcel.SenderId);
-                            double distance = dalObject.Distance(droneToList.CurrentLocation.Latitude,
-                                                                      customerOfParcel.Location.Latitude,
-                                                                      droneToList.CurrentLocation.Longitude,
-                                                                      customerOfParcel.Location.Longitude);
+                            sender = FindCustomerByIdBL(parcel.SenderId);
+                            target = FindCustomerByIdBL(parcel.TargetId);
 
-                            if (droneToList.BatteryStatus >= FindMinSuplyForAllPath(droneToList.Id, customerOfParcel.Id))
+                            //Distance between drone and sender.
+                            double distance = dalObject.Distance(droneToList.CurrentLocation.Latitude,
+                                                                      sender.Location.Latitude,
+                                                                      droneToList.CurrentLocation.Longitude,
+                                                                      sender.Location.Longitude);
+
+                            //Distance between sender and target.
+                            distance += dalObject.Distance(sender.Location.Latitude,
+                                                                      target.Location.Latitude,
+                                                                     sender.Location.Longitude,
+                                                                      target.Location.Longitude);
+
+                            //Find the nearest base-station to the target.
+                            int stationId = FindNearestBaseStationWithAvailableChargingSlots(new Location
+                            {
+                                Latitude = target.Location.Latitude,
+                                Longitude = target.Location.Longitude
+                            });
+
+                            Station station = FindStationByIdBL(stationId);
+
+                            //Distance between target and base-station.
+                            distance += dalObject.Distance(target.Location.Latitude, station.Location.Latitude,
+                                                        target.Location.Longitude, station.Location.Longitude);
+
+                            if (droneToList.BatteryStatus > FindMinSuplyForAllPath(droneToList.Id, parcel.SenderId, parcel.TargetId))
                             {
                                 if ((int)parcel.Priority > (int)dalParcel.Priority)
                                 {
                                     dalParcel = parcel;
-                                    flag = true;
                                 }
                                 else if (((int)parcel.Weight < (int)dalParcel.Weight) && ((int)parcel.Priority == (int)dalParcel.Priority))
                                 {
                                     dalParcel = parcel;
-                                    flag = true;
                                 }
                                 else if ((distance < minDistance) && ((int)parcel.Weight == (int)dalParcel.Weight) && ((int)parcel.Priority == (int)dalParcel.Priority))
                                 {
                                     dalParcel = parcel;
-                                    flag = true;
                                 }
-
-                                if (flag)
-                                {
-                                    droneToList.DroneStatus = DroneStatuses.Shipment;
-                                    droneToList.DeliveryParcelId = dalParcel.Id;
-
-                                    dalParcel.DroneId = droneToList.Id;
-                                    dalParcel.Scheduled = DateTime.Now;
-                                    flag = false;
-                                }
+                                minDistance = distance;
+                                haveParcelToAssociate = true;
                             }
+                        }
+                    }
+                    if (haveParcelToAssociate)
+                    {
+                        droneToList.DroneStatus = DroneStatuses.Shipment;
+                        droneToList.DeliveryParcelId = dalParcel.Id;
+
+                        try
+                        {
+                            dalObject.UpdateDroneIdOfParcel(dalParcel.Id, droneToList.Id);
+                        }
+                        catch (IDAL.DO.ObjectNotFoundException e)
+                        {
+                            throw new ObjectNotFoundException(e.Message);
                         }
                     }
                 }
@@ -316,12 +361,10 @@ namespace BL
                 {
                     throw new ObjectNotFoundException("parcel");
                 }
-
-
             }
             else
             {
-                throw new InvalidOperationException("cannot send this drone");
+                throw new InvalidOperationException("Could not send this drone");
             }
         }
 
@@ -343,11 +386,11 @@ namespace BL
             {
                 droneToList.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(droneToList.Id, dalParcel.SenderId);
 
-                Customer myCostomer = FindCustomerByIdBL(dalParcel.SenderId);
-                droneToList.CurrentLocation = myCostomer.Location;
+                Customer costomer = FindCustomerByIdBL(dalParcel.SenderId);
+                droneToList.CurrentLocation = costomer.Location;
+
 
                 dalObject.UpdatePickedUpParcelById(dalParcel.Id);
-                Console.WriteLine(dalObject.FindParcelById(dalParcel.Id).ToString());
             }
             else
             {
@@ -362,23 +405,29 @@ namespace BL
         /// <exception cref="NotValidRequestException"> Thrown if the drone has already delivered the parcel </exception>
         public void UpdateDeliveredParcelByDroneIdBL(int droneId)
         {
-            Drone myDrone = FindDroneByIdBL(droneId);
-            Parcel myParcel = FindParcelByIdBL(myDrone.ParcelInDelivery.Id);
+            Drone blDrone = FindDroneByIdBL(droneId);
+            if (blDrone.ParcelInDelivery.Id == 0) throw new NotValidRequestException("No parcel was found in this drone");
 
-            if ((myParcel.PickedUp != null) && (myParcel.Delivered == null))
+            Parcel blParcel = FindParcelByIdBL(blDrone.ParcelInDelivery.Id);
+            DroneToList droneToList = droneToLists.Find(x => x.Id == droneId);
+
+            if ((blParcel.PickedUp != null) && (blParcel.Delivered == null))
             {
-                myDrone.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(myDrone.Id, myParcel.Id);
+                Customer blCostomer = FindCustomerByIdBL(blDrone.ParcelInDelivery.receiverCustomer.Id);
+                droneToList.BatteryStatus -= FindMinPowerSuplyForDistanceBetweenDroneToTarget(blDrone.Id, blCostomer.Id);
+                droneToList.CurrentLocation = blCostomer.Location;
 
-                Customer myCostomer = FindCustomerByIdBL(myDrone.ParcelInDelivery.senderCustomer.Id);
-                myDrone.CurrentLocation = myCostomer.Location;
+                droneToList.DroneStatus = DroneStatuses.Available;
+                droneToList.DeliveryParcelId = 0;
 
-                myDrone.DroneStatus = DroneStatuses.Available;
+                int index = droneToLists.FindIndex(x => x.Id == droneId);
+                droneToLists[index] = droneToList;
 
-                myParcel.Delivered = DateTime.Now;
+                dalObject.UpdateDeliveredParcelById(blParcel.Id);
             }
             else
             {
-                throw new NotValidRequestException("The drone has already delivered the parcel");
+                throw new NotValidRequestException("Could not update parcel status");
             }
         }
 

@@ -35,9 +35,9 @@ namespace IBL
                        senderCustomer.ToString() +
                        receiverCustomer.ToString() +
                        $"Weight: {Weight}\n" +
-                       $"Requested: {Requested}\n" +
                        $"Priority: {Priority}\n" +
                        Drone.ToString() +
+                       $"Requested: {Requested}\n" +
                        $"Scheduled: {Scheduled}\n" +
                        $"PickedUp: {PickedUp}\n" +
                        $"Delivered: {Delivered}\n";
@@ -45,3 +45,4 @@ namespace IBL
         }
     }
 }
+

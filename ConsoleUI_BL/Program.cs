@@ -401,7 +401,7 @@ namespace ConsoleUI_BL
 
             try
             {
-                BLObject.UpdateBaseStationDetails(baseStationId, baseStationNewName, baseStationChargeSlots);
+                BLObject.UpdateBaseStationDetailsBL(baseStationId, baseStationNewName, baseStationChargeSlots);
             }
             catch (InvalidInputException e)
             {
@@ -415,7 +415,7 @@ namespace ConsoleUI_BL
 
         public static void UpdateCustomerDetailes()
         {
-            Console.WriteLine("Enter customer ID: ");
+            Console.WriteLine("Enter customer Id: ");
             int.TryParse(Console.ReadLine(), out int coustomerId);
 
             Console.WriteLine("Enter detailes to change: \n (if you don't want to change leave empty)\n");
@@ -427,7 +427,7 @@ namespace ConsoleUI_BL
 
             try
             {
-                BLObject.UpdateCustomerDetailes(coustomerId, newCustomerName, newCustomerPhoneNumber);
+                BLObject.UpdateCustomerDetailesBL(coustomerId, newCustomerName, newCustomerPhoneNumber);
             }
             catch (InvalidInputException e)
             {
@@ -594,8 +594,8 @@ namespace ConsoleUI_BL
 
             try
             {
-                Drone myDrone = BLObject.FindDroneByIdBL(droneId);
-                Console.WriteLine(myDrone.ToString());
+                Drone blDrone = BLObject.FindDroneByIdBL(droneId);
+                Console.WriteLine(blDrone.ToString());
             }
             catch (InvalidInputException e)
             {
@@ -640,8 +640,8 @@ namespace ConsoleUI_BL
 
             try
             {
-                Parcel myParcel = BLObject.FindParcelByIdBL(parcelId);
-                Console.WriteLine(myParcel.ToString());
+                Parcel blparcel = BLObject.FindParcelByIdBL(parcelId);
+                Console.WriteLine(blparcel.ToString());
             }
             catch (InvalidInputException e)
             {

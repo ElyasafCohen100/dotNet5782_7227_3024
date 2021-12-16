@@ -19,8 +19,8 @@ namespace IBL
         //------------------- UPDATE FANCTIONS ------------------//
 
         void UpdateDroneModelBL(int droneId, string newName);
-        void UpdateBaseStationDetails(int baseStationId, string baseStationNewName, int baseStationChargeSlots);
-        void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber);
+        void UpdateBaseStationDetailsBL(int baseStationId, string baseStationNewName, int baseStationChargeSlots);
+        void UpdateCustomerDetailesBL(int customerId, string newName, string newPhoneNumber);
         void UpdateDroneToChargingBL(int droneID);
         void UpdateDroneFromChargingBL(int droneId);
         void UpdateDroneIdOfParcelBL(int droneId);

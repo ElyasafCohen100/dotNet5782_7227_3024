@@ -17,6 +17,7 @@ namespace DalObject
         internal static List<Customer> Customers = new List<Customer>();
         internal static List<Parcel> Parcels = new List<Parcel>();
 
+
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace DalObject
             internal static double Available = 3.2;
             internal static double DroneChargingRate = 10;
 
-            internal static int SerialNumber = 1;
+            internal static int SerialNum = 1;
 
             internal static Random r = new Random();
             internal static DateTime currentDate = DateTime.Now;
@@ -79,7 +80,7 @@ namespace DalObject
             for (int i = 0; i < 10; i++)
             {
                 Parcel myParcel = new Parcel();
-                myParcel.Id = Config.SerialNumber;
+                myParcel.Id = Config.SerialNum;
                 myParcel.SenderId = Customers[i].Id;
                 myParcel.TargetId = Customers[i + 1].Id;
                 myParcel.Weight = (WeightCategories)Config.r.Next(2);
@@ -107,7 +108,7 @@ namespace DalObject
                 }
                 Parcels.Add(myParcel);
 
-                Config.SerialNumber++;
+                Config.SerialNum++;
             }
         }
     }

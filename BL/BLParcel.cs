@@ -155,21 +155,23 @@ namespace BL
             foreach (var parcel in dalObject.GetParcels(x => x.DroneId == 0))
             {
                 IDAL.DO.Parcel dalParcel = dalObject.FindParcelById(parcel.Id);
-                ParcelToList myParcel = new();
+                ParcelToList blParcel = new();
                 IDAL.DO.Customer dalCustomer = new();
 
-                myParcel.Id = dalParcel.Id;
+                blParcel.Id = dalParcel.Id;
 
                 dalCustomer = dalObject.FindCustomerById(dalParcel.SenderId);
-                myParcel.SenderName = dalCustomer.Name;
+                blParcel.SenderName = dalCustomer.Name;
 
                 dalCustomer = dalObject.FindCustomerById(dalParcel.TargetId);
-                myParcel.ReceiverName = dalCustomer.Name;
+                blParcel.ReceiverName = dalCustomer.Name;
 
-                myParcel.WeightCategory = (WeightCategories)dalParcel.Weight;
-                myParcel.Prioritie = (Priorities)dalParcel.Priority;
+                blParcel.WeightCategory = (WeightCategories)dalParcel.Weight;
+                blParcel.Prioritie = (Priorities)dalParcel.Priority;
 
-                myParcel.ParcelStatus = ParcelStatus.Requested;
+                blParcel.ParcelStatus = ParcelStatus.Requested;
+
+                ParcelToList.Add(blParcel);
             }
 
             return ParcelToList;

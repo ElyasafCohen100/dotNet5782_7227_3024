@@ -31,10 +31,11 @@ namespace DalObject
         /// <param name="parcel"> Parcel object </param>
         public void SetNewParcel(Parcel Parcel)
         {
-            Parcel.Id = DataSource.Config.SerialNumber;
+            Parcel.Id = DataSource.Config.SerialNum;
             DataSource.Parcels.Add(Parcel);
-            ++DataSource.Config.SerialNumber;
+            ++DataSource.Config.SerialNum;
         }
+
 
         //---------------------- UPDATE FUNCTIONS ----------------------//
 
@@ -46,8 +47,13 @@ namespace DalObject
         {
             try
             {
-                Parcel myParcel = FindParcelById(parcelId);
-                myParcel.PickedUp = DateTime.Now;
+                int index = DataSource.Parcels.FindIndex(x => x.Id == parcelId);
+                if (index == -1) throw new ObjectNotFoundException("parcel");
+
+                Parcel parcel = DataSource.Parcels[index];
+                parcel.PickedUp = DateTime.Now;
+                DataSource.Parcels[index] = parcel;
+
             }
             catch (ObjectNotFoundException)
             {
@@ -63,14 +69,19 @@ namespace DalObject
         {
             try
             {
-                Parcel myParcel = FindParcelById(parcelId);
-                myParcel.Delivered = DateTime.Now;
+                int index = DataSource.Parcels.FindIndex(x => x.Id == parcelId);
+                if (index == -1) throw new ObjectNotFoundException("parcel");
+
+                Parcel parcel = DataSource.Parcels[index];
+                parcel.Delivered = DateTime.Now;
+                DataSource.Parcels[index] = parcel;
             }
             catch (ObjectNotFoundException)
             {
                 throw;
             }
         }
+
 
         //--------------------------- GETTERS ---------------------------//
 
@@ -89,7 +100,7 @@ namespace DalObject
         /// <returns> List of non associate Parcels </returns>
         public IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate)
         {
-            return DataSource.Parcels.FindAll(x => x.DroneId == 0);
+            return DataSource.Parcels.FindAll(predicate);
         }
     }
 }

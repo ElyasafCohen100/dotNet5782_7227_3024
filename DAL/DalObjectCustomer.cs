@@ -9,9 +9,8 @@ namespace DalObject
         /// <summary>
         /// Finds Customer by specific Id.
         /// </summary>
-        /// <param name="customerId"> Id of customer </param>
+        /// <param name="customerId"> Customer Id </param>
         /// <returns> Customer object </returns>
-        /// <exception cref="ObjectNotFoundException">Throw if customer with such id has not found</exception>
         public Customer FindCustomerById(int customerId)
         {
             Customer customer = DataSource.Customers.Find(x => x.Id == customerId);
@@ -27,7 +26,16 @@ namespace DalObject
         {
             DataSource.Customers.Add(Customer);
         }
+        public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
+        {
+            int index = DataSource.Customers.FindIndex(x => x.Id == customerId);
+            if (index == -1) throw new ObjectNotFoundException("customer");
 
+            Customer customer = DataSource.Customers[index];
+            customer.Name = newName;
+            customer.Phone = newPhoneNumber;
+            DataSource.Customers[index] = customer;
+        }
         //-------------------------- GETTERS --------------------------//
         /// <summary>
         /// Return List of Customers.

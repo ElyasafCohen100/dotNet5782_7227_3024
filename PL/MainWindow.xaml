@@ -45,7 +45,7 @@
             </Button.Style>
         </Button>
 
-        <TextBox HorizontalAlignment="Left" Margin="400,351,0,0" Padding="20,10" Text="Yakir and Elyasaf" FontSize="40" Visibility="Visible" FontStyle="Italic" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Background="Gray" Height="73"/>
+        <TextBox HorizontalAlignment="Left" Margin="422,340,0,0" Padding="20,10" Text="Yakir and Elyasaf" FontSize="40" Visibility="Visible" FontStyle="Italic" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Background="Gray" Height="73"/>
 
     </Grid>
 

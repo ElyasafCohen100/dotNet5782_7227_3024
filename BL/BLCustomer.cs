@@ -60,7 +60,7 @@ namespace BL
         /// <param name="newPhoneNumber"> New phone of the customer</param>
         /// <exception cref="InvalidInputException"> Thrown if customer id or cusomer phone or customer name is invalid </exception>
         /// <exception cref="ObjectNotFoundException"> Throw if customer with such id has not found </exception>
-        public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
+        public void UpdateCustomerDetailesBL(int customerId, string newName, string newPhoneNumber)
         {
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
             if (newName == null) throw new InvalidInputException("Name");
@@ -68,15 +68,12 @@ namespace BL
 
             try
             {
-                IDAL.DO.Customer customer = dalObject.FindCustomerById(customerId);
-                customer.Name = newName;
-                customer.Phone = newPhoneNumber;
+                dalObject.UpdateCustomerDetailes(customerId, newName, newPhoneNumber);
 
             }
-            catch (IDAL.DO.ObjectNotFoundException)
+            catch (IDAL.DO.ObjectNotFoundException e)
             {
-
-                throw new ObjectNotFoundException("Customer");
+                throw new ObjectNotFoundException(e.Message);
             }
         }
 

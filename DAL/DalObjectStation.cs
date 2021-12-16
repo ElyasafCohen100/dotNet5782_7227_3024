@@ -11,13 +11,23 @@ namespace DalObject
         /// <summary>
         /// Finds Station by specific Id.
         /// </summary>
-        /// <param name="stationId"> Id of Station </param>
-        /// <returns>Station object</returns>
-        /// <exception cref="ObjectNotFoundException">Throw if station with such id has not found</exception>
+        /// <param name="stationId"> Station Id </param>
+        /// <returns> Station object </returns>
         public Station FindStationById(int stationId)
         {
-            Station station  = DataSource.Stations.Find(x => x.Id == stationId);
+            Station station = DataSource.Stations.Find(x => x.Id == stationId);
             return station.Id != stationId ? throw new ObjectNotFoundException(station.GetType().ToString()) : station;
+        }
+
+        public void UpdateBaseStationDetails(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
+        {
+            int index = DataSource.Stations.FindIndex(x => x.Id == baseStationId);
+            if (index == -1) throw new ObjectNotFoundException("base station");
+
+            Station station = DataSource.Stations[index];
+            station.Name = baseStationNewName;
+            station.ChargeSlots = baseStationChargeSlots;
+            DataSource.Stations[index] = station;
         }
 
         //------------------------- SETTERS --------------------------//
@@ -25,23 +35,21 @@ namespace DalObject
         /// <summary>
         /// Set new Station.
         /// </summary>
-        /// <param name="station">Station object</param>
+        /// <param name="station"> Station object </param>
         public void SetNewStation(Station station)
         {
             DataSource.Stations.Add(station);
         }
 
         //-------------------------- GETTERS -------------------------//
-       
         /// <summary>
         /// Return list of Stations.
         /// </summary>
-        /// <returns>List of Stations</returns>
+        /// <returns> List of Stations </returns>
         public IEnumerable<Station> GetBaseStationList()
         {
             return DataSource.Stations;
         }
-
         /// <summary>
         /// Return List of Stations with available charging slot.
         /// </summary>
@@ -50,5 +58,6 @@ namespace DalObject
         {
             return DataSource.Stations.FindAll(predicate);
         }
+
     }
 }

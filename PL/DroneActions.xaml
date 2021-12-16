@@ -9,23 +9,26 @@
     <Grid>
         <Grid>
             <Button Content="Exit" HorizontalAlignment="Left" Margin="637,65,0,0" VerticalAlignment="Top" Width="50" Foreground="#FFF60C0C" Cursor="Hand" Click="Button_Click"/>
-            <Button Name="UpdateModel" Content="Update Model" HorizontalAlignment="Left" Margin="562,129,0,0" VerticalAlignment="Top" Height="33" Width="200" Click="UpdateDroneModel_Click" Cursor="Hand"/>
-            <Button Name="UpdateDroneCharging" Content="Update Drone Charging" HorizontalAlignment="Left" Margin="562,190,0,0" VerticalAlignment="Top" Height="24" Width="200" Click="UpdateDroneCharging_Click" Cursor="Hand"/>
-            <Button Name="UpdateParcelStatus" Content="Update Parcel Status" HorizontalAlignment="Left" Margin="562,256,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateParcelStatus_Click" Cursor="Hand"/>
+            <Button Name="UpdateModel" Content="Update Model" HorizontalAlignment="Left" Margin="562,100,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneModel_Click" Cursor="Hand"/>
+            <Button Name="UpdateDroneToCharging" Content="Update Drone To Charging" HorizontalAlignment="Left" Margin="562,150,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneToChargingButton_Click" Cursor="Hand"/>
+            <Button Name="UpdateDroneFromCharging" Content="Update Drone From Charging" HorizontalAlignment="Left" Margin="562,200,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneFromChargingButton_Click" Cursor="Hand"/>
+            <Button Name="SendDroneToDelivery" Content="Send Drone To Delivery" HorizontalAlignment="Left" Margin="562,250,0,0" VerticalAlignment="Top" Height="30" Width="200" Cursor="Hand" Click="SendDroneToDelivery_Button_Click"/>
+            <Button Name="UpdateParcelToPickedUp" Content="Update Parcel Status To Picked Up" HorizontalAlignment="Left" Margin="562,300,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateParcelToPickedUp_Button_Click" Cursor="Hand"/>
+            <Button Name="UpdateParcelToDeliverd" Content="Update Parcel Status To Delivered" HorizontalAlignment="Left" Margin="562,350,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateParcelStatusToDelivered_Button_Click" Cursor="Hand"/>
 
-            <TextBox Name="IdTB" HorizontalAlignment="Left" Margin="174,75,0,0" Text="Id" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <TextBox Name="ModelTB" HorizontalAlignment="Left" Margin="174,93,0,0" Text="Model" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <TextBox Name="BatteryTB" HorizontalAlignment="Left" Margin="174,121,0,0" Text="Battery" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <TextBox Name="MaxWeightTB" HorizontalAlignment="Left" Margin="174,144,0,0" Text="Max weight" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <TextBox Name="StatusTB" HorizontalAlignment="Left" Margin="174,175,0,0" Text="status" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="IdTextBox" HorizontalAlignment="Left" Margin="174,75,0,0" Text="Id" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="DroneIdTextBox_GotFocus" LostFocus="DroneIdTextBox_LostFocus" PreviewTextInput="DroneIdTextBox_PreviewTextInput"/>
+            <TextBox Name="ModelTextBox" HorizontalAlignment="Left" Margin="174,93,0,0" Text="Model" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus"/>
+            <TextBox Name="BatteryTB" HorizontalAlignment="Left" Margin="174,165,0,0" Text="Battery" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="MaxWeightTB" HorizontalAlignment="Left" Margin="174,188,0,0" Text="Max weight" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="StatusTB" HorizontalAlignment="Left" Margin="174,217,0,0" Text="status" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
             <TextBox Name="DeliveryTB" HorizontalAlignment="Left" Margin="327,84,0,0" Text="Delivery" TextWrapping="Wrap" VerticalAlignment="Top" Width="161" Height="178"/>
-            <TextBox Name="LatitudeTB" HorizontalAlignment="Left" Margin="174,221,0,0" Text="latitude" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <TextBox Name="LongitudeTB" HorizontalAlignment="Left" Margin="174,253,0,0" Text="longitude" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="LatitudeTB" HorizontalAlignment="Left" Margin="174,244,0,0" Text="latitude" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="LongitudeTB" HorizontalAlignment="Left" Margin="174,271,0,0" Text="longitude" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
 
             <Button Name="AddButton" Content="Add new drone" HorizontalAlignment="Left" Margin="208,355,0,0" VerticalAlignment="Top" Click="AddButton_Click"/>
-            <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Left" Margin="503,355,0,0" VerticalAlignment="Top"/>
-            <ComboBox Name="BaseStationCB" HorizontalAlignment="Left" Margin="348,271,0,0" VerticalAlignment="Top" Width="120"/>
-            <ComboBox Name="MaxWeightCB" HorizontalAlignment="Left" Margin="41,146,0,0" VerticalAlignment="Top" Width="120"/>
+            <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Left" Margin="465,360,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.22,0.533"/>
+            <ComboBox Name="BaseStationCB" HorizontalAlignment="Left" Margin="174,143,0,0" VerticalAlignment="Top" Width="120"/>
+            <ComboBox Name="MaxWeightCB" HorizontalAlignment="Left" Margin="174,116,0,0" VerticalAlignment="Top" Width="120"/>
         </Grid>
     </Grid>
 </Window>

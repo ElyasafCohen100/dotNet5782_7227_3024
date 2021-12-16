@@ -32,7 +32,7 @@ namespace IBL
                        $"Id: {Id}\n" +
                        $"Model: {Model}\n" +
                        $"WeightCategories: {MaxWeight}\n" +
-                       $"Battery status: {BatteryStatus}\n" +
+                       $"Battery status: {BatteryStatus}%\n" +
                        $"Drone status: {DroneStatus}\n" +
                        $"Delivery parcel id: {DeliveryParcelId}\n" +
                        $"Current location: {CurrentLocation}\n";

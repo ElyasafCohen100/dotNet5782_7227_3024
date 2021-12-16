@@ -24,14 +24,15 @@
             <ComboBox Name="DroneStatusSelector" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" Width="120" SelectionChanged="DroneStatusSelector_SelectionChanged" Cursor="Hand"/>
             <ComboBox Name="DroneWeightSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120" SelectionChanged="DroneWeightSelector_SelectionChanged" Cursor="Hand"/>
 
-            <Button  Content="Add new drone" Grid.Column="2" Padding ="10" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNewDrone_Click" Cursor="Hand" />
-            <Button Content="Exit" Grid.Column="3" Padding="20,10" HorizontalAlignment="Center"  VerticalAlignment="Center" Background="red" Click="Button_Click" Cursor="Hand"/>
-            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,3,0,0" Text="Drone Max Weight:" TextWrapping="NoWrap" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Center" Text="Drone Status:" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="0,3,0,0"/>
+            <Button  Content="Add new drone" Grid.Column="2" Padding ="10" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNewDrone_Click" Cursor="Hand"/>
+            <Button Content="Exit" Grid.Column="3" Padding="20,10" HorizontalAlignment="Center"  VerticalAlignment="Center" Background="Red" Click="Button_Click" Cursor="Hand"/>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,3,0,0" Text="Drone Max Weight:" TextWrapping="NoWrap" VerticalAlignment="Top" Cursor="Hand"/>
+            <TextBlock HorizontalAlignment="Center" Text="Drone Status:" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="0,3,0,0" Cursor="Hand"/>
         </Grid>
 
 
-        <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="DroneListView_MouseDoubleClick">
+        <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  MouseDoubleClick="DroneListView_MouseDoubleClick" ItemsSource="{Binding}">
         </ListView>
 
 
