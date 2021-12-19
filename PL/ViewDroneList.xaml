@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ViewDroneList" Height="640" Width="800">
+        Title="ViewDroneList" Height="640" Width="800" Closing="Window_Closing">
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
@@ -25,7 +25,7 @@
             <ComboBox Name="DroneWeightSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120" SelectionChanged="DroneWeightSelector_SelectionChanged" Cursor="Hand"/>
 
             <Button  Content="Add new drone" Grid.Column="2" Padding ="10" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNewDrone_Click" Cursor="Hand"/>
-            <Button Content="Exit" Grid.Column="3" Padding="20,10" HorizontalAlignment="Center"  VerticalAlignment="Center" Background="Red" Click="Button_Click" Cursor="Hand"/>
+            <Button Content="Close" Grid.Column="3" Padding="20,10" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Click="Button_Click" Cursor="Hand" Foreground="#FFF60C0C" Margin="0,0,0,15"/>
             <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,3,0,0" Text="Drone Max Weight:" TextWrapping="NoWrap" VerticalAlignment="Top" Cursor="Hand"/>
             <TextBlock HorizontalAlignment="Center" Text="Drone Status:" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="0,3,0,0" Cursor="Hand"/>
         </Grid>

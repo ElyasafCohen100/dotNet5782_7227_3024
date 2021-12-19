@@ -22,7 +22,7 @@ namespace PL
     {
         private IBL.IBL BLObject;
         private ViewDroneList viewDroneList;
-        private DroneToList selcetedDrone;
+        private DroneToList selcetedDroneToList;
 
 
         //Drone actions c-tor.
@@ -31,9 +31,11 @@ namespace PL
             InitializeComponent();
 
             Drone drone = BlObject.FindDroneByIdBL(droneToList.Id);
-            selcetedDrone = droneToList;
+            this.selcetedDroneToList = droneToList;
             this.BLObject = BlObject;
             this.viewDroneList = viewDroneList;
+
+            DataContext = false;
 
             IdTextBox.IsEnabled = false;
             IdTextBox.Text = drone.Id.ToString();
@@ -59,10 +61,13 @@ namespace PL
             LongitudeTB.IsEnabled = false;
             LongitudeTB.Text = drone.CurrentLocation.Longitude.ToString();
 
-            AddButton.Visibility = Visibility.Hidden;
-            ClearButton.Visibility = Visibility.Hidden;
+            WeightTextBlock.Visibility = Visibility.Hidden;
+            StationTextBlock.Visibility = Visibility.Hidden;
+
             BaseStationCB.Visibility = Visibility.Hidden;
             MaxWeightCB.Visibility = Visibility.Hidden;
+
+            AddButton.Visibility = Visibility.Hidden;
         }
 
         //Add new Drone c-tor.
@@ -71,6 +76,9 @@ namespace PL
             InitializeComponent();
             this.BLObject = BlObject;
             this.viewDroneList = viewDroneList;
+
+            DataContext = false;
+
             UpdateModel.Visibility = Visibility.Hidden;
             SendDroneToDelivery.Visibility = Visibility.Hidden;
             UpdateDroneToCharging.Visibility = Visibility.Hidden;
@@ -84,6 +92,14 @@ namespace PL
             BatteryTB.Visibility = Visibility.Hidden;
             MaxWeightTB.Visibility = Visibility.Hidden;
             StatusTB.Visibility = Visibility.Hidden;
+
+            BatteryTextBlock.Visibility = Visibility.Hidden;
+            LatitudeTextBlock.Visibility = Visibility.Hidden;
+            LongitudeTextBlock.Visibility = Visibility.Hidden;
+            MaxweightTextBlock.Visibility = Visibility.Hidden;
+            StatusTextBlock.Visibility = Visibility.Hidden;
+
+            AddButton.IsEnabled = false;
 
             var stationsId = from stationToList in BlObject.ViewStationsWithAvailableChargingSlotstBL() select stationToList.Id;
             BaseStationCB.ItemsSource = stationsId;
@@ -99,21 +115,39 @@ namespace PL
         private void DroneIdTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (IdTextBox.Text == "Id")
+            {
                 IdTextBox.Clear();
-
+            }
         }
         private void DroneIdTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (IdTextBox.Text == String.Empty)
                 IdTextBox.Text = "Id";
+
             else if (ModelTextBox.Text != "Model")
                 AddButton.IsEnabled = true;
 
+            //Bouns.
+
+            if (IdTextBox.Text != "Id")
+            {
+                int.TryParse(IdTextBox.Text, out int Id);
+                if (Id > 10000 || Id < 1000)
+                {
+                    IdTextBox.BorderBrush = Brushes.Red;
+                    IdTextBox.Foreground = Brushes.Red;
+                }
+            }
 
         }
         private void DroneIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        private void ModelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
@@ -131,59 +165,71 @@ namespace PL
                 ModelTextBox.Text = "Model";
             else if (IdTextBox.Text != "Id")
                 AddButton.IsEnabled = true;
-
         }
         private void UpdateDroneModel_Click(object sender, RoutedEventArgs e)
         {
-            new UpdateDroneModel(BLObject, this.viewDroneList, selcetedDrone.Id).Show();
+            bool? flag = new UpdateDroneModel(BLObject, this.viewDroneList, selcetedDroneToList.Id).ShowDialog();
+            if (flag == false)
+            {
+                GetDroneFields(selcetedDroneToList.Id);
+            }
         }
 
         private void UpdateDroneToChargingButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                BLObject.UpdateDroneToChargingBL(selcetedDrone.Id);
-                MessageBox.Show("Drone has been update to charging sucssesfuly");
+                BLObject.UpdateDroneToChargingBL(selcetedDroneToList.Id);
+                MessageBox.Show("Drone has been update to charging sucssesfuly",
+                    "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                GetDroneFields(selcetedDroneToList.Id);
                 viewDroneList.DroneListView.Items.Refresh();
-                this.Close();
             }
             catch (InvalidInputException)
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("Invalid input",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ObjectAlreadyExistException)
             {
-                MessageBox.Show("Drone is already in charging");
+                MessageBox.Show("Drone is already in charging",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (OutOfBatteryException)
             {
-                MessageBox.Show("Could not send the drone to charging because there is no enough battery");
+                MessageBox.Show("Could not send the drone to charging because there is no enough battery",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ObjectNotFoundException)
             {
-                MessageBox.Show("Could not update drone to charging");
+                MessageBox.Show("Could not update drone to charging",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void UpdateDroneFromChargingButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                BLObject.UpdateDroneFromChargingBL(selcetedDrone.Id);
-                MessageBox.Show("Drone has been updated sucssesfuly");
+                BLObject.UpdateDroneFromChargingBL(selcetedDroneToList.Id);
+                MessageBox.Show("Drone has been updated sucssesfuly",
+                    "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                GetDroneFields(selcetedDroneToList.Id);
                 viewDroneList.DroneListView.Items.Refresh();
-                this.Close();
             }
             catch (ObjectNotFoundException)
             {
-                MessageBox.Show("Could not update drone from charging");
+                MessageBox.Show("Could not update drone from charging",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (InvalidInputException)
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("Invalid input",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (NotValidRequestException)
             {
-                MessageBox.Show("Could not update drone status because the drone is not in maintenance status");
+                MessageBox.Show("Could not update drone status because the drone is not in maintenance status",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }
@@ -192,22 +238,26 @@ namespace PL
         {
             try
             {
-                BLObject.UpdateDroneIdOfParcelBL(selcetedDrone.Id);
-                MessageBox.Show("Drone was sent sucssesfuly");
+                BLObject.UpdateDroneIdOfParcelBL(selcetedDroneToList.Id);
+                MessageBox.Show("Drone was sent sucssesfuly",
+                    "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                GetDroneFields(selcetedDroneToList.Id);
                 viewDroneList.DroneListView.Items.Refresh();
-                this.Close();
             }
             catch (InvalidInputException)
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("Invalid input",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (InvalidOperationException exeption)
             {
-                MessageBox.Show(exeption.Message);
+                MessageBox.Show(exeption.Message,
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ObjectNotFoundException exception)
             {
-                MessageBox.Show(exception.Message);
+                MessageBox.Show(exception.Message,
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -215,41 +265,48 @@ namespace PL
         {
             try
             {
-                BLObject.UpdateDeliveredParcelByDroneIdBL(selcetedDrone.Id);
-                MessageBox.Show("Parcel status has been updated to delivered sucssesfuly");
+                BLObject.UpdateDeliveredParcelByDroneIdBL(selcetedDroneToList.Id);
+                MessageBox.Show("Parcel status has been updated to delivered sucssesfuly",
+                    "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                GetDroneFields(selcetedDroneToList.Id);
                 viewDroneList.DroneListView.Items.Refresh();
-                this.Close();
             }
             catch (InvalidInputException exeption)
             {
-                MessageBox.Show(exeption.Message);
+                MessageBox.Show(exeption.Message,
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (NotValidRequestException exeption)
             {
-                MessageBox.Show(exeption.Message);
+                MessageBox.Show(exeption.Message,
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void UpdateParcelToPickedUp_Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                BLObject.UpdatePickedUpParcelByDroneIdBL(selcetedDrone.Id);
-                MessageBox.Show("Parcel status updated sucssesfuly");
+                BLObject.UpdatePickedUpParcelByDroneIdBL(selcetedDroneToList.Id);
+                MessageBox.Show("Parcel status updated sucssesfuly",
+                    "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                GetDroneFields(selcetedDroneToList.Id);
                 viewDroneList.DroneListView.Items.Refresh();
-                this.Close();
             }
             catch (InvalidInputException exeption)
             {
-                MessageBox.Show(exeption.Message);
+                MessageBox.Show(exeption.Message,
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (NotValidRequestException exeption)
             {
-                MessageBox.Show(exeption.Message);
+                MessageBox.Show(exeption.Message,
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            DataContext = true;
             this.Close();
         }
 
@@ -266,18 +323,60 @@ namespace PL
             try
             {
                 BLObject.AddNewDroneBL(newDrone, (int)BaseStationCB.SelectedItem);
-                MessageBox.Show("Drone has been added sucssesfuly");
-                viewDroneList.DroneListView.Items.Refresh();
+                MessageBox.Show("Drone has been added sucssesfuly",
+                    "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                GetDroneFields(Id);
                 this.Close();
+                viewDroneList.DroneListView.Items.Refresh();
             }
             catch (InvalidInputException)
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("Invalid input",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ObjectAlreadyExistException)
             {
-                MessageBox.Show("Drone is already exist");
+                MessageBox.Show("Drone is already exist",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void IdTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (IdTextBox.Text != "Id")
+            {
+                int.TryParse(IdTextBox.Text, out int Id);
+                if (Id > 10000 || Id < 1000)
+                {
+                    IdTextBox.BorderBrush = Brushes.Red;
+                    IdTextBox.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    IdTextBox.BorderBrush = Brushes.Gray;
+                    IdTextBox.Foreground = Brushes.Black;
+                }
+            }
+        }
+        private void GetDroneFields(int droneId)
+        {
+
+            Drone drone = BLObject.FindDroneByIdBL(droneId);
+
+            IdTextBox.Text = drone.Id.ToString();
+            ModelTextBox.Text = drone.Model;
+            BatteryTB.Text = drone.BatteryStatus.ToString();
+            MaxWeightTB.Text = drone.MaxWeight.ToString();
+            StatusTB.Text = drone.DroneStatus.ToString();
+            DeliveryTB.Text = drone.ParcelInDelivery.ToString();
+            LatitudeTB.Text = drone.CurrentLocation.Latitude.ToString();
+            LongitudeTB.Text = drone.CurrentLocation.Longitude.ToString();
+        }
+
+        //Bouns.
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
         }
     }
 }

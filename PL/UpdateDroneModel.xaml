@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="UpdateDroneModel" Height="450" Width="800">
+        Title="UpdateDroneModel" Height="450" Width="800" Closing="Window_Closing">
     <Grid>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="699,25,0,0" VerticalAlignment="Top" Width="50" Foreground="#FFF60C0C" Cursor="Hand" Click="Button_Click"/>
 
-        <TextBox Name ="ModelTextBox" HorizontalAlignment="Left" Margin="421,55,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" Cursor="Hand"/>
+        <TextBox Name ="ModelTextBox" HorizontalAlignment="Left" Margin="421,55,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" Cursor="Hand" PreviewTextInput="ModelIdTextBox_PreviewTextInput" KeyDown="ModelTextBox_KeyDown"/>
 
-        <Button Content="Update Model" HorizontalAlignment="Left" Margin="345,170,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click" Cursor="Hand"/>
+        <Button Name="UpdateButton"  Content="Update" HorizontalAlignment="Left" Margin="345,170,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click" Cursor="Hand"/>
 
     </Grid>
 </Window>

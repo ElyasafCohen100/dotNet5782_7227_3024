@@ -394,7 +394,7 @@ namespace BL
             }
             else
             {
-                throw new NotValidRequestException("The drone not in Shipment status or alredy picked up the parcel");
+                throw new NotValidRequestException("The drone not in shipment status or alredy picked up the parcel");
             }
         }
 

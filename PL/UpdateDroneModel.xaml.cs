@@ -31,6 +31,8 @@ namespace PL
             this.BlObject = BlObject;
             this.viewDroneList = viewDroneList;
             this.droneId = droneId;
+            UpdateButton.IsEnabled = false;
+            DataContext = false;
         }
 
 
@@ -40,12 +42,19 @@ namespace PL
         {
             if (ModelTextBox.Text == "Enter Model")
                 ModelTextBox.Clear();
+
         }
 
         private void ModelTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (ModelTextBox.Text == String.Empty)
                 ModelTextBox.Text = "Enter Model";
+
+        }
+        private void ModelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
 
@@ -55,24 +64,44 @@ namespace PL
         {
             if (ModelTextBox.Text != "Enter Model")
             {
+
                 String Model = ModelTextBox.Text;
                 try
                 {
                     BlObject.UpdateDroneModelBL(droneId, Model);
-                    MessageBox.Show("Drone has been update sucssesfuly");
+                    MessageBox.Show("Drone has been update sucssesfuly",
+                        "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+
                     viewDroneList.DroneListView.Items.Refresh();
                     this.Close();
                 }
                 catch (InvalidInputException)
                 {
-                    MessageBox.Show("Invalid input");
+                    MessageBox.Show("Invalid input", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Enter Model to update");
+                MessageBox.Show("Enter Model to update", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+        }
+        private void ModelTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (ModelTextBox.Text != String.Empty) UpdateButton.IsEnabled = true;
+            else UpdateButton.IsEnabled = false;
+
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
+        }
+
+        //Bouns.
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
         }
     }
 }

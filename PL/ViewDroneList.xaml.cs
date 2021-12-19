@@ -27,8 +27,7 @@ namespace PL
         {
             InitializeComponent();
             this.BLObject = BLObject;
-
-
+            DataContext = false;
             DroneListView.ItemsSource = this.BLObject.ViewDroneToList();
             DroneStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
@@ -46,19 +45,24 @@ namespace PL
 
         private void AddNewDrone_Click(object sender, RoutedEventArgs e)
         {
-            //new AddNewDroneWindow(BLObject, this).Show();
             new DroneActions(BLObject, this).Show();
 
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
         private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DroneToList selectedDrone = BLObject.ViewDroneToList().ToList()[DroneListView.SelectedIndex];
             new DroneActions(BLObject, selectedDrone, this).Show();
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
+        }
+
+        //Bouns.
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
         }
     }
 }
