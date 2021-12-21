@@ -9,12 +9,14 @@ namespace DalApi
         {
             string dalType = DalConfig.DalName;
             string dalPkj = DalConfig.DalPackages[dalType];
+            string dalClass = DalConfig.Class;
+            string dalNamespace = DalConfig.Namespace;
             if (dalPkj == null) throw new DalConfigExeption($"Package {dalType} is not found in packes list in dal-config.xml");
 
             try { Assembly.Load(dalPkj); }
             catch (Exception) { throw new DalConfigExeption($"Failed to load the dal-config.xml file"); }
 
-            Type type = Type.GetType($"Dal.{dalPkj},{dalPkj}");
+            Type type = Type.GetType($"{dalNamespace}.{dalClass},{dalClass}");
             if (type == null) throw new DalConfigExeption($"Class {dalPkj} was not found in the {dalPkj}.dll");
 
             IDal dal = (IDal)type.GetProperty("DalObj",
