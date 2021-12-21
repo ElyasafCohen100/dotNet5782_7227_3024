@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
-using IBL.BO;
+using BO;
 namespace PL
 {
     /// <summary>
@@ -20,13 +20,13 @@ namespace PL
     /// </summary>
     public partial class DroneActions : Window
     {
-        private IBL.IBL BLObject;
+        private BlApi.IBL BLObject;
         private ViewDroneList viewDroneList;
         private DroneToList selcetedDroneToList;
 
 
         //Drone actions c-tor.
-        public DroneActions(IBL.IBL BlObject, DroneToList droneToList, ViewDroneList viewDroneList)
+        public DroneActions(BlApi.IBL BlObject, DroneToList droneToList, ViewDroneList viewDroneList)
         {
             InitializeComponent();
 
@@ -71,7 +71,7 @@ namespace PL
         }
 
         //Add new Drone c-tor.
-        public DroneActions(IBL.IBL BlObject, ViewDroneList viewDroneList)
+        public DroneActions(BlApi.IBL BlObject, ViewDroneList viewDroneList)
         {
             InitializeComponent();
             this.BLObject = BlObject;

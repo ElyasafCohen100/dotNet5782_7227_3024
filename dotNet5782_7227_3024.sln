@@ -8,15 +8,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{E74F89A5-81AD-4842-836C-7248534BDB22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDal", "ConsoleDal\ConsoleDal.csproj", "{E74F89A5-81AD-4842-836C-7248534BDB22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{C7396071-616D-4645-9D29-439EF2479D43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalObject", "DalObject\DalObject.csproj", "{C7396071-616D-4645-9D29-439EF2479D43}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{528A2282-10D1-4830-93DA-6C1641C5D63E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI_BL", "ConsoleUI_BL\ConsoleUI_BL.csproj", "{37CF6087-069A-483B-8976-C698A1F8D79E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBL", "ConsoleBL\ConsoleBL.csproj", "{37CF6087-069A-483B-8976-C698A1F8D79E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PL", "PL\PL.csproj", "{141A30FF-828C-4835-A14A-10F9BA1424BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{141A30FF-828C-4835-A14A-10F9BA1424BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalFacade", "DalFacade\DalFacade.csproj", "{E019C497-A712-4F13-9A0E-9415048D65D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{BFBD7CB3-25CA-442F-841A-8063A09059BC}"
+	ProjectSection(SolutionItems) = preProject
+		dal-config.xml = dal-config.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +51,10 @@ Global
 		{141A30FF-828C-4835-A14A-10F9BA1424BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{141A30FF-828C-4835-A14A-10F9BA1424BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{141A30FF-828C-4835-A14A-10F9BA1424BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E019C497-A712-4F13-9A0E-9415048D65D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E019C497-A712-4F13-9A0E-9415048D65D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E019C497-A712-4F13-9A0E-9415048D65D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E019C497-A712-4F13-9A0E-9415048D65D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

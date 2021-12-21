@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using IBL.BO;
+using BO;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -22,10 +22,10 @@ namespace PL
     /// </summary>
     public partial class UpdateDroneModel : Window
     {
-        private IBL.IBL BlObject;
+        private BlApi.IBL BlObject;
         private ViewDroneList viewDroneList;
         private int droneId;
-        public UpdateDroneModel(IBL.IBL BlObject, ViewDroneList viewDroneList, int droneId)
+        public UpdateDroneModel(BlApi.IBL BlObject, ViewDroneList viewDroneList, int droneId)
         {
             InitializeComponent();
             this.BlObject = BlObject;
