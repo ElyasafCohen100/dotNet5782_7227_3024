@@ -10,6 +10,7 @@ namespace BL
 {
     public partial class BL : BlApi.IBL
     {
+        #region ADD
         //---------------------- ADD FUNCTIONS ----------------------//
 
         /// <summary>
@@ -33,7 +34,9 @@ namespace BL
 
             dalObject.SetNewStation(dalStation);
         }
+        #endregion
 
+        #region IfExistBaseStation
         /// <summary>
         /// Check if the base-station has already exist.
         /// </summary>
@@ -47,6 +50,9 @@ namespace BL
                 if (myStation.Name == station.Name) throw new ObjectAlreadyExistException("base-station Name");
             }
         }
+        #endregion
+
+        #region FIND
         //----------------------- FIND FUNCTIONS -----------------------//
 
         /// <summary>
@@ -96,7 +102,9 @@ namespace BL
 
             return Station;
         }
+        #endregion
 
+        #region UPDATE
         //----------------------- UPDATE FUNCTIONS -----------------------//
 
         /// <summary>
@@ -120,6 +128,9 @@ namespace BL
             }
         }
 
+        #endregion
+
+        #region VIEW
         //----------------------- VIEW FUNCTIONS -----------------------//
 
         /// <summary>
@@ -166,5 +177,6 @@ namespace BL
 
             return stationWithAvailableChargingSlotstList;
         }
+        #endregion
     }
 }

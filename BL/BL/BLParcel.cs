@@ -9,6 +9,7 @@ namespace BL
 {
     public partial class BL : BlApi.IBL
     {
+        #region ADD
         //----------------------- ADD FUNCTIONS -----------------------//
 
         /// <summary>
@@ -40,7 +41,9 @@ namespace BL
 
             dalObject.SetNewParcel(dalParcel);
         }
+        #endregion
 
+        #region FIND
         //----------------------- FIND FUNCTIONS -----------------------//
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace BL
         /// <exception cref="InvalidInputException"> Thrown if drone id is invalid </exception>
         public Parcel FindParcelByIdBL(int parcelId)
         {
-            if (parcelId <= 0) throw new InvalidInputException("Id");
+           if (parcelId <= 0) throw new InvalidInputException("Id");
             DO.Parcel dalParcel;
             try
             {
@@ -94,7 +97,9 @@ namespace BL
 
             return Parcel;
         }
+        #endregion
 
+        #region VIEW
         //----------------------- VIEW FUNCTIONS -----------------------//
 
         /// <summary>
@@ -176,5 +181,6 @@ namespace BL
 
             return ParcelToList;
         }
+        #endregion
     }
 }

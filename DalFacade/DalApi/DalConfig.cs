@@ -25,12 +25,10 @@ namespace DalApi
     }
 
     [Serializable]
-    public class DalConfigExeption : Exception
+    public class DalConfigException : Exception
     {
-        public DalConfigExeption() { }
-        public DalConfigExeption(string message) : base(message) { }
-        public DalConfigExeption(string message, Exception inner) : base(message, inner) { }
-        protected DalConfigExeption(System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+        public DalConfigException() { }
+        public DalConfigException(string message) : base(message) { }
+        public DalConfigException(string message, Exception inner) : base(message, inner) { }
     }
 }

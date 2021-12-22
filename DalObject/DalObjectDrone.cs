@@ -9,6 +9,7 @@ namespace Dal
 {
     public partial class DalObject : DalApi.IDal
     {
+        #region FIND
         //----------------------- FIND FUNCTIONS -----------------------//
 
         /// <summary>
@@ -35,6 +36,9 @@ namespace Dal
             return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException(droneCharge.GetType().ToString()) : droneCharge;
         }
 
+        #endregion
+
+        #region SET
 
         //-------------------------- SETTERS ---------------------------//
 
@@ -54,7 +58,9 @@ namespace Dal
             droneCharge.ChargeTime = DateTime.Now;
             DataSource.DroneCharges.Add(droneCharge);
         }
+        #endregion
 
+        #region UPDATE
         //----------------------- UPDATE FUNCTIONS ----------------------//
 
         /// <summary>
@@ -127,6 +133,9 @@ namespace Dal
             DataSource.Drones[index] = drone;
         }
 
+        #endregion
+
+        #region GET
         //--------------------------- GETTERS ---------------------------//
 
         /// <summary>
@@ -152,5 +161,6 @@ namespace Dal
         {
             return DataSource.DroneCharges.FindAll(predicate);
         }
+        #endregion
     }
 }

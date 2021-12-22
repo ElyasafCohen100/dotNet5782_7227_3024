@@ -9,6 +9,7 @@ namespace Dal
 {
     public partial class DalObject : DalApi.IDal
     {
+        #region FIND
         //----------------------- FIND FUNCTIONS -----------------------//
 
         /// <summary>
@@ -23,6 +24,9 @@ namespace Dal
             return parcel.Id != parcelId ? throw new ObjectNotFoundException("parcel") : parcel;
         }
 
+        #endregion
+
+        #region SET
         //------------------------- SETTERS ---------------------------//
 
         /// <summary>
@@ -35,8 +39,9 @@ namespace Dal
             DataSource.Parcels.Add(Parcel);
             ++DataSource.Config.SerialNumber;
         }
+        #endregion
 
-
+        #region UPDATE
         //---------------------- UPDATE FUNCTIONS ----------------------//
 
         /// <summary>
@@ -81,8 +86,9 @@ namespace Dal
                 throw;
             }
         }
+        #endregion
 
-
+        #region GET
         //--------------------------- GETTERS ---------------------------//
 
         /// <summary>
@@ -102,5 +108,6 @@ namespace Dal
         {
             return DataSource.Parcels.FindAll(predicate);
         }
+        #endregion
     }
 }

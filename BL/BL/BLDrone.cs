@@ -7,6 +7,7 @@ namespace BL
 {
     public partial class BL : BlApi.IBL
     {
+        #region ADD
         //----------------------- ADD FUNCTIONS -----------------------//
 
         /// <summary>
@@ -50,6 +51,7 @@ namespace BL
             dalObject.SetNewDrone(newDrone);
             UpdateDroneToListsList(drone);
         }
+        
         private void UpdateDroneToListsList(Drone drone)
         {
             DroneToList newDrone = new();
@@ -62,7 +64,9 @@ namespace BL
             droneToLists.Add(newDrone);
         }
 
+        #endregion
 
+        #region IfExistDron
         /// <summary>
         /// Check if the drone is already exist.
         /// </summary>
@@ -76,6 +80,9 @@ namespace BL
             }
         }
 
+        #endregion
+
+        #region FIND
         //----------------------- FIND FUNCTIONS -----------------------//
 
         /// <summary>
@@ -111,6 +118,9 @@ namespace BL
             return blDrone;
         }
 
+        #endregion
+
+        #region SET
         //----------------------- SET FUNCTIONS -----------------------//
 
         /// <summary>
@@ -157,6 +167,9 @@ namespace BL
             return parcelInDalivery;
         }
 
+        #endregion
+
+        #region UPDATE
         //----------------------- UPDATE FUNCTIONS -----------------------//
 
         /// <summary>
@@ -431,7 +444,9 @@ namespace BL
                 throw new NotValidRequestException("Could not update parcel status");
             }
         }
+        #endregion
 
+        #region VIEW
         //----------------------- VIEW FUNCTIONS -----------------------//
 
         /// <summary>
@@ -446,5 +461,6 @@ namespace BL
         {
             return droneToLists.FindAll(predicate);
         }
+        #endregion
     }
 }

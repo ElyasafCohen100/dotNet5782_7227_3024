@@ -9,7 +9,7 @@ namespace BL
 {
     public partial class BL : BlApi.IBL
     {
-
+        #region ADD
         //-----------------------  ADD FUNCTIONS ----------------------- //
 
         /// <summary>
@@ -49,7 +49,9 @@ namespace BL
                 if (customer.Phone == myCustomer.Phone) throw new ObjectAlreadyExistException("phone");
             }
         }
+        #endregion
 
+        #region UPDADE
         //-----------------------  UPDATE FUNCTIONS ----------------------- //
 
         /// <summary>
@@ -77,6 +79,9 @@ namespace BL
             }
         }
 
+        #endregion
+
+        #region FIND
         //-----------------------  FIND FUNCTIONS ----------------------- //
 
         /// <summary>
@@ -138,7 +143,9 @@ namespace BL
             }
             return Customer;
         }
+        #endregion
 
+        #region VIEW
         //-----------------------  VIEW FUNCTIONS ----------------------- //
 
         /// <summary>
@@ -196,5 +203,6 @@ namespace BL
             }
             return myCustomerList;
         }
+        #endregion
     }
 }

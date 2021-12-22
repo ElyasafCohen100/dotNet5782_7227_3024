@@ -12,7 +12,7 @@ namespace ConsoleUI
     /// </summary>
     class Program
     {
-        internal static DalApi.IDal dalObject = DalApi.DalFactory.GetDal();
+        internal static DalApi.IDal dalObject;
 
         /// <summary>
         /// The main fantion
@@ -20,6 +20,15 @@ namespace ConsoleUI
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            try
+            {
+                dalObject = DalApi.DalFactory.GetDal();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
             Menu();
         }
 

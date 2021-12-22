@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
+using BO;
+
 
 namespace PL
 {
@@ -30,6 +32,11 @@ namespace PL
 
         private void Show_Drone_List(object sender, RoutedEventArgs e)
         {
+            //---- sound while you're clicking on the button ----//
+            System.Media.SoundPlayer player = new(@"sources\ES_Apple Mouse Click 1 - SFX Producer.wav");
+            player.Load();
+            player.PlaySync();
+
             new ViewDroneList(BLObject).Show();
         }
     }

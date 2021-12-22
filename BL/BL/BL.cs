@@ -21,7 +21,7 @@ namespace BL
         public static BL BlObj { get { return LoadBlObj.blObject; } }
 
         //Create instance of dalObject for reference to DAL.
-        internal static DalApi.IDal dalObject = DalApi.DalFactory.GetDal();
+        internal static DalApi.IDal dalObject;
 
         List<DroneToList> droneToLists = new();
 
@@ -34,6 +34,15 @@ namespace BL
         public BL()
         {
             Random r = new();
+
+            try
+            {
+                dalObject = DalApi.DalFactory.GetDal();
+            }
+            catch (DalApi.DalConfigException)
+            {
+                throw;
+            }
 
             //Import from DAL the 4 weight categories and the charging rate in seperate varibales.
             double[] tempArray = dalObject.ElectricityUseRequest();

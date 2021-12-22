@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using BO;
+
 namespace PL
 {
     /// <summary>
@@ -68,6 +69,11 @@ namespace PL
             MaxWeightCB.Visibility = Visibility.Hidden;
 
             AddButton.Visibility = Visibility.Hidden;
+
+            if (selcetedDroneToList.DeliveryParcelId <= 0)
+            {
+                ViewParcelDetailsButton.Visibility = Visibility.Hidden;
+            }
         }
 
         //Add new Drone c-tor.
@@ -98,6 +104,8 @@ namespace PL
             LongitudeTextBlock.Visibility = Visibility.Hidden;
             MaxweightTextBlock.Visibility = Visibility.Hidden;
             StatusTextBlock.Visibility = Visibility.Hidden;
+
+            ViewParcelDetailsButton.Visibility = Visibility.Hidden;
 
             AddButton.IsEnabled = false;
 
@@ -231,7 +239,6 @@ namespace PL
                 MessageBox.Show("Could not update drone status because the drone is not in maintenance status",
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
         private void SendDroneToDelivery_Button_Click(object sender, RoutedEventArgs e)
@@ -377,6 +384,11 @@ namespace PL
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (DataContext.Equals(false)) e.Cancel = true;
+        }
+
+        private void ViewParcelDetails_Click(object sender, RoutedEventArgs e)
+        {
+            new ViewParcelDetails(BLObject, selcetedDroneToList.DeliveryParcelId).Show();
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Dal
 {
     public partial class DalObject : DalApi.IDal
     {
+        #region FIND
         //----------------------- FIND FUNCTIONS -----------------------//
         /// <summary>
         /// Finds Customer by specific Id.
@@ -16,7 +17,9 @@ namespace Dal
             Customer customer = DataSource.Customers.Find(x => x.Id == customerId);
             return customer.Id != customerId ? throw new ObjectNotFoundException(customer.GetType().ToString()) : customer;
         }
+        #endregion
 
+        #region SET
         //-------------------------- SETTERS --------------------------//
         /// <summary>
         /// Set new Customer.
@@ -26,6 +29,9 @@ namespace Dal
         {
             DataSource.Customers.Add(Customer);
         }
+        #endregion
+
+        #region UPDATE
         public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
         {
             int index = DataSource.Customers.FindIndex(x => x.Id == customerId);
@@ -45,5 +51,6 @@ namespace Dal
         {
             return DataSource.Customers;
         }
+        #endregion
     }
 }

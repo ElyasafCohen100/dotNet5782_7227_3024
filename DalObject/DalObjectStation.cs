@@ -6,6 +6,7 @@ namespace Dal
 {
     public partial class DalObject : DalApi.IDal
     {
+        #region FIND
         //----------------------- FIND FUNCTIONS -----------------------//
 
         /// <summary>
@@ -29,7 +30,9 @@ namespace Dal
             station.ChargeSlots = baseStationChargeSlots;
             DataSource.Stations[index] = station;
         }
+        #endregion
 
+        #region SET
         //------------------------- SETTERS --------------------------//
 
         /// <summary>
@@ -40,6 +43,9 @@ namespace Dal
         {
             DataSource.Stations.Add(station);
         }
+        #endregion
+
+        #region GET
 
         //-------------------------- GETTERS -------------------------//
         /// <summary>
@@ -59,5 +65,6 @@ namespace Dal
             return DataSource.Stations.FindAll(predicate);
         }
 
+        #endregion
     }
 }
