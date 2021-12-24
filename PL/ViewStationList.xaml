@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="*"/>
 
             </Grid.ColumnDefinitions>
-            <Button Name="ViewStationListButton" Content="View Station List" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewStationList_Click" IsEnabled="False" Height="28" Width="128"/>
+            <Button Name="ViewStationListButton" Content="View Station List" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewStationList_Click" Height="28" Width="128" Cursor="Hand"/>
             <Button Name="AddButton" Content="Add new Station" Grid.Column="1" HorizontalAlignment="Left" Margin="93,0,0,0" VerticalAlignment="Center" Click="AddButton_Click" Height="28" Width="115"/>
 
         </Grid>
