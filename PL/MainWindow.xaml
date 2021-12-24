@@ -12,57 +12,11 @@
     </Window.Background>
 
     <Grid>
-        <Button Name="DroneListButton" Content="Drone List" Padding="10,200,10,100" Margin="10,40,584,318" Click="Show_Drone_List" Cursor="Hand" >
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
+        <Button Name="DroneListButton" Content="Drone List" Margin="10,29,638,367" Click="ViewDroneList_Click" Cursor="Hand" FontSize="20" Height="38" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontFamily="Sitka Text" Padding="10,10"/>
+        <Button Name ="StationListButton" Content="Station List" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Click="ViewStationList_Click" Height="38" Width="152" FontSize="20" Cursor="Hand" FontFamily="Sitka Text"/>
+        <Button Name="CloseButton" Content="Close"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,10,0" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Margin="692,40,0,0" Height="29" Width="78" FontSize="20" FontFamily="Sitka Text"/>
 
-                    <!--it Shuld make a sound while you're clicking on the button it's Depends on the location of the file-->
-                    <Style.Triggers>
-                        <EventTrigger RoutedEvent="PreviewMouseDown">
-                            <SoundPlayerAction Source="Click.wav"/>
-                        </EventTrigger>
-                    </Style.Triggers>
-
-
-                    <Setter Property="Template">
-                        <Setter.Value>
-
-                            <!--This should make a button illusion to press it-->
-                            <ControlTemplate TargetType = "{x:Type ButtonBase}" >
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="Button.IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="Green"></Setter>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-
-
-                                <Border CornerRadius="27" Background="{TemplateBinding Background}" Name="button" Width="200" Margin="0,0,-18,0">
-                                    <Grid>
-                                        <Border BorderThickness="1,0,1,1" BorderBrush="Black" CornerRadius="{Binding ElementName=button, Path=CornerRadius}">
-                                            <Border.Effect>
-                                                <BlurEffect Radius="7" KernelType="Gaussian"/>
-                                            </Border.Effect>
-                                        </Border>
-                                        <Border BorderThickness="0,1,0,0" BorderBrush="White" Margin="-55,-6,59,10" Opacity="0.7" CornerRadius="{Binding ElementName=button, Path=CornerRadius}">
-                                            <Border.Effect>
-                                                <BlurEffect Radius="20" KernelType="Gaussian"/>
-                                            </Border.Effect>
-                                        </Border>
-                                        <ContentPresenter TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding Content}"></ContentPresenter>
-                                    </Grid>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Background" Value="#002060" />
-                    <Setter Property="Foreground" Value="White" />
-                    <Setter Property="FontSize" Value="30" />
-                    <Setter Property="FontFamily" Value="Consolas" />
-                    <Setter Property="FontStyle" Value="Italic"/>
-                </Style>
-            </Button.Style>
-        </Button>
-        <TextBox HorizontalAlignment="Left" Margin="422,340,0,0" Padding="20,10" Text="Yakir and Elyasaf" FontSize="40" Visibility="Visible" FontStyle="Italic" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Background="Gray" Height="73"/>
+        <TextBox HorizontalAlignment="Left" Margin="411,330,0,0" Padding="20,10" Text="Yakir and Elyasaf" FontSize="40" Visibility="Visible" FontStyle="Italic" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Background="Gray" Height="72"/>
     </Grid>
-    
+
 </Window>

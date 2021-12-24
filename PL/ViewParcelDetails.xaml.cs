@@ -48,7 +48,6 @@ namespace PL
             this.Close();
         }
 
-        //Bouns -> Is it necessary?
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (DataContext.Equals(false)) e.Cancel = true;

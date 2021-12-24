@@ -36,7 +36,7 @@ namespace PL
         }
 
 
-        //----------------  ModelTextBox ----------------//
+        //---------------------  ModelTextBox ---------------------//
 
         private void ModelTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -51,6 +51,7 @@ namespace PL
                 ModelTextBox.Text = "Enter Model";
 
         }
+        
         private void ModelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
@@ -86,13 +87,15 @@ namespace PL
             }
 
         }
+     
         private void ModelTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (ModelTextBox.Text != String.Empty) UpdateButton.IsEnabled = true;
             else UpdateButton.IsEnabled = false;
 
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+    
+        private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();

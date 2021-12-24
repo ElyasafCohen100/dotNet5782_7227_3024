@@ -23,21 +23,41 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        internal static BlApi.IBL BLObject = new BL.BL();
+        internal static BlApi.IBL BLObject;
 
         public MainWindow()
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            DataContext = false;
         }
 
-        private void Show_Drone_List(object sender, RoutedEventArgs e)
+        private void ViewDroneList_Click(object sender, RoutedEventArgs e)
         {
-            //---- sound while you're clicking on the button ----//
-            System.Media.SoundPlayer player = new(@"sources\ES_Apple Mouse Click 1 - SFX Producer.wav");
-            player.Load();
-            player.PlaySync();
-
             new ViewDroneList(BLObject).Show();
+        }
+
+        private void ViewStationList_Click(object sender, RoutedEventArgs e)
+        {
+            new ViewStationList(BLObject).Show();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
         }
     }
 }

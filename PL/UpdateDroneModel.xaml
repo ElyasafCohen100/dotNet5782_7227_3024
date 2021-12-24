@@ -6,12 +6,16 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="UpdateDroneModel" Height="450" Width="800" Closing="Window_Closing">
+    
+    <Window.Background>
+        <ImageBrush ImageSource="https://m.media-amazon.com/images/I/617dNWWRQaL._AC_SL1500_.jpg" Opacity="0.4"/>
+    </Window.Background>
+    
     <Grid>
-        <Button Content="Close" HorizontalAlignment="Left" Margin="699,25,0,0" VerticalAlignment="Top" Width="50" Foreground="#FFF60C0C" Cursor="Hand" Click="Button_Click"/>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="699,24,0,0" VerticalAlignment="Top" Foreground="#FFF60C0C" Cursor="Hand" Click="Close_Button_Click" Height="21" Width="62"/>
+        <Button Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="329,310,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click" Cursor="Hand" Height="23" Width="110"/>
 
-        <TextBox Name ="ModelTextBox" HorizontalAlignment="Left" Margin="421,55,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" Cursor="Hand" PreviewTextInput="ModelIdTextBox_PreviewTextInput" KeyDown="ModelTextBox_KeyDown"/>
-
-        <Button Name="UpdateButton"  Content="Update" HorizontalAlignment="Left" Margin="345,170,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click" Cursor="Hand"/>
+        <TextBox Name ="ModelTextBox" HorizontalAlignment="Left"  Margin="274,162,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="220" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" Cursor="Hand" PreviewTextInput="ModelIdTextBox_PreviewTextInput" KeyDown="ModelTextBox_KeyDown" Height="43"/>
 
     </Grid>
 </Window>

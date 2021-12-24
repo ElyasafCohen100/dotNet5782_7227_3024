@@ -4,6 +4,37 @@
              xmlns:local="clr-namespace:PL"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <Style TargetType="Button">
+            <EventSetter Event="Click" Handler="Button_Click"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <!--This should make a button illusion to press it-->
+                    <ControlTemplate TargetType = "{x:Type ButtonBase}" >
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Green"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}" Name="button">
+
+                            <ContentPresenter TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                                              TextBlock.Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                              Content="{TemplateBinding Content}" ClipToBounds="True"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#002060" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="Padding" Value="20,20,20,20"/>
+        </Style>
+
     </Application.Resources>
 </Application>

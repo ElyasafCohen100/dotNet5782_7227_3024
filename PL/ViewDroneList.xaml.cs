@@ -20,14 +20,16 @@ namespace PL
     /// </summary>
     public partial class ViewDroneList : Window
     {
+
         private BlApi.IBL BLObject;
+
 
         public ViewDroneList(BlApi.IBL BLObject)
         {
             InitializeComponent();
             this.BLObject = BLObject;
-
             DataContext = false;
+
 
             DroneListView.ItemsSource = this.BLObject.ViewDroneToList();
             DroneStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
@@ -47,14 +49,23 @@ namespace PL
         private void AddNewDrone_Click(object sender, RoutedEventArgs e)
         {
             new DroneActions(BLObject, this).Show();
+
         }
        
         private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DroneToList selectedDrone = BLObject.ViewDroneToList().ToList()[DroneListView.SelectedIndex];
-            new DroneActions(BLObject, selectedDrone, this).Show();
+            //---- sound while you're clicking on the button ----//
+            System.Media.SoundPlayer player = new(@"sources/clickSound.wav");
+            player.Load();
+            player.PlaySync();
+
+            if (DroneListView.SelectedIndex >= 0)
+            {
+                DroneToList selectedDrone = BLObject.ViewDroneToList().ToList()[DroneListView.SelectedIndex];
+                new DroneActions(BLObject, selectedDrone, this).Show();
+            }
         }
-        
+       
         private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
@@ -67,11 +78,36 @@ namespace PL
             if (DataContext.Equals(false)) e.Cancel = true;
         }
 
-
-        //--------------------- groupListButton -------------------------//
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void GroupList_Button_Click(object sender, RoutedEventArgs e)
         {
-            DroneListView.ItemsSource = from drone in BLObject.ViewDroneToList() orderby drone.DroneStatus select drone;
+
+            var droneGroup = from drone in BLObject.ViewDroneToList() group drone by drone.DroneStatus;
+            List<DroneToList> droneList = new();
+            foreach (var group in droneGroup)
+            {
+                switch (group.Key)
+                {
+                    case BO.DroneStatuses.Available:
+                        foreach (var drone in group)
+                        {
+                            droneList.Add(drone);
+                        }
+                        break;
+                    case BO.DroneStatuses.Maintenance:
+                        foreach (var drone in group)
+                        {
+                            droneList.Add(drone);
+                        }
+                        break;
+                    case BO.DroneStatuses.Shipment:
+                        foreach (var drone in group)
+                        {
+                            droneList.Add(drone);
+                        }
+                        break;
+                }
+            }
+            DroneListView.ItemsSource = droneList;
             DroneListView.Items.Refresh();
         }
     }

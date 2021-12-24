@@ -13,26 +13,27 @@
     </Window.Background>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="399*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <TextBox Name="ParcelID" HorizontalAlignment="Left" Margin="180,48,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
-        <TextBox Name="SenderId" HorizontalAlignment="Left" Margin="180,108,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
-        <TextBox Name="SenderName" HorizontalAlignment="Left" Margin="180,180,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
-        <TextBox Name="ReciverId" HorizontalAlignment="Left" Margin="180,249,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="19"/>
-        <TextBox Name="ReciverName" HorizontalAlignment="Left" Margin="180,312,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
-        <TextBox Name="DroneId" HorizontalAlignment="Left" Margin="440,128,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
-        <TextBox Name="Priority" HorizontalAlignment="Left" Margin="443,230,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
 
         <TextBlock Name="ParcelIdTB"  HorizontalAlignment="Left" Margin="180,32,0,0" Text="ParcelId" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBox Name="ParcelID" HorizontalAlignment="Left" Margin="180,48,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
+
         <TextBlock Name="SenderIdTB" HorizontalAlignment="Left" Margin="182,92,0,0" Text="SenderId" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBox Name="SenderId" HorizontalAlignment="Left" Margin="180,108,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
+
         <TextBlock Name="SenderNameTB" HorizontalAlignment="Left" Margin="182,159,0,0" Text="SenderName" TextWrapping="NoWrap" VerticalAlignment="Top"/>
-        <TextBlock Name="ReciverIdTB" HorizontalAlignment="Left" Margin="180,228,0,0" Text="ReciverId" TextWrapping="NoWrap" VerticalAlignment="Top"/>
-        <TextBlock Name="ReciverNameTB" HorizontalAlignment="Left" Margin="180,296,0,0" Text="ReciverName" TextWrapping="NoWrap" VerticalAlignment="Top"/>
-        <TextBlock Name="DroneIdTB" HorizontalAlignment="Left" Margin="440,107,0,0" Text="DroneId" TextWrapping="NoWrap" VerticalAlignment="Top"/>
-        <TextBlock Name="PriorityTB" HorizontalAlignment="Left" Margin="443,214,0,0" Text="Priority" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBox Name="SenderName" HorizontalAlignment="Left" Margin="180,180,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
+
+        <TextBlock Name="ReciverIdTB" HorizontalAlignment="Left" Margin="179,233,0,0" Text="ReciverId" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBox Name="ReciverId" HorizontalAlignment="Left" Margin="179,254,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="19"/>
+
+        <TextBlock Name="ReciverNameTB" HorizontalAlignment="Left" Margin="181,306,0,0" Text="ReciverName" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBox Name="ReciverName" HorizontalAlignment="Left" Margin="181,322,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
+
+        <TextBlock Name="DroneIdTB" HorizontalAlignment="Left" Margin="438,118,0,0" Text="DroneId" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBox Name="DroneId" HorizontalAlignment="Left" Margin="438,139,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
+
+        <TextBlock Name="PriorityTB" HorizontalAlignment="Left" Margin="438,215,0,0" Text="Priority" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBox Name="Priority" HorizontalAlignment="Left" Margin="438,231,0,0" Text="TextBox" TextWrapping="NoWrap" VerticalAlignment="Top" Width="142" Height="20"/>
 
         <Button Content="Close" HorizontalAlignment="Left" Margin="680,25,0,0" VerticalAlignment="Top" Width="80" Height="30" Foreground="#FFF60C0C" Cursor="Hand" Click="Close_Button_Click"/>
 

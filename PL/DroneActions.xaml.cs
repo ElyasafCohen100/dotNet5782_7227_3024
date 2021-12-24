@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using BO;
-
 namespace PL
 {
     /// <summary>
@@ -69,11 +68,8 @@ namespace PL
             MaxWeightCB.Visibility = Visibility.Hidden;
 
             AddButton.Visibility = Visibility.Hidden;
-
             if (selcetedDroneToList.DeliveryParcelId <= 0)
-            {
-                ViewParcelDetailsButton.Visibility = Visibility.Hidden;
-            }
+                ViewParcelButton.Visibility = Visibility.Hidden;
         }
 
         //Add new Drone c-tor.
@@ -104,14 +100,13 @@ namespace PL
             LongitudeTextBlock.Visibility = Visibility.Hidden;
             MaxweightTextBlock.Visibility = Visibility.Hidden;
             StatusTextBlock.Visibility = Visibility.Hidden;
-
-            ViewParcelDetailsButton.Visibility = Visibility.Hidden;
+            ViewParcelButton.Visibility = Visibility.Hidden;
 
             AddButton.IsEnabled = false;
 
-            var stationsId = from stationToList in BlObject.ViewStationsWithAvailableChargingSlotstBL() select stationToList.Id;
-            BaseStationCB.ItemsSource = stationsId;
-            BaseStationCB.SelectedItem = stationsId.First();
+            var stationsIdList = from stationToList in BlObject.ViewStationsWithAvailableChargingSlotstBL() select stationToList.Id;
+            BaseStationCB.ItemsSource = stationsIdList;
+            BaseStationCB.SelectedItem = stationsIdList.First();
 
             MaxWeightCB.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             MaxWeightCB.SelectedItem = (WeightCategories)0;
@@ -174,6 +169,8 @@ namespace PL
             else if (IdTextBox.Text != "Id")
                 AddButton.IsEnabled = true;
         }
+        //Drone actions.
+        #region Drone Actions
         private void UpdateDroneModel_Click(object sender, RoutedEventArgs e)
         {
             bool? flag = new UpdateDroneModel(BLObject, this.viewDroneList, selcetedDroneToList.Id).ShowDialog();
@@ -239,6 +236,7 @@ namespace PL
                 MessageBox.Show("Could not update drone status because the drone is not in maintenance status",
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
         }
 
         private void SendDroneToDelivery_Button_Click(object sender, RoutedEventArgs e)
@@ -310,13 +308,14 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();
         }
-
+        #region Add Drone
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             int Id;
@@ -333,8 +332,8 @@ namespace PL
                 MessageBox.Show("Drone has been added sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetDroneFields(Id);
-                this.Close();
                 viewDroneList.DroneListView.Items.Refresh();
+                this.Close();
             }
             catch (InvalidInputException)
             {
@@ -347,7 +346,10 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+
+        //Bouns.
         private void IdTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (IdTextBox.Text != "Id")
@@ -386,7 +388,7 @@ namespace PL
             if (DataContext.Equals(false)) e.Cancel = true;
         }
 
-        private void ViewParcelDetails_Click(object sender, RoutedEventArgs e)
+        private void ViewParcel_Click(object sender, RoutedEventArgs e)
         {
             new ViewParcelDetails(BLObject, selcetedDroneToList.DeliveryParcelId).Show();
         }

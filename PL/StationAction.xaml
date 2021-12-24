@@ -1,0 +1,26 @@
+﻿<Window x:Class="PL.StationActions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="StationActions" Height="450" Width="800">
+    <Grid>
+        <TextBox Name="StationIdTB" HorizontalAlignment="Left" Margin="200,50,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" PreviewTextInput="StationdTextBox_PreviewTextInput"/>
+        <TextBox Name="StationNameTB" HorizontalAlignment="Left" Margin="200,100,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" PreviewTextInput="StationNameTextBox_PreviewTextInput"/>
+        <TextBox Name="StationLongitudeTB" HorizontalAlignment="Left" Margin="200,150,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="StationLatitudeTB" HorizontalAlignment="Left" Margin="200,200,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="AvailableChargeSlotsTB" HorizontalAlignment="Left" Margin="200,240,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="DroneChargesListTB" HorizontalAlignment="Left" Margin="200,290,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Height="116"/>
+
+        <TextBlock Name="StationId" HorizontalAlignment="Left" Margin="60,50,0,0" Text="Station Id:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock Name="StationName" HorizontalAlignment="Left" Margin="60,100,0,0" Text="Station Name:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock Name="StationLatitude" HorizontalAlignment="Left" Margin="60,150,0,0" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock Name="StationLongitude" HorizontalAlignment="Left" Margin="60,200,0,0" Text="Longitude:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock Name="AvailableChargeSlots" HorizontalAlignment="Left" Margin="60,240,0,0" Text="Available Charge Slots:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock Name="DroneChargesList" HorizontalAlignment="Left" Margin="60,290,0,0" Text="Drone Charge List:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button Name="UpdateStationButton" Content="Update Station Detailes" HorizontalAlignment="Left" Margin="612,85,0,0" VerticalAlignment="Top" Click="UpdateStationButton_Click"/>
+        <Button Name="AddStation" Content="Add Station" HorizontalAlignment="Left" Margin="435,363,0,0" VerticalAlignment="Top" Click="AddStation_Click"/>
+
+    </Grid>
+</Window>
