@@ -23,13 +23,12 @@ namespace PL
     public partial class UpdateDroneModel : Window
     {
         private BlApi.IBL BlObject;
-        private ViewDroneList viewDroneList;
         private int droneId;
-        public UpdateDroneModel(BlApi.IBL BlObject, ViewDroneList viewDroneList, int droneId)
+        public UpdateDroneModel(BlApi.IBL BlObject,int droneId)
         {
             InitializeComponent();
             this.BlObject = BlObject;
-            this.viewDroneList = viewDroneList;
+
             this.droneId = droneId;
             UpdateButton.IsEnabled = false;
             DataContext = false;
@@ -72,8 +71,6 @@ namespace PL
                     BlObject.UpdateDroneModelBL(droneId, Model);
                     MessageBox.Show("Drone has been update sucssesfuly",
                         "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    viewDroneList.DroneListView.Items.Refresh();
                     this.Close();
                 }
                 catch (InvalidInputException)

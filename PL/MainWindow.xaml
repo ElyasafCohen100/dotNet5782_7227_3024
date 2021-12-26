@@ -14,8 +14,9 @@
     <Grid>
 
 
-        <Button Name="DroneListButton"  Content="Drone List" HorizontalAlignment="Left" Margin="10,40,0,0" Click="ViewDroneList_Click" Cursor="Hand" FontSize="20" Height="42" VerticalAlignment="Top" FontFamily="Sitka Text" Padding="10,10" Width="152"/>
+        <Button Name="DroneListButton"  Content="Drone List" HorizontalAlignment="Left" Margin="10,40,0,0" Click="ViewDroneList_Click" Cursor="Hand" FontSize="20" Height="38"  Width="152" VerticalAlignment="Top" FontFamily="Sitka Text" Padding="10,10"/>
         <Button Name ="StationListButton" Content="Station List" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Click="ViewStationList_Click" Height="38" Width="152" FontSize="20" Cursor="Hand" FontFamily="Sitka Text"/>
+        <Button Name="CustomerListButton" Content="Coustomer List" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Height="38" Width="152" FontSize="18" Click="ViewCustomerList_Click"/>
         <Button Name="CloseButton" Content="Close"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,10,0" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Margin="692,40,0,0" Height="29" Width="78" FontSize="20" FontFamily="Sitka Text"/>
 
         <TextBox HorizontalAlignment="Left" Margin="411,330,0,0" Padding="20,10" Text="Yakir and Elyasaf" FontSize="40" Visibility="Visible" FontStyle="Italic" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Background="Gray" Height="72"/>

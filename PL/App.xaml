@@ -31,7 +31,7 @@
             <Setter Property="Background" Value="#002060" />
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="12" />
-            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontFamily" Value="Sitka Text"/>
             <Setter Property="FontStyle" Value="Italic"/>
             <Setter Property="Padding" Value="20,20,20,20"/>
         </Style>

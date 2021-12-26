@@ -1,0 +1,48 @@
+﻿<Window x:Class="PL.ViewCustomerList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="ViewCustomerList" Height="450" Width="800">
+
+
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="UpperGrid" Grid.Row="0" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="ViewListCustomer" Content="View List customer" HorizontalAlignment="Center" VerticalAlignment="Top" Height="28" Width="115" Margin="0,28,0,0"/>
+            <Button Name="AddNewCustomer" Content="Add New Customer" HorizontalAlignment="Center" Margin="0,28,0,0" VerticalAlignment="Top" Height="28" Width="115" Grid.Column="1" Click="AddNewCustomer_Click"/>
+            <Button Name="CLoseButton" Content="Close" Grid.Column="2" HorizontalAlignment="Left" Margin="192,17,0,0" VerticalAlignment="Top" Cursor="Hand" Click="CLoseButton_Click" Height="18" Width="54"/>
+
+
+        </Grid>
+        <ListView x:Name="CustomerListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="CustomerListView_MouseDoubleClick" >
+            <ListView.View>
+                <GridView>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID " Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}"  Header="NANE" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Phone}" Header="PHONE" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding SendAndDeliveredParcels}" Header="DELIVERD" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding SendAndNotDeliveredParcels}" Header="INDELIVERY" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding DeliveredParcels}" Header="DLEVERD PARCEL" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding PickedUpParcels}" Header="PICKED UP PARCEL" Width="100"/>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+
+</Window>

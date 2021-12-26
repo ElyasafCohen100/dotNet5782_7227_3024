@@ -21,19 +21,16 @@ namespace PL
     public partial class DroneActions : Window
     {
         private BlApi.IBL BLObject;
-        private ViewDroneList viewDroneList;
         private DroneToList selcetedDroneToList;
 
-
         //Drone actions c-tor.
-        public DroneActions(BlApi.IBL BlObject, DroneToList droneToList, ViewDroneList viewDroneList)
+        public DroneActions(BlApi.IBL BlObject, DroneToList droneToList)
         {
             InitializeComponent();
 
             Drone drone = BlObject.FindDroneByIdBL(droneToList.Id);
             this.selcetedDroneToList = droneToList;
             this.BLObject = BlObject;
-            this.viewDroneList = viewDroneList;
 
             DataContext = false;
 
@@ -73,11 +70,10 @@ namespace PL
         }
 
         //Add new Drone c-tor.
-        public DroneActions(BlApi.IBL BlObject, ViewDroneList viewDroneList)
+        public DroneActions(BlApi.IBL BlObject)
         {
             InitializeComponent();
             this.BLObject = BlObject;
-            this.viewDroneList = viewDroneList;
 
             DataContext = false;
 
@@ -122,6 +118,7 @@ namespace PL
                 IdTextBox.Clear();
             }
         }
+      
         private void DroneIdTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (IdTextBox.Text == String.Empty)
@@ -143,11 +140,13 @@ namespace PL
             }
 
         }
+       
         private void DroneIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+       
         private void ModelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
@@ -173,7 +172,7 @@ namespace PL
         #region Drone Actions
         private void UpdateDroneModel_Click(object sender, RoutedEventArgs e)
         {
-            bool? flag = new UpdateDroneModel(BLObject, this.viewDroneList, selcetedDroneToList.Id).ShowDialog();
+            bool? flag = new UpdateDroneModel(BLObject, selcetedDroneToList.Id).ShowDialog();
             if (flag == false)
             {
                 GetDroneFields(selcetedDroneToList.Id);
@@ -188,7 +187,7 @@ namespace PL
                 MessageBox.Show("Drone has been update to charging sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetDroneFields(selcetedDroneToList.Id);
-                viewDroneList.DroneListView.Items.Refresh();
+              //  viewDroneList.DroneListView.Items.Refresh();
             }
             catch (InvalidInputException)
             {
@@ -211,6 +210,7 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        
         private void UpdateDroneFromChargingButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -219,7 +219,7 @@ namespace PL
                 MessageBox.Show("Drone has been updated sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetDroneFields(selcetedDroneToList.Id);
-                viewDroneList.DroneListView.Items.Refresh();
+              
             }
             catch (ObjectNotFoundException)
             {
@@ -247,7 +247,6 @@ namespace PL
                 MessageBox.Show("Drone was sent sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetDroneFields(selcetedDroneToList.Id);
-                viewDroneList.DroneListView.Items.Refresh();
             }
             catch (InvalidInputException)
             {
@@ -274,7 +273,6 @@ namespace PL
                 MessageBox.Show("Parcel status has been updated to delivered sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetDroneFields(selcetedDroneToList.Id);
-                viewDroneList.DroneListView.Items.Refresh();
             }
             catch (InvalidInputException exeption)
             {
@@ -287,6 +285,7 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+      
         private void UpdateParcelToPickedUp_Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -295,7 +294,6 @@ namespace PL
                 MessageBox.Show("Parcel status updated sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetDroneFields(selcetedDroneToList.Id);
-                viewDroneList.DroneListView.Items.Refresh();
             }
             catch (InvalidInputException exeption)
             {
@@ -316,6 +314,7 @@ namespace PL
             this.Close();
         }
         #region Add Drone
+     
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             int Id;
@@ -332,7 +331,6 @@ namespace PL
                 MessageBox.Show("Drone has been added sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetDroneFields(Id);
-                viewDroneList.DroneListView.Items.Refresh();
                 this.Close();
             }
             catch (InvalidInputException)
@@ -367,6 +365,7 @@ namespace PL
                 }
             }
         }
+       
         private void GetDroneFields(int droneId)
         {
 

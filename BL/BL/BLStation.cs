@@ -10,14 +10,13 @@ namespace BL
 {
     public partial class BL : BlApi.IBL
     {
-        #region ADD
-        //---------------------- ADD FUNCTIONS ----------------------//
-
+        #region Add
         /// <summary>
         /// Add new BL station by using DAL.
         /// </summary>
         /// <param name="station"> Station object </param>
         /// <exception cref="InvalidInputException"> Thrown if station id or number of charge-slots are invalid </exception>
+        /// 
         public void AddNewStationBL(Station station)
         {
             if (station.Id < 1000 || station.Id >= 10000) throw new InvalidInputException("id");
@@ -34,9 +33,7 @@ namespace BL
 
             dalObject.SetNewStation(dalStation);
         }
-        #endregion
 
-        #region IfExistBaseStation
         /// <summary>
         /// Check if the base-station has already exist.
         /// </summary>
@@ -52,9 +49,7 @@ namespace BL
         }
         #endregion
 
-        #region FIND
-        //----------------------- FIND FUNCTIONS -----------------------//
-
+        #region Find
         /// <summary>
         /// Find BL station by station Id.
         /// </summary>
@@ -104,9 +99,7 @@ namespace BL
         }
         #endregion
 
-        #region UPDATE
-        //----------------------- UPDATE FUNCTIONS -----------------------//
-
+        #region Update
         /// <summary>
         /// Update the dateils of base station.
         /// </summary>
@@ -117,9 +110,12 @@ namespace BL
         public void UpdateBaseStationDetailsBL(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
         {
             if (baseStationNewName == "") throw new InvalidInputException("name");
-            if (baseStationChargeSlots < 0) throw new InvalidInputException("number of charge slots");
+            if (baseStationChargeSlots < 0 || baseStationChargeSlots < dalObject.GetDroneChargeList(x => x.StationId == baseStationId).Count())
+                throw new InvalidInputException("number of charge slots");
+
             try
             {
+
                 dalObject.UpdateBaseStationDetails(baseStationId, baseStationNewName, baseStationChargeSlots);
             }
             catch (ObjectNotFoundException e)
@@ -127,12 +123,9 @@ namespace BL
                 Console.WriteLine(e.Message);
             }
         }
-
         #endregion
 
-        #region VIEW
-        //----------------------- VIEW FUNCTIONS -----------------------//
-
+        #region View
         /// <summary>
         /// View list of BL StationToList.
         /// </summary>
@@ -148,6 +141,7 @@ namespace BL
                 station.Name = baseStation.Name;
 
                 station.NotAvailableChargeSlots = dalObject.GetDroneChargeList(x => x.StationId == baseStation.Id).Count();
+
                 station.AvailableChargeSlots = baseStation.ChargeSlots - station.NotAvailableChargeSlots;
 
                 stationToList.Add(station);

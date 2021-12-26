@@ -22,13 +22,11 @@ namespace PL
     public partial class StationActions : Window
     {
         private BlApi.IBL BLObject;
-        private ViewStationList viewStationList;
         private BO.StationToList selcetedStationToList;
 
-        public StationActions(BlApi.IBL Blobject, ViewStationList viewStationList, BO.StationToList selectedStationToList)
+        public StationActions(BlApi.IBL Blobject, BO.StationToList selectedStationToList)
         {
             this.BLObject = Blobject;
-            this.viewStationList = viewStationList;
             this.selcetedStationToList = selectedStationToList;
 
             InitializeComponent();
@@ -39,19 +37,10 @@ namespace PL
             StationLatitudeTB.Text = station.Location.Latitude.ToString();
             StationLongitudeTB.Text = station.Location.Longitude.ToString();
             AvailableChargeSlotsTB.Text = station.AvailableChargeSlots.ToString();
-            var strings = from myStation in station.DroneChargesList select myStation.ToString();
-            string descreption = "";
-            foreach (var v in strings)
-            {
-                descreption += v;
-            }
-            DroneChargesListTB.Text = descreption;
 
             StationIdTB.IsEnabled = false;
             StationLatitudeTB.IsEnabled = false;
             StationLongitudeTB.IsEnabled = false;
-            DroneChargesListTB.IsEnabled = false;
-
             StationId.IsEnabled = false;
             StationName.IsEnabled = false;
             StationLatitude.IsEnabled = false;
@@ -61,17 +50,15 @@ namespace PL
 
             AddStation.Visibility = Visibility.Hidden;
 
+            DroneChargeListView.ItemsSource = from droneCharge in station.DroneChargesList select droneCharge;
 
         }
-
-        public StationActions(BlApi.IBL Blobject, ViewStationList viewStationList)
+        public StationActions(BlApi.IBL Blobject)
         {
             this.BLObject = Blobject;
-            this.viewStationList = viewStationList;
 
             InitializeComponent();
 
-            DroneChargesListTB.Visibility = Visibility.Hidden;
             DroneChargesList.Visibility = Visibility.Hidden;
             UpdateStationButton.Visibility = Visibility.Hidden;
 
@@ -86,7 +73,6 @@ namespace PL
                 BLObject.UpdateBaseStationDetailsBL(selcetedStationToList.Id, newName, chargeSlots);
                 MessageBox.Show("Station's details has been update sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-                viewStationList.StationListView.ItemsSource = BLObject.ViewBaseStationsToList();
             }
             catch (InvalidInputException exception)
             {
@@ -127,13 +113,21 @@ namespace PL
                 BLObject.AddNewStationBL(station);
                 MessageBox.Show("Station has been added sucssesfuly",
                                 "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-                viewStationList.StationListView.ItemsSource = BLObject.ViewBaseStationsToList();
                 this.Close();
 
             }
             catch (InvalidInputException)
             {
                 MessageBox.Show("Invalid input", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DroneChargeListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DroneToList selectedDrone = BLObject.ViewDroneToList().ToList()[DroneChargeListView.SelectedIndex];
+            if (new DroneActions(BLObject, selectedDrone).ShowDialog() == false)
+            {
+                DroneChargeListView.Items.Refresh();
             }
         }
     }

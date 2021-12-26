@@ -18,18 +18,20 @@
             <Button Name="UpdateParcelToPickedUp" Content="Update Parcel Status To Picked Up" HorizontalAlignment="Left" Margin="562,300,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateParcelToPickedUp_Button_Click" Cursor="Hand"/>
             <Button Name="UpdateParcelToDeliverd" Content="Update Parcel Status To Delivered" HorizontalAlignment="Left" Margin="562,350,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateParcelStatusToDelivered_Button_Click" Cursor="Hand"/>
             <Button Name="ViewParcelButton" Content="View Parcel" HorizontalAlignment="Left" Margin="562,50,0,0" VerticalAlignment="Top" Width="200" Height="30" Click="ViewParcel_Click" FontFamily="Sitka Text"/>
+            <Button Name="AddButton" Content="Add new drone" HorizontalAlignment="Left" Margin="357,350,0,0" VerticalAlignment="Top" Click="AddButton_Click" Height="15" Width="123"/>
 
             <TextBox Name="IdTextBox" HorizontalAlignment="Left" Margin="170,30,0,0" Text="Id" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="DroneIdTextBox_GotFocus" LostFocus="DroneIdTextBox_LostFocus" TextChanged="IdTextBox_TextChanged" PreviewTextInput="DroneIdTextBox_PreviewTextInput"/>
             <TextBox Name="ModelTextBox" HorizontalAlignment="Left" Margin="170,60,0,0" Text="Model" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" PreviewTextInput="ModelIdTextBox_PreviewTextInput"/>
             <TextBox Name="BatteryTB" HorizontalAlignment="Left" Margin="170,90,0,0" Text="Battery" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-            <TextBox Name="DeliveryTB" HorizontalAlignment="Left" Margin="170,230,0,0" Text="Delivery" TextWrapping="NoWrap" VerticalAlignment="Top" Width="160" Height="178"/>
+            <TextBox Name="DeliveryTB" HorizontalAlignment="Left" Margin="170,237,0,0" Text="Delivery" TextWrapping="NoWrap" VerticalAlignment="Top" Width="160" Height="178"/>
             <TextBox Name="LatitudeTB" HorizontalAlignment="Left" Margin="170,120,0,0" Text="latitude" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
             <TextBox Name="LongitudeTB" HorizontalAlignment="Left" Margin="170,150,0,0" Text="longitude" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
             <TextBox Name="MaxWeightTB" HorizontalAlignment="Left" Margin="170,180,0,0" Text="Max weight" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
             <TextBox Name="StatusTB" HorizontalAlignment="Left" Margin="170,210,0,0" Text="status" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+
             <ComboBox Name="MaxWeightCB" HorizontalAlignment="Left" Margin="400,30,0,0" VerticalAlignment="Top" Width="120"/>
             <ComboBox Name="BaseStationCB" HorizontalAlignment="Left" Margin="400,60,0,0" VerticalAlignment="Top" Width="120"/>
-            <Button Name="AddButton" Content="Add new drone" HorizontalAlignment="Left" Margin="357,350,0,0" VerticalAlignment="Top" Click="AddButton_Click" Height="15" Width="123"/>
+
             <TextBlock Name="IdTextBlock" HorizontalAlignment="Left" Margin="80,30,0,0" Text="Drone Id:" TextWrapping="Wrap" VerticalAlignment="Top"/>
             <TextBlock Name="ModelTextBlock" HorizontalAlignment="Left" Margin="80,60,0,0" Text="Drone Model:" TextWrapping="Wrap" VerticalAlignment="Top"/>
             <TextBlock Name="BatteryTextBlock" HorizontalAlignment="Left" Margin="80,90,0,0" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Top"/>

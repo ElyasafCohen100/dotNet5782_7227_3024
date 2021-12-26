@@ -1,0 +1,65 @@
+﻿<Window x:Class="PL.CustomerAction"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="CustomerAction" Height="450" Width="800">
+
+    <Window.Background>
+        <ImageBrush ImageSource="https://media.gettyimages.com/vectors/drone-vector-id1010563728?s=2048x2048"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="121*"/>
+            <ColumnDefinition Width="679*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Name="CustomerIdTB" Text="Customer Id"  HorizontalAlignment="Left" Margin="49,11,0,0"  TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CustomerNameTB" Text="Customer Name"  HorizontalAlignment="Left" Margin="49,39,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CustomerPhoneTB" Text="Customer Phone"  HorizontalAlignment="Left" Margin="49,68,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CustomerLongitudeTB" Text="Customer Longitude"  HorizontalAlignment="Left" Margin="49,97,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CoustomerLatitudeTB" Text="Customer Latitude"  HorizontalAlignment="Left" Margin="49,127,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+
+        <TextBlock Name="CustomerId" Text="CustomerId:" HorizontalAlignment="Left" Margin="39,11,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top"/>
+        <TextBlock Name="CustomerName" Text="Customer Name:" HorizontalAlignment="Left" Margin="39,41,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBlock Name="CustomerPhone" Text="Costomer Phone:" HorizontalAlignment="Left" Margin="38,68,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBlock Name="CustomerLongitude" Text="Customer Longitdue:" HorizontalAlignment="Left" Margin="39,128,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBlock Name="CoustomerLatitude" Text ="Customer Latitude:" HorizontalAlignment="Left" Margin="39,99,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBlock Name="ParcelFromCustomer" Text="Parcels sent by the customer:" HorizontalAlignment="Left" Margin="8,181,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBlock Name="ParcelToCustomer" Text="Parcels sent to the customer:" HorizontalAlignment="Left" Margin="8,307,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+
+        <ListView Margin="0,203,0,126" Grid.ColumnSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding ParcelId}" Header="PARCEL ID " Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding MaxWeight}" Header="WEIGHT" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Priority}" Header="PRIORITY" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding ParcelStatus}" Header="PARCEL STATUS" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TargetNAme}" Header="TARGET NAME" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TargetId}" Header="TARGET ID" Width="100"/>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView Margin="0,325,0,5" Grid.ColumnSpan="2">
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID " Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding MaxWeight}" Header="WEIGHT" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Priority}" Header="PRIORITY" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding ParcelStatus}" Header="PARCEL STATUS" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding SenderName}" Header="SENDER NAME" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding SenderId}" Header="SENER ID" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Name="UpdateCustomerButton"  Content="Update Customer" HorizontalAlignment="Left" Margin="460,136,0,0" VerticalAlignment="Top" Width="200" Height="30" Cursor="Hand" Grid.Column="1"/>
+        <Button Name="AddNewCustomerButton"  Content="Add New Customer" HorizontalAlignment="Left" Margin="460,62,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.381,0.359" Width="200" Height="30" Cursor="Hand" Click="AddNewCustomerButton_Click" Grid.Column="1"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="618,13,0,0" VerticalAlignment="Top" Height="15" Width="40" Cursor="Hand" Click="CloseButton_Click" Grid.Column="1"/>
+
+    </Grid>
+</Window>

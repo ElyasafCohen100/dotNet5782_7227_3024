@@ -59,5 +59,10 @@ namespace PL
             DataContext = true;
             this.Close();
         }
+
+        private void ViewCustomerList_Click(object sender, RoutedEventArgs e)
+        {
+            new ViewCustomerList(BLObject).Show();
+        }
     }
 }

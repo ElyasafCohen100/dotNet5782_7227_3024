@@ -23,15 +23,13 @@ namespace PL
 
         private BlApi.IBL BLObject;
 
-
         public ViewDroneList(BlApi.IBL BLObject)
         {
             InitializeComponent();
             this.BLObject = BLObject;
             DataContext = false;
 
-
-            DroneListView.ItemsSource = this.BLObject.ViewDroneToList();
+            DroneListView.ItemsSource = BLObject.ViewDroneToList();
             DroneStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
@@ -47,9 +45,11 @@ namespace PL
         }
 
         private void AddNewDrone_Click(object sender, RoutedEventArgs e)
-        {
-            new DroneActions(BLObject, this).Show();
-
+        {    
+            if(new DroneActions(BLObject).ShowDialog() == false)
+            {
+                DroneListView.Items.Refresh();
+            }
         }
        
         private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -62,7 +62,10 @@ namespace PL
             if (DroneListView.SelectedIndex >= 0)
             {
                 DroneToList selectedDrone = BLObject.ViewDroneToList().ToList()[DroneListView.SelectedIndex];
-                new DroneActions(BLObject, selectedDrone, this).Show();
+                if (new DroneActions(BLObject, selectedDrone).ShowDialog() == false)
+                {
+                    DroneListView.Items.Refresh();
+                }
             }
         }
        
@@ -80,7 +83,6 @@ namespace PL
 
         private void GroupList_Button_Click(object sender, RoutedEventArgs e)
         {
-
             var droneGroup = from drone in BLObject.ViewDroneToList() group drone by drone.DroneStatus;
             List<DroneToList> droneList = new();
             foreach (var group in droneGroup)

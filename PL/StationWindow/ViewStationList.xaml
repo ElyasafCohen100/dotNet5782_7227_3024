@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ViewStationList" Height="450" Width="800">
-
-
+    
 
     <Window.Resources>
-        <ImageBrush Opacity="0.1" ImageSource="https://www.researchgate.net/profile/Vinay-Chamola/publication/336282262/figure/fig1/AS:811326456754178@1570446709910/Pictorial-representation-of-proposed-drone-charging-framework.jpg" x:Key="0"/>
+        <ImageBrush Opacity="0.1" ImageSource="https://www.researchgate.net/profile/Vinay-Chamola/publication/336282262/figure/fig1/AS:811326456754178@1570446709910/Pictorial-representation-of-proposed-drone-charging-framework.jpg" x:Key="0.1"/>
     </Window.Resources>
 
+    
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
@@ -21,7 +21,8 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="UpperGrid" Grid.Row="0" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
+      
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -34,7 +35,7 @@
         </Grid>
 
         <ListView x:Name="StationListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="StationListView_MouseDoubleClick"
-                   Background="{StaticResource ResourceKey = 0}">
+                   Background="{StaticResource ResourceKey = 0.1}">
             <ListView.View>
 
                 <GridView>

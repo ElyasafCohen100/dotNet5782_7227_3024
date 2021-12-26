@@ -34,17 +34,23 @@ namespace PL
             StationListView.ItemsSource = stationList;
             StationListView.Items.Refresh();
         }
+        
         private void StationListView_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             BO.StationToList selectedStation = BLObject.ViewBaseStationsToList().ToList()[StationListView.SelectedIndex];
-            new StationActions(BLObject, this, selectedStation).Show();
+          
+            if(new StationActions(BLObject, selectedStation).ShowDialog() == false)
+            {
+                StationListView.Items.Refresh();
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            new StationActions(BLObject, this).Show();
+            if(new StationActions(BLObject).ShowDialog() == false)
+            {
+                StationListView.Items.Refresh();
+            }
         }
-
-
     }
 }
