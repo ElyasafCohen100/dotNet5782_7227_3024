@@ -5,24 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="StationActions" Height="450" Width="800">
-    <Grid>
-        <TextBox Name="StationIdTB" HorizontalAlignment="Left" Margin="200,50,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" PreviewTextInput="StationdTextBox_PreviewTextInput"/>
-        <TextBox Name="StationNameTB" HorizontalAlignment="Left" Margin="200,100,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" PreviewTextInput="StationNameTextBox_PreviewTextInput"/>
-        <TextBox Name="StationLongitudeTB" HorizontalAlignment="Left" Margin="200,150,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="StationLatitudeTB" HorizontalAlignment="Left" Margin="200,200,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="AvailableChargeSlotsTB" HorizontalAlignment="Left" Margin="200,240,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+    <Grid x:Name="grid1">
 
-        <TextBlock Name="StationId" HorizontalAlignment="Left" Margin="60,50,0,0" Text="Station Id:" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock Name="StationName" HorizontalAlignment="Left" Margin="60,100,0,0" Text="Station Name:" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock Name="StationLatitude" HorizontalAlignment="Left" Margin="60,150,0,0" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock Name="StationLongitude" HorizontalAlignment="Left" Margin="60,200,0,0" Text="Longitude:" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock Name="AvailableChargeSlots" HorizontalAlignment="Left" Margin="60,240,0,0" Text="Available Charge Slots:" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock Name="DroneChargesList" HorizontalAlignment="Left" Margin="60,290,0,0" Text="Drone Charge List:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="StationIdTB" HorizontalAlignment="Left" Margin="199,36,0,0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" PreviewTextInput="StationdTextBox_PreviewTextInput" TextChanged="StationIdTB_TextChanged"/>
+        <TextBox Name="StationNameTB" HorizontalAlignment="Left" Margin="199,73,0,0" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" PreviewTextInput="StationNameTextBox_PreviewTextInput"/>
+        <TextBox Name="StationLongitudeTB" HorizontalAlignment="Left" Margin="199,115,0,0" Text="{Binding Location.Longitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="StationLatitudeTB" HorizontalAlignment="Left" Margin="199,155,0,0" Text="{Binding Location.Latitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="AvailableChargeSlotsTB" HorizontalAlignment="Left" Margin="199,204,0,0" Text="{Binding AvailableChargeSlots, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
 
-        <Button Name="UpdateStationButton" Content="Update Station Detailes" HorizontalAlignment="Left" Margin="590,78,0,0" VerticalAlignment="Top" Click="UpdateStationButton_Click" Width="200" Height="30"/>
-        <Button Name="AddStation" Content="Add Station" HorizontalAlignment="Left" Margin="590,138,0,0" VerticalAlignment="Top" Click="AddStation_Click" Width="200" Height="30"/>
 
-        <ListView Name="DroneChargeListView" Margin="50,321,37,19" MouseDoubleClick="DroneChargeListView_MouseDoubleClick">
+        <TextBlock Name="StationId" HorizontalAlignment="Left" Margin="49,37,0,0" Text="Station Id:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock Name="StationName" HorizontalAlignment="Left" Margin="49,75,0,0" Text="Station Name:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock Name="StationLongitude" HorizontalAlignment="Left" Margin="49,115,0,0" Text="Station Longitude:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock Name="StationLatitude" HorizontalAlignment="Left" Margin="49,159,0,0" Text="Station Latitude:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock Name="AvailableChargeSlots" HorizontalAlignment="Left" Margin="49,207,0,0" Text="Available Charge Slots:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock Name="DroneChargesList" HorizontalAlignment="Left" Margin="49,251,0,0" Text="Drone Charge List:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold"/>
+
+        <Button Name="UpdateStationButton" Content="Update Station Detailes" HorizontalAlignment="Left" Margin="574,108,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateStationButton_Click"/>
+        <Button Name="AddStation" Content="Add Station" HorizontalAlignment="Left" Margin="574,50,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="AddStation_Click"/>
+        <Button Name="DeleteStationButton" Content="Delete Station" HorizontalAlignment="Left" Margin="574,168,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="DeleteStationButton_Click"/>
+
+
+        <ListView Name="DroneChargeListView" Margin="49,288,35,10" MouseDoubleClick="DroneChargeListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding DroneId, Mode=OneWay}" Header="DRONE ID" Width="100"/>

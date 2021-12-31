@@ -7,10 +7,9 @@ using DO;
 
 namespace Dal
 {
-    public partial class DalObject : DalApi.IDal
+    partial class DalObject : DalApi.IDal
     {
-        #region FIND
-        //----------------------- FIND FUNCTIONS -----------------------//
+        #region Find
 
         /// <summary>
         /// Finds Drone by specific Id.
@@ -35,12 +34,9 @@ namespace Dal
             DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
             return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException(droneCharge.GetType().ToString()) : droneCharge;
         }
-
         #endregion
 
-        #region SET
-
-        //-------------------------- SETTERS ---------------------------//
+        #region Setters
 
         /// <summary>
         /// Set new Drone.
@@ -48,6 +44,7 @@ namespace Dal
         /// <param name="drone">Drone object</param>
         public void SetNewDrone(Drone drone)
         {
+            drone.IsActive = true;
             DataSource.Drones.Add(drone);
         }
         public void AddDroneCharge(int droneId, int stationId)
@@ -60,8 +57,17 @@ namespace Dal
         }
         #endregion
 
-        #region UPDATE
-        //----------------------- UPDATE FUNCTIONS ----------------------//
+        public void DeleteDrone(int droneId)
+        {
+            int index = DataSource.Drones.FindIndex(x => x.Id == droneId);
+            if (index == -1) throw new ObjectNotFoundException("drone");
+            Drone drone = DataSource.Drones[index];
+            drone.IsActive = false;
+            DataSource.Drones[index] = drone;
+        }
+
+
+        #region Update
 
         /// <summary>
         /// Update Drone Id of Parcel.
@@ -94,6 +100,7 @@ namespace Dal
             Station station = DataSource.Stations[index];
 
             if (station.ChargeSlots == 0) throw new ArgumentOutOfRangeException();
+            if (!station.IsActive) throw new ObjectIsNotActiveException("station");
 
             station.ChargeSlots--;
             DataSource.Stations[index] = station;
@@ -132,11 +139,9 @@ namespace Dal
             drone.Model = newModel;
             DataSource.Drones[index] = drone;
         }
-
         #endregion
 
-        #region GET
-        //--------------------------- GETTERS ---------------------------//
+        #region Getters
 
         /// <summary>
         /// Return list of Drones.
@@ -144,18 +149,18 @@ namespace Dal
         /// <returns> List of Drones </returns>
         public IEnumerable<Drone> GetDroneList()
         {
-            return DataSource.Drones;
+            return from drone in DataSource.Drones where drone.IsActive select drone;
         }
 
         public IEnumerable<Drone> GetDrones(Predicate<Drone> predicate)
         {
-            return DataSource.Drones.FindAll(predicate);
+            return DataSource.Drones.FindAll(predicate).FindAll(x => x.IsActive);
         }
 
         /// <summary>
         /// get the drone charge list by given staionID
         /// </summary>
-        /// <param name="stationId"> ID of station </param>
+        /// <param name="stationId"> Id of station </param>
         /// <returns> drone charge list  </returns>
         public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate)
         {

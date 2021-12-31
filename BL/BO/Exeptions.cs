@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace BO
 {
+
     [Serializable]
     public class OutOfBatteryException : Exception
     {
@@ -62,4 +59,14 @@ namespace BO
         public ObjectAlreadyExistException(string message) : base($"The {message} already exist") { }
         public ObjectAlreadyExistException(string message, Exception inner) : base(message, inner) { }
     }
+
+    [Serializable]
+    public class ObjectIsNotActiveException : Exception
+    {
+        public ObjectIsNotActiveException() { }
+        public ObjectIsNotActiveException(string message) : base(message) { }
+        public ObjectIsNotActiveException(string message, Exception inner) : base(message, inner) { }
+
+    }
 }
+

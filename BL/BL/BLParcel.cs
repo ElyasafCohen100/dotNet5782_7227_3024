@@ -9,14 +9,15 @@ namespace BL
 {
     public partial class BL : BlApi.IBL
     {
-        #region ADD
-        //----------------------- ADD FUNCTIONS -----------------------//
+
+        #region Add
 
         /// <summary>
         /// Add new BL parcel to the list by using DAL.
         /// </summary>
         /// <param name="parcel"> Parcel object /param>
         /// <exception cref="InvalidInputException"> Thrown if parcel details are invalid </exception>
+
         public void AddNewParcelBL(Parcel parcel)
         {
             if (parcel.senderCustomer.Id < 100000000 || parcel.senderCustomer.Id >= 1000000000)
@@ -43,8 +44,7 @@ namespace BL
         }
         #endregion
 
-        #region FIND
-        //----------------------- FIND FUNCTIONS -----------------------//
+        #region Find
 
         /// <summary>
         /// Find BL parcel by Id.
@@ -54,13 +54,13 @@ namespace BL
         /// <exception cref="InvalidInputException"> Thrown if drone id is invalid </exception>
         public Parcel FindParcelByIdBL(int parcelId)
         {
-           if (parcelId <= 0) throw new InvalidInputException("Id");
+            if (parcelId <= 0) throw new InvalidInputException("Id");
             DO.Parcel dalParcel;
             try
             {
-                dalParcel = dalObject.FindParcelById(parcelId);
+               dalParcel = dalObject.FindParcelById(parcelId);
             }
-            catch (DO.ObjectNotFoundException e)
+            catch(DO.ObjectNotFoundException e)
             {
                 throw new ObjectNotFoundException(e.Message);
             }
@@ -99,8 +99,7 @@ namespace BL
         }
         #endregion
 
-        #region VIEW
-        //----------------------- VIEW FUNCTIONS -----------------------//
+        #region View
 
         /// <summary>
         /// View list of parcelToList detailes.
@@ -125,7 +124,7 @@ namespace BL
                 Parcel.ReceiverName = dalCustomer.Name;
 
                 Parcel.WeightCategory = (WeightCategories)dalParcel.Weight;
-                Parcel.Prioritie = (Priorities)dalParcel.Priority;
+                Parcel.Priority = (Priorities)dalParcel.Priority;
 
                 if (dalParcel.Delivered != null)
                 {
@@ -172,7 +171,7 @@ namespace BL
                 blParcel.ReceiverName = dalCustomer.Name;
 
                 blParcel.WeightCategory = (WeightCategories)dalParcel.Weight;
-                blParcel.Prioritie = (Priorities)dalParcel.Priority;
+                blParcel.Priority = (Priorities)dalParcel.Priority;
 
                 blParcel.ParcelStatus = ParcelStatus.Requested;
 
@@ -180,6 +179,59 @@ namespace BL
             }
 
             return ParcelToList;
+        }
+         public IEnumerable<Parcel> ViewParcelsList()
+        {
+            var parcelList = from parcel in ViewParcelToList() select FindParcelByIdBL(parcel.Id);
+            return parcelList;
+        }
+
+        public ParcelToList FindParcelToList(int parcelId)
+        {
+            DO.Parcel dalParcel = dalObject.FindParcelById(parcelId);
+            ParcelToList parcel = new();
+            DO.Customer dalCustomer = new();
+
+            parcel.Id = dalParcel.Id;
+
+            dalCustomer = dalObject.FindCustomerById(dalParcel.SenderId);
+            parcel.SenderName = dalCustomer.Name;
+
+            dalCustomer = dalObject.FindCustomerById(dalParcel.TargetId);
+            parcel.ReceiverName = dalCustomer.Name;
+
+            parcel.WeightCategory = (WeightCategories)dalParcel.Weight;
+            parcel.Priority = (Priorities)dalParcel.Priority;
+
+            if (dalParcel.Delivered != null)
+            {
+                parcel.ParcelStatus = ParcelStatus.Delivered;
+            }
+            else if (dalParcel.PickedUp != null)
+            {
+                parcel.ParcelStatus = ParcelStatus.PickedUp;
+            }
+            else if (dalParcel.Scheduled != null)
+            {
+                parcel.ParcelStatus = ParcelStatus.Scheduled;
+            }
+            else
+            {
+                parcel.ParcelStatus = ParcelStatus.Requested;
+            }
+            return parcel;
+        }
+
+        public void DeleteParcel(int parcelId)
+        {
+            try
+            {
+                dalObject.DeleteParcel(parcelId);
+            }
+            catch(DO.ObjectNotFoundException e)
+            {
+                throw new ObjectNotFoundException(e.Message);
+            }
         }
         #endregion
     }

@@ -10,11 +10,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Text.RegularExpressions;
 using BO;
-
 
 namespace PL
 {
@@ -23,8 +20,7 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        internal static BlApi.IBL BLObject;
-
+        private BlApi.IBL BLObject;
         public MainWindow()
         {
             InitializeComponent();
@@ -36,33 +32,79 @@ namespace PL
             {
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
             DataContext = false;
         }
 
-        private void ViewDroneList_Click(object sender, RoutedEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            new ViewDroneList(BLObject).Show();
-        }
+            if (!BLObject.IsAdminRegistered(UserNameTB.Text))
+            {
+                if (!BLObject.IsCustomerRegisered(UserNameTB.Text))
+                    MessageBox.Show("The user is not exsist", "Operation Failure",
+                                       MessageBoxButton.OK, MessageBoxImage.Error);
 
-        private void ViewStationList_Click(object sender, RoutedEventArgs e)
+                else { }
+                //TODO: CREATE CUSTOMER USER INTERFACE WINDOW
+            }
+            else
+            {
+                new MainAdminWindow().Show();
+            }
+        }
+        private void UserNameTB_GotFocus(object sender, RoutedEventArgs e)
         {
-            new ViewStationList(BLObject).Show();
+            if (UserNameTB.Text == "User Name")
+            {
+                UserNameTB.Clear();
+            }
         }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void PasswordTB_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (DataContext.Equals(false)) e.Cancel = true;
+            if (PasswordTB.Text == "Password")
+            {
+                PasswordTB.Clear();
+            }
         }
+        private void UserNameTB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (UserNameTB.Text == String.Empty)
+            {
+                UserNameTB.Text = "User Name";
+            }
 
+
+            //if (UserNameTB.Text != "User Name")
+            //{
+            //    int.TryParse(UserNameTB.Text, out int Id);
+            //    if (Id > 10000 || Id < 1000)
+            //    {
+            //        UserNameTB.BorderBrush = Brushes.Red;
+            //        UserNameTB.Foreground = Brushes.Red;
+            //    }
+            //}
+        }
+        private void PasswordTB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (PasswordTB.Text == String.Empty)
+            {
+                PasswordTB.Text = "Password";
+            }
+
+            //if (UserNameTB.Text != "User Name")
+            //{
+            //    int.TryParse(UserNameTB.Text, out int Id);
+            //    if (Id > 10000 || Id < 1000)
+            //    {
+            //        UserNameTB.BorderBrush = Brushes.Red;
+            //        UserNameTB.Foreground = Brushes.Red;
+            //    }
+            //}
+        }
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();
-        }
-
-        private void ViewCustomerList_Click(object sender, RoutedEventArgs e)
-        {
-            new ViewCustomerList(BLObject).Show();
         }
     }
 }

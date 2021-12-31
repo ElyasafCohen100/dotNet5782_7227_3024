@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
+using DalApi;
 
 namespace BL
 {
@@ -21,7 +22,7 @@ namespace BL
         public static BL BlObj { get { return LoadBlObj.blObject; } }
 
         //Create instance of dalObject for reference to DAL.
-        internal static DalApi.IDal dalObject;
+        internal static IDal dalObject;
 
         List<DroneToList> droneToLists = new();
 
@@ -33,16 +34,15 @@ namespace BL
         ///                                                             with available charge-slots </exception>
         public BL()
         {
-            Random r = new();
-
             try
             {
-                dalObject = DalApi.DalFactory.GetDal();
+                dalObject = DalFactory.GetDal();
             }
-            catch (DalApi.DalConfigException)
+            catch (DalConfigException)
             {
                 throw;
             }
+            Random r = new();
 
             //Import from DAL the 4 weight categories and the charging rate in seperate varibales.
             double[] tempArray = dalObject.ElectricityUseRequest();
@@ -116,7 +116,7 @@ namespace BL
 
                     if (newDrone.DroneStatus == DroneStatuses.Maintenance)
                     {
-                        List<DO.Station> stationsList = (List<DO.Station>)dalObject.GetBaseStationList();
+                        List<DO.Station> stationsList = new(dalObject.GetBaseStationList());
                         int size = stationsList.Count();
                         int index = r.Next(0, size);
                         DO.Station station = stationsList[index];

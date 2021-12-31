@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace DO
 {
     /// <summary>
@@ -12,6 +13,10 @@ namespace DO
         public string Phone { get; set; }
         public double Longitude { get; set; }
         public double Lattitude { get; set; }
+        public bool IsActive { get; set; }
+
+        public string UserName { get; set; }
+        public string Password { get; set; }
 
         /// <summary>
         /// Return describe of Customer struct string
@@ -19,11 +24,12 @@ namespace DO
         /// <returns>describe of Customer struct string</returns>
         public override string ToString()
         {
-            return $"Customer name: {Name}\n" +
-                   $"Id: {Id}\n" +
+            return $"Customer: Id: {Id}\n" +
+                   $"Name: {Name}\n+" +
                    $"Phone: {Phone}\n" +
-                   $"Longitude: {DalApi.IDal.SexagesimalPresentation(Longitude)}, " +
-                   $"Lattitude: {DalApi.IDal.SexagesimalPresentation(Lattitude)},";
+                   $"Longitude: {DalApi.IDal.SexagesimalPresentation(Longitude)}\n" +
+                   $"Lattitude: {DalApi.IDal.SexagesimalPresentation(Lattitude) }";
         }
     }
+
 }

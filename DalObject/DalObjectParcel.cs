@@ -7,10 +7,10 @@ using DO;
 
 namespace Dal
 {
-    public partial class DalObject : DalApi.IDal
+    partial class DalObject : DalApi.IDal
     {
-        #region FIND
-        //----------------------- FIND FUNCTIONS -----------------------//
+
+        #region Find
 
         /// <summary>
         /// Finds Parcel by specific Id.
@@ -21,29 +21,25 @@ namespace Dal
         public Parcel FindParcelById(int parcelId)
         {
             Parcel parcel = DataSource.Parcels.Find(x => x.Id == parcelId);
-            return parcel.Id != parcelId ? throw new ObjectNotFoundException("parcel") : parcel;
+            return parcel.Id != parcelId && parcel.IsActive == false ? throw new ObjectNotFoundException("parcel") : parcel;
         }
-
         #endregion
 
-        #region SET
-        //------------------------- SETTERS ---------------------------//
-
+        #region Setters
         /// <summary>
         /// Set new Parcel.
         /// </summary>
         /// <param name="parcel"> Parcel object </param>
-        public void SetNewParcel(Parcel Parcel)
+        public void SetNewParcel(Parcel parcel)
         {
-            Parcel.Id = DataSource.Config.SerialNumber;
-            DataSource.Parcels.Add(Parcel);
-            ++DataSource.Config.SerialNumber;
+            parcel.Id = DataSource.Config.SerialNum;
+            parcel.IsActive = true;
+            DataSource.Parcels.Add(parcel);
+            ++DataSource.Config.SerialNum;
         }
         #endregion
 
-        #region UPDATE
-        //---------------------- UPDATE FUNCTIONS ----------------------//
-
+        #region Update
         /// <summary>
         /// Update Parcel status to picked up.
         /// </summary>
@@ -88,16 +84,14 @@ namespace Dal
         }
         #endregion
 
-        #region GET
-        //--------------------------- GETTERS ---------------------------//
-
+        #region Getters
         /// <summary>
         /// Return List of Parcels.
         /// </summary>
         /// <returns>List of Parcels </returns>
         public IEnumerable<Parcel> GetParcelList()
         {
-            return DataSource.Parcels;
+            return from parcel in DataSource.Parcels where parcel.IsActive select parcel;
         }
 
         /// <summary>
@@ -106,7 +100,18 @@ namespace Dal
         /// <returns> List of non associate Parcels </returns>
         public IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate)
         {
-            return DataSource.Parcels.FindAll(predicate);
+            return DataSource.Parcels.FindAll(predicate).FindAll(x => x.IsActive);
+        }
+        #endregion
+
+        #region Delete
+        public void DeleteParcel(int parcelId)
+        {
+            int index = DataSource.Parcels.FindIndex(x => x.Id == parcelId);
+            if (index == -1) throw new ObjectNotFoundException("parcel");
+            Parcel parcel = DataSource.Parcels[index];
+            parcel.IsActive = false;
+            DataSource.Parcels[index] = parcel;
         }
         #endregion
     }

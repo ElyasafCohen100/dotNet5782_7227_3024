@@ -20,47 +20,30 @@ namespace PL
     /// </summary>
     public partial class ViewCustomerList : Window
     {
-        private BlApi.IBL BLObject;
-        public ViewCustomerList(BlApi.IBL BLobject)
+        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        public ViewCustomerList()
         {
             InitializeComponent();
-            this.BLObject = BLObject;
-            DataContext = false;
-
-            CustomerListView.ItemsSource = BLobject.ViewCustomerToList();
+            CustomerListView.ItemsSource = BLObject.ViewCustomerToList();
         }
-
+        private void CustomerListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (CustomerListView.SelectedIndex >= 0)
+            {
+                CustomerToList selectedCustomer = BLObject.ViewCustomerToList().ToList()[CustomerListView.SelectedIndex];
+                if (new CustomerActions(selectedCustomer).ShowDialog() == false)
+                    CustomerListView.ItemsSource = BLObject.ViewCustomerToList();
+            }
+        }
         private void AddNewCustomer_Click(object sender, RoutedEventArgs e)
         {
-            CustomerToList selectCustomer = new();
-            if (new CustomerAction(BLObject,selectCustomer).ShowDialog() == false)
-            {
-                CustomerListView.Items.Refresh();
-            }
+            if (new CustomerActions().ShowDialog() == false)
+                CustomerListView.ItemsSource = BLObject.ViewCustomerToList();
         }
 
         private void CLoseButton_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = true;
             this.Close();
-        }
-
-        private void CustomerListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //---- sound while you're clicking on the button ----//
-            System.Media.SoundPlayer player = new (@"sources/clickSound.wav");
-            player.Load();
-            player.PlaySync();
-
-            if (CustomerListView.SelectedIndex >= 0)
-            {
-                CustomerToList selectCustomer = BLObject.ViewCustomerToList().ToList()[CustomerListView.SelectedIndex];
-                if(new CustomerAction(BLObject,selectCustomer).ShowDialog() == false)
-                {
-                    CustomerListView.Items.Refresh();
-                }
-            }
         }
     }
 }
-        

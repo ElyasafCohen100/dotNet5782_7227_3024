@@ -7,24 +7,34 @@ namespace BL
 {
     public partial class BL : BlApi.IBL
     {
-        #region ADD
-        //----------------------- ADD FUNCTIONS -----------------------//
-
+        #region Add
+        /// <summary>
+        /// Check if the drone is already exist.
+        /// </summary>
+        /// <param name="droneId"> Drone Id </param>
+        /// <exception cref="ObjectAlreadyExistException"> Thrown if drone id is already exist </exception>
+        static void IfExistDrone(int droneId)
+        {
+            foreach (var drone in dalObject.GetDroneList())
+            {
+                if (drone.Id == droneId) throw new ObjectAlreadyExistException("drone");
+            }
+        }
         /// <summary>
         /// Add new BL drone to the list using DAL.
         /// </summary>
         /// <param name="drone"> Drone object </param>
-        /// <param name="baseStationID"> Station Id </param>
+        /// <param name="baseStationId"> Station Id </param>
         /// <exception cref="InvalidInputException"> Thrown if drone details is invalid </exception>
         /// <exception cref="ObjectNotFoundException"> Thrown if no base-station found </exception>
-        public void AddNewDroneBL(Drone drone, int baseStationID)
+        public void AddNewDroneBL(Drone drone, int baseStationId)
         {
 
             if (drone.Id < 1000 || drone.Id >= 10000) throw new InvalidInputException("Id (Drone)");
             IfExistDrone(drone.Id);
             if (drone.Model == null) throw new InvalidInputException("Model");
             if ((int)drone.MaxWeight < 0 || (int)drone.MaxWeight > 2) throw new InvalidInputException("Max weight");
-            if (baseStationID < 1000 || baseStationID >= 10000) throw new InvalidInputException("Id (base-station)");
+            if (baseStationId < 1000 || baseStationId >= 10000) throw new InvalidInputException("Id (base-station)");
 
             Random r = new();
             DO.Drone newDrone = new();
@@ -38,7 +48,7 @@ namespace BL
 
             try
             {
-                DO.Station myStaion = dalObject.FindStationById(baseStationID);
+                DO.Station myStaion = dalObject.FindStationById(baseStationId);
 
                 drone.CurrentLocation.Latitude = myStaion.Latitude;
                 drone.CurrentLocation.Longitude = myStaion.Longitude;
@@ -51,7 +61,20 @@ namespace BL
             dalObject.SetNewDrone(newDrone);
             UpdateDroneToListsList(drone);
         }
-        
+
+        public void DeleteDrone(int droneId)
+        {
+            try
+            {
+                dalObject.DeleteDrone(droneId);
+                DroneToList droneToList = droneToLists.Find(x => x.Id == droneId);
+                droneToLists.Remove(droneToList);
+            }
+            catch (DO.ObjectIsNotActiveException e)
+            {
+                throw new ObjectIsNotActiveException(e.Message);
+            }
+        }
         private void UpdateDroneToListsList(Drone drone)
         {
             DroneToList newDrone = new();
@@ -66,24 +89,7 @@ namespace BL
 
         #endregion
 
-        #region IfExistDron
-        /// <summary>
-        /// Check if the drone is already exist.
-        /// </summary>
-        /// <param name="droneId"> Drone Id </param>
-        /// <exception cref="ObjectAlreadyExistException"> Thrown if drone id is already exist </exception>
-        static void IfExistDrone(int droneId)
-        {
-            foreach (var drone in dalObject.GetDroneList())
-            {
-                if (drone.Id == droneId) throw new ObjectAlreadyExistException("drone");
-            }
-        }
-
-        #endregion
-
-        #region FIND
-        //----------------------- FIND FUNCTIONS -----------------------//
+        #region Find
 
         /// <summary>
         /// Find BL drone by drone Id.
@@ -117,11 +123,9 @@ namespace BL
                 blDrone.ParcelInDelivery.ParcelStatus = true;
             return blDrone;
         }
-
         #endregion
 
-        #region SET
-        //----------------------- SET FUNCTIONS -----------------------//
+        #region Set
 
         /// <summary>
         /// Set the detailes of the fild ParcelInDelivery of drone.
@@ -166,12 +170,9 @@ namespace BL
 
             return parcelInDalivery;
         }
-
         #endregion
 
-        #region UPDATE
-        //----------------------- UPDATE FUNCTIONS -----------------------//
-
+        #region Update
         /// <summary>
         /// Update Id and the model of the BL drone by using DAL.
         /// </summary>
@@ -207,7 +208,8 @@ namespace BL
 
             var drone = droneToLists.Find(x => x.Id == droneId && x.DroneStatus == DroneStatuses.Available);
             if (drone == null) throw new ObjectNotFoundException("drone");
-            
+
+
             double minBatteryForCharging = FindMinPowerSuplyForCharging(drone);
 
             if (drone.BatteryStatus < minBatteryForCharging)
@@ -236,6 +238,10 @@ namespace BL
                 catch (DO.ObjectNotFoundException e)
                 {
                     throw new ObjectNotFoundException(e.Message);
+                }
+                catch (DO.ObjectIsNotActiveException e)
+                {
+                    throw new ObjectIsNotActiveException(e.Message);
                 }
             }
         }
@@ -267,7 +273,6 @@ namespace BL
                 throw new ObjectNotFoundException(e.Message);
             }
         }
-
         private double TimeIntervalInMinutes(DateTime time1, DateTime time2)
         {
             TimeSpan interval = time2 - time1;
@@ -276,7 +281,6 @@ namespace BL
             return daysInMinutes + hoursInMinutes + interval.Minutes;
 
         }
-
         /// <summary>
         /// Update drone Id of parcel.
         /// </summary>
@@ -444,11 +448,10 @@ namespace BL
                 throw new NotValidRequestException("Could not update parcel status");
             }
         }
+
         #endregion
 
-        #region VIEW
-        //----------------------- VIEW FUNCTIONS -----------------------//
-
+        #region View
         /// <summary>
         /// View list of droneToList.
         /// </summary>

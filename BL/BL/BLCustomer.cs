@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BO;
 
 namespace BL
 {
     public partial class BL : BlApi.IBL
     {
-        #region ADD
-        //-----------------------  ADD FUNCTIONS ----------------------- //
+
+        #region Add
 
         /// <summary>
         /// Add new BL customer by using DAL.
@@ -48,11 +46,23 @@ namespace BL
                 if (customer.Id == myCustomer.Id) throw new ObjectAlreadyExistException("customer");
                 if (customer.Phone == myCustomer.Phone) throw new ObjectAlreadyExistException("phone");
             }
+
         }
         #endregion
 
-        #region UPDADE
-        //-----------------------  UPDATE FUNCTIONS ----------------------- //
+        public void DeleteCustomer(int customerId)
+        {
+            try
+            {
+                dalObject.DeleteCustomer(customerId);
+            }
+            catch (DO.ObjectIsNotActiveException e)
+            {
+                throw new ObjectIsNotActiveException(e.Message);
+            }
+        }
+
+        #region Update
 
         /// <summary>
         /// Update customer detailes.
@@ -78,11 +88,9 @@ namespace BL
                 throw new ObjectNotFoundException(e.Message);
             }
         }
-
         #endregion
 
-        #region FIND
-        //-----------------------  FIND FUNCTIONS ----------------------- //
+        #region Find
 
         /// <summary>
         /// Find BL customer by ID by using DAL.
@@ -143,10 +151,66 @@ namespace BL
             }
             return Customer;
         }
+
+        public bool IsCustomerRegisered(string username)
+        {
+            if (dalObject.FindCustomerByUserName(username).UserName == username)
+                return true;
+            return false;
+        }
+
+        public CustomerToList FindCustomerToList(int customerId)
+        {
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
+
+            CustomerToList customer = new();
+            try
+            {
+                DO.Customer dalCustomer = dalObject.FindCustomerById(customerId);
+                customer.Id = dalCustomer.Id;
+                customer.Name = dalCustomer.Name;
+                customer.Phone = dalCustomer.Phone;
+            }
+            catch (DO.ObjectNotFoundException)
+            {
+                throw new ObjectNotFoundException("Customer");
+            }
+            int sendAndDelivered = 0;
+            int sendAndNotDelivered = 0;
+            int pickedUpParcels = 0;
+            int deliveredParcels = 0;
+
+            IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
+            if (dalParcelsList.Count() > 0)
+            {
+                foreach (var parcel in dalParcelsList)
+                {
+                    if (customerId == parcel.SenderId)
+                    {
+                        if (parcel.Delivered != null)
+                            sendAndDelivered++;
+                        else if (parcel.PickedUp != null)
+                            sendAndNotDelivered++;
+                    }
+                    else if (customerId == parcel.TargetId)
+                    {
+                        if (parcel.Delivered != null)
+                            deliveredParcels++;
+                        else if (parcel.PickedUp != null)
+                            pickedUpParcels++;
+                    }
+                }
+                customer.SendAndDeliveredParcels = sendAndDelivered;
+                customer.SendAndNotDeliveredParcels = sendAndNotDelivered;
+                customer.PickedUpParcels = pickedUpParcels;
+                customer.DeliveredParcels = deliveredParcels;
+            }
+            return customer;
+        }
+
         #endregion
 
-        #region VIEW
-        //-----------------------  VIEW FUNCTIONS ----------------------- //
+        #region View
 
         /// <summary>
         /// View list of detailes of BL customer.

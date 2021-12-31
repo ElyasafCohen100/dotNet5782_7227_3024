@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace BO
 {
@@ -30,16 +25,17 @@ namespace BO
         public override string ToString()
         {
             return $"Parcel:\n" +
-                   $"Id: {Id}:\n" +
-                   senderCustomer.ToString() +
-                   receiverCustomer.ToString() +
-                   $"Weight: {Weight}\n" +
-                   $"Priority: {Priority}\n" +
-                   Drone.ToString() +
-                   $"Requested: {Requested}\n" +
-                   $"Scheduled: {Scheduled}\n" +
-                   $"PickedUp: {PickedUp}\n" +
-                   $"Delivered: {Delivered}\n";
+                    $"Id: {Id}:\n" +
+                    senderCustomer.ToString() +
+                    receiverCustomer.ToString() +
+                    $"Weight: {Weight}\n" +
+                    $"Priority: {Priority}\n" +
+                    Drone.ToString() +
+                    $"Requested: {Requested}\n" +
+                    $"Scheduled: {Scheduled}\n" +
+                    $"PickedUp: {PickedUp}\n" +
+                    $"Delivered: {Delivered}\n";
         }
     }
 }
+

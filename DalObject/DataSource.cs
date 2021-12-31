@@ -16,6 +16,7 @@ namespace Dal
         internal static List<Station> Stations = new List<Station>();
         internal static List<Customer> Customers = new List<Customer>();
         internal static List<Parcel> Parcels = new List<Parcel>();
+        internal static List<Admin> Admins = new List<Admin>();
 
 
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
@@ -32,7 +33,7 @@ namespace Dal
             internal static double Available = 3.2;
             internal static double DroneChargingRate = 10;
 
-            internal static int SerialNumber = 1;
+            internal static int SerialNum = 1;
 
             internal static Random r = new Random();
             internal static DateTime currentDate = DateTime.Now;
@@ -44,7 +45,14 @@ namespace Dal
         /// </summary>
         internal static void Initialize()
         {
-            for (int i = 0; i < 2; i++)
+            Admins.Add(new Admin
+            {
+                UserName = "admin",
+                Password = "admin"
+            });
+
+
+            for (int i = 0; i < 50; i++)
             {
                 Stations.Add(new Station()
                 {
@@ -52,7 +60,8 @@ namespace Dal
                     Name = "Station" + i,
                     Latitude = 31.7 + Config.r.NextDouble() / 5,
                     Longitude = 35.1 + Config.r.NextDouble() / 5,
-                    ChargeSlots = Config.r.Next(5, 11)
+                    ChargeSlots = Config.r.Next(5, 11),
+                    IsActive = true
                 });
             }
             for (int i = 0; i < 5; i++)
@@ -62,6 +71,7 @@ namespace Dal
                     Id = Config.r.Next(1000, 10000),
                     Model = "A" + i,
                     MaxWeight = (WeightCategories)Config.r.Next(2),
+                    IsActive = true
                 });
             }
 
@@ -74,18 +84,20 @@ namespace Dal
                     Phone = Config.r.Next(100000000, 1000000000).ToString(),
                     Lattitude = 31.7 + Config.r.NextDouble() / 5,
                     Longitude = 35.1 + Config.r.NextDouble() / 5,
+                    IsActive = true
                 }); ;
             }
 
             for (int i = 0; i < 10; i++)
             {
                 Parcel myParcel = new Parcel();
-                myParcel.Id = Config.SerialNumber;
+                myParcel.Id = Config.SerialNum;
                 myParcel.SenderId = Customers[i].Id;
                 myParcel.TargetId = Customers[i + 1].Id;
                 myParcel.Weight = (WeightCategories)Config.r.Next(2);
                 myParcel.Priority = (Priorities)Config.r.Next(2);
                 myParcel.Requested = Config.currentDate;
+                myParcel.IsActive = true;
 
                 switch (i)
                 {
@@ -108,7 +120,7 @@ namespace Dal
                 }
                 Parcels.Add(myParcel);
 
-                Config.SerialNumber++;
+                Config.SerialNum++;
             }
         }
     }

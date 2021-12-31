@@ -6,36 +6,40 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ViewStationList" Height="450" Width="800">
-    
+
 
     <Window.Resources>
-        <ImageBrush Opacity="0.1" ImageSource="https://www.researchgate.net/profile/Vinay-Chamola/publication/336282262/figure/fig1/AS:811326456754178@1570446709910/Pictorial-representation-of-proposed-drone-charging-framework.jpg" x:Key="0.1"/>
+        <ImageBrush Opacity="0.1" ImageSource="https://www.researchgate.net/profile/Vinay-Chamola/publication/336282262/figure/fig1/AS:811326456754178@1570446709910/Pictorial-representation-of-proposed-drone-charging-framework.jpg" x:Key="1"/>
     </Window.Resources>
 
-    
+    <Window.Background>
+        <ImageBrush ImageSource="https://m.media-amazon.com/images/I/61jxQe+k0kL._AC_SL1500_.jpg"/>
+    </Window.Background>
+
 
     <Grid Name="MainGrid">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="80*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="UpperGrid" Grid.Row="0" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-      
-            
+
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
 
             </Grid.ColumnDefinitions>
-            <Button Name="ViewStationListButton" Content="View Station List" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewStationList_Click" Height="28" Width="128" Cursor="Hand"/>
-            <Button Name="AddButton" Content="Add new Station" Grid.Column="1" HorizontalAlignment="Left" Margin="93,0,0,0" VerticalAlignment="Center" Click="AddButton_Click" Height="28" Width="115"/>
+            <Button Name="ViewChrgingSlot" Content="View Charging Slot" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="28" Width="128" Cursor="Hand"/>
+            <Button Name="AddButton" Content="Add new Station" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddButton_Click" Height="28" Width="115"/>
 
         </Grid>
 
         <ListView x:Name="StationListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="StationListView_MouseDoubleClick"
-                   Background="{StaticResource ResourceKey = 0.1}">
+                   Background="{StaticResource ResourceKey = 1}">
             <ListView.View>
 
                 <GridView>

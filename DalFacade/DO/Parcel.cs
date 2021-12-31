@@ -23,6 +23,7 @@ namespace DO
         public DateTime? Scheduled;
         public DateTime? PickedUp;
         public DateTime? Delivered;
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Return describe of Parcel struct string
@@ -31,16 +32,16 @@ namespace DO
         public override string ToString()
         {
             return $"Parcel:\n" +
-                   $"Id: {Id}:\n" +
-                   $"Senderld: {SenderId}\n" +
-                   $"Targetld: {TargetId}\n" +
-                   $"Weight: {Weight}\n" +
-                   $"Priority: {Priority}\n" +
-                   $"Droneld: {DroneId}\n" +
-                   $"Requested: {Requested}\n" +
-                   $"Scheduled: {Scheduled}\n" +
-                   $"PickedUp: {PickedUp}\n" +
-                   $"Delivered: {Delivered}\n";
+                    $"Id: {Id}:\n" +
+                    $"Senderld: {SenderId}\n" +
+                    $"Targetld: {TargetId}\n" +
+                    $"Weight: {Weight}\n" +
+                    $"Priority: {Priority}\n" +
+                    $"Droneld: {DroneId}\n" +
+                    $"Requested: {Requested}\n" +
+                    $"Scheduled: {Scheduled}\n" +
+                    $"PickedUp: {PickedUp}\n" +
+                    $"Delivered: {Delivered}\n";
         }
     }
 }

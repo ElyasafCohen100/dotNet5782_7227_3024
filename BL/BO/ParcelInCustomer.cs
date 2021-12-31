@@ -9,14 +9,20 @@ namespace BO
     public class ParcelInCustomer
     {
         public int Id { set; get; }
+        
         public WeightCategories WeightCategory { set; get; }
         public Priorities Priority { set; get; }
         public ParcelStatus ParcelStatus { set; get; }
-        public CustomerInParcel Customer { set; get; } = new();
+       
+        public CustomerInParcel Customer { get; set; } = new();
 
+        /// <summary>
+        /// Return describe of ParcelInCustomer class string.
+        /// </summary>
+        /// <returns> Describe of ParcelInCustomer class string </returns>
         public override string ToString()
         {
-            return $"Parcel in customer:\n" +
+            return $"Parcel In Customer:\n" +
                    $"Id: {Id}\n" +
                    $"Weight: {WeightCategory}\n" +
                    $"Priority: {Priority}\n" +

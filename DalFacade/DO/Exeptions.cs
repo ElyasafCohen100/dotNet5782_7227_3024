@@ -13,4 +13,13 @@ namespace DO
         public ObjectNotFoundException(string message) : base($"The {message} hasn't been found") { }
         public ObjectNotFoundException(string message, Exception inner) : base(message, inner) { }
     }
+
+
+    [Serializable]
+    public class ObjectIsNotActiveException : Exception
+    {
+        public ObjectIsNotActiveException() { }
+        public ObjectIsNotActiveException(string message) : base($"The {message} is not active") { }
+        public ObjectIsNotActiveException(string message, Exception inner) : base(message, inner) { }
+    }
 }

@@ -125,6 +125,18 @@ namespace BL
         }
         #endregion
 
+        public void DeleteStation(int stationId)
+        {
+            try
+            {
+                dalObject.DeleteStation(stationId);
+            }
+            catch (DO.ObjectIsNotActiveException e)
+            {
+                throw new ObjectIsNotActiveException(e.Message);
+            }
+        }
+
         #region View
         /// <summary>
         /// View list of BL StationToList.
@@ -146,7 +158,6 @@ namespace BL
 
                 stationToList.Add(station);
             }
-
             return stationToList;
         }
 
@@ -168,7 +179,6 @@ namespace BL
                     stationWithAvailableChargingSlotstList.Add(stationToList);
                 }
             }
-
             return stationWithAvailableChargingSlotstList;
         }
         #endregion

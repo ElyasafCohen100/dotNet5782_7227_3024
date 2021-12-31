@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using BO;
 
@@ -21,22 +13,17 @@ namespace PL
     /// </summary>
     public partial class StationActions : Window
     {
-        private BlApi.IBL BLObject;
-        private BO.StationToList selcetedStationToList;
+        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        private StationToList selcetedStationToList;
 
-        public StationActions(BlApi.IBL Blobject, BO.StationToList selectedStationToList)
+        public StationActions(StationToList selectedStationToList)
         {
-            this.BLObject = Blobject;
             this.selcetedStationToList = selectedStationToList;
 
             InitializeComponent();
 
             BO.Station station = BLObject.FindStationByIdBL(selcetedStationToList.Id);
-            StationIdTB.Text = station.Id.ToString();
-            StationNameTB.Text = station.Name.ToString();
-            StationLatitudeTB.Text = station.Location.Latitude.ToString();
-            StationLongitudeTB.Text = station.Location.Longitude.ToString();
-            AvailableChargeSlotsTB.Text = station.AvailableChargeSlots.ToString();
+            grid1.DataContext = station;
 
             StationIdTB.IsEnabled = false;
             StationLatitudeTB.IsEnabled = false;
@@ -53,14 +40,14 @@ namespace PL
             DroneChargeListView.ItemsSource = from droneCharge in station.DroneChargesList select droneCharge;
 
         }
-        public StationActions(BlApi.IBL Blobject)
+        public StationActions()
         {
-            this.BLObject = Blobject;
 
             InitializeComponent();
 
             DroneChargesList.Visibility = Visibility.Hidden;
             UpdateStationButton.Visibility = Visibility.Hidden;
+            DroneChargeListView.Visibility = Visibility.Hidden;
 
         }
 
@@ -85,6 +72,7 @@ namespace PL
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+      
         private void StationNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
@@ -125,9 +113,39 @@ namespace PL
         private void DroneChargeListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DroneToList selectedDrone = BLObject.ViewDroneToList().ToList()[DroneChargeListView.SelectedIndex];
-            if (new DroneActions(BLObject, selectedDrone).ShowDialog() == false)
+            if (new DroneActions(selectedDrone).ShowDialog() == false)
             {
                 DroneChargeListView.Items.Refresh();
+            }
+        }
+
+        private void StationIdTB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int.TryParse(StationIdTB.Text, out int Id);
+            if (Id > 10000 || Id < 1000)
+            {
+                StationIdTB.BorderBrush = Brushes.Red;
+                StationIdTB.Foreground = Brushes.Red;
+            }
+            else
+            {
+                StationIdTB.BorderBrush = Brushes.Gray;
+                StationIdTB.Foreground = Brushes.Black;
+            }
+        }
+
+        private void DeleteStationButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                BLObject.DeleteStation(selcetedStationToList.Id);
+                MessageBox.Show("Station has been removed",
+                                "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (ObjectNotFoundException exception)
+            {
+                MessageBox.Show(exception.Message,
+                                "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

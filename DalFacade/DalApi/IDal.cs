@@ -15,6 +15,12 @@ namespace DalApi
         Station FindStationById(int stationId);
         DroneCharge FindDroneChargeByDroneId(int droneId);
         Customer FindCustomerById(int customerId);
+
+        Customer FindCustomerByUserName(string username);
+
+        Admin FindAdminByUserName(string userName);
+
+
         Parcel FindParcelById(int parcelId);
 
         //----------------------- SETTERS -----------------------//
@@ -23,7 +29,10 @@ namespace DalApi
         void SetNewStation(Station station);
         void SetNewCustomer(Customer customer);
         void SetNewParcel(Parcel parcel);
+        void SetAdmin(Admin admin);
+
         void AddDroneCharge(int droneId, int stationId);
+
         //----------------------- UPDATE FUNCTIONS -----------------------//
 
         void UpdateDroneIdOfParcel(int parcelId, int droneId);
@@ -34,6 +43,7 @@ namespace DalApi
         void UpdateDroneModel(int droneId, string newModel);
         void UpdateBaseStationDetails(int baseStationId, string baseStationNewName, int baseStationChargeSlots);
         void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber);
+        void UpdateAdminPassword(Admin newAdmin);
 
         //--------------------------- GETTERS ---------------------------//
 
@@ -41,12 +51,20 @@ namespace DalApi
         IEnumerable<Drone> GetDroneList();
         IEnumerable<Customer> GetCustomerList();
         IEnumerable<Parcel> GetParcelList();
+        IEnumerable<Admin> GetAdminsList();
         IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate);
         IEnumerable<Station> GetStations(Predicate<Station> predicate);
         IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate);
 
-        double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
+        //--------------------------- DELETE FUNCTIONS ---------------------------//
+        void DeleteParcel(int parcelId);
+        void DeleteStation(int parcelId);
+        void DeleteDrone(int droneId);
+        void DeleteCustomer(int customerId);
+        void DeleteAdmin(string userName);
         double[] ElectricityUseRequest();
+        double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
+
 
         /// <summary>
         /// Return string of sexagesimal presentation.
@@ -67,5 +85,6 @@ namespace DalApi
 
             return $"{degrees}°{minutes1}'{seconds}\"";
         }
+
     }
 }

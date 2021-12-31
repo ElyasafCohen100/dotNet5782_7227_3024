@@ -13,7 +13,9 @@ namespace DO
     {
         public int Id { get; set; }
         public string Model { get; set; }
+
         public WeightCategories MaxWeight;
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Return describe of Drone struct string

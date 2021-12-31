@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PL"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
 
+    <Application.Resources>
         <Style TargetType="Button">
             <EventSetter Event="Click" Handler="Button_Click"/>
 
@@ -15,7 +15,8 @@
                     <ControlTemplate TargetType = "{x:Type ButtonBase}" >
                         <ControlTemplate.Triggers>
                             <Trigger Property="Button.IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Green"></Setter>
+                                <Setter Property="Background" Value="Black" ></Setter>
+                                <Setter Property="Padding" Value="5,5,5,5"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
 
@@ -37,4 +38,5 @@
         </Style>
 
     </Application.Resources>
+ 
 </Application>
