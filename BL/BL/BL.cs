@@ -96,7 +96,7 @@ namespace BL
                             }
                             else
                             {
-                                double senderLatitude = dalObject.FindCustomerById(parcel.SenderId).Lattitude;
+                                double senderLatitude = dalObject.FindCustomerById(parcel.SenderId).Latitude;
                                 double senderLongitude = dalObject.FindCustomerById(parcel.SenderId).Longitude;
 
                                 //Update the location coordinates of the droneToList same as the sender location.
@@ -144,7 +144,7 @@ namespace BL
                             int index = r.Next(0, size);
                             int targetId = CustomerIdList[index];
                             DO.Customer target = dalObject.FindCustomerById(targetId);
-                            newDrone.CurrentLocation.Latitude = target.Lattitude;
+                            newDrone.CurrentLocation.Latitude = target.Latitude;
                             newDrone.CurrentLocation.Longitude = target.Longitude;
 
                             newDrone.BatteryStatus = r.Next((int)FindMinPowerSuplyForCharging(newDrone), 101);
@@ -198,7 +198,7 @@ namespace BL
             int nearestBaseStationId = 0;
 
             //Get the Sender location coordinates.
-            double customerLatitude = dalObject.FindCustomerById(customerId).Lattitude;
+            double customerLatitude = dalObject.FindCustomerById(customerId).Latitude;
             double customerLongitude = dalObject.FindCustomerById(customerId).Longitude;
             if (dalObject.GetBaseStationList().Count() > 0)
             {
@@ -264,7 +264,7 @@ namespace BL
 
             //Step 1: Find the distance between the drone current location and the destination location.
             Location location = new();
-            location.Latitude = dalObject.FindCustomerById(customerId).Lattitude;
+            location.Latitude = dalObject.FindCustomerById(customerId).Latitude;
             location.Longitude = dalObject.FindCustomerById(customerId).Longitude;
             double distance1 = dalObject.Distance(drone.CurrentLocation.Latitude, location.Latitude, drone.CurrentLocation.Longitude, location.Longitude);
 

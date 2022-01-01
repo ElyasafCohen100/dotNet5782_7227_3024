@@ -82,10 +82,12 @@ namespace Dal
                     Id = Config.r.Next(100000000, 1000000000),
                     Name = "Customer" + i,
                     Phone = Config.r.Next(100000000, 1000000000).ToString(),
-                    Lattitude = 31.7 + Config.r.NextDouble() / 5,
+                    Latitude = 31.7 + Config.r.NextDouble() / 5,
                     Longitude = 35.1 + Config.r.NextDouble() / 5,
-                    IsActive = true
-                }); ;
+                    IsActive = true,
+                    UserName = "Customer" + i,
+                    Password = "Customer" + i
+                });
             }
 
             for (int i = 0; i < 10; i++)

@@ -36,11 +36,11 @@ namespace PL
             DataContext = false;
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void Login()
         {
-            if (!BLObject.IsAdminRegistered(UserNameTB.Text))
+            if (!BLObject.IsAdminRegistered(UserNameTB.Text, PasswordPB.Password))
             {
-                if (!BLObject.IsCustomerRegisered(UserNameTB.Text))
+                if (!BLObject.IsCustomerRegisered(UserNameTB.Text, PasswordPB.Password))
                     MessageBox.Show("The user is not exsist", "Operation Failure",
                                        MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -52,6 +52,11 @@ namespace PL
                 new MainAdminWindow().Show();
             }
         }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            Login();
+        }
         private void UserNameTB_GotFocus(object sender, RoutedEventArgs e)
         {
             if (UserNameTB.Text == "User Name")
@@ -61,9 +66,9 @@ namespace PL
         }
         private void PasswordTB_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (PasswordTB.Text == "Password")
+            if (PasswordPB.Password == "Password")
             {
-                PasswordTB.Clear();
+                PasswordPB.Clear();
             }
         }
         private void UserNameTB_LostFocus(object sender, RoutedEventArgs e)
@@ -72,39 +77,26 @@ namespace PL
             {
                 UserNameTB.Text = "User Name";
             }
-
-
-            //if (UserNameTB.Text != "User Name")
-            //{
-            //    int.TryParse(UserNameTB.Text, out int Id);
-            //    if (Id > 10000 || Id < 1000)
-            //    {
-            //        UserNameTB.BorderBrush = Brushes.Red;
-            //        UserNameTB.Foreground = Brushes.Red;
-            //    }
-            //}
         }
         private void PasswordTB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (PasswordTB.Text == String.Empty)
+            if (PasswordPB.Password == String.Empty)
             {
-                PasswordTB.Text = "Password";
+                PasswordPB.Password = "Password";
             }
-
-            //if (UserNameTB.Text != "User Name")
-            //{
-            //    int.TryParse(UserNameTB.Text, out int Id);
-            //    if (Id > 10000 || Id < 1000)
-            //    {
-            //        UserNameTB.BorderBrush = Brushes.Red;
-            //        UserNameTB.Foreground = Brushes.Red;
-            //    }
-            //}
         }
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Login();
+            }
         }
     }
 }

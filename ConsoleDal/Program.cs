@@ -300,7 +300,7 @@ namespace ConsoleUI
 
             Console.WriteLine("Enter latitude:");
             double.TryParse(Console.ReadLine(), out doubleTemp);
-            customer.Lattitude = doubleTemp;
+            customer.Latitude = doubleTemp;
 
             dalObject.SetNewCustomer(customer);
 

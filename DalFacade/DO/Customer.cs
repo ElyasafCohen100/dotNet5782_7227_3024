@@ -12,7 +12,7 @@ namespace DO
         public string Name { get; set; }
         public string Phone { get; set; }
         public double Longitude { get; set; }
-        public double Lattitude { get; set; }
+        public double Latitude { get; set; }
         public bool IsActive { get; set; }
 
         public string UserName { get; set; }
@@ -28,7 +28,7 @@ namespace DO
                    $"Name: {Name}\n+" +
                    $"Phone: {Phone}\n" +
                    $"Longitude: {DalApi.IDal.SexagesimalPresentation(Longitude)}\n" +
-                   $"Lattitude: {DalApi.IDal.SexagesimalPresentation(Lattitude) }";
+                   $"Lattitude: {DalApi.IDal.SexagesimalPresentation(Latitude) }";
         }
     }
 

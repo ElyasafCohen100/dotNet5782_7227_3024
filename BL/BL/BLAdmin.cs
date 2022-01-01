@@ -59,9 +59,10 @@ namespace BL
                    };
         }
 
-        public bool IsAdminRegistered(string username)
+        public bool IsAdminRegistered(string username, string password)
         {
-            if (dalObject.FindAdminByUserName(username).UserName != null)
+            DO.Admin admin = dalObject.FindAdminByUserName(username);
+            if (admin.UserName == username && admin.Password == password)
                 return true;
             return false;
         }

@@ -10,13 +10,15 @@ namespace BO
     public class Customer
     {
         public int Id { get; set; }
-
         public string Name { get; set; }
         public string Phone { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
 
-        public Location Location = new();
+        public Location Location { get; set; } = new();
         public List<ParcelInCustomer> ParcelFromCustomerList = new();
         public List<ParcelInCustomer> ParcelToCustomerList = new();
+
 
         /// <summary>
         /// Return describe of Customer class string.

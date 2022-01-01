@@ -56,8 +56,8 @@ namespace BlApi
         IEnumerable<StationToList> ViewStationsWithAvailableChargingSlotstBL();
         IEnumerable<DroneToList> ViewDronesToList(Predicate<DroneToList> predicate);
 
-        bool IsCustomerRegisered(string username);
-        bool IsAdminRegistered(string username);
+        bool IsCustomerRegisered(string username, string password);
+        bool IsAdminRegistered(string username, string password);
 
     }
 }

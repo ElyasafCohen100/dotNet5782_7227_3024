@@ -18,11 +18,11 @@
             <ColumnDefinition Width="679*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox Name="CustomerIdTB" Text="Customer Id"  HorizontalAlignment="Left" Margin="49,11,0,0"  TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="CustomerNameTB" Text="Customer Name"  HorizontalAlignment="Left" Margin="49,39,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="CustomerPhoneTB" Text="Customer Phone"  HorizontalAlignment="Left" Margin="49,68,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="CustomerLongitudeTB" Text="Customer Longitude"  HorizontalAlignment="Left" Margin="49,97,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="CustomerLatitudeTB" Text="Customer Latitude"  HorizontalAlignment="Left" Margin="49,127,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CustomerIdTB" Text="{Binding Id}"  HorizontalAlignment="Left" Margin="49,11,0,0"  TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CustomerNameTB" Text="{Binding Name}"  HorizontalAlignment="Left" Margin="49,39,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CustomerPhoneTB" Text="{Binding Phone}"  HorizontalAlignment="Left" Margin="49,68,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CustomerLongitudeTB" Text="{Binding Location.Longitude}"  HorizontalAlignment="Left" Margin="49,97,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="CustomerLatitudeTB" Text="{Binding Location.Latitude}"  HorizontalAlignment="Left" Margin="49,127,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
 
         <TextBlock Name="CustomerId" Text="Customer Id:" HorizontalAlignment="Left" Margin="39,11,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" FontWeight="Bold"/>
         <TextBlock Name="CustomerName" Text="Customer Name:" HorizontalAlignment="Left" Margin="39,41,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
@@ -31,6 +31,16 @@
         <TextBlock Name="CustomerLatitude" Text ="Customer Latitude:" HorizontalAlignment="Left" Margin="39,99,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
         <TextBlock Name="ParcelFromCustomer" Text="Parcels sent by the customer:" HorizontalAlignment="Left" Margin="8,181,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
         <TextBlock Name="ParcelToCustomer" Text="Parcels sent to the customer:" HorizontalAlignment="Left" Margin="8,307,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold"/>
+
+
+
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="201,101,0,0" Text="Username" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,101,0,0" Text="{Binding UserName}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="201,128,0,0" Text="Password" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,128,0,0" Text="{Binding Password}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+
+
 
         <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="618,13,0,0" VerticalAlignment="Top" Height="15" Width="40" Cursor="Hand" Click="CloseButton_Click" Grid.Column="1"/>
         <Button Name="AddNewCustomerButton"  Content="Add New Customer" HorizontalAlignment="Left" Margin="460,43,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.381,0.359" Width="200" Height="30" Cursor="Hand" Click="AddCustomerBustton_Click" Grid.Column="1"/>
@@ -64,6 +74,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
     </Grid>
 </Window>

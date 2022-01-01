@@ -29,7 +29,7 @@ namespace BL
             dalCustomer.Name = customer.Name;
             dalCustomer.Phone = customer.Phone;
             dalCustomer.Longitude = customer.Location.Longitude;
-            dalCustomer.Lattitude = customer.Location.Latitude;
+            dalCustomer.Latitude = customer.Location.Latitude;
 
             dalObject.SetNewCustomer(dalCustomer);
         }
@@ -110,8 +110,10 @@ namespace BL
                 Customer.Id = dalCustomer.Id;
                 Customer.Name = dalCustomer.Name;
                 Customer.Phone = dalCustomer.Phone;
-                Customer.Location.Latitude = dalCustomer.Lattitude;
+                Customer.Location.Latitude = dalCustomer.Latitude;
                 Customer.Location.Longitude = dalCustomer.Longitude;
+                Customer.UserName = dalCustomer.UserName;
+                Customer.Password = dalCustomer.Password;
             }
             catch (DO.ObjectNotFoundException)
             {
@@ -152,9 +154,10 @@ namespace BL
             return Customer;
         }
 
-        public bool IsCustomerRegisered(string username)
+        public bool IsCustomerRegisered(string username, string password)
         {
-            if (dalObject.FindCustomerByUserName(username).UserName == username)
+            DO.Customer customer = dalObject.FindCustomerByUserName(username);
+            if (customer.UserName == username && customer.Password == password)
                 return true;
             return false;
         }

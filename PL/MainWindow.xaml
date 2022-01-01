@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
 
     <Window.Background>
         <ImageBrush ImageSource ="https://img.haarets.co.il/img/1.5659514/1018316866.jpg" Opacity="0.8"/>
     </Window.Background>
-
 
     <Grid>
 
@@ -24,7 +23,8 @@
         <Button Name="LoginButton" Content="Login" HorizontalAlignment="Center" Margin="0,284,0,0" VerticalAlignment="Top" Height="36" Width="152" FontSize="18" Click="LoginButton_Click" Cursor="Hand"/>
 
         <TextBox Name="UserNameTB" HorizontalAlignment="Center" Margin="0,149,0,0" Text="User Name" TextWrapping="NoWrap" VerticalAlignment="Top" Width="232" Height="36" GotFocus="UserNameTB_GotFocus" LostFocus="UserNameTB_LostFocus"/>
-        <TextBox Name="PasswordTB" HorizontalAlignment="Center" Text="Password" TextWrapping="NoWrap" VerticalAlignment="Center" Width="232" Height="36" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus"/>
+        <PasswordBox Name="PasswordPB" Password="Password" HorizontalAlignment="Center" VerticalAlignment="Center" Width="232" Height="36" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus"/>
+      
 
     </Grid>
 </Window>

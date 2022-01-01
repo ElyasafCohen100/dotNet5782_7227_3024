@@ -156,16 +156,16 @@ namespace BL
 
             DO.Customer sender = dalObject.FindCustomerById(parcel.SenderId);
             DO.Customer target = dalObject.FindCustomerById(parcel.TargetId);
-            parcelInDalivery.DistanceDelivery = dalObject.Distance(sender.Lattitude, target.Lattitude, sender.Longitude, target.Longitude);
+            parcelInDalivery.DistanceDelivery = dalObject.Distance(sender.Latitude, target.Latitude, sender.Longitude, target.Longitude);
 
             parcelInDalivery.receiverCustomer.Id = target.Id;
             parcelInDalivery.receiverCustomer.Name = target.Name;
-            parcelInDalivery.TargetLocation.Latitude = target.Lattitude;
+            parcelInDalivery.TargetLocation.Latitude = target.Latitude;
             parcelInDalivery.TargetLocation.Longitude = target.Longitude;
 
             parcelInDalivery.senderCustomer.Id = sender.Id;
             parcelInDalivery.senderCustomer.Name = sender.Name;
-            parcelInDalivery.SourceLocation.Latitude = sender.Lattitude;
+            parcelInDalivery.SourceLocation.Latitude = sender.Latitude;
             parcelInDalivery.SourceLocation.Longitude = sender.Longitude;
 
             return parcelInDalivery;
