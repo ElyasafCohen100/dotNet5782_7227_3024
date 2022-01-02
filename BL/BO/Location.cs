@@ -19,8 +19,8 @@ namespace BO
         public override string ToString()
         {
             return $"Location: " +
-                   $"Longitude: {DalApi.IDal.SexagesimalPresentation(Longitude)}, " +
-                   $"Lattitude: {DalApi.IDal.SexagesimalPresentation(Latitude)}\n";
+                   $"Longitude: {BlApi.IBL.SexagesimalPresentation(Longitude)}, " +
+                   $"Lattitude: {BlApi.IBL.SexagesimalPresentation(Latitude)}\n";
         }
     }
 }

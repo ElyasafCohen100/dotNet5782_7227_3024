@@ -70,6 +70,7 @@ namespace PL
             {
                 PasswordPB.Clear();
             }
+            
         }
         private void UserNameTB_LostFocus(object sender, RoutedEventArgs e)
         {

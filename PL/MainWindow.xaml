@@ -24,7 +24,6 @@
 
         <TextBox Name="UserNameTB" HorizontalAlignment="Center" Margin="0,149,0,0" Text="User Name" TextWrapping="NoWrap" VerticalAlignment="Top" Width="232" Height="36" GotFocus="UserNameTB_GotFocus" LostFocus="UserNameTB_LostFocus"/>
         <PasswordBox Name="PasswordPB" Password="Password" HorizontalAlignment="Center" VerticalAlignment="Center" Width="232" Height="36" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus"/>
-      
 
     </Grid>
 </Window>

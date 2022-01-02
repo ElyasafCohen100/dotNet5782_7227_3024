@@ -19,7 +19,7 @@ namespace BO
 
         public int DeliveryParcelId { get; set; }
 
-        public Location CurrentLocation = new();
+        public Location CurrentLocation { get; set; } = new();
 
         /// <summary>
         /// Return describe of Drone class string.

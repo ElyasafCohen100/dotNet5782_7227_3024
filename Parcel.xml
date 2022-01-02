@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Parcel>
+  
+  <parcel>
+  <id>1</id>
+  <sender></sender>
+  <targetId></targetId>
+  <droneId>1000</droneId>
+  <priority>2</priority>
+  <weight>2</weight>
+  <requestade>02/01/2022</requestade>
+  <scheduled></scheduled>
+  <delivered></delivered>
+  <isActive></isActive>
+  </parcel>
+  
+</Parcel>

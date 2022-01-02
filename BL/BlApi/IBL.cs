@@ -59,5 +59,26 @@ namespace BlApi
         bool IsCustomerRegisered(string username, string password);
         bool IsAdminRegistered(string username, string password);
 
+
+        /// <summary>
+        /// Return string of sexagesimal presentation.
+        /// </summary>
+        /// <param name="decimalNumber"></param>
+        /// <returns> String of sexagesimal presentation </returns>
+        public static string SexagesimalPresentation(double decimalNumber)
+        {
+            int degrees, minutes1, seconds;
+            double minutes2;
+
+            degrees = (int)decimalNumber;
+
+            minutes2 = (decimalNumber - degrees) * 60;
+            minutes1 = (int)minutes2;
+
+            seconds = (int)((minutes2 - minutes1) * 60);
+
+            return $"{degrees}°{minutes1}'{seconds}\"";
+        }
+
     }
 }
