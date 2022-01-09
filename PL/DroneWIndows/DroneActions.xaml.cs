@@ -14,7 +14,7 @@ namespace PL
     /// </summary>
     public partial class DroneActions : Window
     {
-        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        private BlApi.IBL BLObject;
         private DroneToList selectedDroneToList;
 
 
@@ -22,6 +22,14 @@ namespace PL
         public DroneActions(DroneToList droneToList)
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             Drone drone = BLObject.FindDroneByIdBL(droneToList.Id);
             this.selectedDroneToList = droneToList;
@@ -53,6 +61,14 @@ namespace PL
         public DroneActions()
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             DataContext = false;
             UpdateModel.Visibility = Visibility.Hidden;
@@ -75,6 +91,7 @@ namespace PL
             MaxweightTextBlock.Visibility = Visibility.Hidden;
             StatusTextBlock.Visibility = Visibility.Hidden;
             ViewParcelButton.Visibility = Visibility.Hidden;
+            DeleteDroneButton.Visibility = Visibility.Hidden;
 
             AddButton.IsEnabled = false;
 
@@ -105,6 +122,7 @@ namespace PL
                 AddButton.IsEnabled = true;
 
             //Bouns.
+
             if (IdTextBox.Text != "Id")
             {
                 int.TryParse(IdTextBox.Text, out int Id);
@@ -184,7 +202,6 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-      
         private void UpdateDroneFromChargingButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -211,7 +228,7 @@ namespace PL
             }
 
         }
-    
+
         private void SendDroneToDelivery_Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -258,7 +275,6 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-    
         private void UpdateParcelToPickedUp_Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -281,14 +297,13 @@ namespace PL
         }
         #endregion
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();
         }
         #region Add Drone
-     
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void AddNewDroneButton_Click(object sender, RoutedEventArgs e)
         {
             int Id;
             int.TryParse(IdTextBox.Text, out Id);
@@ -338,7 +353,6 @@ namespace PL
                 }
             }
         }
-       
         private void GetDroneFields(int droneId)
         {
 
@@ -359,13 +373,12 @@ namespace PL
         {
             if (DataContext.Equals(false)) e.Cancel = true;
         }
-     
+
         private void ViewParcel_Click(object sender, RoutedEventArgs e)
         {
             ParcelToList parcelToList = BLObject.FindParcelToList(selectedDroneToList.DeliveryParcelId);
             new ParcelActions(parcelToList).Show();
         }
-       
         private void DeleteDroneButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -374,12 +387,20 @@ namespace PL
                 MessageBox.Show("Drone has been removed",
                                 "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Button_Click(sender, e);
+                this.Close_Button_Click(sender, e);
             }
             catch (ObjectNotFoundException exception)
             {
                 MessageBox.Show(exception.Message,
                                 "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void AddButton_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                this.AddNewDroneButton_Click(sender, e);
             }
         }
     }

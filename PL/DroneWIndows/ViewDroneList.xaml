@@ -14,7 +14,7 @@
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
 
@@ -27,15 +27,15 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ComboBox Name="DroneStatusSelector" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" Width="120" SelectionChanged="DroneStatusSelector_SelectionChanged" Cursor="Hand"/>
-            <ComboBox Name="DroneWeightSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120" SelectionChanged="DroneWeightSelector_SelectionChanged" Cursor="Hand"/>
+            <ComboBox Name="DroneStatusSelector" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" SelectionChanged="DroneStatusSelector_SelectionChanged" Cursor="Hand" Margin="0,37,0,0"/>
+            <ComboBox Name="DroneWeightSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" SelectionChanged="DroneWeightSelector_SelectionChanged" Cursor="Hand" Margin="0,37,0,0"/>
 
-            <Button Content="View Drone List" HorizontalAlignment="Center" Margin="0,39,0,0" VerticalAlignment="Top" Cursor="Hand" Grid.Column="2" Height="19" Width="109" Click="ViewDroneListGrouping_Click"/>
-            <Button Content="Add new drone" Grid.Column="3" Padding ="10" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNewDrone_Click" Cursor="Hand" Height="22" Width="97"/>
-            <Button Content="Close" Grid.Column="4" Padding="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Close_Button_Click" Cursor="Hand" Foreground="#FFF60C0C" Width="72" Margin="51,25,0,0"/>
+            <Button Content="View Drone List" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Grid.Column="2" Height="26" Width="127" Click="ViewDroneListGrouping_Click"/>
+            <Button Content="Add new drone" Grid.Column="3" Padding ="10" HorizontalAlignment="Left" VerticalAlignment="Center" Click="AddNewDrone_Click" Cursor="Hand" Height="26" Width="128" Margin="22,0,0,0"/>
+            <Button Content="Close" Grid.Column="4" Padding="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Close_Button_Click" Cursor="Hand" Foreground="#FFF60C0C" Width="76" Margin="74,16,0,0" Height="21"/>
 
-            <TextBlock  Text="Drone Status:" HorizontalAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="20,13,0,0" Cursor="Hand"/>
-            <TextBlock Text="Drone Max Weight:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,13,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Cursor="Hand"/>
+            <TextBlock  Text="Drone Status:" HorizontalAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="20,19,0,0" Cursor="Hand"/>
+            <TextBlock Text="Drone Max Weight:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,19,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Cursor="Hand"/>
         </Grid>
 
 
@@ -49,7 +49,7 @@
                     <GridViewColumn DisplayMemberBinding="{Binding MaxWeight}" Header="WEIGHT" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding BatteryStatus}" Header="BATTERY" Width="100" />
                     <GridViewColumn DisplayMemberBinding="{Binding DroneStatus}" Header="STATUS" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CurrentLocation.Longitude}" Header="LONGITUDE" Width="100"/>
+                    <GridViewColumn x:Name="GridViewLongitude" Header="LONGITUDE" Width="100" />
                     <GridViewColumn DisplayMemberBinding="{Binding CurrentLocation.Latitude}" Header="LATITUDE" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding DeliveryParcelId}" Header="PARCEL ID" Width="100"/>
                 </GridView>

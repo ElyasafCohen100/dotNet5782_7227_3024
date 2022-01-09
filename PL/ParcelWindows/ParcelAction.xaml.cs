@@ -20,11 +20,19 @@ namespace PL
     /// </summary>
     public partial class ParcelActions : Window
     {
-        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        private BlApi.IBL BLObject;
         private ParcelToList selecetedParcelToList;
         public ParcelActions(ParcelToList selecetedParcelToList)
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             this.selecetedParcelToList = selecetedParcelToList;
 
             Parcel parcel = BLObject.FindParcelByIdBL(selecetedParcelToList.Id);
@@ -48,13 +56,16 @@ namespace PL
 
             DroneInParcelIdTB.Text = parcel.Drone.Id.ToString();
             DroneInParcelBatteryTB.Text = parcel.Drone.BatteryStatus.ToString();
+          
             DroneInParcelLatitudeTB.Text = parcel.Drone.CurrentLocation.Latitude.ToString();
             DroneInParcelLongitudeTB.Text = parcel.Drone.CurrentLocation.Longitude.ToString();
 
             PriorityTB.Text = parcel.Priority.ToString();
             PrioritySelctor.Visibility = Visibility.Hidden;
+         
             WeightSelctor.Visibility = Visibility.Hidden;
             AddParcelButton.Visibility = Visibility.Hidden;
+           
             ReceiverCustomerIdSelector.Visibility = Visibility.Hidden;
             SenderCustomerIdSelector.Visibility = Visibility.Hidden;
 
@@ -63,37 +74,59 @@ namespace PL
         public ParcelActions()
         {
             InitializeComponent();
-
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             SenderCustomerId.Visibility = Visibility.Hidden;
             SenderCustomerIdTB.Visibility = Visibility.Hidden;
+          
             ReceiverCustomerId.Visibility = Visibility.Hidden;
             ReceiverCustomerIdTB.Visibility = Visibility.Hidden;
+           
             ParcelId.Visibility = Visibility.Hidden;
             ParcelIdTB.Visibility = Visibility.Hidden;
+           
             SenderCustomerName.Visibility = Visibility.Hidden;
             SenderCustomerNameTB.Visibility = Visibility.Hidden;
+           
             ReceiverCustomerName.Visibility = Visibility.Hidden;
             ReceiverCustomerNameTB.Visibility = Visibility.Hidden;
+         
             DroneInParcelId.Visibility = Visibility.Hidden;
             DroneInParcelIdTB.Visibility = Visibility.Hidden;
+           
             DroneInParcelBattery.Visibility = Visibility.Hidden;
             DroneInParcelBatteryTB.Visibility = Visibility.Hidden;
+           
             DroneInParcelLatitude.Visibility = Visibility.Hidden;
             DroneInParcelLatitudeTB.Visibility = Visibility.Hidden;
+          
             DroneInParcelLongitude.Visibility = Visibility.Hidden;
             DroneInParcelLongitudeTB.Visibility = Visibility.Hidden;
+          
             Priority.Visibility = Visibility.Hidden;
             PriorityTB.Visibility = Visibility.Hidden;
+          
             Weight.Visibility = Visibility.Hidden;
             WeightTB.Visibility = Visibility.Hidden;
+          
             RequestedTime.Visibility = Visibility.Hidden;
             RequestedTimeTB.Visibility = Visibility.Hidden;
+          
             ScheduledTime.Visibility = Visibility.Hidden;
             ScheduledTimeTB.Visibility = Visibility.Hidden;
+          
             PickedUpTime.Visibility = Visibility.Hidden;
             PickedUpTimeTB.Visibility = Visibility.Hidden;
+          
             DeliveredTime.Visibility = Visibility.Hidden;
             DeliveredTimeTB.Visibility = Visibility.Hidden;
+           
             ViewDroneInParcel.Visibility = Visibility.Hidden;
             ViewReceiverCustomerInParcel.Visibility = Visibility.Hidden;
             ViewSenderCustomerInParcel.Visibility = Visibility.Hidden;
@@ -102,12 +135,15 @@ namespace PL
             var customersList = from customer in BLObject.ViewCustomerToList() select customer.Id;
             ReceiverCustomerIdSelector.ItemsSource = customersList;
             SenderCustomerIdSelector.ItemsSource = customersList;
+          
             ReceiverCustomerIdSelector.SelectedItem = customersList.First();
             SenderCustomerIdSelector.SelectedItem = customersList.First();
-            PrioritySelctor.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
-            WeightSelctor.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-            PrioritySelctor.SelectedItem = (BO.Priorities)0;
-            WeightSelctor.SelectedItem = (BO.WeightCategories)0;
+        
+            PrioritySelctor.ItemsSource = Enum.GetValues(typeof(Priorities));
+            WeightSelctor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+          
+            PrioritySelctor.SelectedItem = (Priorities)0;
+            WeightSelctor.SelectedItem = (WeightCategories)0;
         }
 
         private void AddParcelButton_Click(object sender, RoutedEventArgs e)
@@ -162,11 +198,18 @@ namespace PL
             {
                 BLObject.DeleteParcel(selecetedParcelToList.Id);
                 MessageBox.Show("Parcel has been removed", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.CloseButton_Click(sender, e);
             }
             catch (ObjectNotFoundException exception)
             {
                 MessageBox.Show(exception.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
         }
     }
 }

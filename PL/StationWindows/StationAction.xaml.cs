@@ -13,14 +13,23 @@ namespace PL
     /// </summary>
     public partial class StationActions : Window
     {
-        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        private BlApi.IBL BLObject;
         private StationToList selcetedStationToList;
 
         public StationActions(StationToList selectedStationToList)
         {
-            this.selcetedStationToList = selectedStationToList;
-
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            this.selcetedStationToList = selectedStationToList;
+            DataContext = false;
+
 
             BO.Station station = BLObject.FindStationByIdBL(selcetedStationToList.Id);
             grid1.DataContext = station;
@@ -40,15 +49,24 @@ namespace PL
             DroneChargeListView.ItemsSource = from droneCharge in station.DroneChargesList select droneCharge;
 
         }
+        //addNewStation
         public StationActions()
         {
 
             InitializeComponent();
-
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            DataContext = false;
             DroneChargesList.Visibility = Visibility.Hidden;
             UpdateStationButton.Visibility = Visibility.Hidden;
             DroneChargeListView.Visibility = Visibility.Hidden;
-
+            DeleteStationButton.Visibility = Visibility.Hidden;
         }
 
         private void UpdateStationButton_Click(object sender, RoutedEventArgs e)
@@ -65,14 +83,14 @@ namespace PL
             {
                 MessageBox.Show(exception.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            this.CloseButton_Click(sender, e);
         }
 
-        private void StationdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void StationIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-      
         private void StationNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
@@ -101,7 +119,7 @@ namespace PL
                 BLObject.AddNewStationBL(station);
                 MessageBox.Show("Station has been added sucssesfuly",
                                 "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+                this.CloseButton_Click(sender, e);
 
             }
             catch (InvalidInputException)
@@ -147,6 +165,18 @@ namespace PL
                 MessageBox.Show(exception.Message,
                                 "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            this.CloseButton_Click(sender, e);
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
         }
     }
 }

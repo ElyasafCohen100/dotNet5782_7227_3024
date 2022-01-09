@@ -11,7 +11,7 @@
             <Setter Property="Template">
                 <Setter.Value>
 
-                    <!--This should make a button illusion to press it-->
+                     <!--This should make a button illusion to press it-->
                     <ControlTemplate TargetType = "{x:Type ButtonBase}" >
                         <ControlTemplate.Triggers>
                             <Trigger Property="Button.IsMouseOver" Value="True">

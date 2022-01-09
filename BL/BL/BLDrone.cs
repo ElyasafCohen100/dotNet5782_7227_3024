@@ -57,8 +57,14 @@ namespace BL
             {
                 throw new ObjectNotFoundException("base station");
             }
-
-            dalObject.SetNewDrone(newDrone);
+            try
+            {
+                dalObject.SetNewDrone(newDrone);
+            }
+            catch (DO.XMLFileLoadCreateException e)
+            {
+                throw new XMLFileLoadCreateException(e.Message);
+            }
             UpdateDroneToListsList(drone);
         }
 
@@ -192,6 +198,10 @@ namespace BL
             {
                 throw new(e.Message);
             }
+            catch (XMLFileLoadCreateException e)
+            {
+                throw new XMLFileLoadCreateException(e.Message);
+            }
             droneToLists.Find(x => x.Id == droneId).Model = newModel;
         }
 
@@ -243,6 +253,10 @@ namespace BL
                 {
                     throw new ObjectIsNotActiveException(e.Message);
                 }
+                catch (DO.XMLFileLoadCreateException e)
+                {
+                    throw new XMLFileLoadCreateException(e.Message);
+                }
             }
         }
 
@@ -271,6 +285,10 @@ namespace BL
             catch (DO.ObjectNotFoundException e)
             {
                 throw new ObjectNotFoundException(e.Message);
+            }
+            catch (DO.XMLFileLoadCreateException e)
+            {
+                throw new XMLFileLoadCreateException(e.Message);
             }
         }
         private double TimeIntervalInMinutes(DateTime time1, DateTime time2)

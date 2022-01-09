@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Parcel>
+    <Priority>Fast</Priority>
+    <Weight>Light</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled>2022-01-09T04:06:35.1234855+02:00</Scheduled>
+    <PickedUp>2022-01-09T04:26:35.1234855+02:00</PickedUp>
+    <Delivered>2022-01-09T04:25:35.1234855+02:00</Delivered>
+    <Id>1</Id>
+    <SenderId>352553263</SenderId>
+    <TargetId>436576280</TargetId>
+    <DroneId>1278</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Fast</Priority>
+    <Weight>Light</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled>2022-01-09T04:04:35.1234855+02:00</Scheduled>
+    <PickedUp>2022-01-09T04:37:35.1234855+02:00</PickedUp>
+    <Delivered>2022-01-09T04:17:35.1234855+02:00</Delivered>
+    <Id>2</Id>
+    <SenderId>436576280</SenderId>
+    <TargetId>412541895</TargetId>
+    <DroneId>3114</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Regular</Priority>
+    <Weight>Average</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled>2022-01-09T04:02:35.1234855+02:00</Scheduled>
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <Id>3</Id>
+    <SenderId>412541895</SenderId>
+    <TargetId>499985574</TargetId>
+    <DroneId>9063</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Regular</Priority>
+    <Weight>Light</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <Id>4</Id>
+    <SenderId>499985574</SenderId>
+    <TargetId>203706332</TargetId>
+    <DroneId>0</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Regular</Priority>
+    <Weight>Light</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <Id>5</Id>
+    <SenderId>203706332</SenderId>
+    <TargetId>275544530</TargetId>
+    <DroneId>0</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Regular</Priority>
+    <Weight>Average</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <Id>6</Id>
+    <SenderId>275544530</SenderId>
+    <TargetId>614840587</TargetId>
+    <DroneId>0</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Regular</Priority>
+    <Weight>Light</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <Id>7</Id>
+    <SenderId>614840587</SenderId>
+    <TargetId>775654785</TargetId>
+    <DroneId>0</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Regular</Priority>
+    <Weight>Light</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <Id>8</Id>
+    <SenderId>775654785</SenderId>
+    <TargetId>831380186</TargetId>
+    <DroneId>0</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Regular</Priority>
+    <Weight>Light</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <Id>9</Id>
+    <SenderId>831380186</SenderId>
+    <TargetId>815466033</TargetId>
+    <DroneId>0</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+  <Parcel>
+    <Priority>Fast</Priority>
+    <Weight>Average</Weight>
+    <Requested>2022-01-09T03:56:35.1234855+02:00</Requested>
+    <Scheduled>2022-01-09T04:00:55.8729044+02:00</Scheduled>
+    <PickedUp>2022-01-09T04:01:01.3696852+02:00</PickedUp>
+    <Delivered>2022-01-09T04:01:05.95557+02:00</Delivered>
+    <Id>10</Id>
+    <SenderId>815466033</SenderId>
+    <TargetId>935501958</TargetId>
+    <DroneId>1278</DroneId>
+    <IsActive>true</IsActive>
+  </Parcel>
+</ArrayOfParcel>

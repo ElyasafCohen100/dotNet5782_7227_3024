@@ -21,8 +21,14 @@ namespace BL
             DO.Admin newAdmin = new();
             newAdmin.UserName = admin.UserName;
             newAdmin.Password = admin.Password;
-
-            dalObject.SetAdmin(newAdmin);
+            try
+            {
+                dalObject.SetAdmin(newAdmin);
+            }
+            catch (DO.XMLFileLoadCreateException e)
+            {
+                throw new XMLFileLoadCreateException(e.Message);
+            }
         }
         public void DeleteAdminBL(string userName)
         {
@@ -66,5 +72,14 @@ namespace BL
                 return true;
             return false;
         }
+        public bool IsAdminRegistered(string username)
+        {
+            DO.Admin admin = dalObject.FindAdminByUserName(username);
+            if (admin.UserName == username)
+                return true;
+            return false;
+        }
+
+
     }
 }

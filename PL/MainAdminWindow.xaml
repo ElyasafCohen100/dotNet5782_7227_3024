@@ -13,13 +13,34 @@
 
     <Grid>
 
-        <Button Name="DroneListButton"  Content="Drone List" HorizontalAlignment="Left" Margin="22,117,0,0" Click="ViewDroneList_Click" Cursor="Hand" FontSize="20" Height="38"  Width="152" VerticalAlignment="Top" FontFamily="Sitka Text" Padding="10,10"/>
-        <Button Name ="StationListButton" Content="Station List" HorizontalAlignment="Left" Margin="22,191,0,0" VerticalAlignment="Top" Click="ViewStationList_Click" Height="38" Width="152" FontSize="20" Cursor="Hand" FontFamily="Sitka Text"/>
-        <Button Name="CustomerListButton" Content="Coustomer List" HorizontalAlignment="Left" Margin="22,265,0,0" VerticalAlignment="Top" Height="38" Width="152" FontSize="18" Click="ViewCustomerList_Click"/>
-        <Button Name="ParcelListButton" Content="Parcel List" HorizontalAlignment="Left" Margin="22,337,0,0" VerticalAlignment="Top" Height="38" Width="152" FontSize="18" Click="ViewParcelList_Click"/>
-        <Button Name="CloseButton" Content="Close"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,10,0" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Margin="692,40,0,0" Height="29" Width="78" FontSize="20" FontFamily="Sitka Text"/>
+        <Viewbox Stretch="Fill" StretchDirection="Both">
 
-        <Label Content="Welcome" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="303" HorizontalContentAlignment="Center" FontSize="48" FontWeight="Bold" FontStyle="Italic"/>
+            <Grid x:Name="Grid" Grid.Row="0" Width="auto" Height="auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Name="SubGridC0" Width="158*"/>
+                    <ColumnDefinition Name="SubGridC1" Width="135*"/>
+                    <ColumnDefinition Name="SubGridC2" Width="0*"/>
+                    <ColumnDefinition Name="SubGridC3" Width="178*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Name="SubGridR0" Height="139*"/>
+                    <RowDefinition Name="SubGridR1" Height="115*"/>
+                    <RowDefinition Name="SubGridR2" Height="88*"/>
+                    <RowDefinition Name="SubGridR3" Height="92*"/>
+                </Grid.RowDefinitions>
+
+                <Button Name="DroneListButton" Content="Drone List" Grid.Row="0" HorizontalAlignment="Left" Click="ViewDroneList_Click" Cursor="Hand" FontSize="20" Height="38"  Width="140" VerticalAlignment="Top" FontFamily="Sitka Text" Margin="14,69,0,0"/>
+                <Button Name ="StationListButton" Content="Station List" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ViewStationList_Click" Height="38" Width="140" FontSize="20" Cursor="Hand" FontFamily="Sitka Text" Margin="14,39,0,0"/>
+                <Button Name="CustomerListButton" Content="Coustomer List" HorizontalAlignment="Left" Margin="14,30,0,0" VerticalAlignment="Top" Height="38" Width="140" FontSize="18" Click="ViewCustomerList_Click" Grid.Row="2"/>
+                <Button Name="ParcelListButton" Content="Parcel List" HorizontalAlignment="Left" Margin="14,31,0,0" VerticalAlignment="Top" Height="38" Width="140" FontSize="18" Click="ViewParcelList_Click" Grid.Row="3" Grid.Column="0"/>
+                <Button Name="CloseButton" Content="Close"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,10,0" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Margin="103,22,0,0" Height="28" Width="75" FontSize="20" FontFamily="Sitka Text" Grid.Column="3"/>
+
+                <Label Content="Welcome" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" Width="283" HorizontalContentAlignment="Center" FontSize="48" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Height="66"/>
+
+            </Grid>
+        </Viewbox>
 
     </Grid>
 

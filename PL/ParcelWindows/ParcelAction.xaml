@@ -38,13 +38,17 @@
         <TextBlock Name="ScheduledTime" HorizontalAlignment="Left" Margin="20,380,0,0" Text="Scheduled Time:" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" FontWeight="Bold"/>
         <TextBlock Name="PickedUpTime" HorizontalAlignment="Left" Margin="20,410,0,0" Text="Picked Up Time:" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" FontWeight="Bold"/>
         <TextBlock Name="DeliveredTime" HorizontalAlignment="Left" Margin="20,440,0,0" Text="Delivered Time:" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" FontWeight="Bold"/>
+
         <ComboBox Name="PrioritySelctor" HorizontalAlignment="Left" Margin="420,50,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox Name="WeightSelctor" HorizontalAlignment="Left" Margin="420,112,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Name="AddParcelButton" Content="Add Parcel" HorizontalAlignment="Left" Margin="590,197,0,0" VerticalAlignment="Top" Click="AddParcelButton_Click" Height="29" Width="191"/>
-        <Button Name="ViewDroneInParcel" Content="View Drone In Parcel" HorizontalAlignment="Left" Margin="590,50,0,0" VerticalAlignment="Top" Click="ViewDroneInParcel_Click" Height="30" Width="191"/>
-        <Button Name="ViewReceiverCustomerInParcel" Content="View Receiver Customer In Parcel" HorizontalAlignment="Left" Margin="590,96,0,0" VerticalAlignment="Top" Height="28" Width="191" Click="ViewReceiverCustomerInParcel_Click"/>
-        <Button Name="ViewSenderCustomerInParcel" Content="View Sender Customer In Parcel" HorizontalAlignment="Left" Margin="590,146,0,0" VerticalAlignment="Top"  Height="30" Width="191" Click="ViewSenderCustomerInParcel_Click"/>
-        <Button Name="DeleteParcelButton" Content="Delete Parcel" HorizontalAlignment="Left" Margin="678,200,0,0" VerticalAlignment="Top" Click="DeleteParcelButton_Click" Visibility="Hidden"/>
+
+        <Button Name="AddParcelButton" Content="Add New Parcel" HorizontalAlignment="Left" Margin="590,234,0,0" VerticalAlignment="Top" Click="AddParcelButton_Click" Height="29" Width="191"/>
+        <Button Name="ViewDroneInParcel" Content="View Drone In Parcel" HorizontalAlignment="Left" Margin="590,66,0,0" VerticalAlignment="Top" Click="ViewDroneInParcel_Click" Height="30" Width="191"/>
+        <Button Name="ViewReceiverCustomerInParcel" Content="View Receiver Customer In Parcel" HorizontalAlignment="Left" Margin="590,124,0,0" VerticalAlignment="Top" Height="28" Width="191" Click="ViewReceiverCustomerInParcel_Click"/>
+        <Button Name="ViewSenderCustomerInParcel" Content="View Sender Customer In Parcel" HorizontalAlignment="Left" Margin="590,179,0,0" VerticalAlignment="Top"  Height="30" Width="191" Click="ViewSenderCustomerInParcel_Click"/>
+        <Button Name="DeleteParcelButton" Content="Delete Parcel" Visibility="Hidden" HorizontalAlignment="Left" Margin="590,285,0,0" VerticalAlignment="Top" Click="DeleteParcelButton_Click" Height="30" Width="191" Cursor="Hand"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="708,16,0,0" VerticalAlignment="Top" Height="18" Width="64" Click="CloseButton_Click" Cursor="Hand"/>
+
         <ComboBox Name="ReceiverCustomerIdSelector" HorizontalAlignment="Left" Margin="420,170,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox Name="SenderCustomerIdSelector" HorizontalAlignment="Left" Margin="420,226,0,0" VerticalAlignment="Top" Width="120"/>
 

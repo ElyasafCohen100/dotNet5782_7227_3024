@@ -1,0 +1,48 @@
+﻿<Window x:Class="PL.DroneActions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="DroneActions" Height="450" Width="800" Closing="Window_Closing"  >
+
+
+    <Grid x:Name="grid1">
+        <Grid RenderTransformOrigin="0.099,0.355">
+            <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="669,10,0,0" VerticalAlignment="Top" Foreground="#FFF60C0C" Cursor="Hand" Click="Close_Button_Click" Height="19" Width="88"/>
+            <Button Name="UpdateModel" Content="Update Model" HorizontalAlignment="Left" Margin="562,102,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneModel_Click" Cursor="Hand"/>
+            <Button Name="UpdateDroneToCharging" Content="Update Drone To Charging" HorizontalAlignment="Left" Margin="562,156,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneToChargingButton_Click" Cursor="Hand"/>
+            <Button Name="UpdateDroneFromCharging" Content="Update Drone From Charging" HorizontalAlignment="Left" Margin="562,212,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneFromChargingButton_Click" Cursor="Hand"/>
+            <Button Name="SendDroneToDelivery" Content="Send Drone To Delivery" HorizontalAlignment="Left" Margin="562,265,0,0" VerticalAlignment="Top" Height="30" Width="200" Cursor="Hand" Click="SendDroneToDelivery_Button_Click"/>
+            <Button Name="UpdateParcelToPickedUp" Content="Update Parcel Status To Picked Up" HorizontalAlignment="Left" Margin="562,315,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateParcelToPickedUp_Button_Click" Cursor="Hand"/>
+            <Button Name="UpdateParcelToDeliverd" Content="Update Parcel Status To Delivered" HorizontalAlignment="Left" Margin="562,364,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateParcelStatusToDelivered_Button_Click" Cursor="Hand"/>
+            <Button Name="ViewParcelButton" Content="View Parcel" HorizontalAlignment="Left" Margin="562,52,0,0" VerticalAlignment="Top" Width="200" Height="30" Click="ViewParcel_Click"/>
+            <Button Name="AddButton" Content="Add new drone" HorizontalAlignment="Left" Margin="376,337,0,0" VerticalAlignment="Top" Click="AddNewDroneButton_Click" Height="22" Width="113" KeyDown="AddButton_KeyDown"/>
+            <Button Name="DeleteDroneButton" Content="Delete Drone" HorizontalAlignment="Left" Margin="383,372,0,0" VerticalAlignment="Top" Height="21" Width="103" Click="DeleteDroneButton_Click"/>
+         
+            <TextBox x:Name="IdTextBox" HorizontalAlignment="Left" Margin="170,30,0,0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="DroneIdTextBox_GotFocus" LostFocus="DroneIdTextBox_LostFocus" TextChanged="IdTextBox_TextChanged" PreviewTextInput="DroneIdTextBox_PreviewTextInput"/>
+            <TextBox Name="ModelTextBox" HorizontalAlignment="Left" Margin="170,60,0,0" Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" PreviewTextInput="ModelIdTextBox_PreviewTextInput"/>
+            <TextBox Name="BatteryTB" HorizontalAlignment="Left" Margin="170,90,0,0" Text="{Binding BatteryStatus, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="DeliveryTB" HorizontalAlignment="Left" Margin="170,230,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="160" Height="178"/>
+            <TextBox Name="LatitudeTB" HorizontalAlignment="Left" Margin="170,120,0,0" Text="{Binding CurrentLocation.Latitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="LongitudeTB" HorizontalAlignment="Left" Margin="170,150,0,0" Text="{Binding CurrentLocation.Longitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="MaxWeightTB" HorizontalAlignment="Left" Margin="170,180,0,0" Text="{Binding MaxWeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="StatusTB" HorizontalAlignment="Left" Margin="170,210,0,0" Text="{Binding DroneStatus, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+
+            <ComboBox Name="MaxWeightCB" HorizontalAlignment="Left" Margin="400,30,0,0" VerticalAlignment="Top" Width="120"/>
+            <ComboBox Name="BaseStationCB" HorizontalAlignment="Left" Margin="400,60,0,0" VerticalAlignment="Top" Width="120"/>
+         
+            <TextBlock Name="IdTextBlock" HorizontalAlignment="Left" Margin="80,30,0,0" Text="Drone Id:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <TextBlock Name="ModelTextBlock" HorizontalAlignment="Left" Margin="80,60,0,0" Text="Drone Model:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <TextBlock Name="BatteryTextBlock" HorizontalAlignment="Left" Margin="80,90,0,0" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <TextBlock Name="LatitudeTextBlock" HorizontalAlignment="Left" Margin="80,120,0,0" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <TextBlock Name="LongitudeTextBlock" HorizontalAlignment="Left" Margin="80,150,0,0" Text="Longitude:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <TextBlock Name="MaxweightTextBlock" HorizontalAlignment="Left" Margin="80,180,0,0" Text="Max weight:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <TextBlock Name="StatusTextBlock" HorizontalAlignment="Left" Margin="80,210,0,0" Text="Status:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <TextBlock Name="WeightTextBlock" HorizontalAlignment="Left" Margin="325,30,0,0" Text="Max weight:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <TextBlock Name="StationTextBlock" HorizontalAlignment="Left" Margin="325,60,0,0" Text="Stations Id:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+      
+        </Grid>
+    </Grid>
+</Window>

@@ -15,6 +15,7 @@ namespace PL
         {
             InitializeComponent();
             StationListView.ItemsSource = BLObject.ViewBaseStationsToList();
+            DataContext = false;
         }
 
         private void GroupByStationListWithAvailableChargingSlots_Click(object sender, RoutedEventArgs e)
@@ -43,10 +44,16 @@ namespace PL
             }
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void AddNewStationButton_Click(object sender, RoutedEventArgs e)
         {
             if (new StationActions().ShowDialog() == false)
                 StationListView.ItemsSource = BLObject.ViewBaseStationsToList();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
         }
     }
 }

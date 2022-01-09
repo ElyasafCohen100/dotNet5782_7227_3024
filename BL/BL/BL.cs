@@ -32,7 +32,7 @@ namespace BL
         /// </summary>
         /// <exception cref="NoBaseStationToAssociateDroneToException"> Thrown if there are no stations 
         ///                                                             with available charge-slots </exception>
-        public BL()
+        private BL()
         {
             try
             {
@@ -124,7 +124,14 @@ namespace BL
                         newDrone.CurrentLocation.Latitude = station.Latitude;
                         newDrone.CurrentLocation.Longitude = station.Longitude;
                         newDrone.BatteryStatus = r.Next(0, 21);
-                        dalObject.AddDroneCharge(newDrone.Id, station.Id);
+                        try
+                        {
+                            dalObject.AddDroneCharge(newDrone.Id, station.Id);
+                        }
+                        catch (DO.XMLFileLoadCreateException e)
+                        {
+                            throw new XMLFileLoadCreateException(e.Message);
+                        }
                     }
                     else if (newDrone.DroneStatus == DroneStatuses.Available)
                     {
@@ -169,6 +176,10 @@ namespace BL
                                 catch (DO.ObjectNotFoundException e)
                                 {
                                     throw new ObjectNotFoundException(e.Message);
+                                }
+                                catch (DO.XMLFileLoadCreateException e)
+                                {
+                                    throw new XMLFileLoadCreateException(e.Message);
                                 }
                             }
                             catch (InvalidOperationException)
@@ -402,11 +413,18 @@ namespace BL
         }
         private DroneCharge FindDroneChargeByDroneIdBL(int droneId)
         {
-            DO.DroneCharge droneCharge = dalObject.FindDroneChargeByDroneId(droneId);
-            DroneCharge newDroneCharge = new();
-            newDroneCharge.DroneId = droneCharge.DroneId;
-            newDroneCharge.ChargeTime = droneCharge.ChargeTime;
-            return newDroneCharge;
+            try
+            {
+                DO.DroneCharge droneCharge = dalObject.FindDroneChargeByDroneId(droneId);
+                DroneCharge newDroneCharge = new();
+                newDroneCharge.DroneId = droneCharge.DroneId;
+                newDroneCharge.ChargeTime = droneCharge.ChargeTime;
+                return newDroneCharge;
+            }
+            catch (XMLFileLoadCreateException e)
+            {
+                throw new XMLFileLoadCreateException(e.Message);
+            }
         }
     }
 }

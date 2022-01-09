@@ -12,12 +12,21 @@ namespace PL
     /// </summary>
     public partial class ViewDroneList : Window
     {
-        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+
+        private BlApi.IBL BLObject;
         private CollectionView sourceCollectionView;
 
         public ViewDroneList()
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             DataContext = false;
 
             sourceCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(BLObject.ViewDroneToList());
@@ -30,14 +39,19 @@ namespace PL
         {
             DroneListView.ItemsSource = BLObject.ViewDronesToList(x => x.DroneStatus == (DroneStatuses)DroneStatusSelector.SelectedItem);
         }
+
         private void DroneWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DroneListView.ItemsSource = BLObject.ViewDronesToList(x => x.MaxWeight == (WeightCategories)DroneWeightSelector.SelectedItem);
         }
+
         private void AddNewDrone_Click(object sender, RoutedEventArgs e)
         {
             if (new DroneActions().ShowDialog() == false)
+            {
+                DroneListView.ItemsSource = BLObject.ViewDroneToList();
                 DroneListView.Items.Refresh();
+            }
         }
         private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -59,6 +73,7 @@ namespace PL
         {
             if (DataContext.Equals(false)) e.Cancel = true;
         }
+
         private void ViewDroneListGrouping_Click(object sender, RoutedEventArgs e)
         {
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");

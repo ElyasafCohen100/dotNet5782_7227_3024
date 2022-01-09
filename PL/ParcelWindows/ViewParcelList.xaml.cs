@@ -12,13 +12,20 @@ namespace PL
     /// </summary>
     public partial class ViewParcelList : Window
     {
-        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        private BlApi.IBL BLObject;
         public ViewParcelList()
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             ParcelListView.ItemsSource = BLObject.ViewParcelToList();
         }
-
         private void ViewReceivedParcelsList_Click(object sender, RoutedEventArgs e)
         {
             IEnumerable<IGrouping<string, ParcelToList>> parcelGroup = from parcel in BLObject.ViewParcelToList() group parcel by parcel.ReceiverName;
@@ -35,7 +42,6 @@ namespace PL
             ParcelListView.ItemsSource = parcelList;
 
         }
-
         private void ViewSenderParcelList_Click(object sender, RoutedEventArgs e)
         {
             IEnumerable<IGrouping<string, ParcelToList>> parcelGroup = from parcel in BLObject.ViewParcelToList() group parcel by parcel.SenderName;
@@ -50,22 +56,29 @@ namespace PL
             }
             ParcelListView.ItemsSource = parcelList;
         }
-
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
-            var parcelList = from parcel in BLObject.ViewParcelsList()
-                             where FirstDate.SelectedDate.Value.Date.CompareTo(parcel.Requested) <= 0 && LastDate.SelectedDate.Value.Date.CompareTo(parcel.Requested) >= 0
-                             select parcel;
-
-            List<ParcelToList> parcels = new();
-            foreach (var par in parcelList)
+            try
             {
-                parcels.Add(BLObject.FindParcelToList(par.Id));
+                var parcelList = from parcel in BLObject.ViewParcelsList()
+                                 where FirstDate.SelectedDate.Value.Date.CompareTo(parcel.Requested) <= 0 &&
+                                        LastDate.SelectedDate.Value.Date.CompareTo(parcel.Requested) >= 0
+                                 select parcel;
+
+
+                List<ParcelToList> parcels = new();
+                foreach (var par in parcelList)
+                {
+                    parcels.Add(BLObject.FindParcelToList(par.Id));
+                }
+
+                ParcelListView.ItemsSource = parcels;
             }
-
-            ParcelListView.ItemsSource = parcels;
+            catch (System.InvalidOperationException)
+            {
+                MessageBox.Show("Please select a date", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
-
         private void ParcelListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ParcelListView.SelectedIndex >= 0)
@@ -75,7 +88,6 @@ namespace PL
                     ParcelListView.ItemsSource = BLObject.ViewParcelToList();
             }
         }
-
         private void AddParcel_Click(object sender, RoutedEventArgs e)
         {
             if (new ParcelActions().ShowDialog() == false)

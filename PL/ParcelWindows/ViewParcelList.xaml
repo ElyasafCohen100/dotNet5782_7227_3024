@@ -21,10 +21,12 @@
             </Grid.ColumnDefinitions>
             <Button Name="GroupByReceiverName" Content="View Receiver Name" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewReceivedParcelsList_Click" Height="29" Width="144" />
             <Button Name="SenderNameGroup" Content="View Sender Name" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewSenderParcelList_Click" Width="145" Height="29"/>
+           
             <DatePicker Name="FirstDate" Grid.Column="3" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top"/>
             <DatePicker Name="LastDate" Grid.Column="3" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top"/>
+           
             <Button Name="SelectButton" Content="Select" Grid.Column="3" HorizontalAlignment="Left" Margin="137,0,0,0" VerticalAlignment="Center" Click="SelectButton_Click" Width="45" Height="42"/>
-            <Button Name="AddParcel" Content="Add Parcel" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddParcel_Click" Height="29" Width="141"/>
+            <Button Name="AddParcel" Content="Add New Parcel" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddParcel_Click" Height="29" Width="141"/>
         </Grid>
 
         <ListView x:Name="ParcelListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="ParcelListView_MouseDoubleClick">

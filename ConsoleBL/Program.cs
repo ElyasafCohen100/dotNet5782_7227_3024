@@ -2,14 +2,23 @@
 using System.Collections.Generic;
 using BO;
 
-namespace ConsoleUI_BL
+namespace ConsoleBl
 {
     class Program
     {
-        internal static BlApi.IBL BLObject = new BL.BL();
+        internal static BlApi.IBL BLObject;
 
         static void Main(string[] args)
         {
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
             Menu();
         }
 
@@ -110,7 +119,6 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-
         internal static void UpdateMenu(int subChoice)
         {
             switch (subChoice)
@@ -145,7 +153,6 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-
         internal static void ViewMenu(int subChoice)
         {
             switch (subChoice)
@@ -181,7 +188,6 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-
         internal static void ViewListMenu(int subChoice)
         {
             switch (subChoice)
@@ -254,7 +260,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void AddNewDrone()
         {
             int intTemp;
@@ -291,7 +296,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void AddNewCostumer()
         {
             int intTemp;
@@ -330,7 +334,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void AddNewParcel()
         {
             int intTemp;
@@ -386,7 +389,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void UpdateBaseStationdetailes()
         {
             Console.WriteLine("Enter base-station number: ");
@@ -412,7 +414,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void UpdateCustomerDetailes()
         {
             Console.WriteLine("Enter customer Id: ");
@@ -438,7 +439,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void UpdateDroneToCharging()
         {
             Console.WriteLine("Enter drone Id: ");
@@ -461,7 +461,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void UpdateDroneFromCharging()
         {
             Console.WriteLine("Enter drone Id: ");
@@ -484,7 +483,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void AssociateParcelToDrone()
         {
 
@@ -509,7 +507,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void CollectParcelByDrone()
         {
             Console.WriteLine("Enter Drone Id: ");
@@ -533,7 +530,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void DeliveredParcelToCustomer()
         {
             Console.WriteLine("Enter Drone Id: ");
@@ -671,7 +667,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine(e.Message);
             }
         }
-
         public static void ViewDronesList()
         {
             Console.WriteLine("The drones are:");
@@ -682,7 +677,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
-
         public static void ViewCustomersList()
         {
             Console.WriteLine("The customers are:");
@@ -693,7 +687,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
-
         public static void ViewParcelsList()
         {
             Console.WriteLine("The parcels are:");
@@ -704,7 +697,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
-
         public static void ViewNonAssociateParcelsList()
         {
             Console.WriteLine("The non-associate parcels are:");
@@ -715,7 +707,6 @@ namespace ConsoleUI_BL
                 Console.WriteLine();
             }
         }
-
         public static void ViewStationsWithAvailableChargingSlots()
         {
             Console.WriteLine("The stations with available charging slots are:");

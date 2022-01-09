@@ -11,6 +11,218 @@ namespace Dal
 {
     partial class DalXml : DalApi.IDal
     {
+        //#region Find
+
+        ///// <summary>
+        ///// Finds Parcel by specific Id.
+        ///// </summary>
+        ///// <param name="parcelId"> Parcel Id </param>
+        ///// <returns> Parcel object </returns>
+        ///// <exception cref="ObjectDisposedException"></exception>
+        //public Parcel FindParcelById(int parcelId)
+        //{
+        //    XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+
+        //    Parcel dalParcel = (from parcel in dalParcelsRoot.Element("Parcel").Elements()
+        //                        where Convert.ToInt32(parcel.Element("Id").Value) == parcelId
+        //                        select new Parcel
+        //                        {
+        //                            Id = Convert.ToInt32(parcel.Element("Id").Value),
+        //                            SenderId = Convert.ToInt32(parcel.Element("SenderId").Value),
+        //                            TargetId = Convert.ToInt32(parcel.Element("TargetId").Value),
+        //                            DroneId = Convert.ToInt32(parcel.Element("DroneId").Value),
+        //                            Priority = (Priorities)Convert.ToInt32(parcel.Element("Priority").Value),
+        //                            Weight = (WeightCategories)Convert.ToInt32(parcel.Element("Weight").Value),
+        //                            Requested = Convert.ToDateTime(parcel.Element("Requested").Value),
+        //                            Scheduled = Convert.ToDateTime(parcel.Element("Scheduledd").Value),
+        //                            PickedUp = Convert.ToDateTime(parcel.Element("PickedUp").Value),
+        //                            Delivered = Convert.ToDateTime(parcel.Element("Delivered").Value),
+        //                            IsActive = Convert.ToBoolean(parcel.Element("IsActive").Value)
+        //                        }).FirstOrDefault();
+        //    dalParcelsRoot.Save(dalParcelPath);
+
+        //    return dalParcel.Id != parcelId && dalParcel.IsActive == false ? throw new ObjectNotFoundException("parcel") : dalParcel;
+        //}
+        //#endregion
+
+        //#region Setters
+        ///// <summary>
+        ///// Set new Parcel.
+        ///// </summary>
+        ///// <param name="parcel"> Parcel object </param>
+        //public void SetNewParcel(Parcel parcel)
+        //{
+
+        //    XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+        //    XElement dalConfigRoot = XElement.Load(dalConfigPath);
+
+        //    parcel.Id = Convert.ToInt32(dalConfigRoot.Element("SerialNum").Value);
+        //    parcel.IsActive = true;
+
+        //    dalParcelsRoot.Add(parcel);
+
+        //    dalConfigRoot.Element("SerialNum").Value = (parcel.Id + 1).ToString();
+
+        //    dalConfigRoot.Save(dalConfigPath);
+        //    dalParcelsRoot.Save(dalParcelPath);
+        //}
+        //#endregion
+
+        //#region Update
+        ///// <summary>
+        ///// Update Parcel status to picked up.
+        ///// </summary>
+        ///// <param name="parcelId"> Parcel Id </param>
+        //public void UpdatePickedUpParcelById(int parcelId)
+        //{
+        //    try
+        //    {
+        //        XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+
+        //        XElement dalParcel = (from parcel in dalParcelsRoot.Element("Parcel").Elements()
+        //                              where XmlConvert.ToInt32(parcel.Element("Id").Value) == parcelId
+        //                              select parcel).FirstOrDefault();
+
+        //        if (dalParcel == null) throw new ObjectNotFoundException("Parcel");
+
+        //        DateTime? pickedUp = DateTime.Now;
+        //        dalParcel.Element("PickedUp").Value = pickedUp.ToString();
+        //        dalParcelsRoot.Save(dalParcelPath);
+        //    }
+        //    catch (ObjectNotFoundException)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+
+        ///// <summary>
+        ///// Update Parcel status to Delivered. 
+        ///// </summary>
+        ///// <param name="parcelId"> Parcel Id</param>
+        //public void UpdateDeliveredParcelById(int parcelId)
+        //{
+        //    try
+        //    {
+        //        XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+
+        //        XElement dalParcel = (from parcel in dalParcelsRoot.Element("Parcel").Elements()
+        //                              where XmlConvert.ToInt32(parcel.Element("Id").Value) == parcelId
+        //                              select parcel).FirstOrDefault();
+
+        //        if (dalParcel == null) throw new ObjectNotFoundException("parcel");
+
+        //        DateTime? delivered = DateTime.Now;
+        //        dalParcel.Element("Delivered").Value = delivered.ToString();
+        //        dalParcelsRoot.Save(dalParcelPath);
+        //    }
+        //    catch (ObjectNotFoundException)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Update Drone Id of Parcel.
+        ///// </summary>
+        ///// <param name="parcelId"> Id of Parcel </param>
+        ///// <param name="droneId"> Id of Drone </param>
+        //public void UpdateDroneIdOfParcel(int parcelId, int droneId)
+        //{
+        //    try
+        //    {
+        //        XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+
+        //        XElement dalParcel = (from parcel in dalParcelsRoot.Element("Parcel").Elements()
+        //                              where XmlConvert.ToInt32(parcel.Element("Id").Value) == parcelId
+        //                              select parcel).FirstOrDefault();
+
+        //        if (dalParcel == null) throw new ObjectNotFoundException("parcel");
+
+        //        dalParcel.Element("DroneId").Value = droneId.ToString();
+        //        DateTime? scheduled = DateTime.Now;
+        //        dalParcel.Element("Scheduled").Value = scheduled.ToString();
+
+        //        dalParcelsRoot.Save(dalParcelPath);
+        //    }
+        //    catch (ObjectNotFoundException)
+        //    {
+        //        throw;
+        //    }
+        //}
+        //#endregion
+
+        //#region Getters
+        ///// <summary>
+        ///// Return List of Parcels.
+        ///// </summary>
+        ///// <returns>List of Parcels </returns>
+        //public IEnumerable<Parcel> GetParcelList()
+        //{
+        //    XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+
+        //    var v = from parcel in dalParcelsRoot.Elements()
+        //            where parcel.Element("IsActive").Value == "true"
+        //            select new Parcel
+        //            {
+        //                Id = int.Parse(parcel.Element("Id").Value),
+        //                SenderId = int.Parse(parcel.Element("SenderId").Value),
+        //                TargetId = int.Parse(parcel.Element("TargetId").Value),
+        //                DroneId = int.Parse(parcel.Element("DroneId").Value),
+        //                Priority = (Priorities)Enum.Parse(typeof(Priorities), parcel.Element("Priority").Value),
+        //                Weight = (WeightCategories)Enum.Parse(typeof(WeightCategories), parcel.Element("Weight").Value),
+        //                Requested = DateTime.ParseExact(parcel.Element("Requested").Value, "O", null),
+        //                Scheduled = DateTime.ParseExact(parcel.Element("Scheduled").Value, "O", null),
+        //                PickedUp = DateTime.ParseExact(parcel.Element("PickedUp").Value, "O", null),
+        //                Delivered = DateTime.ParseExact(parcel.Element("Delivered").Value, "O", null),
+        //                IsActive = parcel.Element("IsActive").Value == "false" ? false : true
+        //            };
+        //    return v;
+        //}
+
+        ///// <summary>
+        ///// Return List of non associate Parcels.
+        ///// </summary>
+        ///// <returns> List of non associate Parcels </returns>
+        //public IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate)
+        //{
+        //    XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+        //    IEnumerable<Parcel> parcels = from parcel in dalParcelsRoot.Element("Parcel").Elements()
+        //                                  where XmlConvert.ToBoolean(parcel.Element("IsActive").Value) && predicate.Equals(true)
+        //                                  select new Parcel
+        //                                  {
+        //                                      Id = Convert.ToInt32(parcel.Element("Id").Value),
+        //                                      SenderId = Convert.ToInt32(parcel.Element("SenderId").Value),
+        //                                      TargetId = Convert.ToInt32(parcel.Element("TargetId").Value),
+        //                                      DroneId = Convert.ToInt32(parcel.Element("DroneId").Value),
+        //                                      Priority = (Priorities)Convert.ToInt32(parcel.Element("Priority").Value),
+        //                                      Weight = (WeightCategories)Convert.ToInt32(parcel.Element("Weight").Value),
+        //                                      Requested = Convert.ToDateTime(parcel.Element("Requested").Value),
+        //                                      Scheduled = Convert.ToDateTime(parcel.Element("Scheduledd").Value),
+        //                                      PickedUp = Convert.ToDateTime(parcel.Element("PickedUp").Value),
+        //                                      Delivered = Convert.ToDateTime(parcel.Element("Delivered").Value),
+        //                                      IsActive = Convert.ToBoolean(parcel.Element("IsActive").Value)
+        //                                  };
+        //    dalParcelsRoot.Save(dalParcelPath);
+        //    return parcels;
+        //}
+        //#endregion
+
+        //#region Delete
+        //public void DeleteParcel(int parcelId)
+        //{
+        //    XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+
+        //    XElement dalParcel = (from customer in dalParcelsRoot.Element("Parcel").Elements()
+        //                          where XmlConvert.ToInt32(customer.Element("Id").Value) == parcelId
+        //                          select customer).FirstOrDefault();
+        //    dalParcel.Remove();
+        //    dalParcelsRoot.Save(dalParcelPath);
+        //}
+        //#endregion
+
+
+
         #region Find
 
         /// <summary>
@@ -21,28 +233,9 @@ namespace Dal
         /// <exception cref="ObjectDisposedException"></exception>
         public Parcel FindParcelById(int parcelId)
         {
-            string dalParcelPath = @"Parcels.xml";
-            XElement dalParcelsRoot = XElement.Load(dalParcelPath);
-
-            Parcel dalParcel = (from parcel in dalParcelsRoot.Element("parcel").Elements()
-                                where Convert.ToInt32(parcel.Element("id").Value) == parcelId
-                                select new Parcel
-                                {
-                                    Id = Convert.ToInt32(parcel.Element("id").Value),
-                                    SenderId = Convert.ToInt32(parcel.Element("senderId").Value),
-                                    TargetId = Convert.ToInt32(parcel.Element("targetId").Value),
-                                    DroneId = Convert.ToInt32(parcel.Element("droneId").Value),
-                                    Priority = (Priorities)Convert.ToInt32(parcel.Element("priority").Value),
-                                    Weight = (WeightCategories)Convert.ToInt32(parcel.Element("weight").Value),
-                                    Requested = Convert.ToDateTime(parcel.Element("requested").Value),
-                                    Scheduled = Convert.ToDateTime(parcel.Element("scheduledd").Value),
-                                    PickedUp = Convert.ToDateTime(parcel.Element("pickedUp").Value),
-                                    Delivered = Convert.ToDateTime(parcel.Element("delivered").Value),
-                                    IsActive = Convert.ToBoolean(parcel.Element("isActive").Value)
-                                }).FirstOrDefault();
-            dalParcelsRoot.Save(dalParcelPath);
-
-            return dalParcel.Id != parcelId && dalParcel.IsActive == false ? throw new ObjectNotFoundException("parcel") : dalParcel;
+            List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
+            Parcel parcel = parcelList.Find(x => x.Id == parcelId);
+            return parcel.Id != parcelId && parcel.IsActive == false ? throw new ObjectNotFoundException("parcel") : parcel;
         }
         #endregion
 
@@ -53,23 +246,16 @@ namespace Dal
         /// <param name="parcel"> Parcel object </param>
         public void SetNewParcel(Parcel parcel)
         {
-            string dalParcelPath = @"Parcels.xml";
-            string dalConfigPath = @"dal-config.xml";
-
-            XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+            List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
             XElement dalConfigRoot = XElement.Load(dalConfigPath);
 
             parcel.Id = Convert.ToInt32(dalConfigRoot.Element("SerialNum").Value);
             parcel.IsActive = true;
+            parcelList.Add(parcel);
 
-            dalParcelsRoot.Add(parcel);
-
-            int serialNum = Convert.ToInt32(dalConfigRoot.Element("serialNum").Value);
-            serialNum++;
-            dalConfigRoot.Element("serialNum").Value = serialNum.ToString();
-
+            dalConfigRoot.Element("SerialNum").Value = (parcel.Id + 1).ToString();
             dalConfigRoot.Save(dalConfigPath);
-            dalParcelsRoot.Save(dalParcelPath);
+            XMLTools.SaveListToXMLSerializer(parcelList, dalParcelPath);
         }
         #endregion
 
@@ -80,53 +266,14 @@ namespace Dal
         /// <param name="parcelId"> Parcel Id </param>
         public void UpdatePickedUpParcelById(int parcelId)
         {
-            try
-            {
-                string dalParcelPath = @"Parcels.xml";
-                XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+            List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
+            int index = parcelList.FindIndex(x => x.Id == parcelId);
+            if (index == -1) throw new ObjectNotFoundException("parcel");
 
-                XElement dalParcel = (from parcel in dalParcelsRoot.Element("parcel").Elements()
-                                      where XmlConvert.ToInt32(parcel.Element("id").Value) == parcelId
-                                      select parcel).FirstOrDefault();
-
-                if (dalParcel == null) throw new ObjectNotFoundException("parcel");
-
-                DateTime? pickedUp = DateTime.Now;
-                dalParcel.Element("pickedUp").Value = pickedUp.ToString();
-                dalParcelsRoot.Save(dalParcelPath);
-            }
-            catch (ObjectNotFoundException)
-            {
-                throw;
-            }
-        }
-
-
-        /// <summary>
-        /// Update Parcel status to Delivered. 
-        /// </summary>
-        /// <param name="parcelId"> Parcel Id</param>
-        public void UpdateDeliveredParcelById(int parcelId)
-        {
-            try
-            {
-                string dalParcelPath = @"Parcels.xml";
-                XElement dalParcelsRoot = XElement.Load(dalParcelPath);
-
-                XElement dalParcel = (from parcel in dalParcelsRoot.Element("parcel").Elements()
-                                      where XmlConvert.ToInt32(parcel.Element("id").Value) == parcelId
-                                      select parcel).FirstOrDefault();
-
-                if (dalParcel == null) throw new ObjectNotFoundException("parcel");
-
-                DateTime? delivered = DateTime.Now;
-                dalParcel.Element("delivered").Value = delivered.ToString();
-                dalParcelsRoot.Save(dalParcelPath);
-            }
-            catch (ObjectNotFoundException)
-            {
-                throw;
-            }
+            Parcel parcel = parcelList[index];
+            parcel.PickedUp = DateTime.Now;
+            parcelList[index] = parcel;
+            XMLTools.SaveListToXMLSerializer(parcelList, dalParcelPath);
         }
 
         /// <summary>
@@ -136,27 +283,30 @@ namespace Dal
         /// <param name="droneId"> Id of Drone </param>
         public void UpdateDroneIdOfParcel(int parcelId, int droneId)
         {
-            try
-            {
-                string dalParcelPath = @"Parcels.xml";
-                XElement dalParcelsRoot = XElement.Load(dalParcelPath);
+            List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
+            int index = parcelList.FindIndex(x => x.Id == parcelId);
+            if (index == -1) throw new ObjectNotFoundException("parcel");
+            Parcel parcel = parcelList[index];
+            parcel.DroneId = droneId;
+            parcel.Scheduled = DateTime.Now;
+            parcelList[index] = parcel;
+            XMLTools.SaveListToXMLSerializer(parcelList, dalParcelPath);
+        }
 
-                XElement dalParcel = (from parcel in dalParcelsRoot.Element("parcel").Elements()
-                                      where XmlConvert.ToInt32(parcel.Element("id").Value) == parcelId
-                                      select parcel).FirstOrDefault();
+        /// <summary>
+        /// Update Parcel status to Delivered. 
+        /// </summary>
+        /// <param name="parcelId"> Parcel Id</param>
+        public void UpdateDeliveredParcelById(int parcelId)
+        {
+            List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
+            int index = parcelList.FindIndex(x => x.Id == parcelId);
+            if (index == -1) throw new ObjectNotFoundException("parcel");
 
-                if (dalParcel == null) throw new ObjectNotFoundException("parcel");
-
-                dalParcel.Element("droneId").Value = droneId.ToString();
-                DateTime? scheduled = DateTime.Now;
-                dalParcel.Element("scheduled").Value = scheduled.ToString();
-
-                dalParcelsRoot.Save(dalParcelPath);
-            }
-            catch (ObjectNotFoundException)
-            {
-                throw;
-            }
+            Parcel parcel = parcelList[index];
+            parcel.Delivered = DateTime.Now;
+            parcelList[index] = parcel;
+            XMLTools.SaveListToXMLSerializer(parcelList, dalParcelPath);
         }
         #endregion
 
@@ -167,25 +317,8 @@ namespace Dal
         /// <returns>List of Parcels </returns>
         public IEnumerable<Parcel> GetParcelList()
         {
-            string dalParcelPath = @"Parcels.xml";
-            XElement dalParcelsRoot = XElement.Load(dalParcelPath);
-
-            return from parcel in dalParcelsRoot.Element("parcel").Elements()
-                   where XmlConvert.ToBoolean(parcel.Element("isActive").Value)
-                   select new Parcel
-                   {
-                       Id = Convert.ToInt32(parcel.Element("id").Value),
-                       SenderId = Convert.ToInt32(parcel.Element("senderId").Value),
-                       TargetId = Convert.ToInt32(parcel.Element("targetId").Value),
-                       DroneId = Convert.ToInt32(parcel.Element("droneId").Value),
-                       Priority = (Priorities)Convert.ToInt32(parcel.Element("priority").Value),
-                       Weight = (WeightCategories)Convert.ToInt32(parcel.Element("weight").Value),
-                       Requested = Convert.ToDateTime(parcel.Element("requested").Value),
-                       Scheduled = Convert.ToDateTime(parcel.Element("scheduledd").Value),
-                       PickedUp = Convert.ToDateTime(parcel.Element("pickedUp").Value),
-                       Delivered = Convert.ToDateTime(parcel.Element("delivered").Value),
-                       IsActive = Convert.ToBoolean(parcel.Element("isActive").Value)
-                   };
+            List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
+            return from parcel in parcelList where parcel.IsActive select parcel;
         }
 
         /// <summary>
@@ -194,41 +327,20 @@ namespace Dal
         /// <returns> List of non associate Parcels </returns>
         public IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate)
         {
-            string dalParcelPath = @"Parcels.xml";
-            XElement dalParcelsRoot = XElement.Load(dalParcelPath);
-            IEnumerable<Parcel> parcels = from parcel in dalParcelsRoot.Element("parcel").Elements()
-                                          where XmlConvert.ToBoolean(parcel.Element("isActive").Value) && predicate.Equals(true)
-                                          select new Parcel
-                                          {
-                                              Id = Convert.ToInt32(parcel.Element("id").Value),
-                                              SenderId = Convert.ToInt32(parcel.Element("senderId").Value),
-                                              TargetId = Convert.ToInt32(parcel.Element("targetId").Value),
-                                              DroneId = Convert.ToInt32(parcel.Element("droneId").Value),
-                                              Priority = (Priorities)Convert.ToInt32(parcel.Element("priority").Value),
-                                              Weight = (WeightCategories)Convert.ToInt32(parcel.Element("weight").Value),
-                                              Requested = Convert.ToDateTime(parcel.Element("requested").Value),
-                                              Scheduled = Convert.ToDateTime(parcel.Element("scheduledd").Value),
-                                              PickedUp = Convert.ToDateTime(parcel.Element("pickedUp").Value),
-                                              Delivered = Convert.ToDateTime(parcel.Element("delivered").Value),
-                                              IsActive = Convert.ToBoolean(parcel.Element("isActive").Value)
-                                          };
-            dalParcelsRoot.Save(dalParcelPath);
-            return parcels;
+            List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
+            return parcelList.FindAll(predicate).FindAll(x => x.IsActive);
         }
         #endregion
 
-        #region Delete
         public void DeleteParcel(int parcelId)
         {
-            string dalParcelPath = @"Parcels.xml";
-            XElement dalParcelsRoot = XElement.Load(dalParcelPath);
-
-            XElement dalParcel = (from customer in dalParcelsRoot.Element("parcel").Elements()
-                                  where XmlConvert.ToInt32(customer.Element("id").Value) == parcelId
-                                  select customer).FirstOrDefault();
-            dalParcel.Remove();
-            dalParcelsRoot.Save(dalParcelPath);
+            List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
+            int index = parcelList.FindIndex(x => x.Id == parcelId);
+            if (index == -1) throw new ObjectNotFoundException("parcel");
+            Parcel parcel = parcelList[index];
+            parcel.IsActive = false;
+            parcelList[index] = parcel;
+            XMLTools.SaveListToXMLSerializer(parcelList, dalParcelPath);
         }
-        #endregion
     }
 }

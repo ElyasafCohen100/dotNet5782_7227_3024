@@ -11,15 +11,13 @@ namespace Dal
 {
     class XMLTools
     {
-        static string dir = @"xml\";
+        static string dir = Directory.GetCurrentDirectory() + "\\";
         static XMLTools()
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
         }
 
-
-        #region SaveLoadWithXMLSerializer
         public static void SaveListToXMLSerializer<T>(List<T> list, string filePath)
         {
             try
@@ -31,7 +29,7 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                //throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)
@@ -52,9 +50,8 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(); // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
-        #endregion
     }
 }

@@ -14,22 +14,30 @@ namespace Dal
 
         public static DalXml DalObj { get { return LoadDalObj.dalObj; } }
 
+        public static string dalConfigPath = @"dal-config.xml";
+        public static string dalParcelPath = @"Data\Parcels.xml";
+        public static string dalAdminPath = @"Data\Admins.xml";
+        public static string dalCustomerPath = @"Data\Customers.xml";
+        public static string dalDronePath = @"Data\Drones.xml";
+        public static string dalDroneChargePath = @"Data\DroneCharges.xml";
+        public static string dalStationPath = @"Data\Stations.xml";
+
         public DalXml()
         {
-        }
 
+        }
+        /// <summary>
+        /// Request of eletricity use by drone
+        /// </summary>
+        /// <returns> Return array with electricity use request </returns>
         public double[] ElectricityUseRequest()
         {
-            string dalConfigPath = @"dal-config.xml";
             XElement dalConfigRoot = XElement.Load(dalConfigPath);
 
-            double[] result = (from status in dalConfigRoot.Element("ElectricityUseRequest").Elements() select XmlConvert.ToDouble(status.Value)).ToArray();
+            double[] Electricity = (from status in dalConfigRoot.Element("ElectricityUseRequest").Elements() select XmlConvert.ToDouble(status.Value)).ToArray();
             dalConfigRoot.Save(dalConfigPath);
-
-            return result;
+            return Electricity;
         }
-
-
         //------------------------ BONUS FUNCTIONS ---------------------------//
 
         /// <summary>

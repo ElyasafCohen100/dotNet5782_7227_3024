@@ -30,6 +30,8 @@ namespace BL
             dalCustomer.Phone = customer.Phone;
             dalCustomer.Longitude = customer.Location.Longitude;
             dalCustomer.Latitude = customer.Location.Latitude;
+            dalCustomer.UserName = customer.UserName;
+            dalCustomer.Password = customer.Password;
 
             dalObject.SetNewCustomer(dalCustomer);
         }

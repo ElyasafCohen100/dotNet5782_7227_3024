@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BO;
 
 namespace PL
@@ -20,17 +10,24 @@ namespace PL
     /// </summary>
     public partial class CustomerActions : Window
     {
-
-        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        private BlApi.IBL BLObject;
         private CustomerToList selcetedCustomerToList;
 
         public CustomerActions(CustomerToList selcetedCustomerToList)
         {
 
-            Customer customer = BLObject.FindCustomerByIdBL(selcetedCustomerToList.Id);
-
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             this.selcetedCustomerToList = selcetedCustomerToList;
+
+            Customer customer = BLObject.FindCustomerByIdBL(selcetedCustomerToList.Id);
 
             DataContext = false;
             grid1.DataContext = customer;
@@ -43,6 +40,12 @@ namespace PL
 
             CustomerLongitude.IsEnabled = false;
             CustomerLongitudeTB.IsEnabled = false;
+            UserName.IsEnabled = false;
+            UserNameTB.IsEnabled = false;
+
+            Password.IsEnabled = false;
+            PasswordTB.IsEnabled = false;
+
             AddNewCustomerButton.Visibility = Visibility.Hidden;
 
             ParcelFromCustomerList.ItemsSource = customer.ParcelFromCustomerList;
@@ -51,10 +54,26 @@ namespace PL
         public CustomerActions()
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             DataContext = false;
+          
             UpdateCustomerButton.Visibility = Visibility.Hidden;
+            DeleteCustomerButton.Visibility = Visibility.Hidden;
+         
             ParcelFromCustomerList.Visibility = Visibility.Hidden;
             ParcelToCustomerList.Visibility = Visibility.Hidden;
+          
+            ParcelFromCustomer.Visibility = Visibility.Hidden;
+            ParcelToCustomer.Visibility = Visibility.Hidden;
+           
         }
 
         private void AddCustomerBustton_Click(object sender, RoutedEventArgs e)
@@ -70,6 +89,8 @@ namespace PL
 
             double.TryParse(CustomerLongitudeTB.Text, out double Longitude);
             customer.Location.Longitude = Longitude;
+            customer.UserName = UserNameTB.Text;
+            customer.Password = PasswordTB.Text;
 
             try
             {
@@ -81,6 +102,12 @@ namespace PL
             {
                 MessageBox.Show("Invalid input", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (ObjectAlreadyExistException ex)
+            {
+                MessageBox.Show(ex.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            this.CloseButton_Click(sender,e);
         }
 
         private void UpdateCustomerDetailes_Click(object sender, RoutedEventArgs e)
@@ -97,6 +124,7 @@ namespace PL
             {
                 MessageBox.Show("Invalid input", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            this.CloseButton_Click(sender, e);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

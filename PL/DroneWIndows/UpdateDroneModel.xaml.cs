@@ -22,18 +22,28 @@ namespace PL
     /// </summary>
     public partial class UpdateDroneModel : Window
     {
-        private BlApi.IBL BlObject = BlApi.BlFactory.GetBl();
+        private BlApi.IBL BLObject;
         private int droneId;
         public UpdateDroneModel(int droneId)
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             this.droneId = droneId;
 
             UpdateButton.IsEnabled = false;
             DataContext = false;
         }
 
+
         //----------------  ModelTextBox ----------------//
+
         private void ModelTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (ModelTextBox.Text == "Enter Model")
@@ -52,20 +62,19 @@ namespace PL
             e.Handled = regex.IsMatch(e.Text);
         }
 
-
         //---------------- UpdateDroneModelButton ----------------//
+
         private void UpdateDroneModelButton_Click(object sender, RoutedEventArgs e)
         {
             if (ModelTextBox.Text != String.Empty)
             {
-
                 String Model = ModelTextBox.Text;
                 try
                 {
-                    BlObject.UpdateDroneModelBL(droneId, Model);
+                    BLObject.UpdateDroneModelBL(droneId, Model);
                     MessageBox.Show("Drone has been update sucssesfuly",
                                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.Close();
+                    this.Close_Button_Click(sender, e);
                 }
                 catch (InvalidInputException)
                 {
@@ -76,7 +85,6 @@ namespace PL
             {
                 MessageBox.Show("Enter Model to update", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
         private void ModelTextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -90,10 +98,19 @@ namespace PL
             this.Close();
         }
 
+
         //Bouns.
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (DataContext.Equals(false)) e.Cancel = true;
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                UpdateDroneModelButton_Click(sender, e);
+            }
         }
     }
 }

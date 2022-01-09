@@ -14,6 +14,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalObject", "DalObject\DalObject.csproj", "{C7396071-616D-4645-9D29-439EF2479D43}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{528A2282-10D1-4830-93DA-6C1641C5D63E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{78E84262-5797-4A64-A3D6-C850FD256D78} = {78E84262-5797-4A64-A3D6-C850FD256D78}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBL", "ConsoleBL\ConsoleBL.csproj", "{37CF6087-069A-483B-8976-C698A1F8D79E}"
 EndProject
@@ -30,12 +33,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXml", "DalXml\DalXml.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{40F48598-2707-41C8-AC1A-B9F1FE0266F2}"
 	ProjectSection(SolutionItems) = preProject
-		Admin.xml = Admin.xml
-		Customer.xml = Customer.xml
-		DroneCharge.xml = DroneCharge.xml
-		Drones.xml = Drones.xml
-		Parcel.xml = Parcel.xml
-		Stations.xml = Stations.xml
+		Data\Admins.xml = Data\Admins.xml
+		Data\Customers.xml = Data\Customers.xml
+		Data\DroneCharges.xml = Data\DroneCharges.xml
+		Data\Drones.xml = Data\Drones.xml
+		Data\Parcels.xml = Data\Parcels.xml
+		Data\Stations.xml = Data\Stations.xml
 	EndProjectSection
 EndProject
 Global

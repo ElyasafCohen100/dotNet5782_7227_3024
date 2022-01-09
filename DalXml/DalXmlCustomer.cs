@@ -20,65 +20,76 @@ namespace Dal
         /// <returns> Customer object </returns>
         public Customer FindCustomerById(int customerId)
         {
-            string dalCustomerPath = @"Customers.xml";
             XElement dalCustomersRoot = XElement.Load(dalCustomerPath);
-            Customer dalCustomer = (from customer in dalCustomersRoot.Element("customer").Elements()
-                                    where XmlConvert.ToInt32(customer.Element("id").Value) == customerId
+
+            Customer dalCustomer = (from customer in dalCustomersRoot.Elements()
+                                    where customer.Element("Id").Value == customerId.ToString()
                                     select new Customer
                                     {
                                         Id = customerId,
-                                        Name = customer.Element("name").Value,
-                                        Phone = customer.Element("phone").Value,
-                                        Longitude = XmlConvert.ToDouble(customer.Element("longitude").Value),
-                                        Latitude = XmlConvert.ToDouble(customer.Element("latidue").Value),
-                                        IsActive = XmlConvert.ToBoolean(customer.Element("isActive").Value),
-                                        UserName = customer.Element("userName").Value,
-                                        Password = customer.Element("password").Value
+                                        Name = customer.Element("Name").Value,
+                                        Phone = customer.Element("Phone").Value,
+                                        Longitude = double.Parse(customer.Element("Longitude").Value),
+                                        Latitude = double.Parse(customer.Element("Latitude").Value),
+                                        IsActive = bool.Parse(customer.Element("IsActive").Value),
+                                        UserName = customer.Element("UserName").Value,
+                                        Password = customer.Element("Password").Value
                                     }).FirstOrDefault();
 
             dalCustomersRoot.Save(dalCustomerPath);
 
-            return dalCustomer.Id != customerId && !dalCustomer.IsActive ? throw new ObjectNotFoundException(dalCustomer.GetType().ToString()) : dalCustomer;
+            return dalCustomer.Id != customerId || dalCustomer.IsActive ==false ? throw new ObjectNotFoundException(dalCustomer.GetType().ToString()) : dalCustomer;
         }
+
+        public Customer FindCustomerByUserName(string username)
+        {
+            return (from customer in GetCustomerList() where customer.UserName == username select customer).FirstOrDefault();
+        }
+
         #endregion
 
 
+        #region Add
         /// <summary>
         /// Set new Customer.
         /// </summary>
         /// <param name="customer"> Customer object </param>
         public void SetNewCustomer(Customer Customer)
         {
-            string dalCustomerPath = @"Customers.xml";
             XElement dalCustomersRoot = XElement.Load(dalCustomerPath);
             Customer.IsActive = true;
 
-            XElement customer = new XElement("customer",
-                                new XElement("id", Customer.Id),
-                                new XElement("name", Customer.Name),
-                                new XElement("phone", Customer.Phone),
-                                new XElement("longitude", Customer.Longitude),
-                                new XElement("latitude", Customer.Latitude),
-                                new XElement("isActive", Customer.IsActive),
-                                new XElement("userName", Customer.UserName),
-                                new XElement("password", Customer.Password));
+            XElement customer = new XElement("Customer",
+                                new XElement("Id", Customer.Id),
+                                new XElement("Name", Customer.Name),
+                                new XElement("Phone", Customer.Phone),
+                                new XElement("Longitude", Customer.Longitude),
+                                new XElement("Latitude", Customer.Latitude),
+                                new XElement("IsActive", Customer.IsActive),
+                                new XElement("UserName", Customer.UserName),
+                                new XElement("Password", Customer.Password));
 
             dalCustomersRoot.Add(customer);
             dalCustomersRoot.Save(dalCustomerPath);
         }
+        #endregion
+
+        #region Update
         public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
         {
-            string dalCustomerPath = @"Customers.xml";
             XElement dalCustomersRoot = XElement.Load(dalCustomerPath);
 
-            XElement dalCustomer = (from customer in dalCustomersRoot.Element("customer").Elements()
-                                    where XmlConvert.ToInt32(customer.Element("id").Value) == customerId
+            XElement dalCustomer = (from customer in dalCustomersRoot.Elements()
+                                    where customer.Element("Id").Value == customerId.ToString()
                                     select customer).FirstOrDefault();
-            dalCustomer.Element("customer").Element("name").Value = newName;
-            dalCustomer.Element("customer").Element("phone").Value = newPhoneNumber;
+            if (dalCustomer == null) throw new ObjectNotFoundException("Customer");
+
+            dalCustomer.Element("Name").SetValue(newName);
+            dalCustomer.Element("Phone").SetValue(newPhoneNumber);
 
             dalCustomersRoot.Save(dalCustomerPath);
         }
+        #endregion
 
         #region Getters
         /// <summary>
@@ -87,39 +98,36 @@ namespace Dal
         /// <returns> List of Customers </returns>
         public IEnumerable<Customer> GetCustomerList()
         {
-            string dalCustomerPath = @"Customers.xml";
             XElement dalCustomersRoot = XElement.Load(dalCustomerPath);
 
-            return from customer in dalCustomersRoot.Element("customer").Elements()
-                   where XmlConvert.ToBoolean(customer.Element("isActive").Value)
+            return from customer in dalCustomersRoot.Elements()
+                   where XmlConvert.ToBoolean(customer.Element("IsActive").Value)
                    select new Customer
                    {
-                       Id = XmlConvert.ToInt32(customer.Element("id").Value),
-                       Name = customer.Element("name").Value,
-                       Phone = customer.Element("phone").Value,
-                       Longitude = XmlConvert.ToDouble(customer.Element("longitude").Value),
-                       Latitude = XmlConvert.ToDouble(customer.Element("latidue").Value),
-                       IsActive = XmlConvert.ToBoolean(customer.Element("isActive").Value),
-                       UserName = customer.Element("userName").Value,
-                       Password = customer.Element("password").Value
+                       Id = XmlConvert.ToInt32(customer.Element("Id").Value),
+                       Name = customer.Element("Name").Value,
+                       Phone = customer.Element("Phone").Value,
+                       Longitude = XmlConvert.ToDouble(customer.Element("Longitude").Value),
+                       Latitude = XmlConvert.ToDouble(customer.Element("Latitude").Value),
+                       IsActive = XmlConvert.ToBoolean(customer.Element("IsActive").Value),
+                       UserName = customer.Element("UserName").Value,
+                       Password = customer.Element("Password").Value
                    };
         }
         #endregion
+
+        #region Delete
         public void DeleteCustomer(int customerId)
         {
-            string dalCustomerPath = @"Customers.xml";
             XElement dalCustomersRoot = XElement.Load(dalCustomerPath);
 
-            XElement dalCustomer = (from customer in dalCustomersRoot.Element("customer").Elements()
-                                    where XmlConvert.ToInt32(customer.Element("id").Value) == customerId
+            XElement dalCustomer = (from customer in dalCustomersRoot.Elements()
+                                    where customer.Element("Id").Value == customerId.ToString()
                                     select customer).FirstOrDefault();
-            dalCustomer.Remove();
+            dalCustomer.Element("IsActive").SetValue(false);
             dalCustomersRoot.Save(dalCustomerPath);
         }
-        public Customer FindCustomerByUserName(string username)
-        {
-            return (from customer in GetCustomerList() where customer.UserName == username select customer).FirstOrDefault();
-        }
+        #endregion
     }
 }
 

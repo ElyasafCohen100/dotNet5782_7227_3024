@@ -67,23 +67,6 @@ namespace Dal
         }
 
 
-        #region Update
-
-        /// <summary>
-        /// Update Drone Id of Parcel.
-        /// </summary>
-        /// <param name="parcelId"> Id of Parcel </param>
-        /// <param name="droneId"> Id of Drone </param>
-        public void UpdateDroneIdOfParcel(int parcelId, int droneId)
-        {
-            int index = DataSource.Parcels.FindIndex(x => x.Id == parcelId);
-            if (index == -1) throw new ObjectNotFoundException("parcel");
-            Parcel parcel = DataSource.Parcels[index];
-            parcel.DroneId = droneId;
-            parcel.Scheduled = DateTime.Now;
-            DataSource.Parcels[index] = parcel;
-        }
-
         /// <summary>
         /// Decrese the number of charge slots in the Base-Station,
         /// and the buttery to 100%.
@@ -139,7 +122,6 @@ namespace Dal
             drone.Model = newModel;
             DataSource.Drones[index] = drone;
         }
-        #endregion
 
         #region Getters
 

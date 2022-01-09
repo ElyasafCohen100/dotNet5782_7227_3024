@@ -1,20 +1,16 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  
-  <dal>list</dal>
+  <dal>xml</dal>
   <dal-packages>
     <list class="DalObject" namespace="Dal">DalObject</list>
-    <xml>DalXml</xml>
+    <xml class="DalXml" namespace="Dal">DalXml</xml>
   </dal-packages>
-
-  
   <ElectricityUseRequest>
     <Available>3.2</Available>
-    <Light>3.4</Light>
-    <Intermediate>3.7</Intermediate>
+    <Light> 3.4</Light>
+    <Average>3.7</Average>
     <Heavy>4.3</Heavy>
     <DroneChargingRate>10</DroneChargingRate>
   </ElectricityUseRequest>
-    
+  <SerialNumber>13</SerialNumber>
 </config>

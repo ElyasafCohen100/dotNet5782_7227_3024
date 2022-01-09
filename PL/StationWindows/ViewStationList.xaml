@@ -34,7 +34,8 @@
 
             </Grid.ColumnDefinitions>
             <Button Name="ViewChrgingSlot" Content="View Charging Slot" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="28" Width="128" Cursor="Hand"/>
-            <Button Name="AddButton" Content="Add new Station" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddButton_Click" Height="28" Width="115"/>
+            <Button Name="AddButton" Content="Add new Station" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNewStationButton_Click" Height="28" Width="115"/>
+            <Button Name="CloseButton" Content="Close" Grid.Column="2" HorizontalAlignment="Left" Margin="177,12,0,0" VerticalAlignment="Top" Height="18" Width="61" Click="CloseButton_Click"/>
 
         </Grid>
 

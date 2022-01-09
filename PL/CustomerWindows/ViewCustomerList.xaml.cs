@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +21,23 @@ namespace PL
     /// </summary>
     public partial class ViewCustomerList : Window
     {
-        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        private BlApi.IBL BLObject;
         public ViewCustomerList()
         {
             InitializeComponent();
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             CustomerListView.ItemsSource = BLObject.ViewCustomerToList();
+            DataContext = false;
         }
+
         private void CustomerListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (CustomerListView.SelectedIndex >= 0)
@@ -35,6 +47,7 @@ namespace PL
                     CustomerListView.ItemsSource = BLObject.ViewCustomerToList();
             }
         }
+
         private void AddNewCustomer_Click(object sender, RoutedEventArgs e)
         {
             if (new CustomerActions().ShowDialog() == false)
@@ -43,6 +56,7 @@ namespace PL
 
         private void CLoseButton_Click(object sender, RoutedEventArgs e)
         {
+            DataContext = true;
             this.Close();
         }
     }

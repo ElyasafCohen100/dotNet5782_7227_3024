@@ -13,17 +13,34 @@
 
     <Grid>
 
-        <TextBox HorizontalAlignment="Left" Margin="0,10,0,0" Padding="20,10" Text="Yakir and Elyasaf" Visibility="Visible" FontStyle="Italic" TextWrapping="Wrap" VerticalAlignment="Top" Width="282" Height="61" FontSize="30" FontFamily="Playball">
-            <TextBox.Background>
-                <ImageBrush/>
-            </TextBox.Background>
-        </TextBox>
+        <Grid x:Name="Grid" Grid.Row="0" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Name="SubGridC0" Width="285*"/>
+                <ColumnDefinition Name="SubGridC1" Width="231*"/>
+                <ColumnDefinition Name="SubGridC2" Width="284*"/>
+            </Grid.ColumnDefinitions>
 
-        <Button Name="CloseButton" Content="Close"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,10,0" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Margin="692,40,0,0" Height="29" Width="78" FontSize="20" FontFamily="Sitka Text"/>
-        <Button Name="LoginButton" Content="Login" HorizontalAlignment="Center" Margin="0,284,0,0" VerticalAlignment="Top" Height="36" Width="152" FontSize="18" Click="LoginButton_Click" Cursor="Hand"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Name="SubGridR0"/>
+                <RowDefinition Name="SubGridR1"/>
+                <RowDefinition Name="SubGridR2"/>
+            </Grid.RowDefinitions>
 
-        <TextBox Name="UserNameTB" HorizontalAlignment="Center" Margin="0,149,0,0" Text="User Name" TextWrapping="NoWrap" VerticalAlignment="Top" Width="232" Height="36" GotFocus="UserNameTB_GotFocus" LostFocus="UserNameTB_LostFocus"/>
-        <PasswordBox Name="PasswordPB" Password="Password" HorizontalAlignment="Center" VerticalAlignment="Center" Width="232" Height="36" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus"/>
+
+            <TextBox Name="YakirAndElyasafTB" IsEnabled="False" HorizontalAlignment="Left"  Padding="20,10" Text="Yakir and Elyasaf" Visibility="Visible" FontStyle="Italic" TextWrapping="Wrap" VerticalAlignment="Top" Width="282" Height="61" FontSize="30" FontFamily="Playball" Grid.Row="0" Grid.Column="0">
+                <TextBox.Background>
+                    <ImageBrush/>
+                </TextBox.Background>
+            </TextBox>
+
+            <Button Name="CloseButton" Content="Close" HorizontalAlignment="Right"  VerticalAlignment="Top" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Height="29" Width="78" FontSize="20" FontFamily="Sitka Text" Grid.Row="0" Grid.Column="2" Margin="0,16,19,0"/>
+            <Button Name="LoginButton" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Height="36" Width="152" FontSize="18" Click="LoginButton_Click" Cursor="Hand" Grid.Row="2" Grid.Column="1"/>
+
+            <PasswordBox Name="PasswordPB" Password="Password" Width="232" Height="36" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus" Grid.Row="1" Grid.Column="1"/>
+            <TextBox Name="UserNameTB"  Text="User Name"  Width="232" Height="36" VerticalAlignment="Top" TextWrapping="NoWrap" GotFocus="UserNameTB_GotFocus" LostFocus="UserNameTB_LostFocus" Grid.Row="1" Grid.Column="1"/>
+            <Button Name="VIPB" Content="VIP" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="36" Width="152" Click="VIP_Click" FontSize="20" Cursor="Hand"/>
+        </Grid>
 
     </Grid>
+
 </Window>
