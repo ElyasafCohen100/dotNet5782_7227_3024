@@ -27,15 +27,20 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ComboBox Name="DroneStatusSelector" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" SelectionChanged="DroneStatusSelector_SelectionChanged" Cursor="Hand" Margin="0,37,0,0"/>
-            <ComboBox Name="DroneWeightSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" SelectionChanged="DroneWeightSelector_SelectionChanged" Cursor="Hand" Margin="0,37,0,0"/>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock  Text="sort by status:"  TextWrapping="NoWrap"  Cursor="Hand"/>
+            <ComboBox Name="DroneStatusSelector"  Width="120" SelectionChanged="DroneStatusSelector_SelectionChanged" Cursor="Hand"/>
+            </StackPanel>
 
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="sort by max weight:" Grid.Column="1"  TextWrapping="NoWrap" Cursor="Hand"/>
+            <ComboBox Name="DroneWeightSelector" Grid.Column="1" Width="120" SelectionChanged="DroneWeightSelector_SelectionChanged" Cursor="Hand"/>
+            </StackPanel>
+                
             <Button Content="View Drone List" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Grid.Column="2" Height="26" Width="127" Click="ViewDroneListGrouping_Click"/>
             <Button Content="Add new drone" Grid.Column="3" Padding ="10" HorizontalAlignment="Left" VerticalAlignment="Center" Click="AddNewDrone_Click" Cursor="Hand" Height="26" Width="128" Margin="22,0,0,0"/>
             <Button Content="Close" Grid.Column="4" Padding="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Close_Button_Click" Cursor="Hand" Foreground="#FFF60C0C" Width="76" Margin="74,16,0,0" Height="21"/>
 
-            <TextBlock  Text="Drone Status:" HorizontalAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="20,19,0,0" Cursor="Hand"/>
-            <TextBlock Text="Drone Max Weight:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,19,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Cursor="Hand"/>
         </Grid>
 
 
