@@ -118,20 +118,21 @@ namespace BL
                     {
                         List<DO.Station> stationsList = new(dalObject.GetBaseStationList());
                         int size = stationsList.Count();
-                        int index = r.Next(0, size);
-                        DO.Station station = stationsList[index];
+                       
+                            int index = r.Next(0, size);
+                            DO.Station station = stationsList[index];
 
-                        newDrone.CurrentLocation.Latitude = station.Latitude;
-                        newDrone.CurrentLocation.Longitude = station.Longitude;
-                        newDrone.BatteryStatus = r.Next(0, 21);
-                        try
-                        {
-                            dalObject.AddDroneCharge(newDrone.Id, station.Id);
-                        }
-                        catch (DO.XMLFileLoadCreateException e)
-                        {
-                            throw new XMLFileLoadCreateException(e.Message);
-                        }
+                            newDrone.CurrentLocation.Latitude = station.Latitude;
+                            newDrone.CurrentLocation.Longitude = station.Longitude;
+                            newDrone.BatteryStatus = r.Next(0, 21);
+                            try
+                            {
+                                dalObject.AddDroneCharge(newDrone.Id, station.Id);
+                            }
+                            catch (DO.XMLFileLoadCreateException e)
+                            {
+                                throw new XMLFileLoadCreateException(e.Message);
+                            }  
                     }
                     else if (newDrone.DroneStatus == DroneStatuses.Available)
                     {

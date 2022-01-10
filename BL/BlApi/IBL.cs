@@ -79,6 +79,5 @@ namespace BlApi
 
             return $"{degrees}°{minutes1}'{seconds}\"";
         }
-
     }
 }

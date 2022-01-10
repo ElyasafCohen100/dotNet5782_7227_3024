@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <ElectricityUseRequest>
+    <Light>3.4</Light>
+    <Intermediate>3.7</Intermediate>
+    <Heavy>4.3</Heavy>
+    <Available>3.2</Available>
+    <DroneChargingRate>10</DroneChargingRate>
+  </ElectricityUseRequest>
+  <SerialNum>16</SerialNum>
+</Config>

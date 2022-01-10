@@ -45,10 +45,10 @@ namespace BL
 
             drone.DroneStatus = DroneStatuses.Maintenance;
             drone.BatteryStatus = r.Next(20, 41);
-
+            DO.Station myStaion;
             try
             {
-                DO.Station myStaion = dalObject.FindStationById(baseStationId);
+               myStaion = dalObject.FindStationById(baseStationId);
 
                 drone.CurrentLocation.Latitude = myStaion.Latitude;
                 drone.CurrentLocation.Longitude = myStaion.Longitude;
@@ -65,6 +65,8 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(e.Message);
             }
+            dalObject.AddDroneCharge(drone.Id, myStaion.Id);
+            
             UpdateDroneToListsList(drone);
         }
 
@@ -72,8 +74,9 @@ namespace BL
         {
             try
             {
-                dalObject.DeleteDrone(droneId);
                 DroneToList droneToList = droneToLists.Find(x => x.Id == droneId);
+                if (droneToList.DroneStatus == DroneStatuses.Shipment) throw new InvalidOperationException();
+                dalObject.DeleteDrone(droneId);
                 droneToLists.Remove(droneToList);
             }
             catch (DO.ObjectIsNotActiveException e)

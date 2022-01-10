@@ -5,12 +5,4 @@
     <list class="DalObject" namespace="Dal">DalObject</list>
     <xml class="DalXml" namespace="Dal">DalXml</xml>
   </dal-packages>
-  <ElectricityUseRequest>
-    <Available>3.2</Available>
-    <Light> 3.4</Light>
-    <Average>3.7</Average>
-    <Heavy>4.3</Heavy>
-    <DroneChargingRate>10</DroneChargingRate>
-  </ElectricityUseRequest>
-  <SerialNumber>13</SerialNumber>
 </config>

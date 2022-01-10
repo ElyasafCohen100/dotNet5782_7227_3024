@@ -56,12 +56,25 @@ namespace BL
         {
             try
             {
+                Customer customer = FindCustomerByIdBL(customerId);
+
+                foreach (var parcel in customer.ParcelFromCustomerList)
+                {
+                    dalObject.DeleteParcel(parcel.Id);
+                }
+
+                foreach (var parcel in customer.ParcelToCustomerList)
+                {
+                    dalObject.DeleteParcel(parcel.Id);
+                }
+
                 dalObject.DeleteCustomer(customerId);
             }
             catch (DO.ObjectIsNotActiveException e)
             {
                 throw new ObjectIsNotActiveException(e.Message);
             }
+
         }
 
         #region Update

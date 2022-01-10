@@ -7,15 +7,13 @@
         mc:Ignorable="d"
         Title="ViewStationList" Height="450" Width="800">
 
-
-    <Window.Resources>
-        <ImageBrush Opacity="0.1" ImageSource="https://www.researchgate.net/profile/Vinay-Chamola/publication/336282262/figure/fig1/AS:811326456754178@1570446709910/Pictorial-representation-of-proposed-drone-charging-framework.jpg" x:Key="1"/>
-    </Window.Resources>
-
     <Window.Background>
         <ImageBrush ImageSource="https://m.media-amazon.com/images/I/61jxQe+k0kL._AC_SL1500_.jpg"/>
     </Window.Background>
 
+    <Window.Resources>
+        <ImageBrush Opacity="0.1" ImageSource="https://www.researchgate.net/profile/Vinay-Chamola/publication/336282262/figure/fig1/AS:811326456754178@1570446709910/Pictorial-representation-of-proposed-drone-charging-framework.jpg" x:Key="1"/>
+    </Window.Resources>
 
     <Grid Name="MainGrid">
 
@@ -33,14 +31,14 @@
                 <ColumnDefinition Width="*"/>
 
             </Grid.ColumnDefinitions>
+            <Button Name="AddButton" Content="Add new Station" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNewStationButton_Click" Height="28" Width="115" Cursor="Hand"/>
             <Button Name="ViewChrgingSlot" Content="View Charging Slot" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="28" Width="128" Cursor="Hand"/>
-            <Button Name="AddButton" Content="Add new Station" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNewStationButton_Click" Height="28" Width="115"/>
-            <Button Name="CloseButton" Content="Close" Grid.Column="2" HorizontalAlignment="Left" Margin="177,12,0,0" VerticalAlignment="Top" Height="18" Width="61" Click="CloseButton_Click"/>
+            <Button Name="CloseButton" Content="Close" Grid.Column="2" HorizontalAlignment="Left" Margin="177,12,0,0" VerticalAlignment="Top" Height="18" Width="61" Click="CloseButton_Click" Cursor="Hand"/>
 
         </Grid>
 
         <ListView x:Name="StationListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="StationListView_MouseDoubleClick"
-                   Background="{StaticResource ResourceKey = 1}">
+                   Background="{StaticResource ResourceKey = 1}" Cursor="Hand">
             <ListView.View>
 
                 <GridView>

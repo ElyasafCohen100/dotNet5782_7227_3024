@@ -80,5 +80,13 @@ namespace PL
             sourceCollectionView.GroupDescriptions.Add(groupDescription);
             DroneListView.ItemsSource = sourceCollectionView;
         }
+
+        //private void DroneListView_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Delete)
+        //    {
+        //        new DroneActions(DroneListView.SelectedIndex).DeleteDroneButton_Click(sender,e);
+        //    }
+        //}
     }
 }

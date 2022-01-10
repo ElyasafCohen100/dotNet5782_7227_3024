@@ -133,12 +133,16 @@ namespace PL
 
 
             var customersList = from customer in BLObject.ViewCustomerToList() select customer.Id;
-            ReceiverCustomerIdSelector.ItemsSource = customersList;
-            SenderCustomerIdSelector.ItemsSource = customersList;
-          
-            ReceiverCustomerIdSelector.SelectedItem = customersList.First();
-            SenderCustomerIdSelector.SelectedItem = customersList.First();
-        
+
+            if (customersList.Count() > 0)
+            {
+                ReceiverCustomerIdSelector.ItemsSource = customersList;
+                SenderCustomerIdSelector.ItemsSource = customersList;
+
+                ReceiverCustomerIdSelector.SelectedItem = customersList.First();
+                SenderCustomerIdSelector.SelectedItem = customersList.First();
+            }
+
             PrioritySelctor.ItemsSource = Enum.GetValues(typeof(Priorities));
             WeightSelctor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
           

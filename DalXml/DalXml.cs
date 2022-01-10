@@ -14,7 +14,7 @@ namespace Dal
 
         public static DalXml DalObj { get { return LoadDalObj.dalObj; } }
 
-        public static string dalConfigPath = @"dal-config.xml";
+        public static string dalConfigPath = @"Data\config.xml";
         public static string dalParcelPath = @"Data\Parcels.xml";
         public static string dalAdminPath = @"Data\Admins.xml";
         public static string dalCustomerPath = @"Data\Customers.xml";

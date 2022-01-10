@@ -178,5 +178,15 @@ namespace PL
         {
             if (DataContext.Equals(false)) e.Cancel = true;
         }
+
+        private void StationNameTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            UpdateStationButton.IsEnabled = true;
+        }
+
+        private void AvailableChargeSlotsTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            UpdateStationButton.IsEnabled = true;
+        }
     }
 }

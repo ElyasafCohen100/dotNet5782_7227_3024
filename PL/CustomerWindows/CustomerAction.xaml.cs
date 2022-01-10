@@ -158,5 +158,27 @@ namespace PL
                                 "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void CustomerNameTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            UpdateCustomerButton.IsEnabled = true;
+        }
+
+        private void CustomerPhoneTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            UpdateCustomerButton.IsEnabled = true;
+        }
+
+        private void ParcelFromCustomerList_MouseDoubleClick_1(object sender, MouseButtonEventArgs e)
+        {
+            ParcelToList selectedParcel = BLObject.ViewParcelToList().ToList()[ParcelFromCustomerList.SelectedIndex];
+            new ParcelActions(selectedParcel).Show();
+        }
+
+        private void ParcelToCustomerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ParcelToList selectedParcel = BLObject.ViewParcelToList().ToList()[ParcelToCustomerList.SelectedIndex];
+            new ParcelActions(selectedParcel).Show();
+        }
     }
 }

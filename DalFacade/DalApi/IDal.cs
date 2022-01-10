@@ -20,7 +20,6 @@ namespace DalApi
 
         Admin FindAdminByUserName(string userName);
 
-
         Parcel FindParcelById(int parcelId);
 
         //----------------------- SETTERS -----------------------//
@@ -64,6 +63,7 @@ namespace DalApi
         void DeleteAdmin(string userName);
         double[] ElectricityUseRequest();
         double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
+        void DeleteDroneCharge(int droneId);
 
 
         /// <summary>

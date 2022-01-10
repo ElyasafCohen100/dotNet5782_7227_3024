@@ -332,6 +332,7 @@ namespace PL
                 MessageBox.Show("Drone is already exist",
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            this.Close_Button_Click(sender, e);
         }
         #endregion
 
@@ -393,6 +394,11 @@ namespace PL
             {
                 MessageBox.Show(exception.Message,
                                 "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Drone could not be deleted because the drone is in shipment",
+                "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

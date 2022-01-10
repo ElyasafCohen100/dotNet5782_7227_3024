@@ -33,8 +33,8 @@
 
                 <Button Name="DroneListButton" Content="Drone List" Grid.Row="0" HorizontalAlignment="Left" Click="ViewDroneList_Click" Cursor="Hand" FontSize="20" Height="38"  Width="140" VerticalAlignment="Top" FontFamily="Sitka Text" Margin="14,69,0,0"/>
                 <Button Name ="StationListButton" Content="Station List" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ViewStationList_Click" Height="38" Width="140" FontSize="20" Cursor="Hand" FontFamily="Sitka Text" Margin="14,39,0,0"/>
-                <Button Name="CustomerListButton" Content="Coustomer List" HorizontalAlignment="Left" Margin="14,30,0,0" VerticalAlignment="Top" Height="38" Width="140" FontSize="18" Click="ViewCustomerList_Click" Grid.Row="2"/>
-                <Button Name="ParcelListButton" Content="Parcel List" HorizontalAlignment="Left" Margin="14,31,0,0" VerticalAlignment="Top" Height="38" Width="140" FontSize="18" Click="ViewParcelList_Click" Grid.Row="3" Grid.Column="0"/>
+                <Button Name="CustomerListButton" Content="Coustomer List" HorizontalAlignment="Left" Margin="14,30,0,0" VerticalAlignment="Top" Height="38" Width="140" FontSize="18" Click="ViewCustomerList_Click" Grid.Row="2" Cursor="Hand"/>
+                <Button Name="ParcelListButton" Content="Parcel List" HorizontalAlignment="Left" Margin="14,31,0,0" VerticalAlignment="Top" Height="38" Width="140" FontSize="18" Click="ViewParcelList_Click" Grid.Row="3" Grid.Column="0" Cursor="Hand"/>
                 <Button Name="CloseButton" Content="Close"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,10,0" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Margin="103,22,0,0" Height="28" Width="75" FontSize="20" FontFamily="Sitka Text" Grid.Column="3"/>
 
                 <Label Content="Welcome" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" Width="283" HorizontalContentAlignment="Center" FontSize="48" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Height="66"/>

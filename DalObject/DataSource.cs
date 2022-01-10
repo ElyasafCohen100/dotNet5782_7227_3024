@@ -52,7 +52,7 @@ namespace Dal
             });
 
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 7; i++)
             {
                 Stations.Add(new Station()
                 {

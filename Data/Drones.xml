@@ -2,56 +2,32 @@
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <MaxWeight>Average</MaxWeight>
-    <Id>1278</Id>
-    <Model>hhhhhhhhhhhhh</Model>
-    <IsActive>false</IsActive>
-  </Drone>
-  <Drone>
-    <MaxWeight>Light</MaxWeight>
-    <Id>9554</Id>
-    <Model>iiiiiiiiii</Model>
+    <Id>9085</Id>
+    <Model>A0</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
     <MaxWeight>Average</MaxWeight>
-    <Id>9063</Id>
+    <Id>9215</Id>
+    <Model>A1</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Average</MaxWeight>
+    <Id>4885</Id>
     <Model>A2</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
     <MaxWeight>Average</MaxWeight>
-    <Id>3114</Id>
+    <Id>2626</Id>
     <Model>A3</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
     <MaxWeight>Light</MaxWeight>
-    <Id>1348</Id>
+    <Id>4293</Id>
     <Model>A4</Model>
-    <IsActive>true</IsActive>
-  </Drone>
-  <Drone>
-    <MaxWeight>Heavy</MaxWeight>
-    <Id>9876</Id>
-    <Model>eeeeeeeeeeeeeeee</Model>
-    <IsActive>true</IsActive>
-  </Drone>
-  <Drone>
-    <MaxWeight>Light</MaxWeight>
-    <Id>9999</Id>
-    <Model>wwwwww</Model>
-    <IsActive>true</IsActive>
-  </Drone>
-  <Drone>
-    <MaxWeight>Light</MaxWeight>
-    <Id>4567</Id>
-    <Model>oooooooooooo</Model>
-    <IsActive>true</IsActive>
-  </Drone>
-  <Drone>
-    <MaxWeight>Heavy</MaxWeight>
-    <Id>5468</Id>
-    <Model>eeeeeeee</Model>
     <IsActive>true</IsActive>
   </Drone>
 </ArrayOfDrone>

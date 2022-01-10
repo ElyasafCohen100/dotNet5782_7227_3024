@@ -64,7 +64,29 @@ namespace Dal
             Drone drone = DataSource.Drones[index];
             drone.IsActive = false;
             DataSource.Drones[index] = drone;
+            if (IsDroneChargeExist(droneId))
+                DeleteDroneCharge(droneId);
         }
+        private bool IsDroneChargeExist(int droneId)
+        {
+            try
+            {
+                FindDroneChargeByDroneId(droneId);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+        public void DeleteDroneCharge(int droneId)
+        {
+            DroneCharge droneCharge = FindDroneChargeByDroneId(droneId);
+            DataSource.DroneCharges.Remove(droneCharge);
+        }
+
 
 
         /// <summary>

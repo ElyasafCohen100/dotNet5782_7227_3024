@@ -114,16 +114,47 @@ namespace Dal
 
                 int index = droneList.FindIndex(x => x.Id == droneId);
                 if (index == -1) throw new ObjectNotFoundException("drone");
+               
                 Drone drone = droneList[index];
                 drone.IsActive = false;
                 droneList[index] = drone;
                 XMLTools.SaveListToXMLSerializer(droneList, dalDronePath);
+
+                if (IsDroneChargeExist(droneId))
+                {
+                    DeleteDroneCharge(droneId);
+                }
             }
             catch (XMLFileLoadCreateException e)
             {
                 throw new XMLFileLoadCreateException(e.Message);
             }
         }
+
+        private bool IsDroneChargeExist(int droneId)
+        {
+            try
+            {
+                FindDroneChargeByDroneId(droneId);
+            }
+            catch(ObjectNotFoundException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void DeleteDroneCharge(int droneId)
+        {
+            List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(dalDroneChargePath);
+
+            DroneCharge droneCharge = FindDroneChargeByDroneId(droneId);
+            droneCharges.Remove(droneCharge);
+
+            XMLTools.SaveListToXMLSerializer(droneCharges, dalDroneChargePath);
+        }
+
+
         #endregion
 
         #region Update
