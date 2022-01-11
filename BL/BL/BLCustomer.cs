@@ -62,6 +62,18 @@ namespace BL
             try
             {
                 Customer customer = FindCustomerByIdBL(customerId);
+                var v = from parcel in customer.ParcelFromCustomerList 
+                        where parcel.ParcelStatus == ParcelStatus.Scheduled || 
+                                parcel.ParcelStatus == ParcelStatus.PickedUp 
+                        select parcel;
+
+                var v2 = from parcel in customer.ParcelToCustomerList 
+                         where parcel.ParcelStatus == ParcelStatus.Scheduled || 
+                                parcel.ParcelStatus == ParcelStatus.PickedUp 
+                         select parcel;
+
+                if (v.Count() > 0 || v2.Count() > 0 ) 
+                    throw new InvalidOperationException("Cannot delete customer, the customer have parcels in shipment");
 
                 //Delete all the sendered parcels by this customer.
                 foreach (var parcel in customer.ParcelFromCustomerList)

@@ -157,6 +157,10 @@ namespace PL
             {
                 MessageBox.Show(exception.Message,
                                 "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }catch(System.InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message,
+                                "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
