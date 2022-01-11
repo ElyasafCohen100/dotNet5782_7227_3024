@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Serialization;
@@ -141,6 +142,18 @@ namespace PL
             x7.Serialize(file7, list7);
             file7.Close();
 
+        }
+
+        private void UserNameTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void PasswordPB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

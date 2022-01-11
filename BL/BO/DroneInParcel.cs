@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace BO
 {
     public class DroneInParcel
     {
         public int Id { get; set; }
         public double BatteryStatus { get; set; }
-        public Location CurrentLocation = new();
+        public Location CurrentLocation { get; set; } = new();
 
         /// <summary>
         /// Return describe of Drone class string.
@@ -20,9 +19,9 @@ namespace BO
         public override string ToString()
         {
             return $"Drone In Parcel:\n" +
-                   $"Id: {Id}\n" +
-                   $"Battery status: {BatteryStatus}\n" +
-                   $"Current location: {CurrentLocation}\n";
+                    $"Id: {Id}\n" +
+                    $"Battery status: {BatteryStatus}\n" +
+                    $"Current location: {CurrentLocation}\n";
         }
     }
 }

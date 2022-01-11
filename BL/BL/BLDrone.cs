@@ -48,7 +48,7 @@ namespace BL
             DO.Station myStaion;
             try
             {
-               myStaion = dalObject.FindStationById(baseStationId);
+                myStaion = dalObject.FindStationById(baseStationId);
 
                 drone.CurrentLocation.Latitude = myStaion.Latitude;
                 drone.CurrentLocation.Longitude = myStaion.Longitude;
@@ -66,10 +66,10 @@ namespace BL
                 throw new XMLFileLoadCreateException(e.Message);
             }
             dalObject.AddDroneCharge(drone.Id, myStaion.Id);
-            
+
             UpdateDroneToListsList(drone);
         }
-
+        //
         public void DeleteDrone(int droneId)
         {
             try
@@ -83,6 +83,11 @@ namespace BL
             {
                 throw new ObjectIsNotActiveException(e.Message);
             }
+        }
+
+        public void ReleseDroneCharges()
+        {
+            dalObject.ReleseDroneCharges();
         }
         private void UpdateDroneToListsList(Drone drone)
         {
@@ -114,6 +119,8 @@ namespace BL
             DroneToList drone = droneToLists.Find(x => x.Id == droneId);
             if (drone == null) throw new ObjectNotFoundException("drone");
 
+            if (!dalObject.FindDroneById(droneId).IsActive) throw new ObjectIsNotActiveException();
+
             Drone blDrone = new();
             blDrone.Id = drone.Id;
             blDrone.MaxWeight = drone.MaxWeight;
@@ -125,11 +132,11 @@ namespace BL
             if (drone.DroneStatus == DroneStatuses.Shipment)
             {
                 blDrone.ParcelInDelivery = SetParcelInDelivery(drone.DeliveryParcelId);
-            }
 
-            DO.Parcel parcel = dalObject.FindParcelById(drone.DeliveryParcelId);
-            if (parcel.PickedUp != null && parcel.Delivered == null)
-                blDrone.ParcelInDelivery.ParcelStatus = true;
+                DO.Parcel parcel = dalObject.FindParcelById(drone.DeliveryParcelId);
+                if (parcel.PickedUp != null && parcel.Delivered == null)
+                    blDrone.ParcelInDelivery.ParcelStatus = true;
+            }
             return blDrone;
         }
         #endregion

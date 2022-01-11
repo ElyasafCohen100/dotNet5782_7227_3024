@@ -58,9 +58,9 @@ namespace BL
             DO.Parcel dalParcel;
             try
             {
-               dalParcel = dalObject.FindParcelById(parcelId);
+                dalParcel = dalObject.FindParcelById(parcelId);
             }
-            catch(DO.ObjectNotFoundException e)
+            catch (DO.ObjectNotFoundException e)
             {
                 throw new ObjectNotFoundException(e.Message);
             }
@@ -82,12 +82,24 @@ namespace BL
 
             if (dalParcel.DroneId != 0)
             {
-                Drone blDrone = new();
-                Parcel.Drone.Id = dalParcel.DroneId;
-                blDrone = FindDroneByIdBL(Parcel.Drone.Id);
-                Parcel.Drone.BatteryStatus = blDrone.BatteryStatus;
-                Parcel.Drone.CurrentLocation.Latitude = blDrone.CurrentLocation.Latitude;
-                Parcel.Drone.CurrentLocation.Longitude = blDrone.CurrentLocation.Longitude;
+                try
+                {
+                    Drone blDrone = new();
+                    blDrone = FindDroneByIdBL(dalParcel.DroneId);
+                    Parcel.Drone.Id = blDrone.Id;
+                    Parcel.Drone.BatteryStatus = blDrone.BatteryStatus;
+                    Parcel.Drone.CurrentLocation.Latitude = blDrone.CurrentLocation.Latitude;
+                    Parcel.Drone.CurrentLocation.Longitude = blDrone.CurrentLocation.Longitude;
+                }
+                catch (ObjectNotFoundException)
+                {
+
+                }
+                catch (ObjectIsNotActiveException)
+                {
+                    Parcel.Drone.Id = 0;
+                }
+
             }
 
             Parcel.Requested = dalParcel.Requested;
@@ -144,6 +156,7 @@ namespace BL
                 }
 
                 ParcelList.Add(Parcel);
+
             }
             return ParcelList;
         }
@@ -180,7 +193,7 @@ namespace BL
 
             return ParcelToList;
         }
-         public IEnumerable<Parcel> ViewParcelsList()
+        public IEnumerable<Parcel> ViewParcelsList()
         {
             var parcelList = from parcel in ViewParcelToList() select FindParcelByIdBL(parcel.Id);
             return parcelList;
@@ -226,11 +239,18 @@ namespace BL
         {
             try
             {
-                dalObject.DeleteParcel(parcelId);
-            }
-            catch(DO.ObjectNotFoundException e)
+                DO.Parcel parcel = dalObject.FindParcelById(parcelId);
+                if (parcel.Scheduled == null)
+                {
+                    dalObject.DeleteParcel(parcelId);
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+            } catch(DO.ObjectNotFoundException e)
             {
-                throw new ObjectNotFoundException(e.Message);
+                throw new ObjectIsNotActiveException(e.Message);
             }
         }
         #endregion

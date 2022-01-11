@@ -32,7 +32,7 @@ namespace BO
     public class ObjectNotFoundException : Exception
     {
         public ObjectNotFoundException() { }
-        public ObjectNotFoundException(string message) : base(message + "has not been found") { }
+        public ObjectNotFoundException(string message) : base(message + $" has not been found") { }
         public ObjectNotFoundException(string message, Exception inner) : base(message, inner) { }
     }
 
@@ -82,3 +82,4 @@ namespace BO
         public XMLFileLoadCreateException(string xmlPath, string message, Exception innerException) : base(message, innerException) { }
     }
 }
+

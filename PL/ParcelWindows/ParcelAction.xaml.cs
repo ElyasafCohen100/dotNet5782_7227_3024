@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -69,6 +70,11 @@ namespace PL
             ReceiverCustomerIdSelector.Visibility = Visibility.Hidden;
             SenderCustomerIdSelector.Visibility = Visibility.Hidden;
 
+            PriorityTBRight.Visibility = Visibility.Hidden;
+            WeightCategory.Visibility = Visibility.Hidden;
+
+            ReciverId.Visibility = Visibility.Hidden;
+            SenderId.Visibility = Visibility.Hidden;
         }
 
         public ParcelActions()
@@ -204,9 +210,13 @@ namespace PL
                 MessageBox.Show("Parcel has been removed", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.CloseButton_Click(sender, e);
             }
-            catch (ObjectNotFoundException exception)
+            catch(ObjectNotFoundException exception)
             {
                 MessageBox.Show(exception.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("parcel in delivery can not be delited", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -214,6 +224,42 @@ namespace PL
         {
             DataContext = true;
             this.Close();
+        }
+
+        private void ParcelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void SenderCustomerIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[0-9]");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void SenderCustomerNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void ReceiverCustomerIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[0-9]");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void ReceiverCustomerNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void DroneInParcelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[0-9]");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

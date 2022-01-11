@@ -23,13 +23,9 @@ namespace Dal
         {
             try
             {
-                XElement dalDronesRoot = XElement.Load(dalDronePath);
-
                 List<Drone> droneList = XMLTools.LoadListFromXMLSerializer<Drone>(dalDronePath);
                 Drone drone = droneList.Find(x => x.Id == droneId);
-
-                dalDronesRoot.Save(dalDronePath);
-                return drone.Id != droneId ? throw new ObjectNotFoundException(drone.GetType().ToString()) : drone;
+                return drone.Id != droneId ? throw new ObjectNotFoundException("drone") : drone;
             }
             catch (XMLFileLoadCreateException e)
             {
@@ -47,13 +43,11 @@ namespace Dal
         {
             try
             {
-                XElement dalDroneChargesRoot = XElement.Load(dalDroneChargePath);
 
                 List<DroneCharge> droneChargeList = XMLTools.LoadListFromXMLSerializer<DroneCharge>(dalDroneChargePath);
                 DroneCharge droneCharge = droneChargeList.Find(x => x.DroneId == droneId);
 
-                dalDroneChargesRoot.Save(dalDroneChargePath);
-                return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException(droneCharge.GetType().ToString()) : droneCharge;
+                return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException("droneCharge") : droneCharge;
             }
             catch (XMLFileLoadCreateException e)
             {
@@ -62,7 +56,7 @@ namespace Dal
         }
         #endregion
 
-        #region Setters
+        #region Add
 
         /// <summary>
         /// Set new Drone.
@@ -72,8 +66,6 @@ namespace Dal
         {
             try
             {
-                XElement dalDronesRoot = XElement.Load(dalDronePath);
-
                 drone.IsActive = true;
                 List<Drone> droneList = XMLTools.LoadListFromXMLSerializer<Drone>(dalDronePath);
                 droneList.Add(drone);
@@ -88,8 +80,6 @@ namespace Dal
         {
             try
             {
-                XElement dalDroneChargesRoot = XElement.Load(dalDroneChargePath);
-
                 DroneCharge droneCharge = new();
                 droneCharge.DroneId = droneId;
                 droneCharge.StationId = stationId;
@@ -106,6 +96,19 @@ namespace Dal
         #endregion
 
         #region Delete
+        private bool IsDroneChargeExist(int droneId)
+        {
+            try
+            {
+                FindDroneChargeByDroneId(droneId);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void DeleteDrone(int droneId)
         {
             try
@@ -114,7 +117,7 @@ namespace Dal
 
                 int index = droneList.FindIndex(x => x.Id == droneId);
                 if (index == -1) throw new ObjectNotFoundException("drone");
-               
+
                 Drone drone = droneList[index];
                 drone.IsActive = false;
                 droneList[index] = drone;
@@ -131,19 +134,6 @@ namespace Dal
             }
         }
 
-        private bool IsDroneChargeExist(int droneId)
-        {
-            try
-            {
-                FindDroneChargeByDroneId(droneId);
-            }
-            catch(ObjectNotFoundException)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public void DeleteDroneCharge(int droneId)
         {
             List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(dalDroneChargePath);
@@ -154,8 +144,19 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(droneCharges, dalDroneChargePath);
         }
 
+        public void ReleseDroneCharges()
+        {
+            List<DroneCharge> droneChargeList = XMLTools.LoadListFromXMLSerializer<DroneCharge>(dalDroneChargePath);
+            foreach (var droneCharge in droneChargeList)
+            {
+                UpdateDroneFromCharging(droneCharge.DroneId);
+            }
+            droneChargeList.Clear();
+            XMLTools.SaveListToXMLSerializer(droneChargeList, dalDroneChargePath);
+        }
 
         #endregion
+
 
         #region Update
         public void UpdateDroneToCharging(int droneId, int stationId)
@@ -175,7 +176,6 @@ namespace Dal
                 station.ChargeSlots--;
                 stationList[index] = station;
 
-                string dalDroneChargePath = @"DroneCharges.xml";
                 List<DroneCharge> droneChargeList = XMLTools.LoadListFromXMLSerializer<DroneCharge>(dalDroneChargePath);
 
                 DroneCharge droneCharge = new DroneCharge();
@@ -208,7 +208,6 @@ namespace Dal
                 station.ChargeSlots++;
                 stationList[index] = station;
 
-                string dalDroneChargePath = @"DroneCharges.xml";
                 List<DroneCharge> droneChargeList = XMLTools.LoadListFromXMLSerializer<DroneCharge>(dalDroneChargePath);
 
                 droneChargeList.Remove(droneCharge);
@@ -216,7 +215,7 @@ namespace Dal
                 XMLTools.SaveListToXMLSerializer(droneChargeList, dalDroneChargePath);
                 XMLTools.SaveListToXMLSerializer(stationList, dalStationPath);
             }
-            catch (DO.XMLFileLoadCreateException e)
+            catch (XMLFileLoadCreateException e)
             {
                 throw new XMLFileLoadCreateException(e.Message);
             }

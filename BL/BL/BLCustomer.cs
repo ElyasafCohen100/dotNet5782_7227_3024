@@ -18,11 +18,13 @@ namespace BL
         public void AddNewCustomerBL(Customer customer)
         {
             if (customer.Id < 100000000 || customer.Id >= 1000000000) throw new InvalidInputException("Id");
-            if (customer.Phone == null) throw new InvalidInputException("Phone number");
+            if (customer.Phone == null) throw new InvalidInputException("phone number");
+            long.TryParse(customer.Phone, out long phoneNumber)
+; if (phoneNumber < 1000000000 || phoneNumber > 1000000000000) throw new InvalidInputException("phone number");
             IfExistCustomer(customer);
-            if (customer.Name == null) throw new InvalidInputException("Name");
-            if (customer.Location.Longitude == 0.0) throw new InvalidInputException("Longitude");
-            if (customer.Location.Latitude == 0.0) throw new InvalidInputException("Lattitude");
+            if (customer.Name == null) throw new InvalidInputException("name");
+            if (customer.Location.Longitude == 0.0) throw new InvalidInputException("longitude");
+            if (customer.Location.Latitude == 0.0) throw new InvalidInputException("lattitude");
 
             DO.Customer dalCustomer = new();
             dalCustomer.Id = customer.Id;
@@ -51,18 +53,23 @@ namespace BL
 
         }
         #endregion
-
+        /// <summary>
+        /// Delete customer by received Id.
+        /// </summary>
+        /// <param name="customerId"> customer Id</param>
         public void DeleteCustomer(int customerId)
         {
             try
             {
                 Customer customer = FindCustomerByIdBL(customerId);
 
+                //Delete all the sendered parcels by this customer.
                 foreach (var parcel in customer.ParcelFromCustomerList)
                 {
                     dalObject.DeleteParcel(parcel.Id);
                 }
 
+                //Delete all the received parcels to this customer.
                 foreach (var parcel in customer.ParcelToCustomerList)
                 {
                     dalObject.DeleteParcel(parcel.Id);
@@ -74,7 +81,6 @@ namespace BL
             {
                 throw new ObjectIsNotActiveException(e.Message);
             }
-
         }
 
         #region Update
@@ -176,7 +182,13 @@ namespace BL
                 return true;
             return false;
         }
-
+        public bool IsCustomerRegisered(string username)
+        {
+            DO.Customer customer = dalObject.FindCustomerByUserName(username);
+            if (customer.UserName == username)
+                return true;
+            return false;
+        }
         public CustomerToList FindCustomerToList(int customerId)
         {
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
@@ -226,6 +238,14 @@ namespace BL
             return customer;
         }
 
+        public Customer FindCustomerByUserName(string userName)
+        {
+            DO.Customer dalCustomer = dalObject.FindCustomerByUserName(userName);
+            Customer customer = FindCustomerByIdBL(dalCustomer.Id);
+            customer.UserName = dalCustomer.UserName;
+            customer.Password = dalCustomer.Password;
+            return customer;
+        }
         #endregion
 
         #region View

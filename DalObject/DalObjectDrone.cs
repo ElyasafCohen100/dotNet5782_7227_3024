@@ -20,7 +20,7 @@ namespace Dal
         public Drone FindDroneById(int droneId)
         {
             Drone drone = DataSource.Drones.Find(x => x.Id == droneId);
-            return drone.Id != droneId ? throw new ObjectNotFoundException(drone.GetType().ToString()) : drone;
+            return drone.Id != droneId ? throw new ObjectNotFoundException("drone") : drone;
         }
 
         /// <summary>
@@ -32,11 +32,11 @@ namespace Dal
         public DroneCharge FindDroneChargeByDroneId(int droneId)
         {
             DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
-            return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException(droneCharge.GetType().ToString()) : droneCharge;
+            return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException("droneCharge") : droneCharge;
         }
         #endregion
 
-        #region Setters
+        #region Add
 
         /// <summary>
         /// Set new Drone.
@@ -57,6 +57,7 @@ namespace Dal
         }
         #endregion
 
+        #region Delete
         public void DeleteDrone(int droneId)
         {
             int index = DataSource.Drones.FindIndex(x => x.Id == droneId);
@@ -86,9 +87,9 @@ namespace Dal
             DroneCharge droneCharge = FindDroneChargeByDroneId(droneId);
             DataSource.DroneCharges.Remove(droneCharge);
         }
+        #endregion
 
-
-
+        #region Update
         /// <summary>
         /// Decrese the number of charge slots in the Base-Station,
         /// and the buttery to 100%.
@@ -144,6 +145,7 @@ namespace Dal
             drone.Model = newModel;
             DataSource.Drones[index] = drone;
         }
+        #endregion
 
         #region Getters
 

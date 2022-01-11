@@ -16,11 +16,10 @@ namespace BL
         /// </summary>
         /// <param name="station"> Station object </param>
         /// <exception cref="InvalidInputException"> Thrown if station id or number of charge-slots are invalid </exception>
-        /// 
         public void AddNewStationBL(Station station)
         {
             if (station.Id < 1000 || station.Id >= 10000) throw new InvalidInputException("id");
-            IfExistBaseStation(station);
+            IfExistBaseStation(station); //Checks if the customer already exists.
             if (station.AvailableChargeSlots < 0) throw new InvalidInputException("number of charge slots");
 
             DO.Station dalStation = new();
@@ -49,7 +48,7 @@ namespace BL
         }
         #endregion
 
-        #region Find
+        #region Find 
         /// <summary>
         /// Find BL station by station Id.
         /// </summary>

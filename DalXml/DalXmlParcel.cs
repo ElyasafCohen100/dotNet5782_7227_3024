@@ -18,16 +18,16 @@ namespace Dal
         /// </summary>
         /// <param name="parcelId"> Parcel Id </param>
         /// <returns> Parcel object </returns>
-        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="ObjectNotFoundException"></exception>
         public Parcel FindParcelById(int parcelId)
         {
             List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
             Parcel parcel = parcelList.Find(x => x.Id == parcelId);
-            return parcel.Id != parcelId && parcel.IsActive == false ? throw new ObjectNotFoundException("parcel") : parcel;
+            return parcel.Id != parcelId || parcel.IsActive == false ? throw new ObjectNotFoundException("parcel") : parcel;
         }
         #endregion
 
-        #region Setters
+        #region Add
         /// <summary>
         /// Set new Parcel.
         /// </summary>
@@ -37,12 +37,11 @@ namespace Dal
             List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
             XElement dalConfigRoot = XElement.Load(dalConfigPath);
 
-            parcel.Id = Convert.ToInt32(dalConfigRoot.Element("SerialNumber").Value);
+            parcel.Id = Convert.ToInt32(dalConfigRoot.Element("SerialNum").Value);
             parcel.IsActive = true;
             parcelList.Add(parcel);
 
-            dalConfigRoot.Element("SerialNumber").Value = (parcel.Id + 1).ToString();
-            dalConfigRoot.Save(dalConfigPath);
+            dalConfigRoot.Element("SerialNum").Value = (parcel.Id + 1).ToString();
             XMLTools.SaveListToXMLSerializer(parcelList, dalParcelPath);
         }
         #endregion
@@ -120,6 +119,7 @@ namespace Dal
         }
         #endregion
 
+        #region Delete
         public void DeleteParcel(int parcelId)
         {
             List<Parcel> parcelList = XMLTools.LoadListFromXMLSerializer<Parcel>(dalParcelPath);
@@ -130,5 +130,6 @@ namespace Dal
             parcelList[index] = parcel;
             XMLTools.SaveListToXMLSerializer(parcelList, dalParcelPath);
         }
+        #endregion
     }
 }

@@ -61,9 +61,11 @@ namespace DalApi
         void DeleteDrone(int droneId);
         void DeleteCustomer(int customerId);
         void DeleteAdmin(string userName);
+
+        void DeleteDroneCharge(int droneId);
+        void ReleseDroneCharges() { }
         double[] ElectricityUseRequest();
         double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
-        void DeleteDroneCharge(int droneId);
 
 
         /// <summary>

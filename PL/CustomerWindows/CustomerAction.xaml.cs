@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using BO;
@@ -179,6 +180,24 @@ namespace PL
         {
             ParcelToList selectedParcel = BLObject.ViewParcelToList().ToList()[ParcelToCustomerList.SelectedIndex];
             new ParcelActions(selectedParcel).Show();
+        }
+
+        private void CustomerIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void CustomerNameTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void CustomerPhoneTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
