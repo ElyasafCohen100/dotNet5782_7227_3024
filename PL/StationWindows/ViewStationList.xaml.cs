@@ -14,14 +14,14 @@ namespace PL
         public ViewStationList()
         {
             InitializeComponent();
-            StationListView.ItemsSource = BLObject.ViewBaseStationsToList();
+            StationListView.ItemsSource = BLObject.GetAllBaseStationsToList();
             DataContext = false;
         }
 
         private void GroupByStationListWithAvailableChargingSlots_Click(object sender, RoutedEventArgs e)
         {
 
-            IEnumerable<IGrouping<int, BO.StationToList>> stationGroup = from station in BLObject.ViewStationsWithAvailableChargingSlotstBL()
+            IEnumerable<IGrouping<int, BO.StationToList>> stationGroup = from station in BLObject.GetStationsWithAvailableChargingSlotstBL()
                                                                          group station by station.AvailableChargeSlots;
 
             List<BO.StationToList> stationList = new();
@@ -34,20 +34,21 @@ namespace PL
             }
             StationListView.ItemsSource = stationList;
         }
+     
         private void StationListView_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             if (StationListView.SelectedIndex >= 0)
             {
-                BO.StationToList selectedStation = BLObject.ViewBaseStationsToList().ToList()[StationListView.SelectedIndex];
+                BO.StationToList selectedStation = BLObject.GetAllBaseStationsToList().ToList()[StationListView.SelectedIndex];
                 if (new StationActions(selectedStation).ShowDialog() == false)
-                    StationListView.ItemsSource = BLObject.ViewBaseStationsToList();
+                    StationListView.ItemsSource = BLObject.GetAllBaseStationsToList();
             }
         }
 
         private void AddNewStationButton_Click(object sender, RoutedEventArgs e)
         {
             if (new StationActions().ShowDialog() == false)
-                StationListView.ItemsSource = BLObject.ViewBaseStationsToList();
+                StationListView.ItemsSource = BLObject.GetAllBaseStationsToList();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
@@ -9,23 +10,35 @@ namespace BlApi
 {
     public interface IBL
     {
-        //-------------------- ADD FUNCTOINS ---------------------//
+        #region Get
+        Station GetStationByIdBL(int stationId);
+        Drone GetDroneByIdBL(int droneId);
+        Customer GetCustomerByIdBL(int customerId);
+        Parcel GetParcelByIdBL(int parcelId);
+        ParcelToList GetParcelToList(int parcelId);
+        CustomerToList GetCustomerToList(int customerId);
+        Admin GetAdminByUserName(string userName);
+        IEnumerable<StationToList> GetAllBaseStationsToList();
+        IEnumerable<DroneToList> GetAllDroneToList();
+        IEnumerable<CustomerToList> GetAllCustomerToList();
+        IEnumerable<Parcel> GetAllParcels();
+        IEnumerable<ParcelToList> GetAllParcelToList();
+        IEnumerable<ParcelToList> GetNonAssociateParcelsListBL();
+        IEnumerable<StationToList> GetStationsWithAvailableChargingSlotstBL();
+        IEnumerable<DroneToList> GetDronesToList(Predicate<DroneToList> predicate);
+        #endregion
 
+
+        #region Add
         void AddNewStationBL(Station station);
         void AddNewDroneBL(Drone drone, int baseStationID);
         void AddNewCustomerBL(Customer customer);
         void AddNewParcelBL(Parcel parcel);
         void AddNewAdminBL(Admin admin);
+        #endregion
 
-        //------------------- DELETE FANCTIONS ------------------//
-        void DeleteStation(int stationId);
-        void DeleteParcel(int parcelId);
-        void DeleteDrone(int droneId);
-        void DeleteCustomer(int customerId);
-        void DeleteAdminBL(string userName);
 
-        //------------------- UPDATE FANCTIONS ------------------//
-
+        #region Update
         void UpdateDroneModelBL(int droneId, string newName);
         void UpdateBaseStationDetailsBL(int baseStationId, string baseStationNewName, int baseStationChargeSlots);
         void UpdateCustomerDetailesBL(int customerId, string newName, string newPhoneNumber);
@@ -34,37 +47,30 @@ namespace BlApi
         void UpdateDroneIdOfParcelBL(int droneId);
         void UpdateDeliveredParcelByDroneIdBL(int droneId);
         void UpdatePickedUpParcelByDroneIdBL(int droneId);
+        #endregion
 
-        //------------------- FIND FANCTIONS ------------------//
 
-        Station FindStationByIdBL(int stationId);
-        Drone FindDroneByIdBL(int droneId);
-        Customer FindCustomerByIdBL(int customerId);
-        Parcel FindParcelByIdBL(int parcelId);
-        ParcelToList FindParcelToList(int parcelId);
-        CustomerToList FindCustomerToList(int customerId);
-        Admin FindAdminByUserName(string userName);
+        #region Delete
+        void DeleteStation(int stationId);
+        void DeleteParcel(int parcelId);
+        void DeleteDrone(int droneId);
+        void DeleteCustomer(int customerId);
+        void DeleteAdminBL(string userName);
+        #endregion
 
-        //------------------- VIEW FANCTIONS ------------------//
 
-        IEnumerable<StationToList> ViewBaseStationsToList();
-        IEnumerable<DroneToList> ViewDroneToList();
-        IEnumerable<CustomerToList> ViewCustomerToList();
-        IEnumerable<Parcel> ViewParcelsList();
-        IEnumerable<ParcelToList> ViewParcelToList();
-        IEnumerable<ParcelToList> ViewNonAssociateParcelsListBL();
-        IEnumerable<StationToList> ViewStationsWithAvailableChargingSlotstBL();
-        IEnumerable<DroneToList> ViewDronesToList(Predicate<DroneToList> predicate);
-
+        #region Another function
         bool IsCustomerRegisered(string username, string password);
         bool IsAdminRegistered(string username, string password);
-
+        bool IsAdminRegistered(string username);
+        bool IsCustomerRegisered(string username);
 
         /// <summary>
         /// Return string of sexagesimal presentation.
         /// </summary>
         /// <param name="decimalNumber"></param>
         /// <returns> String of sexagesimal presentation </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static string SexagesimalPresentation(double decimalNumber)
         {
             int degrees, minutes1, seconds;
@@ -79,5 +85,6 @@ namespace BlApi
 
             return $"{degrees}°{minutes1}'{seconds}\"";
         }
+        #endregion
     }
 }

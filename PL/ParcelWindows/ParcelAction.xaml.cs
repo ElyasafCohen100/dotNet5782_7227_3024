@@ -36,7 +36,7 @@ namespace PL
             }
             this.selecetedParcelToList = selecetedParcelToList;
 
-            Parcel parcel = BLObject.FindParcelByIdBL(selecetedParcelToList.Id);
+            Parcel parcel = BLObject.GetParcelByIdBL(selecetedParcelToList.Id);
             grid1.DataContext = parcel;
 
             if (parcel.Scheduled == null || parcel.Delivered != null)
@@ -138,7 +138,7 @@ namespace PL
             ViewSenderCustomerInParcel.Visibility = Visibility.Hidden;
 
 
-            var customersList = from customer in BLObject.ViewCustomerToList() select customer.Id;
+            var customersList = from customer in BLObject.GetAllCustomerToList() select customer.Id;
 
             if (customersList.Count() > 0)
             {
@@ -183,22 +183,22 @@ namespace PL
 
         private void ViewDroneInParcel_Click(object sender, RoutedEventArgs e)
         {
-            Parcel parcel = BLObject.FindParcelByIdBL(selecetedParcelToList.Id);
-            var droneToList = (from drone in BLObject.ViewDroneToList() where drone.Id == parcel.Drone.Id select drone).FirstOrDefault();
+            Parcel parcel = BLObject.GetParcelByIdBL(selecetedParcelToList.Id);
+            var droneToList = (from drone in BLObject.GetAllDroneToList() where drone.Id == parcel.Drone.Id select drone).FirstOrDefault();
             new DroneActions(droneToList).Show();
         }
 
         private void ViewReceiverCustomerInParcel_Click(object sender, RoutedEventArgs e)
         {
-            Parcel parcel = BLObject.FindParcelByIdBL(selecetedParcelToList.Id);
-            CustomerToList customerToList = BLObject.FindCustomerToList(parcel.receiverCustomer.Id);
+            Parcel parcel = BLObject.GetParcelByIdBL(selecetedParcelToList.Id);
+            CustomerToList customerToList = BLObject.GetCustomerToList(parcel.receiverCustomer.Id);
             new CustomerActions(customerToList).Show();
         }
 
         private void ViewSenderCustomerInParcel_Click(object sender, RoutedEventArgs e)
         {
-            Parcel parcel = BLObject.FindParcelByIdBL(selecetedParcelToList.Id);
-            CustomerToList customerToList = BLObject.FindCustomerToList(parcel.senderCustomer.Id);
+            Parcel parcel = BLObject.GetParcelByIdBL(selecetedParcelToList.Id);
+            CustomerToList customerToList = BLObject.GetCustomerToList(parcel.senderCustomer.Id);
             new CustomerActions(customerToList).Show();
         }
 

@@ -1,35 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using DO;
 
 namespace Dal
 {
     partial class DalObject : DalApi.IDal
     {
-        #region Find
+        #region Get
         /// <summary>
         /// Finds Customer by specific Id.
         /// </summary>
         /// <param name="customerId"> Customer Id </param>
         /// <returns> Customer object </returns>
-        public Customer FindCustomerById(int customerId)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Customer GetCustomerById(int customerId)
         {
             Customer customer = DataSource.Customers.Find(x => x.Id == customerId);
             return customer.Id != customerId && !customer.IsActive ? throw new ObjectNotFoundException(customer.GetType().ToString()) : customer;
         }
+
+
+        /// <summary>
+        /// Return List of Customers.
+        /// </summary>
+        /// <returns> List of Customers </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Customer> GetCustomerList()
+        {
+            return from customer in DataSource.Customers where customer.IsActive select customer;
+        }
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Customer GetCustomerByUserName(string username)
+        {
+            return (from customer in GetCustomerList() where customer.UserName == username select customer).FirstOrDefault();
+        }
         #endregion
 
-        #region Setters
+
+        #region Add
         /// <summary>
         /// Set new Customer.
         /// </summary>
         /// <param name="customer"> Customer object </param>
-        public void SetNewCustomer(Customer Customer)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void AddNewCustomer(Customer Customer)
         {
             Customer.IsActive = true;
             DataSource.Customers.Add(Customer);
         }
+        #endregion
+
+
+        #region Update
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
         {
             int index = DataSource.Customers.FindIndex(x => x.Id == customerId);
@@ -42,16 +69,9 @@ namespace Dal
         }
         #endregion
 
-        #region Getters
-        /// <summary>
-        /// Return List of Customers.
-        /// </summary>
-        /// <returns> List of Customers </returns>
-        public IEnumerable<Customer> GetCustomerList()
-        {
-            return from customer in DataSource.Customers where customer.IsActive select customer;
-        }
-        #endregion
+
+        #region Delete
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int customerId)
         {
             int index = DataSource.Customers.FindIndex(x => x.Id == customerId);
@@ -60,10 +80,6 @@ namespace Dal
             customer.IsActive = false;
             DataSource.Customers[index] = customer;
         }
-
-        public Customer FindCustomerByUserName(string username)
-        {
-            return (from customer in GetCustomerList() where customer.UserName == username select customer).FirstOrDefault();
-        }
+        #endregion
     }
 }

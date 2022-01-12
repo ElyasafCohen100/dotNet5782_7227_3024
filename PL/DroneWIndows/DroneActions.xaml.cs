@@ -31,18 +31,23 @@ namespace PL
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            Drone drone = BLObject.FindDroneByIdBL(droneToList.Id);
+            Drone drone = BLObject.GetDroneByIdBL(droneToList.Id);
             this.selectedDroneToList = droneToList;
 
             DataContext = false;
+           
             grid1.DataContext = drone;
             IdTextBox.IsEnabled = false;
+          
             ModelTextBox.IsEnabled = false;
             BatteryTB.IsEnabled = false;
+          
             MaxWeightTB.IsEnabled = false;
             StatusTB.IsEnabled = false;
+          
             DeliveryTB.IsEnabled = false;
             DeliveryTB.Text = drone.ParcelInDelivery.ToString();
+           
             LatitudeTB.IsEnabled = false;
             LongitudeTB.IsEnabled = false;
 
@@ -95,7 +100,7 @@ namespace PL
 
             AddButton.IsEnabled = false;
 
-            var stationsIdList = from stationToList in BLObject.ViewStationsWithAvailableChargingSlotstBL() select stationToList.Id;
+            var stationsIdList = from stationToList in BLObject.GetStationsWithAvailableChargingSlotstBL() select stationToList.Id;
             BaseStationCB.ItemsSource = stationsIdList;
             BaseStationCB.SelectedItem = stationsIdList.First();
 
@@ -113,6 +118,7 @@ namespace PL
                 IdTextBox.Clear();
             }
         }
+      
         private void DroneIdTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (IdTextBox.Text == String.Empty)
@@ -134,11 +140,13 @@ namespace PL
             }
 
         }
+       
         private void DroneIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+       
         private void ModelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
@@ -202,6 +210,7 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        
         private void UpdateDroneFromChargingButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -275,6 +284,7 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+       
         private void UpdateParcelToPickedUp_Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -294,6 +304,11 @@ namespace PL
                 MessageBox.Show(exeption.Message,
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (ObjectNotFoundException)
+            {
+                MessageBox.Show("NO parcel was faund in this drone",
+                    "Operation failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         #endregion
 
@@ -303,6 +318,7 @@ namespace PL
             this.Close();
         }
         #region Add Drone
+       
         private void AddNewDroneButton_Click(object sender, RoutedEventArgs e)
         {
             int Id;
@@ -354,10 +370,11 @@ namespace PL
                 }
             }
         }
+       
         private void GetDroneFields(int droneId)
         {
 
-            Drone drone = BLObject.FindDroneByIdBL(droneId);
+            Drone drone = BLObject.GetDroneByIdBL(droneId);
 
             IdTextBox.Text = drone.Id.ToString();
             ModelTextBox.Text = drone.Model;
@@ -377,9 +394,10 @@ namespace PL
 
         private void ViewParcel_Click(object sender, RoutedEventArgs e)
         {
-            ParcelToList parcelToList = BLObject.FindParcelToList(selectedDroneToList.DeliveryParcelId);
+            ParcelToList parcelToList = BLObject.GetParcelToList(selectedDroneToList.DeliveryParcelId);
             new ParcelActions(parcelToList).Show();
         }
+       
         private void DeleteDroneButton_Click(object sender, RoutedEventArgs e)
         {
             try

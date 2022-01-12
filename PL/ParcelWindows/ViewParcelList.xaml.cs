@@ -24,11 +24,12 @@ namespace PL
             {
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            ParcelListView.ItemsSource = BLObject.ViewParcelToList();
+            ParcelListView.ItemsSource = BLObject.GetAllParcelToList();
         }
+       
         private void ViewReceivedParcelsList_Click(object sender, RoutedEventArgs e)
         {
-            IEnumerable<IGrouping<string, ParcelToList>> parcelGroup = from parcel in BLObject.ViewParcelToList() group parcel by parcel.ReceiverName;
+            IEnumerable<IGrouping<string, ParcelToList>> parcelGroup = from parcel in BLObject.GetAllParcelToList() group parcel by parcel.ReceiverName;
             List<ParcelToList> parcelList = new();
 
             foreach (IGrouping<string, ParcelToList> group in parcelGroup)
@@ -42,9 +43,10 @@ namespace PL
             ParcelListView.ItemsSource = parcelList;
 
         }
+        
         private void ViewSenderParcelList_Click(object sender, RoutedEventArgs e)
         {
-            IEnumerable<IGrouping<string, ParcelToList>> parcelGroup = from parcel in BLObject.ViewParcelToList() group parcel by parcel.SenderName;
+            IEnumerable<IGrouping<string, ParcelToList>> parcelGroup = from parcel in BLObject.GetAllParcelToList() group parcel by parcel.SenderName;
             List<ParcelToList> parcelList = new();
 
             foreach (var group in parcelGroup)
@@ -56,11 +58,12 @@ namespace PL
             }
             ParcelListView.ItemsSource = parcelList;
         }
+        
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var parcelList = from parcel in BLObject.ViewParcelsList()
+                var parcelList = from parcel in BLObject.GetAllParcels()
                                  where FirstDate.SelectedDate.Value.Date.CompareTo(parcel.Requested) <= 0 &&
                                         LastDate.SelectedDate.Value.Date.CompareTo(parcel.Requested) >= 0
                                  select parcel;
@@ -69,7 +72,7 @@ namespace PL
                 List<ParcelToList> parcels = new();
                 foreach (var par in parcelList)
                 {
-                    parcels.Add(BLObject.FindParcelToList(par.Id));
+                    parcels.Add(BLObject.GetParcelToList(par.Id));
                 }
 
                 ParcelListView.ItemsSource = parcels;
@@ -79,19 +82,21 @@ namespace PL
                 MessageBox.Show("Please select a date", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+        
         private void ParcelListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ParcelListView.SelectedIndex >= 0)
             {
-                ParcelToList selectedParcel = BLObject.ViewParcelToList().ToList()[ParcelListView.SelectedIndex];
+                ParcelToList selectedParcel = BLObject.GetAllParcelToList().ToList()[ParcelListView.SelectedIndex];
                 if (new ParcelActions(selectedParcel).ShowDialog() == false)
-                    ParcelListView.ItemsSource = BLObject.ViewParcelToList();
+                    ParcelListView.ItemsSource = BLObject.GetAllParcelToList();
             }
         }
+        
         private void AddParcel_Click(object sender, RoutedEventArgs e)
         {
             if (new ParcelActions().ShowDialog() == false)
-                ParcelListView.ItemsSource = BLObject.ViewParcelToList();
+                ParcelListView.ItemsSource = BLObject.GetAllParcelToList();
         }
     }
 }

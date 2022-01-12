@@ -38,21 +38,20 @@
         <TextBlock Name="Password" Grid.Column="1" HorizontalAlignment="Left" Margin="201,128,0,0" Text="Password" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" FontFamily="Sitka Text" FontStyle="Italic"/>
         <TextBox x:Name="PasswordTB" Grid.Column="1" HorizontalAlignment="Center" Margin="0,128,0,0" Text="{Binding Password}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
 
-        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="615,13,0,0" VerticalAlignment="Top" Height="16" Width="51" Cursor="Hand" Click="CloseButton_Click" Grid.Column="1" Foreground="#FFF60C0C"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="603,12,0,0" VerticalAlignment="Top" Height="21" Width="57" Cursor="Hand" Click="CloseButton_Click" Grid.Column="1" Foreground="#FFF60C0C"/>
         <Button Name="AddNewCustomerButton"  Content="Add New Customer" HorizontalAlignment="Left" Margin="460,50,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.381,0.359" Width="200" Height="30" Cursor="Hand" Click="AddCustomerBustton_Click" Grid.Column="1"/>
         <Button Name="UpdateCustomerButton"  Content="Update Customer" HorizontalAlignment="Left" Margin="460,102,0,0" VerticalAlignment="Top" Width="200" Height="30" Cursor="Hand" Grid.Column="1" Click="UpdateCustomerDetailes_Click" IsEnabled="False"/>
         <Button Name="DeleteCustomerButton" Content="Delelte Customer" Grid.Column="1" HorizontalAlignment="Left" Margin="460,152,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="DeleteCustomerButton_Click" Cursor="Hand"/>
 
-        <ListView Name="ParcelFromCustomerList" Margin="0,203,0,126" Grid.ColumnSpan="2" MouseDoubleClick="ParcelFromCustomerList_MouseDoubleClick_1" Cursor="Hand">
+        <ListView Name="ParcelFromCustomerList" Margin="0,203,0,126" Grid.ColumnSpan="2" MouseDoubleClick="ParcelFromCustomerList_MouseDoubleClick" Cursor="Hand">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding ParcelId}" Header="PARCEL ID " Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding MaxWeight}" Header="WEIGHT" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID " Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding WeightCategory}" Header="WEIGHT" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Priority}" Header="PRIORITY" Width="100" />
                     <GridViewColumn DisplayMemberBinding="{Binding ParcelStatus}" Header="PARCEL STATUS" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding TargetNAme}" Header="TARGET NAME" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding TargetId}" Header="TARGET ID" Width="100"/>
-
+                    <GridViewColumn DisplayMemberBinding="{Binding Customer.Name}" Header="SENDER NAME" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Customer.Id}" Header="SENDER ID" Width="100"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -62,11 +61,11 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID " Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding MaxWeight}" Header="WEIGHT" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding WeightCategory}" Header="WEIGHT" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Priority}" Header="PRIORITY" Width="100" />
                     <GridViewColumn DisplayMemberBinding="{Binding ParcelStatus}" Header="PARCEL STATUS" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding SenderName}" Header="SENDER NAME" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding SenderId}" Header="SENER ID" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Customer.Name}" Header="SENDER NAME" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Customer.Id}" Header="SENDER ID" Width="100"/>
                 </GridView>
             </ListView.View>
         </ListView>

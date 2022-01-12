@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using DalApi;
+using System.Runtime.CompilerServices;
+
 
 namespace Dal
 {
@@ -30,6 +32,7 @@ namespace Dal
         /// request of eletricity use by drone
         /// </summary>
         /// <returns> return array with electricity use request </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] ElectricityUseRequest()
         {
             return new double[5] { DataSource.Config.Available,
@@ -61,6 +64,7 @@ namespace Dal
         /// <param name="longitude1">Longitude point A</param>
         /// <param name="longitude2">Longitude point B</param>
         /// <returns> Distance between the points </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2)
         {
             //Convert longitude and lattitude values to radians.

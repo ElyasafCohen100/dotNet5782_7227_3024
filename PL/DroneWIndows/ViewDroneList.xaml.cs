@@ -29,7 +29,7 @@ namespace PL
             }
             DataContext = false;
 
-            sourceCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(BLObject.ViewDroneToList());
+            sourceCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(BLObject.GetAllDroneToList());
             DroneListView.ItemsSource = sourceCollectionView;
             DroneStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
@@ -37,19 +37,24 @@ namespace PL
 
         private void DroneStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DroneListView.ItemsSource = BLObject.ViewDronesToList(x => x.DroneStatus == (DroneStatuses)DroneStatusSelector.SelectedItem);
+            DroneListView.ItemsSource = BLObject.GetDronesToList(x => x.DroneStatus == (DroneStatuses)DroneStatusSelector.SelectedItem);
         }
 
         private void DroneWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DroneListView.ItemsSource = BLObject.ViewDronesToList(x => x.MaxWeight == (WeightCategories)DroneWeightSelector.SelectedItem);
+            DroneListView.ItemsSource = BLObject.GetDronesToList(x => x.MaxWeight == (WeightCategories)DroneWeightSelector.SelectedItem);
         }
 
         private void AddNewDrone_Click(object sender, RoutedEventArgs e)
         {
+            //---- sound while you're clicking on the button ----//
+            System.Media.SoundPlayer player = new(@"sources/clickSound.wav");
+            player.Load();
+            player.PlaySync();
+
             if (new DroneActions().ShowDialog() == false)
             {
-                DroneListView.ItemsSource = BLObject.ViewDroneToList();
+                DroneListView.ItemsSource = BLObject.GetAllDroneToList();
                 DroneListView.Items.Refresh();
             }
         }
@@ -81,12 +86,29 @@ namespace PL
             DroneListView.ItemsSource = sourceCollectionView;
         }
 
-        //private void DroneListView_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.Key == Key.Delete)
-        //    {
-        //        new DroneActions(DroneListView.SelectedIndex).DeleteDroneButton_Click(sender,e);
-        //    }
-        //}
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+               if(DroneListView.SelectedItem != null)
+                {
+                    try
+                    {
+                        DroneToList drone = (DroneToList)sourceCollectionView.GetItemAt(DroneListView.SelectedIndex);
+                        BLObject.DeleteDrone(drone.Id);
+                        DroneListView.ItemsSource = (CollectionView)CollectionViewSource.GetDefaultView(BLObject.GetAllDroneToList());
+                        DroneListView.Items.Refresh();
+                    }
+                    catch(InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    catch(ObjectNotFoundException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+        }
     }
 }

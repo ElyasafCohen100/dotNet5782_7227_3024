@@ -41,7 +41,6 @@ namespace PL
             DataContext = false;
         }
 
-
         //----------------  ModelTextBox ----------------//
 
         private void ModelTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -50,12 +49,14 @@ namespace PL
                 ModelTextBox.Clear();
 
         }
+      
         private void ModelTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (ModelTextBox.Text == String.Empty)
                 ModelTextBox.Text = "Enter Model";
 
         }
+        
         private void ModelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
@@ -86,18 +87,19 @@ namespace PL
                 MessageBox.Show("Enter Model to update", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+      
         private void ModelTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (ModelTextBox.Text != String.Empty) UpdateButton.IsEnabled = true;
             else UpdateButton.IsEnabled = false;
 
         }
+        
         private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();
         }
-
 
         //Bouns.
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

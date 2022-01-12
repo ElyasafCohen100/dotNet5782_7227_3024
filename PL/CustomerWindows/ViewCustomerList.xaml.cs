@@ -34,7 +34,7 @@ namespace PL
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            CustomerListView.ItemsSource = BLObject.ViewCustomerToList();
+            CustomerListView.ItemsSource = BLObject.GetAllCustomerToList();
             DataContext = false;
         }
 
@@ -42,16 +42,16 @@ namespace PL
         {
             if (CustomerListView.SelectedIndex >= 0)
             {
-                CustomerToList selectedCustomer = BLObject.ViewCustomerToList().ToList()[CustomerListView.SelectedIndex];
+                CustomerToList selectedCustomer = BLObject.GetAllCustomerToList().ToList()[CustomerListView.SelectedIndex];
                 if (new CustomerActions(selectedCustomer).ShowDialog() == false)
-                    CustomerListView.ItemsSource = BLObject.ViewCustomerToList();
+                    CustomerListView.ItemsSource = BLObject.GetAllCustomerToList();
             }
         }
 
         private void AddNewCustomer_Click(object sender, RoutedEventArgs e)
         {
             if (new CustomerActions().ShowDialog() == false)
-                CustomerListView.ItemsSource = BLObject.ViewCustomerToList();
+                CustomerListView.ItemsSource = BLObject.GetAllCustomerToList();
         }
 
         private void CLoseButton_Click(object sender, RoutedEventArgs e)

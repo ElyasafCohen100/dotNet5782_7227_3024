@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using BO;
 using DalApi;
 
@@ -34,156 +35,164 @@ namespace BL
         ///                                                             with available charge-slots </exception>
         private BL()
         {
-            try
+            lock (dalObject)
             {
-                dalObject = DalFactory.GetDal();
-            }
-            catch (DalConfigException)
-            {
-                throw;
-            }
-            Random r = new();
-
-            //Import from DAL the 4 weight categories and the charging rate in seperate varibales.
-            double[] tempArray = dalObject.ElectricityUseRequest();
-            double dorneChargingRate = tempArray[4];
-            double[] electricityUse = new double[4];
-
-            for (int i = 0; i < tempArray.Length - 1; i++)
-            {
-                electricityUse[i] = tempArray[i];
-            }
-
-            //Initialize all the drones (if any).
-            IEnumerable<DO.Drone> dalDronesList = dalObject.GetDroneList();
-            if (dalDronesList.Count() > 0)
-            {
-                foreach (var drone in dalDronesList)
+                try
                 {
-                    DroneToList newDrone = new();
-                    //Take all the information from the drone entity in DAL and set it in the DroneToList object (newDrone).
-                    newDrone.Id = drone.Id;
-                    newDrone.Model = drone.Model;
-                    newDrone.MaxWeight = (WeightCategories)drone.MaxWeight;
+                    dalObject = DalFactory.GetDal();
+                }
+                catch (DalConfigException)
+                {
+                    throw;
+                }
+                Random r = new();
 
-                    //Get the rest of the information and fill the other fileds in the new DroneToList object.
-                    //Set DroneStatus, DeliveryParcelId and CurrentLocation (and BatteryStatus - if needed) fileds.
-                    bool isInShipment = false;
-                    foreach (var parcel in dalObject.GetParcelList())
+                //Import from DAL the 4 weight categories and the charging rate in seperate varibales.
+                double[] tempArray = dalObject.ElectricityUseRequest();
+                double dorneChargingRate = tempArray[4];
+                double[] electricityUse = new double[4];
+
+                for (int i = 0; i < tempArray.Length - 1; i++)
+                {
+                    electricityUse[i] = tempArray[i];
+                }
+
+                //Initialize all the drones (if any).
+                IEnumerable<DO.Drone> dalDronesList = dalObject.GetDroneList();
+                if (dalDronesList.Count() > 0)
+                {
+                    foreach (var drone in dalDronesList)
                     {
-                        if (parcel.DroneId == newDrone.Id && parcel.Delivered == null)
-                        {
-                            newDrone.DroneStatus = DroneStatuses.Shipment;
-                            newDrone.DeliveryParcelId = parcel.Id;
+                        DroneToList newDrone = new();
+                        //Take all the information from the drone entity in DAL and set it in the DroneToList object (newDrone).
+                        newDrone.Id = drone.Id;
+                        newDrone.Model = drone.Model;
+                        newDrone.MaxWeight = (WeightCategories)drone.MaxWeight;
 
-                            if (parcel.PickedUp == null)
+                        //Get the rest of the information and fill the other fileds in the new DroneToList object.
+                        //Set DroneStatus, DeliveryParcelId and CurrentLocation (and BatteryStatus - if needed) fileds.
+                        bool isInShipment = false;
+                        foreach (var parcel in dalObject.GetParcelList())
+                        {
+                            if (parcel.DroneId == newDrone.Id && parcel.Delivered == null)
+                            {
+                                newDrone.DroneStatus = DroneStatuses.Shipment;
+                                newDrone.DeliveryParcelId = parcel.Id;
+
+                                if (parcel.PickedUp == null)
+                                {
+                                    try
+                                    {
+                                        int baseStationId = FindNearestBaseStationByCustomerId(parcel.SenderId);
+
+                                        double baseStationLatitude = dalObject.GetStationById(baseStationId).Latitude;
+                                        double baseStationLongitude = dalObject.GetStationById(baseStationId).Longitude;
+
+                                        //Update the location coordinates of the droneToList same as the closest base station to the sender location.
+                                        newDrone.CurrentLocation.Latitude = baseStationLatitude;
+                                        newDrone.CurrentLocation.Longitude = baseStationLongitude;
+                                    }
+                                    catch (ObjectNotFoundException)
+                                    {
+                                        throw new NoBaseStationToAssociateDroneToException();
+                                    }
+                                }
+                                else
+                                {
+                                    double senderLatitude = dalObject.GetCustomerById(parcel.SenderId).Latitude;
+                                    double senderLongitude = dalObject.GetCustomerById(parcel.SenderId).Longitude;
+
+                                    //Update the location coordinates of the droneToList same as the sender location.
+                                    newDrone.CurrentLocation.Latitude = senderLatitude;
+                                    newDrone.CurrentLocation.Longitude = senderLongitude;
+
+                                }
+
+                                double minimumOfBattery = FindMinPowerSuply(newDrone, parcel.TargetId);
+                                newDrone.BatteryStatus = r.Next((int)minimumOfBattery, 101);
+                                isInShipment = true;
+                            }
+                        }
+                        if (!isInShipment)
+                        {
+                            newDrone.DroneStatus = (DroneStatuses)r.Next(2);
+                        }
+
+                        if (newDrone.DroneStatus == DroneStatuses.Maintenance)
+                        {
+                            List<DO.Station> stationsList = new(dalObject.GetBaseStationList());
+                            int size = stationsList.Count();
+
+                            int index = r.Next(0, size);
+                            DO.Station station = stationsList[index];
+
+                            newDrone.CurrentLocation.Latitude = station.Latitude;
+                            newDrone.CurrentLocation.Longitude = station.Longitude;
+                            newDrone.BatteryStatus = r.Next(0, 21);
+                            try
+                            {
+                                dalObject.AddDroneCharge(newDrone.Id, station.Id);
+                            }
+                            catch (DO.XMLFileLoadCreateException e)
+                            {
+                                throw new XMLFileLoadCreateException(e.Message);
+                            }
+                        }
+                        else if (newDrone.DroneStatus == DroneStatuses.Available)
+                        {
+                            List<int> CustomerIdList = new();
+                            CustomerIdList.AddRange(from parcel in dalObject.GetParcelList()
+                                                    where parcel.Delivered != null
+                                                    select parcel.TargetId);
+                            int size = CustomerIdList.Count();
+                            if (size > 0)
+                            {
+                                int index = r.Next(0, size);
+                                int targetId = CustomerIdList[index];
+
+                                DO.Customer target = dalObject.GetCustomerById(targetId);
+                                newDrone.CurrentLocation.Latitude = target.Latitude;
+                                newDrone.CurrentLocation.Longitude = target.Longitude;
+
+                                newDrone.BatteryStatus = r.Next((int)FindMinPowerSuplyForCharging(newDrone), 101);
+                            }
+                            else
                             {
                                 try
                                 {
-                                    int baseStationId = FindNearestBaseStationByCustomerId(parcel.SenderId);
+                                    lock (dalObject)
+                                    {
+                                        StationToList baseStation = GetStationsWithAvailableChargingSlotstBL().First();
+                                        DO.Station newStation = dalObject.GetStationById(baseStation.Id);
 
-                                    double baseStationLatitude = dalObject.FindStationById(baseStationId).Latitude;
-                                    double baseStationLongitude = dalObject.FindStationById(baseStationId).Longitude;
+                                        newDrone.CurrentLocation.Longitude = newStation.Longitude;
+                                        newDrone.CurrentLocation.Latitude = newStation.Latitude;
+                                        newDrone.BatteryStatus = 100;
 
-                                    //Update the location coordinates of the droneToList same as the closest base station to the sender location.
-                                    newDrone.CurrentLocation.Latitude = baseStationLatitude;
-                                    newDrone.CurrentLocation.Longitude = baseStationLongitude;
+                                        baseStation.AvailableChargeSlots--;
+                                        baseStation.NotAvailableChargeSlots++;
+                                        try
+                                        {
+                                            dalObject.UpdateDroneToCharging(newDrone.Id, baseStation.Id);
+                                        }
+                                        catch (DO.ObjectNotFoundException e)
+                                        {
+                                            throw new ObjectNotFoundException(e.Message);
+                                        }
+                                        catch (DO.XMLFileLoadCreateException e)
+                                        {
+                                            throw new XMLFileLoadCreateException(e.Message);
+                                        }
+                                    }
                                 }
-                                catch (ObjectNotFoundException)
+                                catch (InvalidOperationException)
                                 {
                                     throw new NoBaseStationToAssociateDroneToException();
                                 }
                             }
-                            else
-                            {
-                                double senderLatitude = dalObject.FindCustomerById(parcel.SenderId).Latitude;
-                                double senderLongitude = dalObject.FindCustomerById(parcel.SenderId).Longitude;
-
-                                //Update the location coordinates of the droneToList same as the sender location.
-                                newDrone.CurrentLocation.Latitude = senderLatitude;
-                                newDrone.CurrentLocation.Longitude = senderLongitude;
-                            }
-
-                            double minimumOfBattery = FindMinPowerSuply(newDrone, parcel.TargetId);
-                            newDrone.BatteryStatus = r.Next((int)minimumOfBattery, 101);
-                            isInShipment = true;
                         }
+                        droneToLists.Add(newDrone);
                     }
-                    if (!isInShipment)
-                    {
-                        newDrone.DroneStatus = (DroneStatuses)r.Next(2);
-                    }
-
-                    if (newDrone.DroneStatus == DroneStatuses.Maintenance)
-                    {
-                        List<DO.Station> stationsList = new(dalObject.GetBaseStationList());
-                        int size = stationsList.Count();
-
-                        int index = r.Next(0, size);
-                        DO.Station station = stationsList[index];
-
-                        newDrone.CurrentLocation.Latitude = station.Latitude;
-                        newDrone.CurrentLocation.Longitude = station.Longitude;
-                        newDrone.BatteryStatus = r.Next(0, 21);
-                        try
-                        {
-                            dalObject.AddDroneCharge(newDrone.Id, station.Id);
-                        }
-                        catch (DO.XMLFileLoadCreateException e)
-                        {
-                            throw new XMLFileLoadCreateException(e.Message);
-                        }
-                    }
-                    else if (newDrone.DroneStatus == DroneStatuses.Available)
-                    {
-                        List<int> CustomerIdList = new();
-                        CustomerIdList.AddRange(from parcel in dalObject.GetParcelList()
-                                                where parcel.Delivered != null
-                                                select parcel.TargetId);
-                        int size = CustomerIdList.Count();
-                        if (size > 0)
-                        {
-                            int index = r.Next(0, size);
-                            int targetId = CustomerIdList[index];
-                            DO.Customer target = dalObject.FindCustomerById(targetId);
-                            newDrone.CurrentLocation.Latitude = target.Latitude;
-                            newDrone.CurrentLocation.Longitude = target.Longitude;
-
-                            newDrone.BatteryStatus = r.Next((int)FindMinPowerSuplyForCharging(newDrone), 101);
-                        }
-                        else
-                        {
-                            try
-                            {
-                                StationToList baseStation = ViewStationsWithAvailableChargingSlotstBL().First();
-                                DO.Station newStation = dalObject.FindStationById(baseStation.Id);
-
-                                newDrone.CurrentLocation.Longitude = newStation.Longitude;
-                                newDrone.CurrentLocation.Latitude = newStation.Latitude;
-                                newDrone.BatteryStatus = 100;
-
-                                baseStation.AvailableChargeSlots--;
-                                baseStation.NotAvailableChargeSlots++;
-                                try
-                                {
-                                    dalObject.UpdateDroneToCharging(newDrone.Id, baseStation.Id);
-                                }
-                                catch (DO.ObjectNotFoundException e)
-                                {
-                                    throw new ObjectNotFoundException(e.Message);
-                                }
-                                catch (DO.XMLFileLoadCreateException e)
-                                {
-                                    throw new XMLFileLoadCreateException(e.Message);
-                                }
-                            }
-                            catch (InvalidOperationException)
-                            {
-                                throw new NoBaseStationToAssociateDroneToException();
-                            }
-                        }
-                    }
-                    droneToLists.Add(newDrone);
                 }
             }
         }
@@ -204,27 +213,30 @@ namespace BL
             int nearestBaseStationId = 0;
 
             //Get the Sender location coordinates.
-            double customerLatitude = dalObject.FindCustomerById(customerId).Latitude;
-            double customerLongitude = dalObject.FindCustomerById(customerId).Longitude;
-            if (dalObject.GetBaseStationList().Count() > 0)
+            lock (dalObject)
             {
-                foreach (var baseStation in dalObject.GetBaseStationList())
+                double customerLatitude = dalObject.GetCustomerById(customerId).Latitude;
+                double customerLongitude = dalObject.GetCustomerById(customerId).Longitude;
+                if (dalObject.GetBaseStationList().Count() > 0)
                 {
-                    //Calculate the distance between the sender and the current base station.
-                    double distance = dalObject.Distance(baseStation.Latitude, customerLatitude, baseStation.Longitude, customerLongitude);
-
-                    if (distance < minDistance)
+                    foreach (var baseStation in dalObject.GetBaseStationList())
                     {
-                        minDistance = distance;
-                        nearestBaseStationId = baseStation.Id;
+                        //Calculate the distance between the sender and the current base station.
+                        double distance = dalObject.Distance(baseStation.Latitude, customerLatitude, baseStation.Longitude, customerLongitude);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            nearestBaseStationId = baseStation.Id;
+                        }
                     }
                 }
+                else
+                {
+                    throw new ObjectNotFoundException();
+                }
+                return nearestBaseStationId;
             }
-            else
-            {
-                throw new ObjectNotFoundException();
-            }
-            return nearestBaseStationId;
         }
 
         /// <summary>
@@ -237,21 +249,23 @@ namespace BL
         {
             double minDistance = double.MaxValue;
             int nearestBaseStationID = 0;
-
-            IEnumerable<DO.Station> stations = dalObject.GetStations(x => x.ChargeSlots > 0);
-            if (stations.Count() == 0) throw new ObjectNotFoundException("Stations with available charging slots");
-
-            foreach (var myBaseStation in stations)
+            lock (dalObject)
             {
-                double distance = dalObject.Distance(myBaseStation.Latitude, location.Latitude, myBaseStation.Longitude, location.Longitude);
+                IEnumerable<DO.Station> stations = dalObject.GetStations(x => x.ChargeSlots > 0);
+                if (stations.Count() == 0) throw new ObjectNotFoundException("Stations with available charging slots");
 
-                if (distance < minDistance)
+                foreach (var myBaseStation in stations)
                 {
-                    nearestBaseStationID = myBaseStation.Id;
-                    minDistance = distance;
+                    double distance = dalObject.Distance(myBaseStation.Latitude, location.Latitude, myBaseStation.Longitude, location.Longitude);
+
+                    if (distance < minDistance)
+                    {
+                        nearestBaseStationID = myBaseStation.Id;
+                        minDistance = distance;
+                    }
                 }
+                return nearestBaseStationID;
             }
-            return nearestBaseStationID;
         }
 
         /// <summary>
@@ -270,46 +284,48 @@ namespace BL
 
             //Step 1: Find the distance between the drone current location and the destination location.
             Location location = new();
-            location.Latitude = dalObject.FindCustomerById(customerId).Latitude;
-            location.Longitude = dalObject.FindCustomerById(customerId).Longitude;
-            double distance1 = dalObject.Distance(drone.CurrentLocation.Latitude, location.Latitude, drone.CurrentLocation.Longitude, location.Longitude);
-
-            //Step 2: Find the minimal needed power suply to go to the destination.
-            double suply1 = 0;
-            switch (drone.MaxWeight)
+            lock (dalObject)
             {
-                case WeightCategories.Heavy:
-                    //Available-0, Light-1, Intermediate-2, Heavy-3, DroneChargingRate-4.
-                    suply1 = distance1 / dalObject.ElectricityUseRequest()[3];
-                    break;
-                case WeightCategories.Average:
-                    suply1 = distance1 / dalObject.ElectricityUseRequest()[2];
-                    break;
-                case WeightCategories.Light:
-                    suply1 = distance1 / dalObject.ElectricityUseRequest()[1];
-                    break;
-            }
+                location.Latitude = dalObject.GetCustomerById(customerId).Latitude;
+                location.Longitude = dalObject.GetCustomerById(customerId).Longitude;
+                double distance1 = dalObject.Distance(drone.CurrentLocation.Latitude, location.Latitude, drone.CurrentLocation.Longitude, location.Longitude);
 
-            //Step 3: Find the nearest base-station with available charge-slot and calcuolate the needed power suply 
-            //        and calculate the distance between the cutomer and the base-station.
-            int closestBaseStationID = FindNearestBaseStationWithAvailableChargingSlots(location);
-            if (closestBaseStationID != 0)
-            {
-                double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationID).Latitude;
-                double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationID).Longitude;
-                double distance2 = dalObject.Distance(location.Latitude, nearestBaseStationLatitude, location.Longitude, nearestBaseStationLongitude);
+                //Step 2: Find the minimal needed power suply to go to the destination.
+                double suply1 = 0;
+                switch (drone.MaxWeight)
+                {
+                    case WeightCategories.Heavy:
+                        //Available-0, Light-1, Intermediate-2, Heavy-3, DroneChargingRate-4.
+                        suply1 = distance1 / dalObject.ElectricityUseRequest()[3];
+                        break;
+                    case WeightCategories.Average:
+                        suply1 = distance1 / dalObject.ElectricityUseRequest()[2];
+                        break;
+                    case WeightCategories.Light:
+                        suply1 = distance1 / dalObject.ElectricityUseRequest()[1];
+                        break;
+                }
 
-                //Step 4: Find the minimal needed power suply to go to the destination.
-                double suply2 = distance2 / dalObject.ElectricityUseRequest()[0];
+                //Step 3: Find the nearest base-station with available charge-slot and calcuolate the needed power suply 
+                //        and calculate the distance between the cutomer and the base-station.
+                int closestBaseStationId = FindNearestBaseStationWithAvailableChargingSlots(location);
+                if (closestBaseStationId != 0)
+                {
+                    double nearestBaseStationLatitude = dalObject.GetStationById(closestBaseStationId).Latitude;
+                    double nearestBaseStationLongitude = dalObject.GetStationById(closestBaseStationId).Longitude;
+                    double distance2 = dalObject.Distance(location.Latitude, nearestBaseStationLatitude, location.Longitude, nearestBaseStationLongitude);
+                    //Step 4: Find the minimal needed power suply to go to the destination.
+                    double suply2 = distance2 / dalObject.ElectricityUseRequest()[0];
 
-                //Step 5: Calculate the final needed power suply.
-                double minBatteryValue = suply1 + suply2;
+                    //Step 5: Calculate the final needed power suply.
+                    double minBatteryValue = suply1 + suply2;
 
-                return minBatteryValue;
-            }
-            else
-            {
-                return 0;
+                    return minBatteryValue;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
@@ -328,14 +344,16 @@ namespace BL
             //Step 1: Find the nearest base-station with available charge-slot and calcuolate the needed power suply.
             int closestBaseStationId = FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
             if (closestBaseStationId == 0) throw new ObjectNotFoundException("base-Station");
+            lock (dalObject)
+            {
+                double nearestBaseStationLatitude = dalObject.GetStationById(closestBaseStationId).Latitude;
+                double nearestBaseStationLongitude = dalObject.GetStationById(closestBaseStationId).Longitude;
+                double distance = dalObject.Distance(drone.CurrentLocation.Latitude, nearestBaseStationLatitude, drone.CurrentLocation.Longitude, nearestBaseStationLongitude);
 
-            double nearestBaseStationLatitude = dalObject.FindStationById(closestBaseStationId).Latitude;
-            double nearestBaseStationLongitude = dalObject.FindStationById(closestBaseStationId).Longitude;
-            double distance = dalObject.Distance(drone.CurrentLocation.Latitude, nearestBaseStationLatitude, drone.CurrentLocation.Longitude, nearestBaseStationLongitude);
-
-            //Step 2: Find the minimal needed power suply to go to the destination.
-            double minBatteryValue = distance / dalObject.ElectricityUseRequest()[0];
-            return minBatteryValue;
+                //Step 2: Find the minimal needed power suply to go to the destination.
+                double minBatteryValue = distance / dalObject.ElectricityUseRequest()[0];
+                return minBatteryValue;
+            }
         }
 
         /// <summary>
@@ -355,28 +373,30 @@ namespace BL
             DroneToList blDrone = droneToLists.Find(x => x.Id == droneId);
             if (blDrone.Id != droneId) throw new ObjectNotFoundException("drone");
 
-            Customer myCustomer = FindCustomerByIdBL(customerId);
+            Customer myCustomer = GetCustomerByIdBL(customerId);
 
-            double myDistantce = dalObject.Distance(blDrone.CurrentLocation.Latitude, myCustomer.Location.Latitude,
-                blDrone.CurrentLocation.Longitude, myCustomer.Location.Longitude);
-
-            double mySuply = 0;
-
-            switch (blDrone.MaxWeight)
+            lock (dalObject)
             {
-                case WeightCategories.Heavy:
-                    //Available-0, Light-1, Intermediate-2, Heavy-3, DroneChargingRate-4.
-                    mySuply = myDistantce / dalObject.ElectricityUseRequest()[3];
-                    break;
-                case WeightCategories.Average:
-                    mySuply = myDistantce / dalObject.ElectricityUseRequest()[2];
-                    break;
-                case WeightCategories.Light:
-                    mySuply = myDistantce / dalObject.ElectricityUseRequest()[1];
-                    break;
-            }
+                double myDistantce = dalObject.Distance(blDrone.CurrentLocation.Latitude, myCustomer.Location.Latitude,
+                    blDrone.CurrentLocation.Longitude, myCustomer.Location.Longitude);
 
-            return mySuply;
+                double mySuply = 0;
+
+                switch (blDrone.MaxWeight)
+                {
+                    case WeightCategories.Heavy:
+                        //Available-0, Light-1, Intermediate-2, Heavy-3, DroneChargingRate-4.
+                        mySuply = myDistantce / dalObject.ElectricityUseRequest()[3];
+                        break;
+                    case WeightCategories.Average:
+                        mySuply = myDistantce / dalObject.ElectricityUseRequest()[2];
+                        break;
+                    case WeightCategories.Light:
+                        mySuply = myDistantce / dalObject.ElectricityUseRequest()[1];
+                        break;
+                }
+                return mySuply;
+            }
         }
 
         /// <summary>
@@ -394,12 +414,12 @@ namespace BL
             if (targetId < 100000000 || targetId >= 1000000000) throw new InvalidInputException("customer Id");
 
             //DroneToList blDrone = droneToLists.Find(x => x.Id == droneId);
-            Drone blDrone = FindDroneByIdBL(droneId);
+            Drone blDrone = GetDroneByIdBL(droneId);
             if (blDrone.Id != droneId) throw new ObjectNotFoundException("drone");
 
             double minSuply1 = FindMinPowerSuplyForDistanceBetweenDroneToTarget(blDrone.Id, senderId);
 
-            Customer sender = FindCustomerByIdBL(senderId);
+            Customer sender = GetCustomerByIdBL(senderId);
             blDrone.CurrentLocation = sender.Location;
 
             DroneToList drone = droneToLists.Find(x => x.Id == blDrone.Id);
@@ -410,11 +430,14 @@ namespace BL
         {
             try
             {
-                DO.DroneCharge droneCharge = dalObject.FindDroneChargeByDroneId(droneId);
-                DroneCharge newDroneCharge = new();
-                newDroneCharge.DroneId = droneCharge.DroneId;
-                newDroneCharge.ChargeTime = droneCharge.ChargeTime;
-                return newDroneCharge;
+                lock (dalObject)
+                {
+                    DO.DroneCharge droneCharge = dalObject.GetDroneChargeByDroneId(droneId);
+                    DroneCharge newDroneCharge = new();
+                    newDroneCharge.DroneId = droneCharge.DroneId;
+                    newDroneCharge.ChargeTime = droneCharge.ChargeTime;
+                    return newDroneCharge;
+                }
             }
             catch (XMLFileLoadCreateException e)
             {

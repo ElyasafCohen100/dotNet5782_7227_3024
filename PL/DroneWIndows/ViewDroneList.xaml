@@ -57,10 +57,10 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID " Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Model}"  Header="MODEL" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding MaxWeight}" Header="WEIGHT" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding WeightCategories}" Header="WEIGHT" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding BatteryStatus,StringFormat={}{0:0}%}" Header="BATTERY" Width="100" />
                     <GridViewColumn DisplayMemberBinding="{Binding DroneStatus}" Header="STATUS" Width="100"/>
-                    <GridViewColumn x:Name="GridViewLongitude" Header="LONGITUDE" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding CurrentLocation.Longitude}" Header="LONGITUDE" Width="100" />
                     <GridViewColumn DisplayMemberBinding="{Binding CurrentLocation.Latitude}" Header="LATITUDE" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding DeliveryParcelId}" Header="PARCEL ID" Width="100"/>
                 </GridView>

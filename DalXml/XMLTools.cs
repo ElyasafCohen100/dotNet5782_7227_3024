@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     class XMLTools
     {
         static string dir = Directory.GetCurrentDirectory() + "\\";
+       
         static XMLTools()
         {
             if (!Directory.Exists(dir))
@@ -32,6 +34,7 @@ namespace Dal
                 throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
+      
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try

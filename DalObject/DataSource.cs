@@ -33,7 +33,7 @@ namespace Dal
             internal static double Available = 3.2;
             internal static double DroneChargingRate = 10;
 
-            internal static int SerialNum = 1;
+            internal static int SerialNumber = 1;
 
             internal static Random r = new Random();
             internal static DateTime currentDate = DateTime.Now;
@@ -93,7 +93,7 @@ namespace Dal
             for (int i = 0; i < 10; i++)
             {
                 Parcel myParcel = new Parcel();
-                myParcel.Id = Config.SerialNum;
+                myParcel.Id = Config.SerialNumber;
                 myParcel.SenderId = Customers[i].Id;
                 myParcel.TargetId = Customers[i + 1].Id;
                 myParcel.Weight = (WeightCategories)Config.r.Next(2);
@@ -106,13 +106,13 @@ namespace Dal
                     case 0:
                         myParcel.Scheduled = Config.currentDate.AddMinutes(Config.r.Next(5, 15));
                         myParcel.PickedUp = Config.currentDate.AddMinutes(Config.r.Next(30, 45));
-                        myParcel.Delivered = Config.currentDate.AddMinutes(Config.r.Next(10, 30));
+                        myParcel.Delivered = Config.currentDate.AddMinutes(Config.r.Next(50, 100));
                         myParcel.DroneId = Drones[0].Id;
                         break;
                     case 1:
                         myParcel.Scheduled = Config.currentDate.AddMinutes(Config.r.Next(5, 15));
                         myParcel.PickedUp = Config.currentDate.AddMinutes(Config.r.Next(30, 45));
-                        myParcel.Delivered = Config.currentDate.AddMinutes(Config.r.Next(10, 30));
+                        myParcel.Delivered = Config.currentDate.AddMinutes(Config.r.Next(50, 100));
                         myParcel.DroneId = Drones[3].Id;
                         break;
                     case 2:
@@ -122,7 +122,7 @@ namespace Dal
                 }
                 Parcels.Add(myParcel);
 
-                Config.SerialNum++;
+                Config.SerialNumber++;
             }
         }
     }

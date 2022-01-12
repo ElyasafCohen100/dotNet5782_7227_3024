@@ -1,39 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using DO;
 
 namespace DalApi
 {
     public interface IDal
     {
-        //----------------------- FIND FUNCTIONS -----------------------//
+        #region Get
+        Drone GetDroneById(int droneId);
+        Station GetStationById(int stationId);
+        DroneCharge GetDroneChargeByDroneId(int droneId);
+        Customer GetCustomerById(int customerId);
+        Customer GetCustomerByUserName(string username);
+        Admin GetAdminByUserName(string userName);
+        Parcel GetParcelById(int parcelId);
+        IEnumerable<Station> GetBaseStationList();
+        IEnumerable<Drone> GetDroneList();
+        IEnumerable<Customer> GetCustomerList();
+        IEnumerable<Parcel> GetParcelList();
+        IEnumerable<Admin> GetAdminsList();
+        IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate);
+        IEnumerable<Station> GetStations(Predicate<Station> predicate);
+        IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate);
+        #endregion
 
-        Drone FindDroneById(int droneId);
-        Station FindStationById(int stationId);
-        DroneCharge FindDroneChargeByDroneId(int droneId);
-        Customer FindCustomerById(int customerId);
 
-        Customer FindCustomerByUserName(string username);
-
-        Admin FindAdminByUserName(string userName);
-
-        Parcel FindParcelById(int parcelId);
-
-        //----------------------- SETTERS -----------------------//
-
-        void SetNewDrone(Drone drone);
-        void SetNewStation(Station station);
-        void SetNewCustomer(Customer customer);
-        void SetNewParcel(Parcel parcel);
-        void SetAdmin(Admin admin);
-
+        #region Add
+        void AddNewDrone(Drone drone);
+        void AddNewStation(Station station);
+        void AddNewCustomer(Customer customer);
+        void AddNewParcel(Parcel parcel);
+        void AddAdmin(Admin admin);
         void AddDroneCharge(int droneId, int stationId);
+        #endregion
 
-        //----------------------- UPDATE FUNCTIONS -----------------------//
 
+        #region Update
         void UpdateDroneIdOfParcel(int parcelId, int droneId);
         void UpdatePickedUpParcelById(int parcelId);
         void UpdateDeliveredParcelById(int parcelId);
@@ -43,31 +46,31 @@ namespace DalApi
         void UpdateBaseStationDetails(int baseStationId, string baseStationNewName, int baseStationChargeSlots);
         void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber);
         void UpdateAdminPassword(Admin newAdmin);
+        #endregion
 
-        //--------------------------- GETTERS ---------------------------//
 
-        IEnumerable<Station> GetBaseStationList();
-        IEnumerable<Drone> GetDroneList();
-        IEnumerable<Customer> GetCustomerList();
-        IEnumerable<Parcel> GetParcelList();
-        IEnumerable<Admin> GetAdminsList();
-        IEnumerable<Parcel> GetParcels(Predicate<Parcel> predicate);
-        IEnumerable<Station> GetStations(Predicate<Station> predicate);
-        IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate);
-
-        //--------------------------- DELETE FUNCTIONS ---------------------------//
+        #region Delete 
         void DeleteParcel(int parcelId);
         void DeleteStation(int parcelId);
         void DeleteDrone(int droneId);
         void DeleteCustomer(int customerId);
         void DeleteAdmin(string userName);
-
         void DeleteDroneCharge(int droneId);
+        #endregion
+
+
+        #region Another function
+        [MethodImpl(MethodImplOptions.Synchronized)]
         void ReleseDroneCharges() { }
+      
+        
         double[] ElectricityUseRequest();
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
 
-
+     
         /// <summary>
         /// Return string of sexagesimal presentation.
         /// </summary>
@@ -87,6 +90,6 @@ namespace DalApi
 
             return $"{degrees}°{minutes1}'{seconds}\"";
         }
-
+        #endregion
     }
 }

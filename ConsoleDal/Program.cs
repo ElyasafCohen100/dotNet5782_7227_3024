@@ -28,7 +28,7 @@ namespace ConsoleUI
             {
                 Console.WriteLine(e.Message);
             }
-            
+
             Menu();
         }
 
@@ -246,7 +246,7 @@ namespace ConsoleUI
             double.TryParse(Console.ReadLine(), out doubleTemp);
             station.Latitude = doubleTemp;
 
-            dalObject.SetNewStation(station);
+            dalObject.AddNewStation(station);
 
             Console.WriteLine("New base station added");
         }
@@ -270,7 +270,7 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out intTemp);
             drone.MaxWeight = (WeightCategories)intTemp;
 
-            dalObject.SetNewDrone(drone);
+            dalObject.AddNewDrone(drone);
 
             Console.WriteLine("New drone added");
         }
@@ -302,7 +302,7 @@ namespace ConsoleUI
             double.TryParse(Console.ReadLine(), out doubleTemp);
             customer.Latitude = doubleTemp;
 
-            dalObject.SetNewCustomer(customer);
+            dalObject.AddNewCustomer(customer);
 
             Console.WriteLine("New customer added");
         }
@@ -363,7 +363,7 @@ namespace ConsoleUI
                     parcel.Requested = currentDate;
                     break;
             }
-            dalObject.SetNewParcel(parcel);
+            dalObject.AddNewParcel(parcel);
 
             Console.WriteLine("A new parcel has been added");
         }
@@ -466,8 +466,10 @@ namespace ConsoleUI
             Console.WriteLine("Enter Base-Station ID: ");
             int.TryParse(Console.ReadLine(), out int baseStatinId);
 
-            Station myBaseStation = dalObject.FindStationById(baseStatinId);
+
+            Station myBaseStation = dalObject.GetStationById(baseStatinId);
             Console.WriteLine(myBaseStation.ToString());
+
         }
 
         /// <summary>
@@ -478,8 +480,9 @@ namespace ConsoleUI
             Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            Drone myDrone = dalObject.FindDroneById(droneId);
+            Drone myDrone = dalObject.GetDroneById(droneId);
             Console.WriteLine(myDrone.ToString());
+
         }
 
         /// <summary>
@@ -490,7 +493,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter customer ID: ");
             int.TryParse(Console.ReadLine(), out int customerId);
 
-            Customer myCusromer = dalObject.FindCustomerById(customerId);
+            Customer myCusromer = dalObject.GetCustomerById(customerId);
             Console.WriteLine(myCusromer.ToString());
         }
 
@@ -502,7 +505,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter parcel ID: ");
             int.TryParse(Console.ReadLine(), out int parcelId);
 
-            Parcel myParcel = dalObject.FindParcelById(parcelId);
+            Parcel myParcel = dalObject.GetParcelById(parcelId);
             Console.WriteLine(myParcel.ToString());
         }
 

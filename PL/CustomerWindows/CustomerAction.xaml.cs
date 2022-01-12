@@ -28,7 +28,7 @@ namespace PL
             }
             this.selcetedCustomerToList = selcetedCustomerToList;
 
-            Customer customer = BLObject.FindCustomerByIdBL(selcetedCustomerToList.Id);
+            Customer customer = BLObject.GetCustomerByIdBL(selcetedCustomerToList.Id);
 
             DataContext = false;
             grid1.DataContext = customer;
@@ -139,11 +139,6 @@ namespace PL
             if (DataContext.Equals(false)) e.Cancel = true;
         }
 
-        private void ParcelFromCustomerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            CustomerToList selectedCustomer = BLObject.ViewCustomerToList().ToList()[ParcelFromCustomerList.SelectedIndex];
-        }
-
         private void DeleteCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -174,15 +169,17 @@ namespace PL
             UpdateCustomerButton.IsEnabled = true;
         }
 
-        private void ParcelFromCustomerList_MouseDoubleClick_1(object sender, MouseButtonEventArgs e)
+        private void ParcelFromCustomerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ParcelToList selectedParcel = BLObject.ViewParcelToList().ToList()[ParcelFromCustomerList.SelectedIndex];
+            Customer customer = BLObject.GetCustomerByIdBL(selcetedCustomerToList.Id);
+            ParcelToList selectedParcel = BLObject.GetParcelToList(customer.ParcelFromCustomerList[ParcelFromCustomerList.SelectedIndex].Id);
             new ParcelActions(selectedParcel).Show();
         }
 
         private void ParcelToCustomerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ParcelToList selectedParcel = BLObject.ViewParcelToList().ToList()[ParcelToCustomerList.SelectedIndex];
+            Customer customer = BLObject.GetCustomerByIdBL(selcetedCustomerToList.Id);
+            ParcelToList selectedParcel = BLObject.GetParcelToList(customer.ParcelToCustomerList[ParcelToCustomerList.SelectedIndex].Id);
             new ParcelActions(selectedParcel).Show();
         }
 

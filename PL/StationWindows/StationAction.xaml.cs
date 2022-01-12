@@ -31,7 +31,7 @@ namespace PL
             DataContext = false;
 
 
-            BO.Station station = BLObject.FindStationByIdBL(selcetedStationToList.Id);
+            BO.Station station = BLObject.GetStationByIdBL(selcetedStationToList.Id);
             grid1.DataContext = station;
 
             StationIdTB.IsEnabled = false;
@@ -91,6 +91,7 @@ namespace PL
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+      
         private void StationNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
@@ -130,7 +131,7 @@ namespace PL
 
         private void DroneChargeListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DroneToList selectedDrone = BLObject.ViewDroneToList().ToList()[DroneChargeListView.SelectedIndex];
+            DroneToList selectedDrone = BLObject.GetAllDroneToList().ToList()[DroneChargeListView.SelectedIndex];
             if (new DroneActions(selectedDrone).ShowDialog() == false)
             {
                 DroneChargeListView.Items.Refresh();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using BO;
 
@@ -7,20 +8,246 @@ namespace BL
 {
     public partial class BL : BlApi.IBL
     {
+        #region Get
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsCustomerRegisered(string username, string password)
+        {
+            lock (dalObject)
+            {
+                DO.Customer customer = dalObject.GetCustomerByUserName(username);
+                if (customer.UserName == username && customer.Password == password)
+                    return true;
+                return false;
+            }
+        }
 
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsCustomerRegisered(string username)
+        {
+            lock (dalObject)
+            {
+                DO.Customer customer = dalObject.GetCustomerByUserName(username);
+                if (customer.UserName == username)
+                    return true;
+                return false;
+            }
+        }
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Customer GetCustomerByUserName(string userName)
+        {
+            lock (dalObject)
+            {
+                DO.Customer dalCustomer = dalObject.GetCustomerByUserName(userName);
+                Customer customer = GetCustomerByIdBL(dalCustomer.Id);
+                customer.UserName = dalCustomer.UserName;
+                customer.Password = dalCustomer.Password;
+                return customer;
+            }
+        }
+
+
+        /// <summary>
+        /// Find BL customer by ID by using DAL.
+        /// </summary>
+        /// <param name="customerId"> Customer Id </param>
+        /// <returns> BL customer object </returns>
+        /// <exception cref="InvalidInputException"> Thrown if customer id is invalid </exception>
+        /// <exception cref="ObjectNotFoundException"> Throw if customer with such id has not found </exception>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Customer GetCustomerByIdBL(int customerId)
+        {
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
+
+            Customer Customer = new();
+            try
+            {
+                lock (dalObject)
+                {
+                    DO.Customer dalCustomer = dalObject.GetCustomerById(customerId);
+                    Customer.Id = dalCustomer.Id;
+                    Customer.Name = dalCustomer.Name;
+                    Customer.Phone = dalCustomer.Phone;
+                    Customer.Location.Latitude = dalCustomer.Latitude;
+                    Customer.Location.Longitude = dalCustomer.Longitude;
+                    Customer.UserName = dalCustomer.UserName;
+                    Customer.Password = dalCustomer.Password;
+                }
+            }
+            catch (DO.ObjectNotFoundException)
+            {
+                throw new ObjectNotFoundException("Customer");
+            }
+            lock (dalObject)
+            {
+                IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
+                if (dalParcelsList.Count() > 0)
+                {
+                    foreach (var parcel in dalParcelsList)
+                    {
+                        if (customerId == parcel.SenderId || customerId == parcel.TargetId)
+                        {
+                            ParcelInCustomer ParcelInCustomer = new();
+                            ParcelInCustomer.Id = parcel.Id;
+                            ParcelInCustomer.WeightCategory = (WeightCategories)parcel.Weight;
+                            ParcelInCustomer.Priority = (Priorities)parcel.Priority;
+
+                            if (parcel.Delivered != null)
+                                ParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
+                            else if (parcel.PickedUp != null)
+                                ParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
+                            else if (parcel.Scheduled != null)
+                                ParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
+                            else
+                                ParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
+
+                            ParcelInCustomer.Customer.Id = Customer.Id;
+                            ParcelInCustomer.Customer.Name = Customer.Name;
+
+                            if (customerId == parcel.SenderId)
+                                Customer.ParcelFromCustomerList.Add(ParcelInCustomer);
+                            else
+                                Customer.ParcelToCustomerList.Add(ParcelInCustomer);
+                        }
+                    }
+                }
+            }
+            return Customer;
+        }
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public CustomerToList GetCustomerToList(int customerId)
+        {
+            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
+
+            CustomerToList customer = new();
+            try
+            {
+                lock (dalObject)
+                {
+                    DO.Customer dalCustomer = dalObject.GetCustomerById(customerId);
+                    customer.Id = dalCustomer.Id;
+                    customer.Name = dalCustomer.Name;
+                    customer.Phone = dalCustomer.Phone;
+                }
+            }
+            catch (DO.ObjectNotFoundException)
+            {
+                throw new ObjectNotFoundException("Customer");
+            }
+            int sendAndDelivered = 0;
+            int sendAndNotDelivered = 0;
+            int pickedUpParcels = 0;
+            int deliveredParcels = 0;
+            lock (dalObject)
+            {
+                IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
+                if (dalParcelsList.Count() > 0)
+                {
+                    foreach (var parcel in dalParcelsList)
+                    {
+                        if (customerId == parcel.SenderId)
+                        {
+                            if (parcel.Delivered != null)
+                                sendAndDelivered++;
+                            else if (parcel.PickedUp != null)
+                                sendAndNotDelivered++;
+                        }
+                        else if (customerId == parcel.TargetId)
+                        {
+                            if (parcel.Delivered != null)
+                                deliveredParcels++;
+                            else if (parcel.PickedUp != null)
+                                pickedUpParcels++;
+                        }
+                    }
+                }
+                customer.SendAndDeliveredParcels = sendAndDelivered;
+                customer.SendAndNotDeliveredParcels = sendAndNotDelivered;
+                customer.PickedUpParcels = pickedUpParcels;
+                customer.DeliveredParcels = deliveredParcels;
+                return customer;
+            }
+        }
+
+
+        /// <summary>
+        /// View list of detailes of BL customer.
+        /// </summary>
+        /// <returns> List of detailes of BL customer </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<CustomerToList> GetAllCustomerToList()
+        {
+            List<CustomerToList> myCustomerList = new();
+            lock (dalObject)
+            {
+                IEnumerable<DO.Customer> dalCustomers = dalObject.GetCustomerList();
+                if (dalCustomers.Count() > 0)
+                {
+                    IEnumerable<DO.Parcel> dalParcels = dalObject.GetParcelList();
+
+                    foreach (var customer in dalCustomers)
+                    {
+                        CustomerToList myCustomer = new();
+
+                        myCustomer.Id = customer.Id;
+                        myCustomer.Name = customer.Name;
+                        myCustomer.Phone = customer.Phone;
+
+                        if (dalParcels.Count() > 0)
+                        {
+                            foreach (var parcel in dalParcels)
+                            {
+                                if (myCustomer.Id == parcel.SenderId)
+                                {
+                                    if (parcel.Delivered != null)
+                                    {
+                                        myCustomer.SendAndDeliveredParcels++;
+                                    }
+                                    else if (parcel.PickedUp != null)
+                                    {
+                                        myCustomer.SendAndNotDeliveredParcels++;
+                                    }
+                                }
+                                else if (myCustomer.Id == parcel.TargetId)
+                                {
+                                    if (parcel.Delivered != null)
+                                    {
+                                        myCustomer.DeliveredParcels++;
+                                    }
+                                    else if (parcel.PickedUp != null)
+                                    {
+                                        myCustomer.PickedUpParcels++;
+                                    }
+                                }
+
+                            }
+                        }
+                        myCustomerList.Add(myCustomer);
+                    }
+                }
+                return myCustomerList;
+            }
+        }
+        #endregion
+        
+        
         #region Add
-
         /// <summary>
         /// Add new BL customer by using DAL.
         /// </summary>
         /// <param name="customer"> Customer object </param>
         /// <exception cref="InvalidInputException"> Thrown if one of the customer details are invalid </exception>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddNewCustomerBL(Customer customer)
         {
             if (customer.Id < 100000000 || customer.Id >= 1000000000) throw new InvalidInputException("Id");
             if (customer.Phone == null) throw new InvalidInputException("phone number");
-            long.TryParse(customer.Phone, out long phoneNumber)
-; if (phoneNumber < 1000000000 || phoneNumber > 1000000000000) throw new InvalidInputException("phone number");
+            long.TryParse(customer.Phone, out long phoneNumber);
+            if (phoneNumber < 1000000000 || phoneNumber > 1000000000000) throw new InvalidInputException("phone number");
             IfExistCustomer(customer);
             if (customer.Name == null) throw new InvalidInputException("name");
             if (customer.Location.Longitude == 0.0) throw new InvalidInputException("longitude");
@@ -35,8 +262,12 @@ namespace BL
             dalCustomer.UserName = customer.UserName;
             dalCustomer.Password = customer.Password;
 
-            dalObject.SetNewCustomer(dalCustomer);
+            lock (dalObject)
+            {
+                dalObject.AddNewCustomer(dalCustomer);
+            }
         }
+
 
         /// <summary>
         /// Check if the customer is already exist.
@@ -45,58 +276,19 @@ namespace BL
         /// <exception cref="ObjectAlreadyExistException"> Thrown if customer id or cusomer phone is already exist </exception>
         static void IfExistCustomer(Customer customer)
         {
-            foreach (var myCustomer in dalObject.GetCustomerList())
+            lock (dalObject)
             {
-                if (customer.Id == myCustomer.Id) throw new ObjectAlreadyExistException("customer");
-                if (customer.Phone == myCustomer.Phone) throw new ObjectAlreadyExistException("phone");
+                foreach (var myCustomer in dalObject.GetCustomerList())
+                {
+                    if (customer.Id == myCustomer.Id) throw new ObjectAlreadyExistException("customer");
+                    if (customer.Phone == myCustomer.Phone) throw new ObjectAlreadyExistException("phone");
+                }
             }
-
         }
         #endregion
-        /// <summary>
-        /// Delete customer by received Id.
-        /// </summary>
-        /// <param name="customerId"> customer Id</param>
-        public void DeleteCustomer(int customerId)
-        {
-            try
-            {
-                Customer customer = FindCustomerByIdBL(customerId);
-                var v = from parcel in customer.ParcelFromCustomerList 
-                        where parcel.ParcelStatus == ParcelStatus.Scheduled || 
-                                parcel.ParcelStatus == ParcelStatus.PickedUp 
-                        select parcel;
 
-                var v2 = from parcel in customer.ParcelToCustomerList 
-                         where parcel.ParcelStatus == ParcelStatus.Scheduled || 
-                                parcel.ParcelStatus == ParcelStatus.PickedUp 
-                         select parcel;
-
-                if (v.Count() > 0 || v2.Count() > 0 ) 
-                    throw new InvalidOperationException("Cannot delete customer, the customer have parcels in shipment");
-
-                //Delete all the sendered parcels by this customer.
-                foreach (var parcel in customer.ParcelFromCustomerList)
-                {
-                    dalObject.DeleteParcel(parcel.Id);
-                }
-
-                //Delete all the received parcels to this customer.
-                foreach (var parcel in customer.ParcelToCustomerList)
-                {
-                    dalObject.DeleteParcel(parcel.Id);
-                }
-
-                dalObject.DeleteCustomer(customerId);
-            }
-            catch (DO.ObjectIsNotActiveException e)
-            {
-                throw new ObjectIsNotActiveException(e.Message);
-            }
-        }
-
+        
         #region Update
-
         /// <summary>
         /// Update customer detailes.
         /// </summary>
@@ -105,6 +297,7 @@ namespace BL
         /// <param name="newPhoneNumber"> New phone of the customer</param>
         /// <exception cref="InvalidInputException"> Thrown if customer id or cusomer phone or customer name is invalid </exception>
         /// <exception cref="ObjectNotFoundException"> Throw if customer with such id has not found </exception>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomerDetailesBL(int customerId, string newName, string newPhoneNumber)
         {
             if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
@@ -113,7 +306,10 @@ namespace BL
 
             try
             {
-                dalObject.UpdateCustomerDetailes(customerId, newName, newPhoneNumber);
+                lock (dalObject)
+                {
+                    dalObject.UpdateCustomerDetailes(customerId, newName, newPhoneNumber);
+                }
 
             }
             catch (DO.ObjectNotFoundException e)
@@ -122,200 +318,52 @@ namespace BL
             }
         }
         #endregion
-
-        #region Find
-
+      
+        
+        #region Delete
         /// <summary>
-        /// Find BL customer by ID by using DAL.
+        /// Delete customer by received Id.
         /// </summary>
-        /// <param name="customerId"> Customer Id </param>
-        /// <returns> BL customer object </returns>
-        /// <exception cref="InvalidInputException"> Thrown if customer id is invalid </exception>
-        /// <exception cref="ObjectNotFoundException"> Throw if customer with such id has not found </exception>
-        public Customer FindCustomerByIdBL(int customerId)
+        /// <param name="customerId"> customer Id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteCustomer(int customerId)
         {
-            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
-
-            Customer Customer = new();
             try
             {
-                DO.Customer dalCustomer = dalObject.FindCustomerById(customerId);
-                Customer.Id = dalCustomer.Id;
-                Customer.Name = dalCustomer.Name;
-                Customer.Phone = dalCustomer.Phone;
-                Customer.Location.Latitude = dalCustomer.Latitude;
-                Customer.Location.Longitude = dalCustomer.Longitude;
-                Customer.UserName = dalCustomer.UserName;
-                Customer.Password = dalCustomer.Password;
-            }
-            catch (DO.ObjectNotFoundException)
-            {
-                throw new ObjectNotFoundException("Customer");
-            }
+                Customer customer = GetCustomerByIdBL(customerId);
+                var parcelList1 = from parcel in customer.ParcelFromCustomerList
+                                  where parcel.ParcelStatus == ParcelStatus.Scheduled ||
+                                          parcel.ParcelStatus == ParcelStatus.PickedUp
+                                  select parcel;
 
-            IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
-            if (dalParcelsList.Count() > 0)
-            {
-                foreach (var parcel in dalParcelsList)
+                var parcelList2 = from parcel in customer.ParcelToCustomerList
+                                  where parcel.ParcelStatus == ParcelStatus.Scheduled ||
+                                         parcel.ParcelStatus == ParcelStatus.PickedUp
+                                  select parcel;
+
+                if (parcelList1.Count() > 0 || parcelList2.Count() > 0)
+                    throw new InvalidOperationException("Could not  delete customer,because the customer have parcels in shipment");
+                lock (dalObject)
                 {
-                    if (customerId == parcel.SenderId || customerId == parcel.TargetId)
+                    //Delete all the sendered parcels by this customer.
+                    foreach (var parcel in customer.ParcelFromCustomerList)
                     {
-                        ParcelInCustomer ParcelInCustomer = new();
-                        ParcelInCustomer.Id = parcel.Id;
-                        ParcelInCustomer.WeightCategory = (WeightCategories)parcel.Weight;
-                        ParcelInCustomer.Priority = (Priorities)parcel.Priority;
-
-                        if (parcel.Delivered != null)
-                            ParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
-                        else if (parcel.PickedUp != null)
-                            ParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
-                        else if (parcel.Scheduled != null)
-                            ParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
-                        else
-                            ParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
-
-                        ParcelInCustomer.Customer.Id = Customer.Id;
-                        ParcelInCustomer.Customer.Name = Customer.Name;
-
-                        if (customerId == parcel.SenderId)
-                            Customer.ParcelFromCustomerList.Add(ParcelInCustomer);
-                        else
-                            Customer.ParcelToCustomerList.Add(ParcelInCustomer);
+                        dalObject.DeleteParcel(parcel.Id);
                     }
+
+                    //Delete all the received parcels to this customer.
+                    foreach (var parcel in customer.ParcelToCustomerList)
+                    {
+                        dalObject.DeleteParcel(parcel.Id);
+                    }
+
+                    dalObject.DeleteCustomer(customerId);
                 }
             }
-            return Customer;
-        }
-
-        public bool IsCustomerRegisered(string username, string password)
-        {
-            DO.Customer customer = dalObject.FindCustomerByUserName(username);
-            if (customer.UserName == username && customer.Password == password)
-                return true;
-            return false;
-        }
-        public bool IsCustomerRegisered(string username)
-        {
-            DO.Customer customer = dalObject.FindCustomerByUserName(username);
-            if (customer.UserName == username)
-                return true;
-            return false;
-        }
-        public CustomerToList FindCustomerToList(int customerId)
-        {
-            if (customerId < 100000000 || customerId >= 1000000000) throw new InvalidInputException("Id");
-
-            CustomerToList customer = new();
-            try
+            catch (DO.ObjectIsNotActiveException e)
             {
-                DO.Customer dalCustomer = dalObject.FindCustomerById(customerId);
-                customer.Id = dalCustomer.Id;
-                customer.Name = dalCustomer.Name;
-                customer.Phone = dalCustomer.Phone;
+                throw new ObjectIsNotActiveException(e.Message);
             }
-            catch (DO.ObjectNotFoundException)
-            {
-                throw new ObjectNotFoundException("Customer");
-            }
-            int sendAndDelivered = 0;
-            int sendAndNotDelivered = 0;
-            int pickedUpParcels = 0;
-            int deliveredParcels = 0;
-
-            IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
-            if (dalParcelsList.Count() > 0)
-            {
-                foreach (var parcel in dalParcelsList)
-                {
-                    if (customerId == parcel.SenderId)
-                    {
-                        if (parcel.Delivered != null)
-                            sendAndDelivered++;
-                        else if (parcel.PickedUp != null)
-                            sendAndNotDelivered++;
-                    }
-                    else if (customerId == parcel.TargetId)
-                    {
-                        if (parcel.Delivered != null)
-                            deliveredParcels++;
-                        else if (parcel.PickedUp != null)
-                            pickedUpParcels++;
-                    }
-                }
-                customer.SendAndDeliveredParcels = sendAndDelivered;
-                customer.SendAndNotDeliveredParcels = sendAndNotDelivered;
-                customer.PickedUpParcels = pickedUpParcels;
-                customer.DeliveredParcels = deliveredParcels;
-            }
-            return customer;
-        }
-
-        public Customer FindCustomerByUserName(string userName)
-        {
-            DO.Customer dalCustomer = dalObject.FindCustomerByUserName(userName);
-            Customer customer = FindCustomerByIdBL(dalCustomer.Id);
-            customer.UserName = dalCustomer.UserName;
-            customer.Password = dalCustomer.Password;
-            return customer;
-        }
-        #endregion
-
-        #region View
-
-        /// <summary>
-        /// View list of detailes of BL customer.
-        /// </summary>
-        /// <returns> List of detailes of BL customer </returns>
-        public IEnumerable<CustomerToList> ViewCustomerToList()
-        {
-            List<CustomerToList> myCustomerList = new();
-
-            IEnumerable<DO.Customer> dalCustomers = dalObject.GetCustomerList();
-            if (dalCustomers.Count() > 0)
-            {
-                IEnumerable<DO.Parcel> dalParcels = dalObject.GetParcelList();
-
-                foreach (var customer in dalCustomers)
-                {
-                    CustomerToList myCustomer = new();
-
-                    myCustomer.Id = customer.Id;
-                    myCustomer.Name = customer.Name;
-                    myCustomer.Phone = customer.Phone;
-
-                    if (dalParcels.Count() > 0)
-                    {
-                        foreach (var parcel in dalParcels)
-                        {
-                            if (myCustomer.Id == parcel.SenderId)
-                            {
-                                if (parcel.Delivered != null)
-                                {
-                                    myCustomer.SendAndDeliveredParcels++;
-                                }
-                                else if (parcel.PickedUp != null)
-                                {
-                                    myCustomer.SendAndNotDeliveredParcels++;
-                                }
-                            }
-                            else if (myCustomer.Id == parcel.TargetId)
-                            {
-                                if (parcel.Delivered != null)
-                                {
-                                    myCustomer.DeliveredParcels++;
-                                }
-                                else if (parcel.PickedUp != null)
-                                {
-                                    myCustomer.PickedUpParcels++;
-                                }
-                            }
-
-                        }
-                    }
-                    myCustomerList.Add(myCustomer);
-                }
-            }
-            return myCustomerList;
         }
         #endregion
     }

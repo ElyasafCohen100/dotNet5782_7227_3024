@@ -45,10 +45,12 @@ namespace PL
                 new MainAdminWindow().Show();
             }
         }
+       
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             Login();
         }
+        
         private void UserNameTB_GotFocus(object sender, RoutedEventArgs e)
         {
             if (UserNameTB.Text == "User Name")
@@ -56,6 +58,7 @@ namespace PL
                 UserNameTB.Clear();
             }
         }
+        
         private void PasswordTB_GotFocus(object sender, RoutedEventArgs e)
         {
             if (PasswordPB.Password == "Password")
@@ -64,6 +67,7 @@ namespace PL
             }
 
         }
+        
         private void UserNameTB_LostFocus(object sender, RoutedEventArgs e)
         {
             if (UserNameTB.Text == String.Empty)
@@ -71,6 +75,7 @@ namespace PL
                 UserNameTB.Text = "User Name";
             }
         }
+        
         private void PasswordTB_LostFocus(object sender, RoutedEventArgs e)
         {
             if (PasswordPB.Password == String.Empty)
@@ -78,11 +83,13 @@ namespace PL
                 PasswordPB.Password = "Password";
             }
         }
+        
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();
         }
+        
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

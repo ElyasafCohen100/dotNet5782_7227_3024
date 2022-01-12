@@ -565,7 +565,7 @@ namespace ConsoleBl
 
             try
             {
-                Station myBaseStation = BLObject.FindStationByIdBL(baseStatinId);
+                Station myBaseStation = BLObject.GetStationByIdBL(baseStatinId);
                 Console.WriteLine(myBaseStation.ToString());
             }
             catch (InvalidInputException e)
@@ -590,7 +590,7 @@ namespace ConsoleBl
 
             try
             {
-                Drone blDrone = BLObject.FindDroneByIdBL(droneId);
+                Drone blDrone = BLObject.GetDroneByIdBL(droneId);
                 Console.WriteLine(blDrone.ToString());
             }
             catch (InvalidInputException e)
@@ -613,7 +613,7 @@ namespace ConsoleBl
 
             try
             {
-                Customer myCusromer = BLObject.FindCustomerByIdBL(customerId);
+                Customer myCusromer = BLObject.GetCustomerByIdBL(customerId);
                 Console.WriteLine(myCusromer.ToString());
             }
             catch (InvalidInputException e)
@@ -636,7 +636,7 @@ namespace ConsoleBl
 
             try
             {
-                Parcel blparcel = BLObject.FindParcelByIdBL(parcelId);
+                Parcel blparcel = BLObject.GetParcelByIdBL(parcelId);
                 Console.WriteLine(blparcel.ToString());
             }
             catch (InvalidInputException e)
@@ -656,7 +656,7 @@ namespace ConsoleBl
             Console.WriteLine("The stations are:");
             try
             {
-                foreach (var station in BLObject.ViewBaseStationsToList())
+                foreach (var station in BLObject.GetAllBaseStationsToList())
                 {
                     Console.WriteLine(station.ToString());
                     Console.WriteLine();
@@ -671,7 +671,7 @@ namespace ConsoleBl
         {
             Console.WriteLine("The drones are:");
 
-            foreach (var drone in BLObject.ViewDroneToList())
+            foreach (var drone in BLObject.GetAllDroneToList())
             {
                 Console.WriteLine(drone.ToString());
                 Console.WriteLine();
@@ -681,7 +681,7 @@ namespace ConsoleBl
         {
             Console.WriteLine("The customers are:");
 
-            foreach (var customer in BLObject.ViewCustomerToList())
+            foreach (var customer in BLObject.GetAllCustomerToList())
             {
                 Console.WriteLine(customer.ToString());
                 Console.WriteLine();
@@ -691,7 +691,7 @@ namespace ConsoleBl
         {
             Console.WriteLine("The parcels are:");
 
-            foreach (var parcel in BLObject.ViewParcelToList())
+            foreach (var parcel in BLObject.GetAllParcelToList())
             {
                 Console.WriteLine(parcel.ToString());
                 Console.WriteLine();
@@ -701,7 +701,7 @@ namespace ConsoleBl
         {
             Console.WriteLine("The non-associate parcels are:");
 
-            foreach (var nonAssociateParcel in BLObject.ViewNonAssociateParcelsListBL())
+            foreach (var nonAssociateParcel in BLObject.GetNonAssociateParcelsListBL())
             {
                 Console.WriteLine(nonAssociateParcel.ToString());
                 Console.WriteLine();
@@ -711,7 +711,7 @@ namespace ConsoleBl
         {
             Console.WriteLine("The stations with available charging slots are:");
 
-            foreach (var station in BLObject.ViewStationsWithAvailableChargingSlotstBL())
+            foreach (var station in BLObject.GetStationsWithAvailableChargingSlotstBL())
             {
                 Console.WriteLine(station.ToString());
                 Console.WriteLine();
