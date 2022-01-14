@@ -263,7 +263,7 @@ namespace BL
         /// <param name="droneId"> Drone Id </param>
         /// <exception cref="InvalidInputException"> Thrown if drone id is invalid </exception>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateDroneIdOfParcelBL(int droneId)
+        public void AssociateDroneTofParcelBL(int droneId)
         {
             if (droneId < 1000 || droneId >= 10000) throw new InvalidInputException("Id");
 

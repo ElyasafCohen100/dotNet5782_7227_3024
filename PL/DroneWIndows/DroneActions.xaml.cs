@@ -242,7 +242,7 @@ namespace PL
         {
             try
             {
-                BLObject.UpdateDroneIdOfParcelBL(selectedDroneToList.Id);
+                BLObject.AssociateDroneTofParcelBL(selectedDroneToList.Id);
                 MessageBox.Show("Drone was sent sucssesfuly",
                     "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetDroneFields(selectedDroneToList.Id);

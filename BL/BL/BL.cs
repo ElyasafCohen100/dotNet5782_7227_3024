@@ -243,7 +243,7 @@ namespace BL
         /// <param name="location"> Location information to calculate the distance </param>
         /// <returns> Id of the nearest base-station with at least one available charge-slot if found </returns>
         /// <excption cref="ObjectNotFoundException"> Thrown if there are no stations with available charging slots </excption>
-        int FindNearestBaseStationWithAvailableChargingSlots(Location location)
+       internal int FindNearestBaseStationWithAvailableChargingSlots(Location location)
         {
             double minDistance = double.MaxValue;
             int nearestBaseStationID = 0;
@@ -424,6 +424,7 @@ namespace BL
             double minSuply2 = FindMinPowerSuply(drone, targetId);
             return minSuply1 + minSuply2;
         }
+        
         private DroneCharge FindDroneChargeByDroneIdBL(int droneId)
         {
             try

@@ -491,7 +491,7 @@ namespace ConsoleBl
 
             try
             {
-                BLObject.UpdateDroneIdOfParcelBL(droneId);
+                BLObject.AssociateDroneTofParcelBL(droneId);
                 Console.WriteLine("Drone associated successfully");
             }
             catch (InvalidInputException e)

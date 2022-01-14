@@ -39,6 +39,8 @@
             <Button Content="Reset" HorizontalAlignment="Left" Margin="187,73,0,0" VerticalAlignment="Top" Foreground="#FFF60C0C" Height="30" Width="78" Click="Script_Button_Click" Grid.Column="2" Grid.Row="2" FontSize="20"/>
 
             <TextBox Name="UserNameTB"  Text="User Name"  Width="232" Height="36" VerticalAlignment="Top" TextWrapping="NoWrap" GotFocus="UserNameTB_GotFocus" LostFocus="UserNameTB_LostFocus" Grid.Row="1" Grid.Column="1" PreviewTextInput="UserNameTB_PreviewTextInput"/>
+           
+            <TextBlock Name="UserNameMessage" HorizontalAlignment="Center" Visibility="Hidden" Margin="0,36,0,0" Text="User Name is not valid ,please sign up" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFF10A0A" Grid.Column="1" Grid.Row="1"/>
 
             <PasswordBox Name="PasswordPB" Password="Password" Width="232" Height="36" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus" Grid.Row="1" Grid.Column="1" PreviewTextInput="PasswordPB_PreviewTextInput"/>
 

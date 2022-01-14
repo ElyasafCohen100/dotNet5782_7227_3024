@@ -57,6 +57,14 @@ namespace PL
             {
                 UserNameTB.Clear();
             }
+            if (!BLObject.IsAdminRegistered(UserNameTB.Text))
+            {
+                UserNameMessage.Visibility = Visibility.Hidden;
+            }
+            else if (!BLObject.IsCustomerRegisered(UserNameTB.Text))
+            {
+                UserNameMessage.Visibility = Visibility.Hidden;
+            }
         }
         
         private void PasswordTB_GotFocus(object sender, RoutedEventArgs e)
@@ -73,6 +81,22 @@ namespace PL
             if (UserNameTB.Text == String.Empty)
             {
                 UserNameTB.Text = "User Name";
+            }
+            if (!BLObject.IsAdminRegistered(UserNameTB.Text))
+            {
+                UserNameMessage.Visibility = Visibility.Visible;
+            }
+            else if (BLObject.IsAdminRegistered(UserNameTB.Text))
+            {
+                UserNameMessage.Visibility = Visibility.Hidden;
+            }
+            else if (!BLObject.IsCustomerRegisered(UserNameTB.Text))
+            {
+                UserNameMessage.Visibility = Visibility.Visible;
+            }
+            else if (BLObject.IsCustomerRegisered(UserNameTB.Text))
+            {
+                UserNameMessage.Visibility = Visibility.Hidden;
             }
         }
         

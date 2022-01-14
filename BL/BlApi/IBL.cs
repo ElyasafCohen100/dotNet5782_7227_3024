@@ -44,7 +44,7 @@ namespace BlApi
         void UpdateCustomerDetailesBL(int customerId, string newName, string newPhoneNumber);
         void UpdateDroneToChargingBL(int droneID);
         void UpdateDroneFromChargingBL(int droneId);
-        void UpdateDroneIdOfParcelBL(int droneId);
+        void AssociateDroneTofParcelBL(int droneId);
         void UpdateDeliveredParcelByDroneIdBL(int droneId);
         void UpdatePickedUpParcelByDroneIdBL(int droneId);
         #endregion
@@ -58,6 +58,10 @@ namespace BlApi
         void DeleteAdminBL(string userName);
         #endregion
 
+
+       //void CheckStop(int droneid, Action action, Func<bool> func);
+
+       //void StartSimulator(int droneid, Action action, Func<bool> func);
 
         #region Another function
         bool IsCustomerRegisered(string username, string password);
