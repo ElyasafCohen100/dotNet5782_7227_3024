@@ -85,4 +85,24 @@
     <StationId>9961</StationId>
     <ChargeTime>2022-01-14T04:45:45.9293336+02:00</ChargeTime>
   </DroneCharge>
+  <DroneCharge>
+    <DroneId>3909</DroneId>
+    <StationId>9828</StationId>
+    <ChargeTime>2022-01-15T20:18:21.1306197+02:00</ChargeTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>4401</DroneId>
+    <StationId>2583</StationId>
+    <ChargeTime>2022-01-15T20:18:21.3186001+02:00</ChargeTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>3945</DroneId>
+    <StationId>3519</StationId>
+    <ChargeTime>2022-01-15T20:18:21.4383419+02:00</ChargeTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>8258</DroneId>
+    <StationId>9961</StationId>
+    <ChargeTime>2022-01-15T20:18:21.4434485+02:00</ChargeTime>
+  </DroneCharge>
 </ArrayOfDroneCharge>

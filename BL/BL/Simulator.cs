@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using BO;
-using BL;
 
 namespace BL
 {
     class Simulator
     {
         public const double DRONE_VELOCITY = 10;
-        public const int DELAY_STEP_TIMER = 500;
+        public const int DELAY = 500;
 
         public Simulator(BL BLObject, int droneId, Action action, Func<bool> checkStopFunc)
         {
@@ -28,6 +27,7 @@ namespace BL
                 {
                     try
                     {
+                        Thread.Sleep(DELAY);
                         lock (BL.dalObject)
                         {
                             BLObject.AssociateDroneTofParcelBL(droneId);
@@ -37,6 +37,7 @@ namespace BL
                     {
                         try
                         {
+                            Thread.Sleep(DELAY);
                             lock (BL.dalObject)
                             {
                                 BLObject.UpdateDroneToChargingBL(droneId);
@@ -47,7 +48,8 @@ namespace BL
                             //Demonstrate drone collect by technition.
                             Thread.Sleep(3000);
 
-                            lock (BLObject) lock (BL.dalObject)
+                            Thread.Sleep(DELAY);
+                            lock (BLObject)
                                 {
                                     int stationId = BLObject.FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
                                     Station station = BLObject.GetStationByIdBL(stationId);
@@ -59,6 +61,7 @@ namespace BL
 
                                     try
                                     {
+                                        Thread.Sleep(DELAY);
                                         BL.dalObject.UpdateDroneToCharging(drone.Id, station.Id);
                                     }
                                     catch (DO.ObjectNotFoundException e)
@@ -79,6 +82,7 @@ namespace BL
                 }
                 else if (drone.DroneStatus == DroneStatuses.Shipment)
                 {
+                    Thread.Sleep(DELAY);
                     lock (BLObject)
                     {
                         Parcel parcel = BLObject.GetParcelByIdBL(drone.ParcelInDelivery.Id);
@@ -92,7 +96,11 @@ namespace BL
                 {
                     try
                     {
-                        BLObject.AssociateDroneTofParcelBL(droneId);
+                        Thread.Sleep(DELAY);
+                        lock (BLObject) lock (BL.dalObject)
+                            {
+                                BLObject.AssociateDroneTofParcelBL(droneId);
+                            }
                     }
                     catch (OutOfBatteryException)
                     {

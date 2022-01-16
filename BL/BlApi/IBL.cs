@@ -10,33 +10,25 @@ namespace BlApi
 {
     public interface IBL
     {
-        #region Get
-        Station GetStationByIdBL(int stationId);
-        Drone GetDroneByIdBL(int droneId);
-        Customer GetCustomerByIdBL(int customerId);
-        Parcel GetParcelByIdBL(int parcelId);
-        ParcelToList GetParcelToList(int parcelId);
-        CustomerToList GetCustomerToList(int customerId);
-        Admin GetAdminByUserName(string userName);
-        IEnumerable<StationToList> GetAllBaseStationsToList();
-        IEnumerable<DroneToList> GetAllDroneToList();
-        IEnumerable<CustomerToList> GetAllCustomerToList();
-        IEnumerable<Parcel> GetAllParcels();
-        IEnumerable<ParcelToList> GetAllParcelToList();
-        IEnumerable<ParcelToList> GetNonAssociateParcelsListBL();
-        IEnumerable<StationToList> GetStationsWithAvailableChargingSlotstBL();
-        IEnumerable<DroneToList> GetDronesToList(Predicate<DroneToList> predicate);
-        #endregion
-
-
         #region Add
         void AddNewStationBL(Station station);
         void AddNewDroneBL(Drone drone, int baseStationID);
         void AddNewCustomerBL(Customer customer);
         void AddNewParcelBL(Parcel parcel);
         void AddNewAdminBL(Admin admin);
+        bool IsCustomerRegisered(string username, string password);
+        bool IsAdminRegistered(string username, string password);
+        bool IsAdminRegistered(string username);
+        bool IsCustomerRegisered(string username);
         #endregion
 
+        #region Delete
+        void DeleteStation(int stationId);
+        void DeleteParcel(int parcelId);
+        void DeleteDrone(int droneId);
+        void DeleteCustomer(int customerId);
+        void DeleteAdminBL(string userName);
+        #endregion
 
         #region Update
         void UpdateDroneModelBL(int droneId, string newName);
@@ -49,25 +41,29 @@ namespace BlApi
         void UpdatePickedUpParcelByDroneIdBL(int droneId);
         #endregion
 
-
-        #region Delete
-        void DeleteStation(int stationId);
-        void DeleteParcel(int parcelId);
-        void DeleteDrone(int droneId);
-        void DeleteCustomer(int customerId);
-        void DeleteAdminBL(string userName);
+        #region Get
+        Station GetStationByIdBL(int stationId);
+        Drone GetDroneByIdBL(int droneId);
+        Customer GetCustomerByIdBL(int customerId);
+        Customer GetCustomerByUserName(string userName);
+        Parcel GetParcelByIdBL(int parcelId);
+        ParcelToList GetParcelToList(int parcelId);
+        CustomerToList GetCustomerToList(int customerId);
+        Admin GetAdminByUserName(string userName);
         #endregion
 
+        #region Get List
+        IEnumerable<StationToList> GetAllBaseStationsToList();
+        IEnumerable<DroneToList> GetAllDroneToList();
+        IEnumerable<CustomerToList> GetAllCustomerToList();
+        IEnumerable<Parcel> GetAllParcels();
+        IEnumerable<ParcelToList> GetAllParcelToList();
+        IEnumerable<ParcelToList> GetNonAssociateParcelsListBL();
+        IEnumerable<StationToList> GetStationsWithAvailableChargingSlotstBL();
+        IEnumerable<DroneToList> GetDronesToList(Predicate<DroneToList> predicate);
+        #endregion
 
-       //void CheckStop(int droneid, Action action, Func<bool> func);
-
-       //void StartSimulator(int droneid, Action action, Func<bool> func);
-
-        #region Another function
-        bool IsCustomerRegisered(string username, string password);
-        bool IsAdminRegistered(string username, string password);
-        bool IsAdminRegistered(string username);
-        bool IsCustomerRegisered(string username);
+        //void CheckStop(int droneId, Action action, Func<bool> func); 
 
         /// <summary>
         /// Return string of sexagesimal presentation.
@@ -89,6 +85,5 @@ namespace BlApi
 
             return $"{degrees}°{minutes1}'{seconds}\"";
         }
-        #endregion
     }
 }

@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
 using BO;
+using System.ComponentModel;
 
 namespace PL
 {
@@ -35,19 +36,19 @@ namespace PL
             this.selectedDroneToList = droneToList;
 
             DataContext = false;
-           
+
             grid1.DataContext = drone;
             IdTextBox.IsEnabled = false;
-          
+
             ModelTextBox.IsEnabled = false;
             BatteryTB.IsEnabled = false;
-          
+
             MaxWeightTB.IsEnabled = false;
             StatusTB.IsEnabled = false;
-          
+
             DeliveryTB.IsEnabled = false;
             DeliveryTB.Text = drone.ParcelInDelivery.ToString();
-           
+
             LatitudeTB.IsEnabled = false;
             LongitudeTB.IsEnabled = false;
 
@@ -118,7 +119,7 @@ namespace PL
                 IdTextBox.Clear();
             }
         }
-      
+
         private void DroneIdTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (IdTextBox.Text == String.Empty)
@@ -140,13 +141,13 @@ namespace PL
             }
 
         }
-       
+
         private void DroneIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-       
+
         private void ModelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
@@ -210,7 +211,7 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
+
         private void UpdateDroneFromChargingButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -284,7 +285,7 @@ namespace PL
                     "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-       
+
         private void UpdateParcelToPickedUp_Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -318,7 +319,7 @@ namespace PL
             this.Close();
         }
         #region Add Drone
-       
+
         private void AddNewDroneButton_Click(object sender, RoutedEventArgs e)
         {
             int Id;
@@ -370,7 +371,7 @@ namespace PL
                 }
             }
         }
-       
+
         private void GetDroneFields(int droneId)
         {
 
@@ -397,7 +398,7 @@ namespace PL
             ParcelToList parcelToList = BLObject.GetParcelToList(selectedDroneToList.DeliveryParcelId);
             new ParcelActions(parcelToList).Show();
         }
-       
+
         private void DeleteDroneButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -426,6 +427,26 @@ namespace PL
             {
                 this.AddNewDroneButton_Click(sender, e);
             }
+        }
+
+
+        BackgroundWorker backgroundWorker = new BackgroundWorker();
+        private void SimulatorButton_Click(object sender, RoutedEventArgs e)
+        {
+            backgroundWorker.DoWork += (sender, args) => {
+                new BL.Simulator(BlApi.BlFactory.GetBl(),
+                    selectedDroneToList.Id,
+                    update,
+                    () => { return backgroundWorker.CancellationPending; }
+                    );
+            };
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        private void update()
+        {
+            backgroundWorker.ReportProgress(1);
+            IdTextBox.FontSize++;
         }
     }
 }
