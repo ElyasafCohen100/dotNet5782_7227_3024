@@ -21,7 +21,7 @@ namespace BL
                 drone = BLObject.GetDroneByIdBL(droneId);
             }
 
-            while (checkStopFunc.Equals(true))
+            while (checkStopFunc())
             {
                 if (drone.DroneStatus == DroneStatuses.Available)
                 {
@@ -106,7 +106,9 @@ namespace BL
                     {
                         //Do nothing, stay in charging.
                     }
+                    
                 }
+                action();
             }
         }
     }

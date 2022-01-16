@@ -433,20 +433,24 @@ namespace PL
         BackgroundWorker backgroundWorker = new BackgroundWorker();
         private void SimulatorButton_Click(object sender, RoutedEventArgs e)
         {
-            backgroundWorker.DoWork += (sender, args) => {
-                new BL.Simulator(BlApi.BlFactory.GetBl(),
-                    selectedDroneToList.Id,
-                    update,
-                    () => { return backgroundWorker.CancellationPending; }
-                    );
-            };
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+
+            backgroundWorker.WorkerReportsProgress = true;
+            // backgroundWorker.ProgressChanged += (sender, args) => {UpdateAction(); };
+            backgroundWorker.RunWorkerCompleted += (sender, args) => { MessageBox.Show("Completed"); };
             backgroundWorker.RunWorkerAsync();
         }
 
-        private void update()
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            backgroundWorker.ReportProgress(1);
-            IdTextBox.FontSize++;
+            BLObject.StartSimulator(selectedDroneToList.Id,
+                                        UpdateAction,
+                                        () => { return backgroundWorker.CancellationPending; });
+        }
+
+        private void UpdateAction()
+        {
+            MessageBox.Show("Elyasaf The King!!!");
         }
     }
 }

@@ -2,31 +2,31 @@
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <MaxWeight>Light</MaxWeight>
-    <Id>3909</Id>
+    <Id>3544</Id>
     <Model>A0</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
     <MaxWeight>Average</MaxWeight>
-    <Id>4401</Id>
+    <Id>5309</Id>
     <Model>A1</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
     <MaxWeight>Light</MaxWeight>
-    <Id>7133</Id>
+    <Id>6811</Id>
     <Model>A2</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
-    <MaxWeight>Average</MaxWeight>
-    <Id>3945</Id>
+    <MaxWeight>Light</MaxWeight>
+    <Id>7170</Id>
     <Model>A3</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
-    <MaxWeight>Average</MaxWeight>
-    <Id>8258</Id>
+    <MaxWeight>Light</MaxWeight>
+    <Id>4927</Id>
     <Model>A4</Model>
     <IsActive>true</IsActive>
   </Drone>

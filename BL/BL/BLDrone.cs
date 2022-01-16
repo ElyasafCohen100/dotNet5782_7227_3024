@@ -53,11 +53,12 @@ namespace BL
             if (drone.DroneStatus == DroneStatuses.Shipment)
             {
                 blDrone.ParcelInDelivery = AddParcelInDelivery(drone.DeliveryParcelId);
+                DO.Parcel parcel = dalObject.GetParcelById(drone.DeliveryParcelId);
+                if (parcel.PickedUp != null && parcel.Delivered == null)
+                {
+                    blDrone.ParcelInDelivery.ParcelStatus = true;
+                }
             }
-
-            DO.Parcel parcel = dalObject.GetParcelById(drone.DeliveryParcelId);
-            if (parcel.PickedUp != null && parcel.Delivered == null)
-                blDrone.ParcelInDelivery.ParcelStatus = true;
             return blDrone;
         }
         #endregion
@@ -399,6 +400,14 @@ namespace BL
             {
                 throw new ObjectIsNotActiveException(e.Message);
             }
+        }
+        #endregion
+
+
+        #region Simulator
+        public void StartSimulator(int droneId, Action UpdateAction, Func<bool> checkStopFunc)
+        {
+            new Simulator(this, droneId, UpdateAction, checkStopFunc);
         }
         #endregion
     }

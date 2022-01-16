@@ -63,6 +63,10 @@ namespace BlApi
         IEnumerable<DroneToList> GetDronesToList(Predicate<DroneToList> predicate);
         #endregion
 
+        #region Simulator
+        void StartSimulator(int droneId, Action UpdateAction, Func<bool> checkStopFunc);
+        #endregion
+
         //void CheckStop(int droneId, Action action, Func<bool> func); 
 
         /// <summary>
