@@ -226,40 +226,17 @@ namespace PL
             this.Close();
         }
 
-        private void ParcelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void CheckIdSyntax_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("^[0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void SenderCustomerIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("^[0-9]");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void SenderCustomerNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void CheckNameSyntax_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void ReceiverCustomerIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("^[0-9]");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void ReceiverCustomerNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void DroneInParcelIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("^[0-9]");
-            e.Handled = regex.IsMatch(e.Text);
-        }
     }
 }

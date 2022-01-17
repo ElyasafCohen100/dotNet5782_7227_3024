@@ -12,12 +12,12 @@
     </Window.Background>
 
     <Grid x:Name="grid1" Margin="0,-1,0,1">
-        <TextBox Name="ParcelIdTB" HorizontalAlignment="Left" Margin="180,13,0,0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="ParcelIdTextBox_PreviewTextInput"/>
-        <TextBox Name="SenderCustomerIdTB" HorizontalAlignment="Left" Margin="180,38,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="SenderCustomerIdTextBox_PreviewTextInput"/>
-        <TextBox Name="SenderCustomerNameTB" HorizontalAlignment="Left" Margin="180,64,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="SenderCustomerNameTextBox_PreviewTextInput"/>
-        <TextBox Name="ReceiverCustomerIdTB" HorizontalAlignment="Left" Margin="180,88,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="ReceiverCustomerIdTextBox_PreviewTextInput"/>
-        <TextBox Name="ReceiverCustomerNameTB" HorizontalAlignment="Left" Margin="180,114,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="ReceiverCustomerNameTextBox_PreviewTextInput"/>
-        <TextBox Name="DroneInParcelIdTB" HorizontalAlignment="Left" Margin="180,141,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="DroneInParcelIdTextBox_PreviewTextInput"/>
+        <TextBox Name="ParcelIdTB" HorizontalAlignment="Left" Margin="180,13,0,0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="CheckIdSyntax_PreviewTextInput"/>
+        <TextBox Name="SenderCustomerIdTB" HorizontalAlignment="Left" Margin="180,38,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="CheckIdSyntax_PreviewTextInput"/>
+        <TextBox Name="SenderCustomerNameTB" HorizontalAlignment="Left" Margin="180,64,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="CheckNameSyntax_PreviewTextInput"/>
+        <TextBox Name="ReceiverCustomerIdTB" HorizontalAlignment="Left" Margin="180,88,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="CheckIdSyntax_PreviewTextInput"/>
+        <TextBox Name="ReceiverCustomerNameTB" HorizontalAlignment="Left" Margin="180,114,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="CheckNameSyntax_PreviewTextInput"/>
+        <TextBox Name="DroneInParcelIdTB" HorizontalAlignment="Left" Margin="180,141,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" PreviewTextInput="CheckIdSyntax_PreviewTextInput"/>
         <TextBox Name="DroneInParcelBatteryTB" HorizontalAlignment="Left" Margin="180,169,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140"/>
         <TextBox Name="DroneInParcelLatitudeTB" HorizontalAlignment="Left" Margin="180,196,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140"/>
         <TextBox Name="DroneInParcelLongitudeTB" HorizontalAlignment="Left" Margin="180,224,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140"/>
