@@ -436,21 +436,33 @@ namespace PL
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
 
             backgroundWorker.WorkerReportsProgress = true;
-            // backgroundWorker.ProgressChanged += (sender, args) => {UpdateAction(); };
+            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
             backgroundWorker.RunWorkerCompleted += (sender, args) => { MessageBox.Show("Completed"); };
             backgroundWorker.RunWorkerAsync();
         }
 
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Drone drone = BLObject.GetDroneByIdBL(selectedDroneToList.Id);
+            DataContext = drone;
+            BatteryTB.Text = drone.BatteryStatus.ToString();
+        }
+
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            BLObject.StartSimulator(selectedDroneToList.Id,
+            lock (BLObject)
+            {
+                BLObject.StartSimulator(selectedDroneToList.Id,
                                         UpdateAction,
                                         () => { return backgroundWorker.CancellationPending; });
+            }
         }
 
         private void UpdateAction()
         {
             MessageBox.Show("Elyasaf The King!!!");
+            backgroundWorker.ReportProgress(0);
         }
+
     }
 }

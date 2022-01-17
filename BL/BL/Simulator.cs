@@ -21,7 +21,7 @@ namespace BL
                 drone = BLObject.GetDroneByIdBL(droneId);
             }
 
-            while (checkStopFunc())
+            while (!checkStopFunc())
             {
                 if (drone.DroneStatus == DroneStatuses.Available)
                 {

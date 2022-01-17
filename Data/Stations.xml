@@ -1,59 +1,59 @@
 <?xml version="1.0"?>
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Station>
-    <Id>9308</Id>
+    <Id>5696</Id>
     <Name>Station0</Name>
-    <Longitude>35.226200921892286</Longitude>
-    <Latitude>31.887872464669808</Latitude>
-    <ChargeSlots>10</ChargeSlots>
+    <Longitude>35.26072810113464</Longitude>
+    <Latitude>31.805014974114027</Latitude>
+    <ChargeSlots>9</ChargeSlots>
     <IsActive>true</IsActive>
   </Station>
   <Station>
-    <Id>3661</Id>
+    <Id>9357</Id>
     <Name>Station1</Name>
-    <Longitude>35.26708679318758</Longitude>
-    <Latitude>31.77962549220753</Latitude>
+    <Longitude>35.13669136298667</Longitude>
+    <Latitude>31.860730241593313</Latitude>
+    <ChargeSlots>9</ChargeSlots>
+    <IsActive>true</IsActive>
+  </Station>
+  <Station>
+    <Id>2229</Id>
+    <Name>Station2</Name>
+    <Longitude>35.26748337017721</Longitude>
+    <Latitude>31.77720765195657</Latitude>
     <ChargeSlots>6</ChargeSlots>
     <IsActive>true</IsActive>
   </Station>
   <Station>
-    <Id>3593</Id>
-    <Name>Station2</Name>
-    <Longitude>35.126654747234035</Longitude>
-    <Latitude>31.8682148238496</Latitude>
+    <Id>3256</Id>
+    <Name>Station3</Name>
+    <Longitude>35.270591183924395</Longitude>
+    <Latitude>31.880490838540947</Latitude>
     <ChargeSlots>5</ChargeSlots>
     <IsActive>true</IsActive>
   </Station>
   <Station>
-    <Id>5083</Id>
-    <Name>Station3</Name>
-    <Longitude>35.15994691600089</Longitude>
-    <Latitude>31.754735733128495</Latitude>
-    <ChargeSlots>6</ChargeSlots>
-    <IsActive>true</IsActive>
-  </Station>
-  <Station>
-    <Id>3923</Id>
+    <Id>7274</Id>
     <Name>Station4</Name>
-    <Longitude>35.240028682602585</Longitude>
-    <Latitude>31.730434069331004</Latitude>
-    <ChargeSlots>7</ChargeSlots>
+    <Longitude>35.196038014579585</Longitude>
+    <Latitude>31.810802245936728</Latitude>
+    <ChargeSlots>5</ChargeSlots>
     <IsActive>true</IsActive>
   </Station>
   <Station>
-    <Id>8763</Id>
+    <Id>5215</Id>
     <Name>Station5</Name>
-    <Longitude>35.111648831801325</Longitude>
-    <Latitude>31.86164133193048</Latitude>
-    <ChargeSlots>6</ChargeSlots>
+    <Longitude>35.12595124264525</Longitude>
+    <Latitude>31.814770572220333</Latitude>
+    <ChargeSlots>9</ChargeSlots>
     <IsActive>true</IsActive>
   </Station>
   <Station>
-    <Id>9097</Id>
+    <Id>1837</Id>
     <Name>Station6</Name>
-    <Longitude>35.10628607487599</Longitude>
-    <Latitude>31.84540852268478</Latitude>
-    <ChargeSlots>7</ChargeSlots>
+    <Longitude>35.17012330995413</Longitude>
+    <Latitude>31.729079906469714</Latitude>
+    <ChargeSlots>10</ChargeSlots>
     <IsActive>true</IsActive>
   </Station>
 </ArrayOfStation>

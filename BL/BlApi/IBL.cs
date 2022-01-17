@@ -69,6 +69,8 @@ namespace BlApi
 
         //void CheckStop(int droneId, Action action, Func<bool> func); 
 
+
+        #region Another function
         /// <summary>
         /// Return string of sexagesimal presentation.
         /// </summary>
@@ -89,5 +91,6 @@ namespace BlApi
 
             return $"{degrees}°{minutes1}'{seconds}\"";
         }
+        #endregion
     }
 }
