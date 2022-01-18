@@ -9,8 +9,14 @@ namespace BL
     public partial class BL : BlApi.IBL
     {
         #region Get
+        /// <summary>
+        /// check if the customer is registered in the Customer's list
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>True or false depends on the case</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IsCustomerRegisered(string username, string password)
+        public bool IsCustomerRegistered(string username, string password)
         {
             lock (dalObject)
             {
@@ -35,6 +41,11 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// get the customer by the username
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns>The relevant customer</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomerByUserName(string userName)
         {
@@ -118,6 +129,13 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// get the object "custome to liss" by customerId
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns>the relevant customerToList</returns>
+        /// <exception cref="InvalidInputException">throw if we get invalid input</exception>
+        /// <exception cref="ObjectNotFoundException">throw if the customer has't been found</exception>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public CustomerToList GetCustomerToList(int customerId)
         {
@@ -318,13 +336,15 @@ namespace BL
             }
         }
         #endregion
-      
-        
+
+
         #region Delete
         /// <summary>
         /// Delete customer by received Id.
         /// </summary>
         /// <param name="customerId"> customer Id</param>
+        /// <exception cref="InvalidOperationException">throw if we do invalid operation</exception>
+        /// <exception cref="ObjectIsNotActiveException">throw if the Customer has been daleted </exception>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int customerId)
         {
@@ -342,7 +362,7 @@ namespace BL
                                   select parcel;
 
                 if (parcelList1.Count() > 0 || parcelList2.Count() > 0)
-                    throw new InvalidOperationException("Could not  delete customer,because the customer have parcels in shipment");
+                    throw new InvalidOperationException("Could not delete customer,because the customer have parcels in shipment");
                 lock (dalObject)
                 {
                     //Delete all the sendered parcels by this customer.

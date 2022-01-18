@@ -168,11 +168,15 @@ namespace Dal
         {
             int index = DataSource.Drones.FindIndex(x => x.Id == droneId);
             if (index == -1) throw new ObjectNotFoundException("drone");
+           
             Drone drone = DataSource.Drones[index];
             drone.IsActive = false;
             DataSource.Drones[index] = drone;
+            
             if (IsDroneChargeExist(droneId))
+            {
                 DeleteDroneCharge(droneId);
+            }
         }
 
 

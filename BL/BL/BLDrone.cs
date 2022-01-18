@@ -20,6 +20,11 @@ namespace BL
         }
      
         
+        /// <summary>
+        /// get the droneToList's list
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns>the dronToList's list</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> GetDronesToList(Predicate<DroneToList> predicate)
         {
@@ -28,7 +33,7 @@ namespace BL
 
 
         /// <summary>
-        /// Find BL drone by drone Id.
+        /// get BL drone by drone Id.
         /// </summary>
         /// <param name="droneId"> Drone Id </param>
         /// <returns> BL drone object </returns>
@@ -204,6 +209,10 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// update the droneToList's list
+        /// </summary>
+        /// <param name="drone"></param>
         private void UpdateDroneToListsList(Drone drone)
         {
             DroneToList newDrone = new();
@@ -213,6 +222,7 @@ namespace BL
             newDrone.BatteryStatus = drone.BatteryStatus;
             newDrone.DroneStatus = drone.DroneStatus;
             newDrone.CurrentLocation = drone.CurrentLocation;
+           
             droneToLists.Add(newDrone);
         }
 
@@ -314,7 +324,6 @@ namespace BL
             double daysInMinutes = (interval.Days / 24) / 60;
             double hoursInMinutes = interval.Hours / 60;
             return daysInMinutes + hoursInMinutes + interval.Minutes;
-
         }
 
 
@@ -384,9 +393,14 @@ namespace BL
             }
         }
         #endregion
-        
-        
+
+
         #region Delete
+        /// <summary>
+        /// delete the drone from the list
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <exception cref="ObjectIsNotActiveException">throw if the object is not active</exception>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int droneId)
         {
@@ -405,6 +419,12 @@ namespace BL
 
 
         #region Simulator
+        /// <summary>
+        /// statrting the simulator
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <param name="UpdateAction"></param>
+        /// <param name="checkStopFunc"></param>
         public void StartSimulator(int droneId, Action UpdateAction, Func<bool> checkStopFunc)
         {
             new Simulator(this, droneId, UpdateAction, checkStopFunc);

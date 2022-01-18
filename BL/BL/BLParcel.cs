@@ -369,6 +369,10 @@ namespace BL
 
 
         #region Delete
+        /// <summary>
+        /// delete the parcel
+        /// </summary>
+        /// <param name="parcelId"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int parcelId)
         {

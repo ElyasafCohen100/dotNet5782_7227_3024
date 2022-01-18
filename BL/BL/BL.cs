@@ -403,7 +403,7 @@ namespace BL
         /// <param name="droneId"> Drone Id </param>
         /// <param name="senderId"> Customer Id </param>
         /// <returns> Minimun power of battery for all the jurney of the drone </returns>
-        /// /// <exception cref="InvalidInputException"> Thrown if drone id or customer id is invalid </exception>
+        /// <exception cref="InvalidInputException"> Thrown if drone id or customer id is invalid </exception>
         /// <exception cref="ObjectNotFoundException"> Thrown if there are no drone with such id </exception>
         double FindMinSuplyForAllPath(int droneId, int senderId, int targetId)
         {
@@ -424,7 +424,13 @@ namespace BL
             double minSuply2 = FindMinPowerSuply(drone, targetId);
             return minSuply1 + minSuply2;
         }
-        
+
+        /// <summary>
+        /// find droneCharge by DronId
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns>the DroneCharge</returns>
+        /// <exception cref="XMLFileLoadCreateException">throw if the XML file Failed to load file</exception> 
         private DroneCharge FindDroneChargeByDroneIdBL(int droneId)
         {
             try

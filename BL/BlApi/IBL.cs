@@ -16,7 +16,7 @@ namespace BlApi
         void AddNewCustomerBL(Customer customer);
         void AddNewParcelBL(Parcel parcel);
         void AddNewAdminBL(Admin admin);
-        bool IsCustomerRegisered(string username, string password);
+        bool IsCustomerRegistered(string username, string password);
         bool IsAdminRegistered(string username, string password);
         bool IsAdminRegistered(string username);
         bool IsCustomerRegisered(string username);

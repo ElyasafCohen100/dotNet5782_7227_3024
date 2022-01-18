@@ -198,6 +198,10 @@ namespace BL
         
         
         #region Delete
+        /// <summary>
+        /// delete the station
+        /// </summary>
+        /// <param name="stationId"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int stationId)
         {

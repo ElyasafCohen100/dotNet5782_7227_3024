@@ -11,13 +11,21 @@ namespace BL
     public partial class BL
     {
         #region Get
+        /// <summary>
+        /// get the relevant admin from the list of admins by username
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns>the relevant admin </returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Admin GetAdminByUserName(string userName)
         {
             return (from admin in GetAdminsListBL() where admin.UserName == userName select admin).FirstOrDefault();
         }
 
-
+        /// <summary>
+        /// get the admin's list
+        /// </summary>
+        /// <returns>the admin's list</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Admin> GetAdminsListBL()
         {
@@ -35,6 +43,12 @@ namespace BL
 
 
         #region Add
+        /// <summary>
+        /// check if the admin is exsist by checking the username add his pasaword
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns> true or false dependinfg on the case </returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsAdminRegistered(string username, string password)
         {
@@ -61,6 +75,12 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// add new admin to the admin's list
+        /// </summary>
+        /// <param name="admin"></param>
+        /// <exception cref="ObjectAlreadyExistException">throw if the admin has alredy exist </exception>
+        /// <exception cref="XMLFileLoadCreateException">throw if the XML file Failed to load file </exception>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddNewAdminBL(Admin admin)
         {
@@ -86,6 +106,11 @@ namespace BL
 
 
         #region Update
+        /// <summary>
+        /// update the admin's password
+        /// </summary>
+        /// <param name="newAdmin"></param>
+        /// <exception cref="ObjectNotFoundException">throw if the object is not found</exception>
         public void UpdateAdminPasswordBL(Admin newAdmin)
         {
             DO.Admin admin = new();
@@ -104,9 +129,14 @@ namespace BL
             }
         }
         #endregion
-      
-        
+
+
         #region Delete
+        /// <summary>
+        /// delete admin frome the admin's list
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <exception cref="ObjectNotFoundException">throw if the object has't been found </exception>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteAdminBL(string userName)
         {

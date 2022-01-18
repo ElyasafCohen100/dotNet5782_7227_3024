@@ -50,33 +50,33 @@ namespace BL
 
                             Thread.Sleep(DELAY);
                             lock (BLObject)
+                            {
+                                int stationId = BLObject.FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
+                                Station station = BLObject.GetStationByIdBL(stationId);
+                                drone.CurrentLocation = station.Location;
+                                BLObject.UpdateDroneToChargingBL(droneId);
+                                drone.DroneStatus = DroneStatuses.Maintenance;
+
+                                //Update Station and DroneCharge detailes.
+
+                                try
                                 {
-                                    int stationId = BLObject.FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
-                                    Station station = BLObject.GetStationByIdBL(stationId);
-                                    drone.CurrentLocation = station.Location;
-                                    BLObject.UpdateDroneToChargingBL(droneId);
-                                    drone.DroneStatus = DroneStatuses.Maintenance;
-
-                                    //Update Station and DroneCharge detailes.
-
-                                    try
-                                    {
-                                        Thread.Sleep(DELAY);
-                                        BL.dalObject.UpdateDroneToCharging(drone.Id, station.Id);
-                                    }
-                                    catch (DO.ObjectNotFoundException e)
-                                    {
-                                        throw new ObjectNotFoundException(e.Message);
-                                    }
-                                    catch (DO.ObjectIsNotActiveException e)
-                                    {
-                                        throw new ObjectIsNotActiveException(e.Message);
-                                    }
-                                    catch (DO.XMLFileLoadCreateException e)
-                                    {
-                                        throw new XMLFileLoadCreateException(e.Message);
-                                    }
+                                    Thread.Sleep(DELAY);
+                                    BL.dalObject.UpdateDroneToCharging(drone.Id, station.Id);
                                 }
+                                catch (DO.ObjectNotFoundException e)
+                                {
+                                    throw new ObjectNotFoundException(e.Message);
+                                }
+                                catch (DO.ObjectIsNotActiveException e)
+                                {
+                                    throw new ObjectIsNotActiveException(e.Message);
+                                }
+                                catch (DO.XMLFileLoadCreateException e)
+                                {
+                                    throw new XMLFileLoadCreateException(e.Message);
+                                }
+                            }
                         }
                     }
                 }
@@ -106,7 +106,6 @@ namespace BL
                     {
                         //Do nothing, stay in charging.
                     }
-                    
                 }
                 action();
             }

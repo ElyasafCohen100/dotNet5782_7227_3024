@@ -33,7 +33,7 @@ namespace PL
         {
             if (!BLObject.IsAdminRegistered(UserNameTB.Text, PasswordPB.Password))
             {
-                if (!BLObject.IsCustomerRegisered(UserNameTB.Text, PasswordPB.Password))
+                if (!BLObject.IsCustomerRegistered(UserNameTB.Text, PasswordPB.Password))
                     MessageBox.Show("The user is not exsist", "Operation Failure",
                                        MessageBoxButton.OK, MessageBoxImage.Error);
 
