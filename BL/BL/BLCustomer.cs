@@ -29,7 +29,7 @@ namespace BL
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IsCustomerRegisered(string username)
+        public bool IsCustomerExsist(string username)
         {
             lock (dalObject)
             {
@@ -130,7 +130,7 @@ namespace BL
 
 
         /// <summary>
-        /// get the object "custome to liss" by customerId
+        /// get the object "custome to list" by customerId
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns>the relevant customerToList</returns>
@@ -156,10 +156,13 @@ namespace BL
             {
                 throw new ObjectNotFoundException("Customer");
             }
+
+            // Calculate the rest of the fields of the CoustomerToList object
             int sendAndDelivered = 0;
             int sendAndNotDelivered = 0;
             int pickedUpParcels = 0;
             int deliveredParcels = 0;
+
             lock (dalObject)
             {
                 IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
@@ -183,10 +186,12 @@ namespace BL
                         }
                     }
                 }
+
                 customer.SendAndDeliveredParcels = sendAndDelivered;
                 customer.SendAndNotDeliveredParcels = sendAndNotDelivered;
                 customer.PickedUpParcels = pickedUpParcels;
                 customer.DeliveredParcels = deliveredParcels;
+                
                 return customer;
             }
         }

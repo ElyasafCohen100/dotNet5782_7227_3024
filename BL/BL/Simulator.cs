@@ -98,9 +98,14 @@ namespace BL
                     {
                         Thread.Sleep(DELAY);
                         lock (BLObject) lock (BL.dalObject)
-                            {
-                                BLObject.AssociateDroneTofParcelBL(droneId);
-                            }
+                          {
+                                BLObject.UpdateDroneFromChargingBL(droneId);
+                                Drone myDrone = BLObject.GetDroneByIdBL(droneId);
+                                if (myDrone.BatteryStatus <= 80)
+                                {
+                                    BLObject.UpdateDroneToChargingBL(droneId);
+                                }
+                          }
                     }
                     catch (OutOfBatteryException)
                     {

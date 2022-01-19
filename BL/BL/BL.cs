@@ -431,7 +431,7 @@ namespace BL
         /// <param name="droneId"></param>
         /// <returns>the DroneCharge</returns>
         /// <exception cref="XMLFileLoadCreateException">throw if the XML file Failed to load file</exception> 
-        private DroneCharge FindDroneChargeByDroneIdBL(int droneId)
+        internal DroneCharge FindDroneChargeByDroneIdBL(int droneId)
         {
             try
             {

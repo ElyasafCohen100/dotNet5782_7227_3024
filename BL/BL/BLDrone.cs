@@ -321,8 +321,10 @@ namespace BL
         private double TimeIntervalInMinutes(DateTime time1, DateTime time2)
         {
             TimeSpan interval = time2 - time1;
+            
             double daysInMinutes = (interval.Days / 24) / 60;
             double hoursInMinutes = interval.Hours / 60;
+           
             return daysInMinutes + hoursInMinutes + interval.Minutes;
         }
 

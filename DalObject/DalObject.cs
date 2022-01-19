@@ -33,7 +33,8 @@ namespace Dal
         /// </summary>
         /// <returns> return array with electricity use request </returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public double[] ElectricityUseRequest()
+        public double[] 
+            Request()
         {
             return new double[5] { DataSource.Config.Available,
                                    DataSource.Config.Light,

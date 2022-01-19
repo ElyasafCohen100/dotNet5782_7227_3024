@@ -37,7 +37,6 @@ namespace Dal
 
             internal static Random r = new Random();
             internal static DateTime currentDate = DateTime.Now;
-
         }
 
         /// <summary>

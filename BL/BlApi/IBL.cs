@@ -18,8 +18,8 @@ namespace BlApi
         void AddNewAdminBL(Admin admin);
         bool IsCustomerRegistered(string username, string password);
         bool IsAdminRegistered(string username, string password);
-        bool IsAdminRegistered(string username);
-        bool IsCustomerRegisered(string username);
+        bool IsAdminExsist(string username);
+        bool IsCustomerExsist(string username);
         #endregion
 
         #region Delete

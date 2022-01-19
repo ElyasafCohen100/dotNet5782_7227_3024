@@ -57,11 +57,11 @@ namespace PL
             {
                 UserNameTB.Clear();
             }
-            if (!BLObject.IsAdminRegistered(UserNameTB.Text))
+            if (!BLObject.IsAdminExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Hidden;
             }
-            else if (!BLObject.IsCustomerRegisered(UserNameTB.Text))
+            else if (!BLObject.IsCustomerExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Hidden;
             }
@@ -82,19 +82,19 @@ namespace PL
             {
                 UserNameTB.Text = "User Name";
             }
-            if (!BLObject.IsAdminRegistered(UserNameTB.Text))
+            if (!BLObject.IsAdminExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Visible;
             }
-            else if (BLObject.IsAdminRegistered(UserNameTB.Text))
+            else if (BLObject.IsAdminExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Hidden;
             }
-            else if (!BLObject.IsCustomerRegisered(UserNameTB.Text))
+            else if (!BLObject.IsCustomerExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Visible;
             }
-            else if (BLObject.IsCustomerRegisered(UserNameTB.Text))
+            else if (BLObject.IsCustomerExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Hidden;
             }

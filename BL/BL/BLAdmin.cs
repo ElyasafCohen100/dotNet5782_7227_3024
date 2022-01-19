@@ -56,20 +56,24 @@ namespace BL
             {
                 DO.Admin admin = dalObject.GetAdminByUserName(username);
                 if (admin.UserName == username && admin.Password == password)
+                {
                     return true;
+                }
                 return false;
             }
         }
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IsAdminRegistered(string username)
+        public bool IsAdminExsist(string username)
         {
             lock (dalObject)
             {
                 DO.Admin admin = dalObject.GetAdminByUserName(username);
                 if (admin.UserName == username)
+                {
                     return true;
+                }
                 return false;
             }
         }
