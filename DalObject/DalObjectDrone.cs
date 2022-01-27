@@ -1,79 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 using DO;
 
 namespace Dal
 {
     partial class DalObject : DalApi.IDal
     {
-        #region Get
-        /// <summary>
-        /// Finds Drone by specific Id.
-        /// </summary>
-        /// <param name="droneId"> Id of Drone </param> 
-        /// <returns> Drone object </returns>
-        /// <exception cref="ObjectNotFoundException">Throw if drone with such id has not found</exception>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Drone GetDroneById(int droneId)
-        {
-
-
-            Drone drone = DataSource.Drones.Find(x => x.Id == droneId);
-            return drone.Id != droneId ? throw new ObjectNotFoundException("drone") : drone;
-
-        }
-
-
-        /// <summary>
-        /// Finds DroneCharge by specific Id.
-        /// </summary>
-        /// <param name="droneId">Id of Drone </param>
-        /// <returns> DroneCharge object </returns>
-        /// <exception cref="ObjectNotFoundException">Throw if drone-charge with such drone id has not found</exception>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public DroneCharge GetDroneChargeByDroneId(int droneId)
-        {
-            DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
-            return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException("droneCharge") : droneCharge;
-        }
-
-
-        /// <summary>
-        /// Return list of Drones.
-        /// </summary>
-        /// <returns> List of Drones </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Drone> GetDroneList()
-        {
-            return from drone in DataSource.Drones where drone.IsActive select drone;
-        }
-
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Drone> GetDrones(Predicate<Drone> predicate)
-        {
-            return DataSource.Drones.FindAll(predicate).FindAll(x => x.IsActive);
-        }
-
-
-        /// <summary>
-        /// get the drone charge list by given staionID
-        /// </summary>
-        /// <param name="stationId"> Id of station </param>
-        /// <returns> drone charge list  </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate)
-        {
-            return DataSource.DroneCharges.FindAll(predicate);
-        }
-        #endregion
-
 
         #region Add
+
         /// <summary>
         /// Set new Drone.
         /// </summary>
@@ -84,8 +23,6 @@ namespace Dal
             drone.IsActive = true;
             DataSource.Drones.Add(drone);
         }
-
-
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(int droneId, int stationId)
         {
@@ -94,6 +31,43 @@ namespace Dal
             droneCharge.StationId = stationId;
             droneCharge.ChargeTime = DateTime.Now;
             DataSource.DroneCharges.Add(droneCharge);
+        }
+        #endregion
+
+
+        #region Delete
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteDrone(int droneId)
+        {
+            int index = DataSource.Drones.FindIndex(x => x.Id == droneId);
+            if (index == -1) throw new ObjectNotFoundException("drone");
+            Drone drone = DataSource.Drones[index];
+            drone.IsActive = false;
+            DataSource.Drones[index] = drone;
+            if (IsDroneChargeExist(droneId))
+                DeleteDroneCharge(droneId);
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private bool IsDroneChargeExist(int droneId)
+        {
+            try
+            {
+                GetDroneChargeByDroneId(droneId);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteDroneCharge(int droneId)
+        {
+            DroneCharge droneCharge = GetDroneChargeByDroneId(droneId);
+            DataSource.DroneCharges.Remove(droneCharge);
         }
         #endregion
 
@@ -128,7 +102,6 @@ namespace Dal
             DataSource.DroneCharges.Add(droneCharge);
         }
 
-
         /// <summary>
         /// Increse the number of charge slots in the Base-Station.
         /// </summary>
@@ -148,7 +121,6 @@ namespace Dal
             DataSource.DroneCharges.Remove(droneCharge);
         }
 
-
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDroneModel(int droneId, string newModel)
         {
@@ -160,48 +132,60 @@ namespace Dal
             DataSource.Drones[index] = drone;
         }
         #endregion
-       
-        
-        #region Delete
+
+
+        #region Getters
+        /// <summary>
+        /// Finds Drone by specific Id.
+        /// </summary>
+        /// <param name="droneId"> Id of Drone </param> 
+        /// <returns> Drone object </returns>
+        /// <exception cref="ObjectNotFoundException">Throw if drone with such id has not found</exception>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteDrone(int droneId)
+        public Drone GetDroneById(int droneId)
         {
-            int index = DataSource.Drones.FindIndex(x => x.Id == droneId);
-            if (index == -1) throw new ObjectNotFoundException("drone");
-           
-            Drone drone = DataSource.Drones[index];
-            drone.IsActive = false;
-            DataSource.Drones[index] = drone;
-            
-            if (IsDroneChargeExist(droneId))
-            {
-                DeleteDroneCharge(droneId);
-            }
+            Drone drone = DataSource.Drones.Find(x => x.Id == droneId);
+            return drone.Id != droneId ? throw new ObjectNotFoundException("drone") : drone;
         }
 
-
-        private bool IsDroneChargeExist(int droneId)
+        /// <summary>
+        /// Finds DroneCharge by specific Id.
+        /// </summary>
+        /// <param name="droneId">Id of Drone </param>
+        /// <returns> DroneCharge object </returns>
+        /// <exception cref="ObjectNotFoundException">Throw if drone-charge with such drone id has not found</exception>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public DroneCharge GetDroneChargeByDroneId(int droneId)
         {
-            try
-            {
-                lock (DalObj)
-                {
-                    GetDroneChargeByDroneId(droneId);
-                }
-            }
-            catch (ObjectNotFoundException)
-            {
-                return false;
-            }
-            return true;
+            DroneCharge droneCharge = DataSource.DroneCharges.Find(x => x.DroneId == droneId);
+            return droneCharge.DroneId != droneId ? throw new ObjectNotFoundException("droneCharge") : droneCharge;
         }
 
+        /// <summary>
+        /// Return list of Drones.
+        /// </summary>
+        /// <returns> List of Drones </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Drone> GetDroneList()
+        {
+            return from drone in DataSource.Drones where drone.IsActive select drone;
+        }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteDroneCharge(int droneId)
+        public IEnumerable<Drone> GetDrones(Predicate<Drone> predicate)
         {
-            DroneCharge droneCharge = GetDroneChargeByDroneId(droneId);
-            DataSource.DroneCharges.Remove(droneCharge);
+            return DataSource.Drones.FindAll(predicate).FindAll(x => x.IsActive);
+        }
+
+        /// <summary>
+        /// get the drone charge list by given staion Id
+        /// </summary>
+        /// <param name="stationId"> Id of station </param>
+        /// <returns> drone charge list  </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate)
+        {
+            return DataSource.DroneCharges.FindAll(predicate);
         }
         #endregion
     }

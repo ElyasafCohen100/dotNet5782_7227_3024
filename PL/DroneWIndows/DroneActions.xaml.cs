@@ -319,6 +319,18 @@ namespace PL
             this.Close();
         }
         #region Add Drone
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
+        }
+
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
 
         private void AddNewDroneButton_Click(object sender, RoutedEventArgs e)
         {
@@ -388,10 +400,6 @@ namespace PL
         }
 
         //Bouns.
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (DataContext.Equals(false)) e.Cancel = true;
-        }
 
         private void ViewParcel_Click(object sender, RoutedEventArgs e)
         {
@@ -463,6 +471,5 @@ namespace PL
             MessageBox.Show("Elyasaf The King!!!");
             backgroundWorker.ReportProgress(0);
         }
-
     }
 }

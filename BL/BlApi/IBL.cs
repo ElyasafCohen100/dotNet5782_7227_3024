@@ -39,6 +39,8 @@ namespace BlApi
         void AssociateDroneTofParcelBL(int droneId);
         void UpdateDeliveredParcelByDroneIdBL(int droneId);
         void UpdatePickedUpParcelByDroneIdBL(int droneId);
+        double BatteryCalac(DroneToList droneToList, DroneCharge droneCharge);
+
         #endregion
 
         #region Get
@@ -50,6 +52,7 @@ namespace BlApi
         ParcelToList GetParcelToList(int parcelId);
         CustomerToList GetCustomerToList(int customerId);
         Admin GetAdminByUserName(string userName);
+        DroneCharge FindDroneChargeByDroneIdBL(int droneId);
         #endregion
 
         #region Get List
@@ -67,30 +70,8 @@ namespace BlApi
         void StartSimulator(int droneId, Action UpdateAction, Func<bool> checkStopFunc);
         #endregion
 
-        //void CheckStop(int droneId, Action action, Func<bool> func); 
-
-
-        #region Another function
-        /// <summary>
-        /// Return string of sexagesimal presentation.
-        /// </summary>
-        /// <param name="decimalNumber"></param>
-        /// <returns> String of sexagesimal presentation </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public static string SexagesimalPresentation(double decimalNumber)
-        {
-            int degrees, minutes1, seconds;
-            double minutes2;
-
-            degrees = (int)decimalNumber;
-
-            minutes2 = (decimalNumber - degrees) * 60;
-            minutes1 = (int)minutes2;
-
-            seconds = (int)((minutes2 - minutes1) * 60);
-
-            return $"{degrees}°{minutes1}'{seconds}\"";
-        }
+        #region Sexagesimal
+        string SexagesimalPresentation(double decimalNumber);
         #endregion
     }
 }

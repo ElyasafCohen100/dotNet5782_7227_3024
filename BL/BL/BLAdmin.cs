@@ -52,30 +52,24 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsAdminRegistered(string username, string password)
         {
-            lock (dalObject)
+            DO.Admin admin = dalObject.GetAdminByUserName(username);
+            if (admin.UserName == username && admin.Password == password)
             {
-                DO.Admin admin = dalObject.GetAdminByUserName(username);
-                if (admin.UserName == username && admin.Password == password)
-                {
-                    return true;
-                }
-                return false;
+                return true;
             }
+            return false;
         }
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsAdminExsist(string username)
         {
-            lock (dalObject)
+            DO.Admin admin = dalObject.GetAdminByUserName(username);
+            if (admin.UserName == username)
             {
-                DO.Admin admin = dalObject.GetAdminByUserName(username);
-                if (admin.UserName == username)
-                {
-                    return true;
-                }
-                return false;
+                return true;
             }
+            return false;
         }
 
 
@@ -88,22 +82,19 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddNewAdminBL(Admin admin)
         {
-            lock (dalObject)
-            {
-                var exsitUser = (from user in dalObject.GetAdminsList() where user.UserName == admin.UserName select user).FirstOrDefault();
-                if (exsitUser.UserName != String.Empty) throw new ObjectAlreadyExistException("Admin");
+            var exsitUser = (from user in dalObject.GetAdminsList() where user.UserName == admin.UserName select user).FirstOrDefault();
+            if (exsitUser.UserName != String.Empty) throw new ObjectAlreadyExistException("Admin");
 
-                DO.Admin newAdmin = new();
-                newAdmin.UserName = admin.UserName;
-                newAdmin.Password = admin.Password;
-                try
-                {
-                    dalObject.AddAdmin(newAdmin);
-                }
-                catch (DO.XMLFileLoadCreateException e)
-                {
-                    throw new XMLFileLoadCreateException(e.Message);
-                }
+            DO.Admin newAdmin = new();
+            newAdmin.UserName = admin.UserName;
+            newAdmin.Password = admin.Password;
+            try
+            {
+                dalObject.AddAdmin(newAdmin);
+            }
+            catch (DO.XMLFileLoadCreateException e)
+            {
+                throw new XMLFileLoadCreateException(e.Message);
             }
         }
         #endregion

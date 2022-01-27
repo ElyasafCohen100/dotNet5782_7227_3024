@@ -4,7 +4,7 @@ using System.Text;
 using DO;
 using System.Collections.Generic;
 
-namespace ConsoleUI
+namespace ConsoleDal
 {
     /// <summary>
     /// Program class.
@@ -22,13 +22,13 @@ namespace ConsoleUI
         {
             try
             {
+
                 dalObject = DalApi.DalFactory.GetDal();
             }
             catch (DalApi.DalConfigException e)
             {
                 Console.WriteLine(e.Message);
             }
-
             Menu();
         }
 
@@ -466,10 +466,8 @@ namespace ConsoleUI
             Console.WriteLine("Enter Base-Station ID: ");
             int.TryParse(Console.ReadLine(), out int baseStatinId);
 
-
             Station myBaseStation = dalObject.GetStationById(baseStatinId);
             Console.WriteLine(myBaseStation.ToString());
-
         }
 
         /// <summary>
@@ -480,9 +478,8 @@ namespace ConsoleUI
             Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out int droneId);
 
-            Drone myDrone = dalObject.GetDroneById(droneId);
-            Console.WriteLine(myDrone.ToString());
-
+            Drone blDrone = dalObject.GetDroneById(droneId);
+            Console.WriteLine(blDrone.ToString());
         }
 
         /// <summary>
@@ -492,9 +489,9 @@ namespace ConsoleUI
         {
             Console.WriteLine("Enter customer ID: ");
             int.TryParse(Console.ReadLine(), out int customerId);
-
             Customer myCusromer = dalObject.GetCustomerById(customerId);
             Console.WriteLine(myCusromer.ToString());
+
         }
 
         /// <summary>
@@ -534,9 +531,9 @@ namespace ConsoleUI
         public static void ViewDronesList()
         {
             Console.WriteLine("The drones are:");
-            IEnumerable<Drone> myDrones = dalObject.GetDroneList();
+            IEnumerable<Drone> blDrones = dalObject.GetDroneList();
 
-            foreach (var drone in myDrones)
+            foreach (var drone in blDrones)
             {
                 Console.WriteLine(drone.ToString());
                 Console.WriteLine();
@@ -564,9 +561,9 @@ namespace ConsoleUI
         public static void ViewParcelsList()
         {
             Console.WriteLine("The parcels are:");
-            IEnumerable<Parcel> myParcels = dalObject.GetParcelList();
+            IEnumerable<Parcel> parcels = dalObject.GetParcelList();
 
-            foreach (var parcel in myParcels)
+            foreach (var parcel in parcels)
             {
                 Console.WriteLine(parcel.ToString());
                 Console.WriteLine();

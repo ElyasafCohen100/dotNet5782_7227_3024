@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="CustomerAction" Height="450" Width="800">
+        Title="CustomerAction" Height="450" Width="800"
+        WindowStyle="None" MouseDown="MoveMouse">
 
     <Window.Background>
-        <ImageBrush ImageSource="https://media.gettyimages.com/vectors/drone-vector-id1010563728?s=2048x2048"/>
+        <ImageBrush ImageSource = "/resources/CustomerAction.jpg" Stretch="Fill"/>
     </Window.Background>
 
     <Grid Name="grid1">

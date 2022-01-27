@@ -8,13 +8,7 @@ namespace Dal
 {
     public sealed partial class DalXml : DalApi.IDal
     {
-        private static class LoadDalObj
-        {
-            internal static readonly DalXml dalObj = new();
-        }
-
-        public static DalXml DalObj { get { return LoadDalObj.dalObj; } }
-
+        #region Xml Files
         public static string dalParcelPath = @"Data\Parcels.xml";
         public static string dalConfigPath = @"Data\Config.xml";
         public static string dalAdminPath = @"Data\Admins.xml";
@@ -22,11 +16,27 @@ namespace Dal
         public static string dalDronePath = @"Data\Drones.xml";
         public static string dalDroneChargePath = @"Data\DroneCharges.xml";
         public static string dalStationPath = @"Data\Stations.xml";
+        #endregion
 
+
+        #region Singleton
+        private static class LoadDalObj
+        {
+            internal static readonly DalXml dalObj = new();
+        }
+
+        public static DalXml DalObj { get { return LoadDalObj.dalObj; } }
+        #endregion
+
+
+        #region Constructor
         public DalXml()
         {
-
         }
+        #endregion
+
+
+        #region Electricity Use Request
         /// <summary>
         /// Request of eletricity use by drone
         /// </summary>
@@ -40,7 +50,10 @@ namespace Dal
             dalConfigRoot.Save(dalConfigPath);
             return Electricity;
         }
-        //------------------------ BONUS FUNCTIONS ---------------------------//
+        #endregion
+
+
+        #region Distance
 
         /// <summary>
         /// Convert the receive angle to radian degree
@@ -87,5 +100,6 @@ namespace Dal
             //Calculate the result.
             return c * r;
         }
+        #endregion
     }
 }

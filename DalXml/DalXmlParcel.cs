@@ -70,6 +70,7 @@ namespace Dal
 
             dalConfigRoot.Element("SerialNum").Value = (parcel.Id + 1).ToString();
             XMLTools.SaveListToXMLSerializer(parcelList, dalParcelPath);
+            dalConfigRoot.Save(dalConfigPath);
         }
         #endregion
 

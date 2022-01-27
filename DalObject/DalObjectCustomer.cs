@@ -1,45 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using DO;
 
 namespace Dal
 {
     partial class DalObject : DalApi.IDal
     {
-        #region Get
-        /// <summary>
-        /// Finds Customer by specific Id.
-        /// </summary>
-        /// <param name="customerId"> Customer Id </param>
-        /// <returns> Customer object </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Customer GetCustomerById(int customerId)
-        {
-            Customer customer = DataSource.Customers.Find(x => x.Id == customerId);
-            return customer.Id != customerId && !customer.IsActive ? throw new ObjectNotFoundException(customer.GetType().ToString()) : customer;
-        }
-
-
-        /// <summary>
-        /// Return List of Customers.
-        /// </summary>
-        /// <returns> List of Customers </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Customer> GetCustomerList()
-        {
-            return from customer in DataSource.Customers where customer.IsActive select customer;
-        }
-
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Customer GetCustomerByUserName(string username)
-        {
-            return (from customer in GetCustomerList() where customer.UserName == username select customer).FirstOrDefault();
-        }
-        #endregion
-
 
         #region Add
         /// <summary>
@@ -52,11 +20,11 @@ namespace Dal
             Customer.IsActive = true;
             DataSource.Customers.Add(Customer);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         #endregion
 
 
         #region Update
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomerDetailes(int customerId, string newName, string newPhoneNumber)
         {
             int index = DataSource.Customers.FindIndex(x => x.Id == customerId);
@@ -66,6 +34,36 @@ namespace Dal
             customer.Name = newName;
             customer.Phone = newPhoneNumber;
             DataSource.Customers[index] = customer;
+        }
+        #endregion
+
+
+        #region Getters
+        /// <summary>
+        /// Finds Customer by specific Id.
+        /// </summary>
+        /// <param name="customerId"> Customer Id </param>
+        /// <returns> Customer object </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Customer GetCustomerById(int customerId)
+        {
+            Customer customer = DataSource.Customers.Find(x => x.Id == customerId);
+            return customer.Id != customerId && !customer.IsActive ? throw new ObjectNotFoundException("customer") : customer;
+        }
+        /// <summary>
+        /// Return List of Customers.
+        /// </summary>
+        /// <returns> List of Customers </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Customer> GetCustomerList()
+        {
+            return from customer in DataSource.Customers where customer.IsActive select customer;
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Customer GetCustomerByUserName(string username)
+        {
+            return (from customer in GetCustomerList() where customer.UserName == username select customer).FirstOrDefault();
         }
         #endregion
 

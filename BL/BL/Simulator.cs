@@ -10,19 +10,20 @@ namespace BL
 {
     class Simulator
     {
+        #region Const
         public const double DRONE_VELOCITY = 10;
         public const int DELAY = 500;
+        #endregion
 
+
+        #region Simulator Constructor
         public Simulator(BL BLObject, int droneId, Action action, Func<bool> checkStopFunc)
         {
-            Drone drone;
-            lock (BL.dalObject)
-            {
-                drone = BLObject.GetDroneByIdBL(droneId);
-            }
+            DroneToList drone;
 
             while (!checkStopFunc())
             {
+                drone = BLObject.GetDronesToList(x => x.Id == droneId).FirstOrDefault();
                 if (drone.DroneStatus == DroneStatuses.Available)
                 {
                     try
@@ -48,34 +49,14 @@ namespace BL
                             //Demonstrate drone collect by technition.
                             Thread.Sleep(3000);
 
-                            Thread.Sleep(DELAY);
+
+                            int stationId = BLObject.FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
+                            Station station = BLObject.GetStationByIdBL(stationId);
+                            drone.CurrentLocation = station.Location;
+
                             lock (BLObject)
                             {
-                                int stationId = BLObject.FindNearestBaseStationWithAvailableChargingSlots(drone.CurrentLocation);
-                                Station station = BLObject.GetStationByIdBL(stationId);
-                                drone.CurrentLocation = station.Location;
                                 BLObject.UpdateDroneToChargingBL(droneId);
-                                drone.DroneStatus = DroneStatuses.Maintenance;
-
-                                //Update Station and DroneCharge detailes.
-
-                                try
-                                {
-                                    Thread.Sleep(DELAY);
-                                    BL.dalObject.UpdateDroneToCharging(drone.Id, station.Id);
-                                }
-                                catch (DO.ObjectNotFoundException e)
-                                {
-                                    throw new ObjectNotFoundException(e.Message);
-                                }
-                                catch (DO.ObjectIsNotActiveException e)
-                                {
-                                    throw new ObjectIsNotActiveException(e.Message);
-                                }
-                                catch (DO.XMLFileLoadCreateException e)
-                                {
-                                    throw new XMLFileLoadCreateException(e.Message);
-                                }
                             }
                         }
                     }
@@ -85,7 +66,7 @@ namespace BL
                     Thread.Sleep(DELAY);
                     lock (BLObject)
                     {
-                        Parcel parcel = BLObject.GetParcelByIdBL(drone.ParcelInDelivery.Id);
+                        Parcel parcel = BLObject.GetParcelByIdBL(drone.DeliveryParcelId);
                         if (parcel.PickedUp == null)
                             BLObject.UpdatePickedUpParcelByDroneIdBL(droneId);
                         else if (parcel.Delivered == null)
@@ -97,15 +78,21 @@ namespace BL
                     try
                     {
                         Thread.Sleep(DELAY);
-                        lock (BLObject) lock (BL.dalObject)
-                          {
+
+                        double batteryStatus;
+                        lock (BLObject)
+                        {
+                            DroneCharge droneCharge = BLObject.FindDroneChargeByDroneIdBL(drone.Id);
+                            batteryStatus = BLObject.BatteryCalac(drone, droneCharge);
+                        }
+
+                        if (batteryStatus == 100)
+                        {
+                            lock (BLObject)
+                            {
                                 BLObject.UpdateDroneFromChargingBL(droneId);
-                                Drone myDrone = BLObject.GetDroneByIdBL(droneId);
-                                if (myDrone.BatteryStatus <= 80)
-                                {
-                                    BLObject.UpdateDroneToChargingBL(droneId);
-                                }
-                          }
+                            }
+                        }
                     }
                     catch (OutOfBatteryException)
                     {
@@ -115,5 +102,6 @@ namespace BL
                 action();
             }
         }
+        #endregion
     }
 }

@@ -1,9 +1,8 @@
 ﻿using DO;
 using System;
-using System.Collections.Generic;
 using DalApi;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-
 
 namespace Dal
 {
@@ -13,12 +12,17 @@ namespace Dal
     public sealed partial class DalObject : DalApi.IDal
     {
 
+        #region Singelton
         private static class LoadDalObj
         {
             internal static readonly DalObject dalObj = new();
         }
 
         public static DalObject DalObj { get { return LoadDalObj.dalObj; } }
+        #endregion
+
+
+        #region Contructor
 
         /// <summary>
         /// C-tor.Initialize the DataSource components.
@@ -27,14 +31,18 @@ namespace Dal
         {
             DataSource.Initialize();
         }
+        #endregion
+
+
+        #region Electricity Use Request
 
         /// <summary>
         /// request of eletricity use by drone
         /// </summary>
         /// <returns> return array with electricity use request </returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public double[] 
-            Request()
+        public double[] ElectricityUseRequest()
         {
             return new double[5] { DataSource.Config.Available,
                                    DataSource.Config.Light,
@@ -43,8 +51,10 @@ namespace Dal
                                    DataSource.Config.DroneChargingRate
             };
         }
+        #endregion
 
-        //------------------------ BONUS FUNCTIONS ---------------------------//
+
+        #region Distance
 
         /// <summary>
         /// Convert the receive angle to radian degree
@@ -65,7 +75,6 @@ namespace Dal
         /// <param name="longitude1">Longitude point A</param>
         /// <param name="longitude2">Longitude point B</param>
         /// <returns> Distance between the points </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2)
         {
             //Convert longitude and lattitude values to radians.
@@ -82,7 +91,7 @@ namespace Dal
                        Math.Cos(lattitude1) * Math.Cos(lattitude2) *
                        Math.Pow(Math.Sin(distanceLongitude / 2), 2);
 
-            //c = 2\arcsin(sqrt(a)).
+            //c = 2 * arcsin(sqrt(a)).
             double c = 2 * Math.Asin(Math.Sqrt(a));
 
             //Radius of earth in kilometers.
@@ -91,6 +100,7 @@ namespace Dal
             //Calculate the result.
             return c * r;
         }
+        #endregion
     }
 }
 

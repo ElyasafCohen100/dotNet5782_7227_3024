@@ -1,39 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using BO;
 
 namespace PL
 {
-    /// <summary>
-    /// Interaction logic for MainCustomerWindow.xaml
-    /// </summary>
     public partial class MainCustomerWindow : Window
     {
-        private BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
-        private string userName;
-        public MainCustomerWindow(string userName)
+        private BlApi.IBL BLObgect;
+        string userName;
+
+        //Add 
+        #region Constructor
+        public MainCustomerWindow(string usreName)
         {
             InitializeComponent();
-            this.userName = userName;
 
+            try
+            {
+                BLObgect = BlApi.BlFactory.GetBl();
+            }
+            catch (DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            DataContext = false;
         }
+        #endregion
 
-        private void UpdateCustomerButton_Click(object sender, RoutedEventArgs e)
+      
+        #region Add Parcel
+        private void AddParcelFromCustomerButton_Click(object sender, RoutedEventArgs e)
         {
-            //Customer customer = BLObject.FindCustomerByUserName(userName);
-            //CustomerToList customerToList = BLObject.FindCustomerToList(customer.Id);
-            //new CustomerActions(customerToList);
+            new AddParcelFromCustomerWindow(userName).Show();
         }
+        #endregion
+
+
+        #region View Parcel From Customer
+        private void ViewParcelFromCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            new ViewParcelFromCustomerWindow(userName).Show();   
+        }
+        #endregion
+
+       
+        #region Close Window
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
+        }
+
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+        #endregion
     }
 }

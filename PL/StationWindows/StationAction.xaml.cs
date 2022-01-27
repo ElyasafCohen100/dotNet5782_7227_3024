@@ -180,6 +180,15 @@ namespace PL
             if (DataContext.Equals(false)) e.Cancel = true;
         }
 
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+
         private void StationNameTB_KeyDown(object sender, KeyEventArgs e)
         {
             UpdateStationButton.IsEnabled = true;

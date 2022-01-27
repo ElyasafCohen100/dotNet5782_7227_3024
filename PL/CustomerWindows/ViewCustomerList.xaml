@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ViewCustomerList" Height="450" Width="800">
+        Title="ViewCustomerList" Height="450" Width="800"
+        WindowStyle="None" MouseDown="MoveMouse">
 
 
     <Window.Background>
-        <ImageBrush ImageSource="https://m.media-amazon.com/images/I/61jxQe+k0kL._AC_SL1500_.jpg" Opacity="0.75"/>
+        <ImageBrush ImageSource ="\resources\UpperGridPicture.jpg" Opacity="0.75"/>
     </Window.Background>
 
     <Window.Resources>
-        <ImageBrush ImageSource ="https://sn.astm.org/sites/default/files/Drone%281%29.jpg" x:Key="1" Opacity="0.90"/>
+        <ImageBrush ImageSource ="\resources\ViewCustomerList.jpg" x:Key="1" Opacity="0.90"/>
     </Window.Resources>
 
 

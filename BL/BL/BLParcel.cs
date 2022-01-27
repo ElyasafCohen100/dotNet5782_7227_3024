@@ -22,63 +22,61 @@ namespace BL
         {
             if (parcelId <= 0) throw new InvalidInputException("Id");
             DO.Parcel dalParcel;
+
+            try
+            {
+                dalParcel = dalObject.GetParcelById(parcelId);
+            }
+            catch (DO.ObjectNotFoundException e)
+            {
+                throw new ObjectNotFoundException(e.Message);
+            }
+            Parcel Parcel = new();
+
+            Parcel.Id = dalParcel.Id;
+
+            DO.Customer dalCustomer = new();
             lock (dalObject)
             {
-                try
+                dalCustomer = dalObject.GetCustomerById(dalParcel.SenderId);
+                Parcel.senderCustomer.Id = dalParcel.SenderId;
+                Parcel.senderCustomer.Name = dalCustomer.Name;
+
+                dalCustomer = dalObject.GetCustomerById(dalParcel.TargetId);
+                Parcel.receiverCustomer.Id = dalParcel.TargetId;
+                Parcel.receiverCustomer.Name = dalCustomer.Name;
+
+                Parcel.Weight = (WeightCategories)dalParcel.Weight;
+                Parcel.Priority = (Priorities)dalParcel.Priority;
+
+                if (dalParcel.DroneId != 0)
                 {
-                    dalParcel = dalObject.GetParcelById(parcelId);
-                }
-                catch (DO.ObjectNotFoundException e)
-                {
-                    throw new ObjectNotFoundException(e.Message);
-                }
-                Parcel Parcel = new();
-
-                Parcel.Id = dalParcel.Id;
-
-                DO.Customer dalCustomer = new();
-                lock (dalObject)
-                {
-                    dalCustomer = dalObject.GetCustomerById(dalParcel.SenderId);
-                    Parcel.senderCustomer.Id = dalParcel.SenderId;
-                    Parcel.senderCustomer.Name = dalCustomer.Name;
-
-                    dalCustomer = dalObject.GetCustomerById(dalParcel.TargetId);
-                    Parcel.receiverCustomer.Id = dalParcel.TargetId;
-                    Parcel.receiverCustomer.Name = dalCustomer.Name;
-
-                    Parcel.Weight = (WeightCategories)dalParcel.Weight;
-                    Parcel.Priority = (Priorities)dalParcel.Priority;
-
-                    if (dalParcel.DroneId != 0)
+                    try
                     {
-                        try
-                        {
-                            Drone blDrone = new();
-                            blDrone = GetDroneByIdBL(dalParcel.DroneId);
-                            Parcel.Drone.Id = blDrone.Id;
-                            Parcel.Drone.BatteryStatus = blDrone.BatteryStatus;
-                            Parcel.Drone.CurrentLocation.Latitude = blDrone.CurrentLocation.Latitude;
-                            Parcel.Drone.CurrentLocation.Longitude = blDrone.CurrentLocation.Longitude;
-                        }
-                        catch (ObjectNotFoundException)
-                        {
+                        Drone blDrone = new();
+                        blDrone = GetDroneByIdBL(dalParcel.DroneId);
+                        Parcel.Drone.Id = blDrone.Id;
+                        Parcel.Drone.BatteryStatus = blDrone.BatteryStatus;
+                        Parcel.Drone.CurrentLocation.Latitude = blDrone.CurrentLocation.Latitude;
+                        Parcel.Drone.CurrentLocation.Longitude = blDrone.CurrentLocation.Longitude;
+                    }
+                    catch (ObjectNotFoundException)
+                    {
 
-                        }
-                        catch (ObjectIsNotActiveException)
-                        {
-                            Parcel.Drone.Id = 0;
-                        }
+                    }
+                    catch (ObjectIsNotActiveException)
+                    {
+                        Parcel.Drone.Id = 0;
                     }
                 }
-
-                Parcel.Requested = dalParcel.Requested;
-                Parcel.Scheduled = dalParcel.Scheduled;
-                Parcel.PickedUp = dalParcel.PickedUp;
-                Parcel.Delivered = dalParcel.Delivered;
-
-                return Parcel;
             }
+
+            Parcel.Requested = dalParcel.Requested;
+            Parcel.Scheduled = dalParcel.Scheduled;
+            Parcel.PickedUp = dalParcel.PickedUp;
+            Parcel.Delivered = dalParcel.Delivered;
+
+            return Parcel;
         }
 
 
@@ -93,41 +91,40 @@ namespace BL
 
             foreach (var parcel in dalObject.GetParcelList())
             {
-                lock (dalObject)
+
+                DO.Parcel dalParcel = dalObject.GetParcelById(parcel.Id);
+                ParcelToList Parcel = new();
+                DO.Customer dalCustomer = new();
+
+                Parcel.Id = dalParcel.Id;
+                dalCustomer = dalObject.GetCustomerById(dalParcel.SenderId);
+                Parcel.SenderName = dalCustomer.Name;
+
+                dalCustomer = dalObject.GetCustomerById(dalParcel.TargetId);
+                Parcel.ReceiverName = dalCustomer.Name;
+
+                Parcel.WeightCategory = (WeightCategories)dalParcel.Weight;
+                Parcel.Priority = (Priorities)dalParcel.Priority;
+
+                if (dalParcel.Delivered != null)
                 {
-                    DO.Parcel dalParcel = dalObject.GetParcelById(parcel.Id);
-                    ParcelToList Parcel = new();
-                    DO.Customer dalCustomer = new();
-
-                    Parcel.Id = dalParcel.Id;
-                    dalCustomer = dalObject.GetCustomerById(dalParcel.SenderId);
-                    Parcel.SenderName = dalCustomer.Name;
-
-                    dalCustomer = dalObject.GetCustomerById(dalParcel.TargetId);
-                    Parcel.ReceiverName = dalCustomer.Name;
-
-                    Parcel.WeightCategory = (WeightCategories)dalParcel.Weight;
-                    Parcel.Priority = (Priorities)dalParcel.Priority;
-
-                    if (dalParcel.Delivered != null)
-                    {
-                        Parcel.ParcelStatus = ParcelStatus.Delivered;
-                    }
-                    else if (dalParcel.PickedUp != null)
-                    {
-                        Parcel.ParcelStatus = ParcelStatus.PickedUp;
-                    }
-                    else if (dalParcel.Scheduled != null)
-                    {
-                        Parcel.ParcelStatus = ParcelStatus.Scheduled;
-                    }
-                    else
-                    {
-                        Parcel.ParcelStatus = ParcelStatus.Requested;
-                    }
-
-                    ParcelList.Add(Parcel);
+                    Parcel.ParcelStatus = ParcelStatus.Delivered;
                 }
+                else if (dalParcel.PickedUp != null)
+                {
+                    Parcel.ParcelStatus = ParcelStatus.PickedUp;
+                }
+                else if (dalParcel.Scheduled != null)
+                {
+                    Parcel.ParcelStatus = ParcelStatus.Scheduled;
+                }
+                else
+                {
+                    Parcel.ParcelStatus = ParcelStatus.Requested;
+                }
+
+                ParcelList.Add(Parcel);
+
 
             }
             return ParcelList;
@@ -142,30 +139,29 @@ namespace BL
         public IEnumerable<ParcelToList> GetNonAssociateParcelsListBL()
         {
             List<ParcelToList> ParcelToList = new();
-            lock (dalObject)
+
+            foreach (var parcel in dalObject.GetParcels(x => x.DroneId == 0))
             {
-                foreach (var parcel in dalObject.GetParcels(x => x.DroneId == 0))
-                {
-                    DO.Parcel dalParcel = dalObject.GetParcelById(parcel.Id);
-                    ParcelToList blParcel = new();
-                    DO.Customer dalCustomer = new();
+                DO.Parcel dalParcel = dalObject.GetParcelById(parcel.Id);
+                ParcelToList blParcel = new();
+                DO.Customer dalCustomer = new();
 
-                    blParcel.Id = dalParcel.Id;
+                blParcel.Id = dalParcel.Id;
 
-                    dalCustomer = dalObject.GetCustomerById(dalParcel.SenderId);
-                    blParcel.SenderName = dalCustomer.Name;
+                dalCustomer = dalObject.GetCustomerById(dalParcel.SenderId);
+                blParcel.SenderName = dalCustomer.Name;
 
-                    dalCustomer = dalObject.GetCustomerById(dalParcel.TargetId);
-                    blParcel.ReceiverName = dalCustomer.Name;
+                dalCustomer = dalObject.GetCustomerById(dalParcel.TargetId);
+                blParcel.ReceiverName = dalCustomer.Name;
 
-                    blParcel.WeightCategory = (WeightCategories)dalParcel.Weight;
-                    blParcel.Priority = (Priorities)dalParcel.Priority;
+                blParcel.WeightCategory = (WeightCategories)dalParcel.Weight;
+                blParcel.Priority = (Priorities)dalParcel.Priority;
 
-                    blParcel.ParcelStatus = ParcelStatus.Requested;
+                blParcel.ParcelStatus = ParcelStatus.Requested;
 
-                    ParcelToList.Add(blParcel);
-                }
+                ParcelToList.Add(blParcel);
             }
+
             return ParcelToList;
         }
 
@@ -181,45 +177,44 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public ParcelToList GetParcelToList(int parcelId)
         {
-            lock (dalObject)
+
+            DO.Parcel dalParcel = dalObject.GetParcelById(parcelId);
+            ParcelToList parcel = new();
+            DO.Customer dalCustomer = new();
+
+            parcel.Id = dalParcel.Id;
+
+            dalCustomer = dalObject.GetCustomerById(dalParcel.SenderId);
+            parcel.SenderName = dalCustomer.Name;
+
+            dalCustomer = dalObject.GetCustomerById(dalParcel.TargetId);
+            parcel.ReceiverName = dalCustomer.Name;
+
+            parcel.WeightCategory = (WeightCategories)dalParcel.Weight;
+            parcel.Priority = (Priorities)dalParcel.Priority;
+
+            if (dalParcel.Delivered != null)
             {
-                DO.Parcel dalParcel = dalObject.GetParcelById(parcelId);
-                ParcelToList parcel = new();
-                DO.Customer dalCustomer = new();
-
-                parcel.Id = dalParcel.Id;
-
-                dalCustomer = dalObject.GetCustomerById(dalParcel.SenderId);
-                parcel.SenderName = dalCustomer.Name;
-
-                dalCustomer = dalObject.GetCustomerById(dalParcel.TargetId);
-                parcel.ReceiverName = dalCustomer.Name;
-
-                parcel.WeightCategory = (WeightCategories)dalParcel.Weight;
-                parcel.Priority = (Priorities)dalParcel.Priority;
-
-                if (dalParcel.Delivered != null)
-                {
-                    parcel.ParcelStatus = ParcelStatus.Delivered;
-                }
-                else if (dalParcel.PickedUp != null)
-                {
-                    parcel.ParcelStatus = ParcelStatus.PickedUp;
-                }
-                else if (dalParcel.Scheduled != null)
-                {
-                    parcel.ParcelStatus = ParcelStatus.Scheduled;
-                }
-                else
-                {
-                    parcel.ParcelStatus = ParcelStatus.Requested;
-                }
-                return parcel;
+                parcel.ParcelStatus = ParcelStatus.Delivered;
             }
+            else if (dalParcel.PickedUp != null)
+            {
+                parcel.ParcelStatus = ParcelStatus.PickedUp;
+            }
+            else if (dalParcel.Scheduled != null)
+            {
+                parcel.ParcelStatus = ParcelStatus.Scheduled;
+            }
+            else
+            {
+                parcel.ParcelStatus = ParcelStatus.Requested;
+            }
+            return parcel;
         }
+
         #endregion
-       
-        
+
+
         #region Add
         /// <summary>
         /// Add new BL parcel to the list by using DAL.
@@ -271,94 +266,105 @@ namespace BL
 
             if (droneToList.DroneStatus == DroneStatuses.Available)
             {
-                lock (dalObject)
+                IEnumerable<DO.Parcel> parcels = dalObject.GetParcels(x => x.DroneId == 0);
+                if (parcels.Any())
                 {
-                    IEnumerable<DO.Parcel> parcels = dalObject.GetParcels(x => x.DroneId == 0);
-                    if (parcels.Any())
+                    //Initiate some valuse for comparation
+                    DO.Parcel dalParcel = new();
+                    dalParcel.Priority = DO.Priorities.Regular;
+                    dalParcel.Weight = DO.WeightCategories.Heavy;
+
+                    double minDistance = double.MaxValue;
+
+                    Customer sender = new();
+                    Customer target = new();
+
+                    bool haveParcelToAssociate = false;
+                    int outOfBatteryCounter = 0;
+
+                    foreach (var parcel in parcels)
                     {
-                        //Initiate some valuse for comparation
-                        DO.Parcel dalParcel = new();
-                        dalParcel.Priority = DO.Priorities.Regular;
-                        dalParcel.Weight = DO.WeightCategories.Heavy;
 
-                        double minDistance = double.MaxValue;
-
-                        Customer sender = new();
-                        Customer target = new();
-
-                        bool haveParcelToAssociate = false;
-                        foreach (var parcel in parcels)
+                        if ((int)droneToList.MaxWeight <= (int)parcel.Weight)
                         {
+                            sender = GetCustomerByIdBL(parcel.SenderId);
+                            target = GetCustomerByIdBL(parcel.TargetId);
 
-                            if ((int)droneToList.MaxWeight <= (int)parcel.Weight)
+                            //Distance between drone and sender.
+                            double distance = dalObject.Distance(droneToList.CurrentLocation.Latitude,
+                                                                      sender.Location.Latitude,
+                                                                      droneToList.CurrentLocation.Longitude,
+                                                                      sender.Location.Longitude);
+
+                            //Distance between sender and target.
+                            distance += dalObject.Distance(sender.Location.Latitude,
+                                                                      target.Location.Latitude,
+                                                                     sender.Location.Longitude,
+                                                                      target.Location.Longitude);
+
+                            //Find the nearest base-station to the target.
+                            int stationId = FindNearestBaseStationWithAvailableChargingSlots(new Location
                             {
-                                sender = GetCustomerByIdBL(parcel.SenderId);
-                                target = GetCustomerByIdBL(parcel.TargetId);
+                                Latitude = target.Location.Latitude,
+                                Longitude = target.Location.Longitude
+                            });
 
-                                //Distance between drone and sender.
-                                double distance = dalObject.Distance(droneToList.CurrentLocation.Latitude,
-                                                                          sender.Location.Latitude,
-                                                                          droneToList.CurrentLocation.Longitude,
-                                                                          sender.Location.Longitude);
+                            Station station = GetStationByIdBL(stationId);
 
-                                //Distance between sender and target.
-                                distance += dalObject.Distance(sender.Location.Latitude,
-                                                                          target.Location.Latitude,
-                                                                         sender.Location.Longitude,
-                                                                          target.Location.Longitude);
+                            //Distance between target and base-station.
+                            distance += dalObject.Distance(target.Location.Latitude, station.Location.Latitude,
+                                                        target.Location.Longitude, station.Location.Longitude);
 
-                                //Find the nearest base-station to the target.
-                                int stationId = FindNearestBaseStationWithAvailableChargingSlots(new Location
+                            if (droneToList.BatteryStatus > FindMinSuplyForAllPath(droneToList.Id, parcel.SenderId, parcel.TargetId))
+                            {
+                                if ((int)parcel.Priority >= (int)dalParcel.Priority)
                                 {
-                                    Latitude = target.Location.Latitude,
-                                    Longitude = target.Location.Longitude
-                                });
-
-                                Station station = GetStationByIdBL(stationId);
-
-                                //Distance between target and base-station.
-                                distance += dalObject.Distance(target.Location.Latitude, station.Location.Latitude,
-                                                            target.Location.Longitude, station.Location.Longitude);
-
-                                if (droneToList.BatteryStatus > FindMinSuplyForAllPath(droneToList.Id, parcel.SenderId, parcel.TargetId))
-                                {
-                                    if ((int)parcel.Priority > (int)dalParcel.Priority)
-                                    {
-                                        dalParcel = parcel;
-                                    }
-                                    else if (((int)parcel.Weight < (int)dalParcel.Weight) && ((int)parcel.Priority == (int)dalParcel.Priority))
-                                    {
-                                        dalParcel = parcel;
-                                    }
-                                    else if ((distance < minDistance) && ((int)parcel.Weight == (int)dalParcel.Weight) && ((int)parcel.Priority == (int)dalParcel.Priority))
-                                    {
-                                        dalParcel = parcel;
-                                    }
-                                    minDistance = distance;
-                                    haveParcelToAssociate = true;
+                                    dalParcel = parcel;
                                 }
+                                else if (((int)parcel.Weight <= (int)dalParcel.Weight) && ((int)parcel.Priority == (int)dalParcel.Priority))
+                                {
+                                    dalParcel = parcel;
+                                }
+                                else if ((distance <= minDistance) && ((int)parcel.Weight == (int)dalParcel.Weight) && ((int)parcel.Priority == (int)dalParcel.Priority))
+                                {
+                                    dalParcel = parcel;
+                                }
+
+                                minDistance = distance;
+                                haveParcelToAssociate = true;
+                            }
+                            else
+                            {
+                                outOfBatteryCounter++;
                             }
                         }
-                        if (haveParcelToAssociate)
-                        {
-                            droneToList.DroneStatus = DroneStatuses.Shipment;
-                            droneToList.DeliveryParcelId = dalParcel.Id;
+                    }
 
-                            try
+                    if (outOfBatteryCounter == parcels.Count()) throw new OutOfBatteryException();
+                    if (parcels.Count() > 0 && dalParcel.Id == 0) throw new NoParcelsMatchToDroneException();
+
+                    if (haveParcelToAssociate)
+                    {
+                        try
+                        {
+                            lock (dalObject)
                             {
                                 dalObject.UpdateDroneIdOfParcel(dalParcel.Id, droneToList.Id);
                             }
-                            catch (DO.ObjectNotFoundException e)
-                            {
-                                throw new ObjectNotFoundException(e.Message);
-                            }
+                            droneToList.DroneStatus = DroneStatuses.Shipment;
+                            droneToList.DeliveryParcelId = dalParcel.Id;
+                        }
+                        catch (DO.ObjectNotFoundException)
+                        {
+                            throw new ObjectNotFoundException("parcel");
                         }
                     }
-                    else
-                    {
-                        throw new ObjectNotFoundException("parcel");
-                    }
                 }
+                else
+                {
+                    throw new ObjectNotFoundException("parcel");
+                }
+
             }
             else
             {
@@ -378,18 +384,20 @@ namespace BL
         {
             try
             {
-                lock (dalObject)
+
+                DO.Parcel parcel = dalObject.GetParcelById(parcelId);
+                if (parcel.Scheduled == null)
                 {
-                    DO.Parcel parcel = dalObject.GetParcelById(parcelId);
-                    if (parcel.Scheduled == null)
+                    lock (dalObject)
                     {
                         dalObject.DeleteParcel(parcelId);
                     }
-                    else
-                    {
-                        throw new InvalidOperationException();
-                    }
                 }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+
             }
             catch (DO.ObjectNotFoundException e)
             {

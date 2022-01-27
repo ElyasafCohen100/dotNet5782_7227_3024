@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DO
 {
     /// <summary>
-    /// Parcel priorety categiries 
+    /// Parcel priorety categiries.
     /// </summary>
     public enum Priorities
     {
@@ -17,12 +18,12 @@ namespace DO
     }
 
     /// <summary>
-    /// Parcel Weight categiries
+    /// Parcel weight categiries.
     /// </summary>
     public enum WeightCategories
     {
-        Light,
-        Average,
-        Heavy
+        Heavy,
+        Intermediate,
+        Light
     }
 }

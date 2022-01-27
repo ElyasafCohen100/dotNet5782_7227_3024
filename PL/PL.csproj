@@ -7,7 +7,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="resources\CoverPage.jpg" />
+    <None Remove="resources\CustomerAction.jpg" />
+    <None Remove="resources\CustomerSignUp .jpg" />
+    <None Remove="resources\CustomerSignUP.jpg" />
+    <None Remove="resources\DroneBackground.jpg" />
+    <None Remove="resources\DroneDelivery.jpeg" />
+    <None Remove="resources\OurLogo.png" />
+    <None Remove="resources\ParcelAction.jpg" />
+    <None Remove="resources\ParcelListView.jpg" />
+    <None Remove="resources\UpdateModel.jpg" />
+    <None Remove="resources\UpperGridPicture.jpg" />
+    <None Remove="resources\ViewCustomerList.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resources\CoverPage.jpg" />
+    <Resource Include="resources\CustomerAction.jpg" />
+    <Resource Include="resources\CustomerSignUP.jpg" />
+    <Resource Include="resources\DroneBackground.jpg" />
+    <Resource Include="resources\DroneDelivery.jpeg" />
+    <Resource Include="resources\OurLogo.png" />
+    <Resource Include="resources\ParcelAction.jpg" />
+    <Resource Include="resources\ParcelListView.jpg" />
+    <Resource Include="resources\UpdateModel.jpg" />
+    <Resource Include="resources\UpperGridPicture.jpg" />
+    <Resource Include="resources\ViewCustomerList.jpg" />
   </ItemGroup>
 
 

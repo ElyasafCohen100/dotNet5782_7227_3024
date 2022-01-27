@@ -12,7 +12,7 @@ namespace Dal
 {
     partial class DalXml : DalApi.IDal
     {
-        #region GEt
+        #region Get
         /// <summary>
         /// Finds Customer by specific Id.
         /// </summary>
@@ -39,7 +39,7 @@ namespace Dal
 
             dalCustomersRoot.Save(dalCustomerPath);
 
-            return dalCustomer.Id != customerId || dalCustomer.IsActive ==false ? throw new ObjectNotFoundException(dalCustomer.GetType().ToString()) : dalCustomer;
+            return dalCustomer.Id != customerId || dalCustomer.IsActive == false ? throw new ObjectNotFoundException(dalCustomer.GetType().ToString()) : dalCustomer;
         }
 
 

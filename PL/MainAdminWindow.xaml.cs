@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BO;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -21,19 +8,50 @@ namespace PL
     /// </summary>
     public partial class MainAdminWindow : Window
     {
-        internal static BlApi.IBL BLObject = BlApi.BlFactory.GetBl();
+        internal static BlApi.IBL BLObject;
 
+        #region Constructor
         public MainAdminWindow()
         {
             InitializeComponent();
+
+            try
+            {
+                BLObject = BlApi.BlFactory.GetBl();
+            }
+            catch(DalApi.DalConfigException e)
+            {
+                MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             DataContext = false;
         }
+        #endregion
 
+
+        #region View Function (Buttons)
         private void ViewDroneList_Click(object sender, RoutedEventArgs e)
         {
             new ViewDroneList().Show();
         }
+      
+        private void ViewStationList_Click(object sender, RoutedEventArgs e)
+        {
+            new ViewStationList().Show();
+        }
 
+        private void ViewCustomerList_Click(object sender, RoutedEventArgs e)
+        {
+            new ViewCustomerList().Show();
+        }
+        
+        private void ViewParcelList_Click(object sender, RoutedEventArgs e)
+        {
+            new ViewParcelList().Show();
+        }
+        #endregion
+
+
+        #region Close Window
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
@@ -45,19 +63,13 @@ namespace PL
             if (DataContext.Equals(false)) e.Cancel = true;
         }
 
-        private void ViewStationList_Click(object sender, RoutedEventArgs e)
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
-            new ViewStationList().Show();
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
-
-        private void ViewCustomerList_Click(object sender, RoutedEventArgs e)
-        {
-            new ViewCustomerList().Show();
-        }
-
-        private void ViewParcelList_Click(object sender, RoutedEventArgs e)
-        {
-            new ViewParcelList().Show();
-        }
+        #endregion
     }
 }

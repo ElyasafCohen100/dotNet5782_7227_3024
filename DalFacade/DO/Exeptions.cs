@@ -23,7 +23,6 @@ namespace DO
         public ObjectIsNotActiveException(string message) : base($"The {message} is not active") { }
         public ObjectIsNotActiveException(string message, Exception inner) : base(message, inner) { }
     }
-
     public class XMLFileLoadCreateException : Exception
     {
         public string xmlFilePath;

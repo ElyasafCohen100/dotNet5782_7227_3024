@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="UpdateDroneModel" Height="450" Width="800" Closing="Window_Closing">
+        Title="UpdateDroneModel" Height="450" Width="800" Closing="Window_Closing"
+        WindowStyle="None" MouseDown="MoveMouse">
 
     <Window.Background>
-        <ImageBrush ImageSource="https://m.media-amazon.com/images/I/617dNWWRQaL._AC_SL1500_.jpg" Opacity="0.4"/>
+        <ImageBrush ImageSource= "\resources\UpdateModel.jpg" Opacity="0.4"/>
     </Window.Background>
 
     <Grid KeyDown="Window_KeyDown">

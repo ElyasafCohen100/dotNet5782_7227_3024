@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ViewStationList" Height="450" Width="800">
+        Title="ViewStationList" Height="450" Width="800"
+        WindowStyle="None" MouseDown="MoveMouse">
 
     <Window.Background>
         <ImageBrush ImageSource="https://inteng-storage.s3.amazonaws.com/images/contents/sizes/zipline-5_resize_md.jpg" Opacity="0.75"/>

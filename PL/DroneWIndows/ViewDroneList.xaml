@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ViewDroneList" Height="640" Width="800" Closing="Window_Closing">
+        Title="ViewDroneList" Height="640" Width="800" Closing="Window_Closing"
+        WindowStyle="None" MouseDown="MoveMouse">
 
 
     <Window.Background>
@@ -13,7 +14,7 @@
     </Window.Background>
 
     <Window.Resources>
-        <ImageBrush ImageSource ="https://c4.wallpaperflare.com/wallpaper/539/37/134/drone-dji-mavic-dji-mavic-2-pro-hd-wallpaper-preview.jpg" x:Key="1" Opacity="0.90"/>
+        <ImageBrush ImageSource = "/resources/DroneBackground.jpg" Stretch="Fill" x:Key="1" Opacity="0.9"/>
     </Window.Resources>
 
 

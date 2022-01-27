@@ -35,8 +35,9 @@
             <Setter Property="FontFamily" Value="Sitka Text"/>
             <Setter Property="FontStyle" Value="Italic"/>
             <Setter Property="Padding" Value="20,20,20,20"/>
+            <Setter Property="Cursor" Value="Hand"/>
         </Style>
 
     </Application.Resources>
- 
+
 </Application>

@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ParcelActions" Height="450" Width="800">
+        Title="ParcelActions" Height="450" Width="800"
+        WindowStyle="None" MouseDown="MoveMouse">
 
     <Window.Background>
-        <ImageBrush ImageSource="http://static9.depositphotos.com/1669785/1146/i/450/depositphotos_11460763-Parcel.jpg" Opacity="0.80"/>
+        <ImageBrush ImageSource = "\resources\ParcelAction.jpg" Opacity="0.80"/>
     </Window.Background>
 
     <Grid x:Name="grid1" Margin="0,-1,0,1">

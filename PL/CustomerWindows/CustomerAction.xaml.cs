@@ -139,6 +139,14 @@ namespace PL
             if (DataContext.Equals(false)) e.Cancel = true;
         }
 
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
         private void DeleteCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             try

@@ -1,0 +1,44 @@
+﻿<Window x:Class="PL.ViewParcelFromCustomerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="ViewParcelFromCustomerWindow" Height="450" Width="800"
+        WindowStyle="None" MouseDown="MoveWindow">
+
+
+    <Window.Background>
+        <ImageBrush ImageSource="https://m.media-amazon.com/images/I/61jxQe+k0kL._AC_SL1500_.jpg" Opacity="0.75"/>
+    </Window.Background>
+
+
+    <Window.Resources>
+        <ImageBrush ImageSource="\resources\ViewParcelFromCustomer.jpg" Stretch="Fill" x:Key="1" Opacity="0.95"/>
+    </Window.Resources>
+
+    <Grid Name="grid1">
+
+        <TextBlock Name="ParcelsFromCustomer" HorizontalAlignment="Left" Margin="10,25,0,0" Text="Parcels From Customer" TextWrapping="NoWrap" VerticalAlignment="Top" Height="29" Width="359" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic" FontSize="30"/>
+
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="698,16,0,0" VerticalAlignment="Top" Height="28" Width="83" Foreground="Red" Click="CloseButton_Click"/>
+
+        <ListView x:Name="ParcelListView" Cursor="Hand" MouseDoubleClick="ParcelListView_MouseDoubleClick" Margin="0,84,0,0" SelectionChanged="ParcelListView_SelectionChanged"
+                  Background="{StaticResource ResourceKey = 1}">
+            <ListView.View>
+
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id, Mode=OneWay}" Header="ID " Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ReceiverName}"  Header="RECIEVER NAME" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding SenderName}" Header="SENDER NAME" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding WeightCategory, Mode=OneWay}" Header="WEIGHT" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Priority, Mode=OneWay}" Header="PRIORITY" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ParcelStatus, Mode=OneWay}" Header="PARCEL STATUS" Width="100"/>
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</Window>

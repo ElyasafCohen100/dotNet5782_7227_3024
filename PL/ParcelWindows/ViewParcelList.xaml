@@ -8,11 +8,11 @@
         Title="ViewParcelList" Height="450" Width="800">
 
     <Window.Background>
-        <ImageBrush ImageSource="https://m.media-amazon.com/images/I/61jxQe+k0kL._AC_SL1500_.jpg" Opacity="0.75"/>
+        <ImageBrush ImageSource ="\resources\UpperGridPicture.jpg" Opacity="0.75"/>
     </Window.Background>
 
     <Window.Resources>
-        <ImageBrush ImageSource ="https://postandparcel.info/wp-content/uploads/2019/01/Parcels-on-conveyor-belt-shutterstock_514897444-1000x640.jpg" x:Key="1" Opacity="0.80"/>
+        <ImageBrush ImageSource = "\resources\ParcelListView.jpg" x:Key="1" Opacity="0.80"/>
     </Window.Resources>
 
 

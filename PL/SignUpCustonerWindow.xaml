@@ -1,0 +1,36 @@
+﻿<Window x:Class="PL.SignUpCustonerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="SignUnCustonerWindow" Height="450" Width="800"
+        WindowStyle="None" MouseDown="MoveWindow">
+
+    <Window.Background>
+        <ImageBrush ImageSource = "resources/CustomerSignUP.jpg" Stretch="Fill" Opacity="0.35" />
+    </Window.Background>
+
+    <Grid>
+        <TextBlock Name="CustomerId" Text="Customer Id:" HorizontalAlignment="Left" Height="19" Margin="50,44,0,0" TextWrapping="NoWrap" FontWeight="Bold" FontStyle="Italic" FontFamily="Sitka Text" VerticalAlignment="Top" Width="90" Foreground="White"/>
+        <TextBlock Name="CustomerName" Text="Customer Name:" HorizontalAlignment="Left" Height="19" Margin="49,74,0,0" TextWrapping="NoWrap" FontWeight="Bold" FontStyle="Italic" FontFamily="Sitka Text" VerticalAlignment="Top" Width="106" Foreground="White"/>
+        <TextBlock Name="CustomerPhone" Text="Customer Phone:" HorizontalAlignment="Left" Height="19" Margin="50,102,0,0" TextWrapping="NoWrap" FontWeight="Bold" FontStyle="Italic" FontFamily="Sitka Text" VerticalAlignment="Top" Width="110" Foreground="White"/>
+        <TextBlock Name="CusomerLatitude" Text="Customer Latitude:" HorizontalAlignment="Left" Height="19" Margin="50,130,0,0" TextWrapping="NoWrap" FontWeight="Bold" FontStyle="Italic" FontFamily="Sitka Text" VerticalAlignment="Top" Width="120" Foreground="White"/>
+        <TextBlock Name="CustomerLongitude" Text="Customer Longitude:" HorizontalAlignment="Left" Height="19" Margin="50,159,0,0" TextWrapping="NoWrap" FontWeight="Bold" FontStyle="Italic" FontFamily="Sitka Text" VerticalAlignment="Top" Width="125" Foreground="White"/>
+        <TextBlock Name="UserName" Text="User Name:" HorizontalAlignment="Left" Height="19" Margin="360,69,0,0" TextWrapping="NoWrap" FontWeight="Bold" FontStyle="Italic" FontFamily="Sitka Text" VerticalAlignment="Top" Width="70" Foreground="White"/>
+        <TextBlock Name="Password" Text="Password:" HorizontalAlignment="Left" Height="19" Margin="360,94,0,0" TextWrapping="NoWrap" FontWeight="Bold" FontStyle="Italic" FontFamily="Sitka Text" VerticalAlignment="Top" Width="70" Foreground="White"/>
+
+        <TextBox Name="CustomerIdTB" HorizontalAlignment="Left" Height="15" Margin="184,44,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="105"/>
+        <TextBox Name="CustomerNameTB" HorizontalAlignment="Left" Height="15" Margin="185,159,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="105"/>
+        <TextBox Name="CustomerPhoneTB" HorizontalAlignment="Left" Height="15" Margin="185,129,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="105"/>
+        <TextBox Name="CusomerLatitudeTB" HorizontalAlignment="Left" Height="15" Margin="185,102,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.524,0.336"/>
+        <TextBox Name="CustomerLongitudeTB" HorizontalAlignment="Left" Height="15" Margin="184,74,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="105"/>
+        <TextBox Name="UserNameTB" HorizontalAlignment="Left" Height="15" Margin="446,94,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="105"/>
+        <TextBox Name="PasswordTB" HorizontalAlignment="Left" Height="15" Margin="445,69,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="105"/>
+
+        <Button Name="ColseButton" Content="Close" HorizontalAlignment="Left" Height="30" Margin="685,24,0,0" VerticalAlignment="Top" Width="80" Foreground="#FFF60C0C" Click="CloseButton_Click"/>
+        <Button Name="SignUpButton" Content="Sign Up" HorizontalAlignment="Left" Height="40" Margin="318,312,0,0" VerticalAlignment="Top" Width="154" Click="SignUpButton_Click"/>
+
+    </Grid>
+</Window>

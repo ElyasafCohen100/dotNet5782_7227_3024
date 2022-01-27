@@ -14,6 +14,8 @@ namespace PL
     public partial class MainWindow : Window
     {
         private BlApi.IBL BLObject;
+
+        #region Constuctor
         public MainWindow()
         {
             InitializeComponent();
@@ -28,17 +30,23 @@ namespace PL
 
             DataContext = false;
         }
+        #endregion
 
+
+        #region Login
         private void Login()
         {
             if (!BLObject.IsAdminRegistered(UserNameTB.Text, PasswordPB.Password))
             {
                 if (!BLObject.IsCustomerRegistered(UserNameTB.Text, PasswordPB.Password))
-                    MessageBox.Show("The user is not exsist", "Operation Failure",
+                {
+                    MessageBox.Show("The user Does't exist", "Operation Failure",
                                        MessageBoxButton.OK, MessageBoxImage.Error);
-
-                else { }
-                //TODO: CREATE CUSTOMER USER INTERFACE WINDOW
+                }
+                else 
+                {
+                    new MainCustomerWindow(UserNameTB.Text).Show();
+                }
             }
             else
             {
@@ -46,11 +54,18 @@ namespace PL
             }
         }
        
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void UserNameTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Login();
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
         
+        private void PasswordPB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+       
         private void UserNameTB_GotFocus(object sender, RoutedEventArgs e)
         {
             if (UserNameTB.Text == "User Name")
@@ -65,15 +80,6 @@ namespace PL
             {
                 UserNameMessage.Visibility = Visibility.Hidden;
             }
-        }
-        
-        private void PasswordTB_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (PasswordPB.Password == "Password")
-            {
-                PasswordPB.Clear();
-            }
-
         }
         
         private void UserNameTB_LostFocus(object sender, RoutedEventArgs e)
@@ -99,6 +105,14 @@ namespace PL
                 UserNameMessage.Visibility = Visibility.Hidden;
             }
         }
+       
+        private void PasswordTB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (PasswordPB.Password == "Password")
+            {
+                PasswordPB.Clear();
+            }
+        }
         
         private void PasswordTB_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -107,13 +121,26 @@ namespace PL
                 PasswordPB.Password = "Password";
             }
         }
-        
-        private void Close_Click(object sender, RoutedEventArgs e)
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = true;
-            this.Close();
+            Login();
         }
-        
+
+        private void ShowPassword_Checked(object sender, RoutedEventArgs e)
+        {
+            PasswordTB.Text = PasswordPB.Password;
+            PasswordPB.Visibility = Visibility.Hidden;
+            PasswordTB.Visibility = Visibility.Visible;
+        }
+
+        private void ShowPassword_UnChecked(object sender ,RoutedEventArgs e)
+        {
+            PasswordPB.Password = PasswordTB.Text;
+            PasswordTB.Visibility = Visibility.Hidden;
+            PasswordPB.Visibility = Visibility.Visible;
+        }
+              
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -126,7 +153,40 @@ namespace PL
                 Login();
             }
         }
+        #endregion
 
+
+        #region Sign Up
+        private void SingUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            new SignUpCustonerWindow().Show();
+        }
+        #endregion
+
+
+        #region Close
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
+        }
+
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+        #endregion
+
+
+        #region VIP
         private void VIP_Click(object sender, RoutedEventArgs e)
         {
             new MainAdminWindow().Show();
@@ -174,17 +234,6 @@ namespace PL
             file7.Close();
 
         }
-
-        private void UserNameTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void PasswordPB_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
+        #endregion
     }
 }

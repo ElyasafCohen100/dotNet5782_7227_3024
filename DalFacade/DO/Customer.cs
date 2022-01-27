@@ -14,7 +14,6 @@ namespace DO
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public bool IsActive { get; set; }
-
         public string UserName { get; set; }
         public string Password { get; set; }
 
@@ -30,6 +29,6 @@ namespace DO
                    $"Longitude: {DalApi.IDal.SexagesimalPresentation(Longitude)}\n" +
                    $"Lattitude: {DalApi.IDal.SexagesimalPresentation(Latitude) }";
         }
-    }
 
+    }
 }

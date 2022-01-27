@@ -5,13 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneActions" Height="450" Width="800" Closing="Window_Closing">
-
-
+        Title="DroneActions" Height="450" Width="800" Closing="Window_Closing"
+        WindowStyle="None" MouseDown="MoveMouse">
+    
     <Window.Background>
-        <ImageBrush ImageSource ="https://c4.wallpaperflare.com/wallpaper/539/37/134/drone-dji-mavic-dji-mavic-2-pro-hd-wallpaper-preview.jpg"/>
+        <ImageBrush ImageSource = "/resources/DroneBackground.jpg" Stretch="Fill"/>
     </Window.Background>
-
 
     <Grid x:Name="grid1">
         <Grid RenderTransformOrigin="0.099,0.355" Margin="4,-2,-4,2">
@@ -25,7 +24,7 @@
             <Button Name="ViewParcelButton" Content="View Parcel" HorizontalAlignment="Left" Margin="562,52,0,0" VerticalAlignment="Top" Width="200" Height="30" Click="ViewParcel_Click" Cursor="Hand"/>
             <Button Name="AddButton" Content="Add new drone" HorizontalAlignment="Left" Margin="376,337,0,0" VerticalAlignment="Top" Click="AddNewDroneButton_Click" Height="22" Width="113" KeyDown="AddButton_KeyDown" Cursor="Hand"/>
             <Button Name="DeleteDroneButton" Content="Delete Drone" HorizontalAlignment="Left" Margin="376,373,0,0" VerticalAlignment="Top" Height="20" Width="113" Click="DeleteDroneButton_Click" Cursor="Hand"/>
-            <Button Name="SimulatorButton" Content="Simulator" Foreground="LemonChiffon"  HorizontalAlignment="Left" Margin="376,300,0,0" VerticalAlignment="Top" Height="23" Width="113" Click="SimulatorButton_Click"/>
+            <Button Name="SimulatorButton" Content="Simulator" Foreground="LemonChiffon"  HorizontalAlignment="Left" Margin="376,300,0,0" VerticalAlignment="Top" Height="23" Width="113" Click="SimulatorButton_Click" Cursor="Hand"/>
 
             <TextBox x:Name="IdTextBox" HorizontalAlignment="Left" Margin="170,30,0,0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="DroneIdTextBox_GotFocus" LostFocus="DroneIdTextBox_LostFocus" TextChanged="IdTextBox_TextChanged" PreviewTextInput="DroneIdTextBox_PreviewTextInput"/>
             <TextBox Name="ModelTextBox" HorizontalAlignment="Left" Margin="170,60,0,0" Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" PreviewTextInput="ModelIdTextBox_PreviewTextInput"/>

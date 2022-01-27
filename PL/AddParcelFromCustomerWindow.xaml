@@ -1,0 +1,27 @@
+﻿<Window x:Class="PL.AddParcelFromCustomerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="AddParcelFromCustomerWindow" Height="450" Width="800"
+        WindowStyle="None" MouseDown="MoveMouse">
+
+    <Window.Background>
+        <ImageBrush ImageSource="\resources\AddParcelFromCustomer.jpg" Stretch="Fill"/>
+    </Window.Background>
+
+    <Grid>
+        <TextBlock Name="PriorityTextBlock" HorizontalAlignment="Left" Margin="41,72,0,0" Text="Priority:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
+        <TextBlock Name="WeightTextBlock" HorizontalAlignment="Left" Margin="326,73,0,0" Text="Max Weight:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
+        <TextBlock Name="ReceiverCustomerIdTextBlock" HorizontalAlignment="Left" Margin="615,73,0,0" Text="Receiver Customer Id:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
+
+        <ComboBox Name="PrioritySelctor" HorizontalAlignment="Left" Margin="39,88,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="WeightSelctor" HorizontalAlignment="Left" Margin="324,88,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ReceiverCustomerIdSelector" HorizontalAlignment="Left" Margin="615,88,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ReceiverCustomerIdSelector_SelectionChanged"/>
+
+        <Button Name="AddParcelButton" Content="Add Parcel" HorizontalAlignment="Center" Margin="0,330,0,0" VerticalAlignment="Top" Height="38" Width="152" Click="AddParcelButton_Click"/>
+
+    </Grid>
+</Window>

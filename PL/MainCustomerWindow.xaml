@@ -5,9 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainCustomerWindow" Height="450" Width="800">
+        Title="MainCustomerWindow" Height="450" Width="800"
+        WindowStyle="None" MouseDown="NoveMouse">
+
+    <Window.Background>
+        <ImageBrush ImageSource="resources/mainCustomerWindow.jpg" Stretch="Fill" Opacity="0.3"/>
+    </Window.Background>
+
     <Grid>
-        <Button Name="UpdateCustomerButton"  Content="Update Profile" HorizontalAlignment="Left" Margin="369,74,0,0" VerticalAlignment="Top" Height="53" Width="122" Click="UpdateCustomerButton_Click"/>
+
+        <Image Source="\resources\OurLogo.png" Margin="238,35,256,217"/>
+
+        <Button Name="AddParcelButton" Content="Add Parcel" HorizontalAlignment="Left" Margin="496,290,0,0" VerticalAlignment="Top" Height="38" Width="203" Click="AddParcelFromCustomerButton_Click"/>
+        <Button Name="ViewParcel" Content="View Parcel" HorizontalAlignment="Left" Margin="106,290,0,0" VerticalAlignment="Top" Height="38" Width="208" Click="ViewParcelFromCustomer_Click"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="706,26,0,0" VerticalAlignment="Top" Height="22" Width="70" Foreground="Red" Click="CloseButton_Click"/>
 
     </Grid>
 </Window>

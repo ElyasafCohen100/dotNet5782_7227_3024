@@ -26,10 +26,7 @@ namespace BL
             DO.Station dalStation;
             try
             {
-                lock (dalObject)
-                {
-                    dalStation = dalObject.GetStationById(stationId);
-                }
+                dalStation = dalObject.GetStationById(stationId);
             }
             catch (DO.ObjectNotFoundException e)
             {
@@ -51,6 +48,7 @@ namespace BL
                 Drone Drone = new();
 
                 DroneCharge.DroneId = droneCharge.DroneId;
+                DroneCharge.ChargeTime = droneCharge.ChargeTime;
 
                 Drone = GetDroneByIdBL(DroneCharge.DroneId);
                 DroneCharge.BatteryStatus = Drone.BatteryStatus;
@@ -63,8 +61,8 @@ namespace BL
 
             return Station;
         }
-       
-        
+
+
         /// <summary>
         /// View list of BL StationToList.
         /// </summary>
@@ -73,23 +71,20 @@ namespace BL
         public IEnumerable<StationToList> GetAllBaseStationsToList()
         {
             List<StationToList> stationToList = new();
-            lock (dalObject)
+            foreach (var baseStation in dalObject.GetBaseStationList())
             {
-                foreach (var baseStation in dalObject.GetBaseStationList())
-                {
-                    StationToList station = new();
+                StationToList station = new();
 
-                    station.Id = baseStation.Id;
-                    station.Name = baseStation.Name;
+                station.Id = baseStation.Id;
+                station.Name = baseStation.Name;
 
-                    station.NotAvailableChargeSlots = dalObject.GetDroneChargeList(x => x.StationId == baseStation.Id).Count();
+                station.NotAvailableChargeSlots = dalObject.GetDroneChargeList(x => x.StationId == baseStation.Id).Count();
 
-                    station.AvailableChargeSlots = baseStation.ChargeSlots - station.NotAvailableChargeSlots;
+                station.AvailableChargeSlots = baseStation.ChargeSlots - station.NotAvailableChargeSlots;
 
-                    stationToList.Add(station);
-                }
-                return stationToList;
+                stationToList.Add(station);
             }
+            return stationToList;
         }
 
 
@@ -100,26 +95,23 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStationsWithAvailableChargingSlotstBL()
         {
-            lock (dalObject)
+            List<StationToList> stationList = GetAllBaseStationsToList().ToList();
+            List<StationToList> stationWithAvailableChargingSlotstList = new();
+
+            foreach (var baseStation in dalObject.GetStations(x => x.ChargeSlots > 0))
             {
-                List<StationToList> stationList = GetAllBaseStationsToList().ToList();
-                List<StationToList> stationWithAvailableChargingSlotstList = new();
+                StationToList stationToList = stationList.Find(x => x.Id == baseStation.Id);
 
-                foreach (var baseStation in dalObject.GetStations(x => x.ChargeSlots > 0))
+                if (stationToList != null)
                 {
-                    StationToList stationToList = stationList.Find(x => x.Id == baseStation.Id);
-
-                    if (stationToList != null)
-                    {
-                        stationWithAvailableChargingSlotstList.Add(stationToList);
-                    }
+                    stationWithAvailableChargingSlotstList.Add(stationToList);
                 }
-                return stationWithAvailableChargingSlotstList;
             }
+            return stationWithAvailableChargingSlotstList;
         }
         #endregion
-      
-        
+
+
         #region Add
         /// <summary>
         /// Add new BL station by using DAL.
@@ -154,13 +146,10 @@ namespace BL
         /// <exception cref="ObjectAlreadyExistException"> If the id or the name has already exist </exception>
         static void IfExistBaseStation(Station station)
         {
-            lock (dalObject)
+            foreach (var myStation in dalObject.GetBaseStationList())
             {
-                foreach (var myStation in dalObject.GetBaseStationList())
-                {
-                    if (myStation.Id == station.Id) throw new ObjectAlreadyExistException("base-station Id");
-                    if (myStation.Name == station.Name) throw new ObjectAlreadyExistException("base-station Name");
-                }
+                if (myStation.Id == station.Id) throw new ObjectAlreadyExistException("base-station Id");
+                if (myStation.Name == station.Name) throw new ObjectAlreadyExistException("base-station Name");
             }
         }
         #endregion
@@ -177,26 +166,25 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateBaseStationDetailsBL(int baseStationId, string baseStationNewName, int baseStationChargeSlots)
         {
-            lock (dalObject)
+            if (baseStationNewName == "") throw new InvalidInputException("name");
+            if (baseStationChargeSlots < 0 || baseStationChargeSlots < dalObject.GetDroneChargeList(x => x.StationId == baseStationId).Count())
+                throw new InvalidInputException("number of charge slots");
+
+            try
             {
-                if (baseStationNewName == "") throw new InvalidInputException("name");
-                if (baseStationChargeSlots < 0 || baseStationChargeSlots < dalObject.GetDroneChargeList(x => x.StationId == baseStationId).Count())
-                    throw new InvalidInputException("number of charge slots");
-
-                try
+                lock (dalObject)
                 {
-
                     dalObject.UpdateBaseStationDetails(baseStationId, baseStationNewName, baseStationChargeSlots);
                 }
-                catch (ObjectNotFoundException)
-                {
-                    throw new ObjectNotFoundException("station");
-                }
+            }
+            catch (ObjectNotFoundException)
+            {
+                throw new ObjectNotFoundException("station");
             }
         }
         #endregion
-        
-        
+
+
         #region Delete
         /// <summary>
         /// delete the station
@@ -205,16 +193,16 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int stationId)
         {
-            lock (dalObject)
+            try
             {
-                try
+                lock (dalObject)
                 {
                     dalObject.DeleteStation(stationId);
                 }
-                catch (DO.ObjectIsNotActiveException e)
-                {
-                    throw new ObjectIsNotActiveException(e.Message);
-                }
+            }
+            catch (DO.ObjectIsNotActiveException e)
+            {
+                throw new ObjectIsNotActiveException(e.Message);
             }
         }
         #endregion

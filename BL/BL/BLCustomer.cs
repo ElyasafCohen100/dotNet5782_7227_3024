@@ -18,26 +18,20 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsCustomerRegistered(string username, string password)
         {
-            lock (dalObject)
-            {
-                DO.Customer customer = dalObject.GetCustomerByUserName(username);
-                if (customer.UserName == username && customer.Password == password)
-                    return true;
-                return false;
-            }
+            DO.Customer customer = dalObject.GetCustomerByUserName(username);
+            if (customer.UserName == username && customer.Password == password)
+                return true;
+            return false;
         }
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsCustomerExsist(string username)
         {
-            lock (dalObject)
-            {
-                DO.Customer customer = dalObject.GetCustomerByUserName(username);
-                if (customer.UserName == username)
-                    return true;
-                return false;
-            }
+            DO.Customer customer = dalObject.GetCustomerByUserName(username);
+            if (customer.UserName == username)
+                return true;
+            return false;
         }
 
 
@@ -49,14 +43,11 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomerByUserName(string userName)
         {
-            lock (dalObject)
-            {
-                DO.Customer dalCustomer = dalObject.GetCustomerByUserName(userName);
-                Customer customer = GetCustomerByIdBL(dalCustomer.Id);
-                customer.UserName = dalCustomer.UserName;
-                customer.Password = dalCustomer.Password;
-                return customer;
-            }
+            DO.Customer dalCustomer = dalObject.GetCustomerByUserName(userName);
+            Customer customer = GetCustomerByIdBL(dalCustomer.Id);
+            customer.UserName = dalCustomer.UserName;
+            customer.Password = dalCustomer.Password;
+            return customer;
         }
 
 
@@ -75,53 +66,48 @@ namespace BL
             Customer Customer = new();
             try
             {
-                lock (dalObject)
-                {
-                    DO.Customer dalCustomer = dalObject.GetCustomerById(customerId);
-                    Customer.Id = dalCustomer.Id;
-                    Customer.Name = dalCustomer.Name;
-                    Customer.Phone = dalCustomer.Phone;
-                    Customer.Location.Latitude = dalCustomer.Latitude;
-                    Customer.Location.Longitude = dalCustomer.Longitude;
-                    Customer.UserName = dalCustomer.UserName;
-                    Customer.Password = dalCustomer.Password;
-                }
+                DO.Customer dalCustomer = dalObject.GetCustomerById(customerId);
+                Customer.Id = dalCustomer.Id;
+                Customer.Name = dalCustomer.Name;
+                Customer.Phone = dalCustomer.Phone;
+                Customer.Location.Latitude = dalCustomer.Latitude;
+                Customer.Location.Longitude = dalCustomer.Longitude;
+                Customer.UserName = dalCustomer.UserName;
+                Customer.Password = dalCustomer.Password;
             }
             catch (DO.ObjectNotFoundException)
             {
                 throw new ObjectNotFoundException("Customer");
             }
-            lock (dalObject)
+
+            IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
+            if (dalParcelsList.Count() > 0)
             {
-                IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
-                if (dalParcelsList.Count() > 0)
+                foreach (var parcel in dalParcelsList)
                 {
-                    foreach (var parcel in dalParcelsList)
+                    if (customerId == parcel.SenderId || customerId == parcel.TargetId)
                     {
-                        if (customerId == parcel.SenderId || customerId == parcel.TargetId)
-                        {
-                            ParcelInCustomer ParcelInCustomer = new();
-                            ParcelInCustomer.Id = parcel.Id;
-                            ParcelInCustomer.WeightCategory = (WeightCategories)parcel.Weight;
-                            ParcelInCustomer.Priority = (Priorities)parcel.Priority;
+                        ParcelInCustomer ParcelInCustomer = new();
+                        ParcelInCustomer.Id = parcel.Id;
+                        ParcelInCustomer.WeightCategory = (WeightCategories)parcel.Weight;
+                        ParcelInCustomer.Priority = (Priorities)parcel.Priority;
 
-                            if (parcel.Delivered != null)
-                                ParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
-                            else if (parcel.PickedUp != null)
-                                ParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
-                            else if (parcel.Scheduled != null)
-                                ParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
-                            else
-                                ParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
+                        if (parcel.Delivered != null)
+                            ParcelInCustomer.ParcelStatus = ParcelStatus.Delivered;
+                        else if (parcel.PickedUp != null)
+                            ParcelInCustomer.ParcelStatus = ParcelStatus.PickedUp;
+                        else if (parcel.Scheduled != null)
+                            ParcelInCustomer.ParcelStatus = ParcelStatus.Scheduled;
+                        else
+                            ParcelInCustomer.ParcelStatus = ParcelStatus.Requested;
 
-                            ParcelInCustomer.Customer.Id = Customer.Id;
-                            ParcelInCustomer.Customer.Name = Customer.Name;
+                        ParcelInCustomer.Customer.Id = Customer.Id;
+                        ParcelInCustomer.Customer.Name = Customer.Name;
 
-                            if (customerId == parcel.SenderId)
-                                Customer.ParcelFromCustomerList.Add(ParcelInCustomer);
-                            else
-                                Customer.ParcelToCustomerList.Add(ParcelInCustomer);
-                        }
+                        if (customerId == parcel.SenderId)
+                            Customer.ParcelFromCustomerList.Add(ParcelInCustomer);
+                        else
+                            Customer.ParcelToCustomerList.Add(ParcelInCustomer);
                     }
                 }
             }
@@ -144,13 +130,10 @@ namespace BL
             CustomerToList customer = new();
             try
             {
-                lock (dalObject)
-                {
-                    DO.Customer dalCustomer = dalObject.GetCustomerById(customerId);
-                    customer.Id = dalCustomer.Id;
-                    customer.Name = dalCustomer.Name;
-                    customer.Phone = dalCustomer.Phone;
-                }
+                DO.Customer dalCustomer = dalObject.GetCustomerById(customerId);
+                customer.Id = dalCustomer.Id;
+                customer.Name = dalCustomer.Name;
+                customer.Phone = dalCustomer.Phone;
             }
             catch (DO.ObjectNotFoundException)
             {
@@ -163,37 +146,35 @@ namespace BL
             int pickedUpParcels = 0;
             int deliveredParcels = 0;
 
-            lock (dalObject)
+            IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
+            if (dalParcelsList.Count() > 0)
             {
-                IEnumerable<DO.Parcel> dalParcelsList = dalObject.GetParcelList();
-                if (dalParcelsList.Count() > 0)
+                foreach (var parcel in dalParcelsList)
                 {
-                    foreach (var parcel in dalParcelsList)
+                    if (customerId == parcel.SenderId)
                     {
-                        if (customerId == parcel.SenderId)
-                        {
-                            if (parcel.Delivered != null)
-                                sendAndDelivered++;
-                            else if (parcel.PickedUp != null)
-                                sendAndNotDelivered++;
-                        }
-                        else if (customerId == parcel.TargetId)
-                        {
-                            if (parcel.Delivered != null)
-                                deliveredParcels++;
-                            else if (parcel.PickedUp != null)
-                                pickedUpParcels++;
-                        }
+                        if (parcel.Delivered != null)
+                            sendAndDelivered++;
+                        else if (parcel.PickedUp != null)
+                            sendAndNotDelivered++;
+                    }
+                    else if (customerId == parcel.TargetId)
+                    {
+                        if (parcel.Delivered != null)
+                            deliveredParcels++;
+                        else if (parcel.PickedUp != null)
+                            pickedUpParcels++;
                     }
                 }
-
-                customer.SendAndDeliveredParcels = sendAndDelivered;
-                customer.SendAndNotDeliveredParcels = sendAndNotDelivered;
-                customer.PickedUpParcels = pickedUpParcels;
-                customer.DeliveredParcels = deliveredParcels;
-                
-                return customer;
             }
+
+            customer.SendAndDeliveredParcels = sendAndDelivered;
+            customer.SendAndNotDeliveredParcels = sendAndNotDelivered;
+            customer.PickedUpParcels = pickedUpParcels;
+            customer.DeliveredParcels = deliveredParcels;
+
+            return customer;
+
         }
 
 
@@ -205,59 +186,56 @@ namespace BL
         public IEnumerable<CustomerToList> GetAllCustomerToList()
         {
             List<CustomerToList> myCustomerList = new();
-            lock (dalObject)
+            IEnumerable<DO.Customer> dalCustomers = dalObject.GetCustomerList();
+            if (dalCustomers.Count() > 0)
             {
-                IEnumerable<DO.Customer> dalCustomers = dalObject.GetCustomerList();
-                if (dalCustomers.Count() > 0)
+                IEnumerable<DO.Parcel> dalParcels = dalObject.GetParcelList();
+
+                foreach (var customer in dalCustomers)
                 {
-                    IEnumerable<DO.Parcel> dalParcels = dalObject.GetParcelList();
+                    CustomerToList myCustomer = new();
 
-                    foreach (var customer in dalCustomers)
+                    myCustomer.Id = customer.Id;
+                    myCustomer.Name = customer.Name;
+                    myCustomer.Phone = customer.Phone;
+
+                    if (dalParcels.Count() > 0)
                     {
-                        CustomerToList myCustomer = new();
-
-                        myCustomer.Id = customer.Id;
-                        myCustomer.Name = customer.Name;
-                        myCustomer.Phone = customer.Phone;
-
-                        if (dalParcels.Count() > 0)
+                        foreach (var parcel in dalParcels)
                         {
-                            foreach (var parcel in dalParcels)
+                            if (myCustomer.Id == parcel.SenderId)
                             {
-                                if (myCustomer.Id == parcel.SenderId)
+                                if (parcel.Delivered != null)
                                 {
-                                    if (parcel.Delivered != null)
-                                    {
-                                        myCustomer.SendAndDeliveredParcels++;
-                                    }
-                                    else if (parcel.PickedUp != null)
-                                    {
-                                        myCustomer.SendAndNotDeliveredParcels++;
-                                    }
+                                    myCustomer.SendAndDeliveredParcels++;
                                 }
-                                else if (myCustomer.Id == parcel.TargetId)
+                                else if (parcel.PickedUp != null)
                                 {
-                                    if (parcel.Delivered != null)
-                                    {
-                                        myCustomer.DeliveredParcels++;
-                                    }
-                                    else if (parcel.PickedUp != null)
-                                    {
-                                        myCustomer.PickedUpParcels++;
-                                    }
+                                    myCustomer.SendAndNotDeliveredParcels++;
                                 }
-
                             }
+                            else if (myCustomer.Id == parcel.TargetId)
+                            {
+                                if (parcel.Delivered != null)
+                                {
+                                    myCustomer.DeliveredParcels++;
+                                }
+                                else if (parcel.PickedUp != null)
+                                {
+                                    myCustomer.PickedUpParcels++;
+                                }
+                            }
+
                         }
-                        myCustomerList.Add(myCustomer);
                     }
+                    myCustomerList.Add(myCustomer);
                 }
-                return myCustomerList;
             }
+            return myCustomerList;
         }
         #endregion
-        
-        
+
+
         #region Add
         /// <summary>
         /// Add new BL customer by using DAL.
@@ -269,8 +247,7 @@ namespace BL
         {
             if (customer.Id < 100000000 || customer.Id >= 1000000000) throw new InvalidInputException("Id");
             if (customer.Phone == null) throw new InvalidInputException("phone number");
-            long.TryParse(customer.Phone, out long phoneNumber);
-            if (phoneNumber < 1000000000 || phoneNumber > 1000000000000) throw new InvalidInputException("phone number");
+            if (!customer.Phone.StartsWith("05") || customer.Phone.Length != 10) throw new InvalidInputException("phone number");
             IfExistCustomer(customer);
             if (customer.Name == null) throw new InvalidInputException("name");
             if (customer.Location.Longitude == 0.0) throw new InvalidInputException("longitude");
@@ -299,18 +276,15 @@ namespace BL
         /// <exception cref="ObjectAlreadyExistException"> Thrown if customer id or cusomer phone is already exist </exception>
         static void IfExistCustomer(Customer customer)
         {
-            lock (dalObject)
+            foreach (var myCustomer in dalObject.GetCustomerList())
             {
-                foreach (var myCustomer in dalObject.GetCustomerList())
-                {
-                    if (customer.Id == myCustomer.Id) throw new ObjectAlreadyExistException("customer");
-                    if (customer.Phone == myCustomer.Phone) throw new ObjectAlreadyExistException("phone");
-                }
+                if (customer.Id == myCustomer.Id) throw new ObjectAlreadyExistException("customer");
+                if (customer.Phone == myCustomer.Phone) throw new ObjectAlreadyExistException("phone");
             }
         }
         #endregion
 
-        
+
         #region Update
         /// <summary>
         /// Update customer detailes.
@@ -368,20 +342,25 @@ namespace BL
 
                 if (parcelList1.Count() > 0 || parcelList2.Count() > 0)
                     throw new InvalidOperationException("Could not delete customer,because the customer have parcels in shipment");
+                //Delete all the sendered parcels by this customer.
+                foreach (var parcel in customer.ParcelFromCustomerList)
+                {
+                    lock (dalObject)
+                    {
+                        dalObject.DeleteParcel(parcel.Id);
+                    }
+                }
+
+                //Delete all the received parcels to this customer.
+                foreach (var parcel in customer.ParcelToCustomerList)
+                {
+                    lock (dalObject)
+                    {
+                        dalObject.DeleteParcel(parcel.Id);
+                    }
+                }
                 lock (dalObject)
                 {
-                    //Delete all the sendered parcels by this customer.
-                    foreach (var parcel in customer.ParcelFromCustomerList)
-                    {
-                        dalObject.DeleteParcel(parcel.Id);
-                    }
-
-                    //Delete all the received parcels to this customer.
-                    foreach (var parcel in customer.ParcelToCustomerList)
-                    {
-                        dalObject.DeleteParcel(parcel.Id);
-                    }
-
                     dalObject.DeleteCustomer(customerId);
                 }
             }

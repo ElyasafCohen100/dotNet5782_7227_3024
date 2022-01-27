@@ -22,7 +22,8 @@ namespace DO
         {
             return $"DroneCharge:\n" +
                    $"Id: {DroneId}\n" +
-                   $"StationId: {StationId}";
+                   $"StationId: {StationId}" +
+                   $"Charge time: {ChargeTime}";
         }
     }
 }

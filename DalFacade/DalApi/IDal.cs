@@ -59,18 +59,25 @@ namespace DalApi
         #endregion
 
 
-        #region Another function
+        #region Relese Drone Charges
         [MethodImpl(MethodImplOptions.Synchronized)]
         void ReleseDroneCharges() { }
-      
-        
-        double[] ElectricityUseRequest();
+        #endregion
 
+
+        #region Electricity Use Request
+        double[] ElectricityUseRequest();
+        #endregion
+
+
+        #region Distance
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         double Distance(double lattitude1, double lattitude2, double longitude1, double longitude2);
+        #endregion
 
-     
+
+        #region Sexagesimal
         /// <summary>
         /// Return string of sexagesimal presentation.
         /// </summary>

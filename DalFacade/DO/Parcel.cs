@@ -16,13 +16,13 @@ namespace DO
         public int TargetId { get; set; }
         public int DroneId { get; set; }
 
-        public Priorities Priority;
-        public WeightCategories Weight;
+        public Priorities Priority { get; set; }
+        public WeightCategories Weight { get; set; }
 
-        public DateTime? Requested;
-        public DateTime? Scheduled;
-        public DateTime? PickedUp;
-        public DateTime? Delivered;
+        public DateTime? Requested { get; set; }
+        public DateTime? Scheduled { get; set; }
+        public DateTime? PickedUp { get; set; }
+        public DateTime? Delivered { get; set; }
         public bool IsActive { get; set; }
 
         /// <summary>
