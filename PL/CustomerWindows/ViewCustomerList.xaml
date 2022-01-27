@@ -8,16 +8,13 @@
         Title="ViewCustomerList" Height="450" Width="800"
         WindowStyle="None" MouseDown="MoveMouse">
 
-
     <Window.Background>
         <ImageBrush ImageSource ="\resources\UpperGridPicture.jpg" Opacity="0.75"/>
     </Window.Background>
 
     <Window.Resources>
-        <ImageBrush ImageSource ="\resources\ViewCustomerList.jpg" x:Key="1" Opacity="0.90"/>
+        <ImageBrush ImageSource ="\resources\ViewCustomerList.jpg" x:Key="1" Opacity="0.9"/>
     </Window.Resources>
-
-
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
@@ -32,18 +29,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-
-            <Button Name="AddNewCustomer" Content="Add New Customer" HorizontalAlignment="Center" Margin="0,28,0,0" VerticalAlignment="Top" Height="28" Width="115" Grid.Column="1" Click="AddNewCustomer_Click" Cursor="Hand"/>
-            <Button Name="CLoseButton" Content="Close" Grid.Column="2" HorizontalAlignment="Left" Margin="190,17,0,0" VerticalAlignment="Top" Cursor="Hand"  Height="23" Width="56" Click="CLoseButton_Click" Foreground="#FFF60C0C"/>
-
+            <Button Name="AddNewCustomer" Content="Add New Customer" HorizontalAlignment="Center" VerticalAlignment="Center" Height="28" Width="115" Click="AddNewCustomer_Click"/>
+            <Button Name="CLoseButton" Content="Close" Grid.Column="2" HorizontalAlignment="Left" Margin="190,17,0,0" VerticalAlignment="Top"    Height="23" Width="56" Click="CLoseButton_Click" Foreground="#FFF60C0C"/>
 
         </Grid>
         <ListView x:Name="CustomerListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="CustomerListView_MouseDoubleClick" Cursor="Hand"
-                  Background="{StaticResource ResourceKey = 1}" BorderBrush="Red">
+                  Background="{StaticResource ResourceKey = 1}" BorderBrush="Blue">
+
             <ListView.View>
                 <GridView>
-
-                    <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID " Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id , Mode=OneWay}" Header="ID " Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}"  Header="NANE" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Phone}" Header="PHONE" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding SendAndDeliveredParcels}" Header="DELIVERD" Width="100" />

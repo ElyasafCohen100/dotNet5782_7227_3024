@@ -15,9 +15,6 @@
         <ImageBrush ImageSource = "\resources\ParcelListView.jpg" x:Key="1" Opacity="0.80"/>
     </Window.Resources>
 
-
-
-
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -26,23 +23,26 @@
 
         <Grid x:Name="UpperGrid" Grid.Row="0" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="77*"/>
+                <ColumnDefinition Width="83*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="GroupByReceiverName" Content="View Receiver Name" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewReceivedParcelsList_Click" Height="29" Width="144" Cursor="Hand"/>
-            <Button Name="SenderNameGroup" Content="View Sender Name" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewSenderParcelList_Click" Width="145" Height="29" Cursor="Hand"/>
 
-            <DatePicker Name="FirstDate" Grid.Column="3" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Cursor="Hand"/>
-            <DatePicker Name="LastDate" Grid.Column="3" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Cursor="Hand"/>
+            <Button Name="GroupByReceiverName" Content="View Receiver Name" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ViewReceivedParcelsList_Click" Height="29" Width="144" Cursor="Hand" Margin="6,0,0,0"/>
+            <Button Name="SenderNameGroup" Content="View Sender Name" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewSenderParcelList_Click" Width="144" Height="29" Cursor="Hand" Grid.Column="1"/>
 
-            <Button Name="SelectButton" Content="Select" Grid.Column="3" HorizontalAlignment="Left" Margin="137,0,0,0" VerticalAlignment="Center" Click="SelectButton_Click" Width="45" Height="42" Cursor="Hand"/>
-            <Button Name="AddParcel" Content="Add New Parcel" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddParcel_Click" Height="29" Width="141" Cursor="Hand"/>
+            <DatePicker Name="FirstDate" Grid.Column="4" HorizontalAlignment="Left" Margin="2,10,0,0" VerticalAlignment="Top" Cursor="Hand" Height="24" Width="102"/>
+            <DatePicker Name="LastDate" Grid.Column="4" HorizontalAlignment="Left" Margin="0,53,0,0" VerticalAlignment="Top" Cursor="Hand" Height="24" Width="102"/>
+
+            <Button Name="SelectButton" Content="Select" Grid.Column="4" HorizontalAlignment="Left" Margin="109,19,0,0" VerticalAlignment="Top" Click="SelectButton_Click" Width="45" Height="42" Cursor="Hand"/>
+            <Button Name="AddParcel" Content="Add  A New Parcel" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddParcel_Click" Height="29" Width="140" Cursor="Hand"/>
+            <Button Name="ViewParcelStatus" Content="View Parcel Status" Grid.Column="2" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" Height="24" Width="122" Click="ViewParcelStatus_Click"/>
         </Grid>
 
         <ListView x:Name="ParcelListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="ParcelListView_MouseDoubleClick" Cursor="Hand"
-                    Background="{StaticResource ResourceKey = 1}" BorderBrush="Red">
+                    Background="{StaticResource ResourceKey = 1}" BorderBrush="Blue">
             <ListView.View>
 
                 <GridView>

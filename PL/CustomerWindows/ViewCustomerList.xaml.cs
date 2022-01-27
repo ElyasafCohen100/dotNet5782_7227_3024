@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BO;
 
 namespace PL
@@ -22,6 +11,8 @@ namespace PL
     public partial class ViewCustomerList : Window
     {
         private BlApi.IBL BLObject;
+
+        #region Constructor
         public ViewCustomerList()
         {
             InitializeComponent();
@@ -37,34 +28,55 @@ namespace PL
             CustomerListView.ItemsSource = BLObject.GetAllCustomerToList();
             DataContext = false;
         }
+        #endregion
 
+
+        #region Customer List View
         private void CustomerListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (CustomerListView.SelectedIndex >= 0)
             {
                 CustomerToList selectedCustomer = BLObject.GetAllCustomerToList().ToList()[CustomerListView.SelectedIndex];
                 if (new CustomerActions(selectedCustomer).ShowDialog() == false)
+                {
                     CustomerListView.ItemsSource = BLObject.GetAllCustomerToList();
+                }
             }
         }
+        #endregion
 
+
+        #region Add A New Customer Button
         private void AddNewCustomer_Click(object sender, RoutedEventArgs e)
         {
-            if (new CustomerActions().ShowDialog() == false)
+            if (new CustomerActions().ShowDialog() == false) // if the window close
+            {
                 CustomerListView.ItemsSource = BLObject.GetAllCustomerToList();
+            }
         }
+        #endregion
 
+
+        #region Close Window
         private void CLoseButton_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();
         }
 
+        /// <summary>
+        /// cancel the "X" close Bottun
+        /// </summary>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (DataContext.Equals(false)) e.Cancel = true;
         }
 
+        /// <summary>
+        /// hidden the upper line (Minimize closing and window enlargement)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -72,5 +84,6 @@ namespace PL
                 this.DragMove();
             }
         }
+        #endregion
     }
 }

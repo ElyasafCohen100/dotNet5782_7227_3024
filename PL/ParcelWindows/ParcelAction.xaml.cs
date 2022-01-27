@@ -1,28 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BO;
 
 namespace PL
 {
-    /// <summary>
-    /// Interaction logic for ParcelActions.xaml
-    /// </summary>
     public partial class ParcelActions : Window
     {
         private BlApi.IBL BLObject;
         private ParcelToList selecetedParcelToList;
+
+        #region Actions Constructor
         public ParcelActions(ParcelToList selecetedParcelToList)
         {
             InitializeComponent();
@@ -36,10 +26,18 @@ namespace PL
             }
             this.selecetedParcelToList = selecetedParcelToList;
 
+
             Parcel parcel = BLObject.GetParcelByIdBL(selecetedParcelToList.Id);
+
+            if (parcel.Drone.Id == 0)
+            {
+                grid4.Visibility = Visibility.Hidden;
+            }
+
             grid1.DataContext = parcel;
 
-            if (parcel.Scheduled == null || parcel.Delivered != null)
+
+            if (parcel.Scheduled == null || parcel.Delivered != null) 
             {
                 ViewDroneInParcel.Visibility = Visibility.Hidden;
                 ViewReceiverCustomerInParcel.Visibility = Visibility.Hidden;
@@ -47,36 +45,13 @@ namespace PL
             }
 
             if (parcel.Scheduled == null) DeleteParcelButton.Visibility = Visibility.Visible;
-
-            ParcelIdTB.Text = parcel.Id.ToString();
-            ReceiverCustomerIdTB.Text = parcel.receiverCustomer.Id.ToString();
-            ReceiverCustomerNameTB.Text = parcel.receiverCustomer.Name.ToString();
-
-            SenderCustomerIdTB.Text = parcel.senderCustomer.Id.ToString();
-            SenderCustomerNameTB.Text = parcel.senderCustomer.Id.ToString();
-
-            DroneInParcelIdTB.Text = parcel.Drone.Id.ToString();
-            DroneInParcelBatteryTB.Text = parcel.Drone.BatteryStatus.ToString();
-          
-            DroneInParcelLatitudeTB.Text = parcel.Drone.CurrentLocation.Latitude.ToString();
-            DroneInParcelLongitudeTB.Text = parcel.Drone.CurrentLocation.Longitude.ToString();
-
-            PriorityTB.Text = parcel.Priority.ToString();
-            PrioritySelctor.Visibility = Visibility.Hidden;
-         
-            WeightSelctor.Visibility = Visibility.Hidden;
             AddParcelButton.Visibility = Visibility.Hidden;
-           
-            ReceiverCustomerIdSelector.Visibility = Visibility.Hidden;
-            SenderCustomerIdSelector.Visibility = Visibility.Hidden;
-
-            PriorityTBRight.Visibility = Visibility.Hidden;
-            WeightCategory.Visibility = Visibility.Hidden;
-
-            ReciverId.Visibility = Visibility.Hidden;
-            SenderId.Visibility = Visibility.Hidden;
+            grid4.Visibility = Visibility.Hidden;
         }
+        #endregion
 
+
+        #region Add Constructor
         public ParcelActions()
         {
             InitializeComponent();
@@ -88,55 +63,9 @@ namespace PL
             {
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            SenderCustomerId.Visibility = Visibility.Hidden;
-            SenderCustomerIdTB.Visibility = Visibility.Hidden;
-          
-            ReceiverCustomerId.Visibility = Visibility.Hidden;
-            ReceiverCustomerIdTB.Visibility = Visibility.Hidden;
-           
-            ParcelId.Visibility = Visibility.Hidden;
-            ParcelIdTB.Visibility = Visibility.Hidden;
-           
-            SenderCustomerName.Visibility = Visibility.Hidden;
-            SenderCustomerNameTB.Visibility = Visibility.Hidden;
-           
-            ReceiverCustomerName.Visibility = Visibility.Hidden;
-            ReceiverCustomerNameTB.Visibility = Visibility.Hidden;
-         
-            DroneInParcelId.Visibility = Visibility.Hidden;
-            DroneInParcelIdTB.Visibility = Visibility.Hidden;
-           
-            DroneInParcelBattery.Visibility = Visibility.Hidden;
-            DroneInParcelBatteryTB.Visibility = Visibility.Hidden;
-           
-            DroneInParcelLatitude.Visibility = Visibility.Hidden;
-            DroneInParcelLatitudeTB.Visibility = Visibility.Hidden;
-          
-            DroneInParcelLongitude.Visibility = Visibility.Hidden;
-            DroneInParcelLongitudeTB.Visibility = Visibility.Hidden;
-          
-            Priority.Visibility = Visibility.Hidden;
-            PriorityTB.Visibility = Visibility.Hidden;
-          
-            Weight.Visibility = Visibility.Hidden;
-            WeightTB.Visibility = Visibility.Hidden;
-          
-            RequestedTime.Visibility = Visibility.Hidden;
-            RequestedTimeTB.Visibility = Visibility.Hidden;
-          
-            ScheduledTime.Visibility = Visibility.Hidden;
-            ScheduledTimeTB.Visibility = Visibility.Hidden;
-          
-            PickedUpTime.Visibility = Visibility.Hidden;
-            PickedUpTimeTB.Visibility = Visibility.Hidden;
-          
-            DeliveredTime.Visibility = Visibility.Hidden;
-            DeliveredTimeTB.Visibility = Visibility.Hidden;
-           
-            ViewDroneInParcel.Visibility = Visibility.Hidden;
-            ViewReceiverCustomerInParcel.Visibility = Visibility.Hidden;
-            ViewSenderCustomerInParcel.Visibility = Visibility.Hidden;
 
+            grid2.Visibility = Visibility.Hidden;
+            grid3.Visibility = Visibility.Hidden;
 
             var customersList = from customer in BLObject.GetAllCustomerToList() select customer.Id;
 
@@ -151,63 +80,82 @@ namespace PL
 
             PrioritySelctor.ItemsSource = Enum.GetValues(typeof(Priorities));
             WeightSelctor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
-          
+
             PrioritySelctor.SelectedItem = (Priorities)0;
             WeightSelctor.SelectedItem = (WeightCategories)0;
         }
+        #endregion
 
+
+        #region Add A New Parcel
         private void AddParcelButton_Click(object sender, RoutedEventArgs e)
         {
-            BO.Parcel newParcle = new();
+            Parcel newParcle = new();
+
             int.TryParse(ReceiverCustomerIdSelector.SelectedItem.ToString(), out int receiverId);
             int.TryParse(SenderCustomerIdSelector.SelectedItem.ToString(), out int senderId);
 
             newParcle.receiverCustomer.Id = receiverId;
             newParcle.senderCustomer.Id = senderId;
-            newParcle.Priority = (BO.Priorities)PrioritySelctor.SelectedItem;
-            newParcle.Weight = (BO.WeightCategories)WeightSelctor.SelectedItem;
+            newParcle.Priority = (Priorities)PrioritySelctor.SelectedItem;
+            newParcle.Weight = (WeightCategories)WeightSelctor.SelectedItem;
 
             try
             {
                 BLObject.AddNewParcelBL(newParcle);
                 MessageBox.Show("Parcel has been added sucssesfuly",
-                "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                                 "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (InvalidInputException)
             {
                 MessageBox.Show("Invalid input",
-                  "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+                                "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
+        #endregion
 
+
+        #region View Drone In Parcel
         private void ViewDroneInParcel_Click(object sender, RoutedEventArgs e)
         {
             Parcel parcel = BLObject.GetParcelByIdBL(selecetedParcelToList.Id);
             var droneToList = (from drone in BLObject.GetAllDroneToList() where drone.Id == parcel.Drone.Id select drone).FirstOrDefault();
+            
             new DroneActions(droneToList).Show();
         }
+        #endregion
 
+
+        #region View Reciver Receiver Customer In Parcel
         private void ViewReceiverCustomerInParcel_Click(object sender, RoutedEventArgs e)
         {
             Parcel parcel = BLObject.GetParcelByIdBL(selecetedParcelToList.Id);
             CustomerToList customerToList = BLObject.GetCustomerToList(parcel.receiverCustomer.Id);
+           
             new CustomerActions(customerToList).Show();
         }
+        #endregion
 
+
+        #region View Sender Receiver Customer In Parcel
         private void ViewSenderCustomerInParcel_Click(object sender, RoutedEventArgs e)
         {
             Parcel parcel = BLObject.GetParcelByIdBL(selecetedParcelToList.Id);
             CustomerToList customerToList = BLObject.GetCustomerToList(parcel.senderCustomer.Id);
+           
             new CustomerActions(customerToList).Show();
         }
+        #endregion
 
+
+        #region Delete Parcel
         private void DeleteParcelButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 BLObject.DeleteParcel(selecetedParcelToList.Id);
                 MessageBox.Show("Parcel has been removed", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+               
                 this.CloseButton_Click(sender, e);
             }
             catch(ObjectNotFoundException exception)
@@ -219,7 +167,10 @@ namespace PL
                 MessageBox.Show("parcel in delivery can not be delited", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+
+        #region Close Window
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
@@ -238,7 +189,10 @@ namespace PL
                 this.DragMove();
             }
         }
+        #endregion
 
+
+        #region TextBox Function
         private void CheckIdSyntax_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("^[0-9]+");
@@ -250,6 +204,6 @@ namespace PL
             Regex regex = new Regex("[^a-z,A-Z,0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-
+        #endregion
     }
 }
