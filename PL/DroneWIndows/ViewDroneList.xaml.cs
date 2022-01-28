@@ -7,15 +7,13 @@ using BO;
 
 namespace PL
 {
-    /// <summary>
-    /// Interaction logic for DroneList.xaml
-    /// </summary>
     public partial class ViewDroneList : Window
     {
 
         private BlApi.IBL BLObject;
         private CollectionView sourceCollectionView;
 
+        #region Constructor
         public ViewDroneList()
         {
             InitializeComponent();
@@ -34,17 +32,10 @@ namespace PL
             DroneStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
             DroneWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
+        #endregion
 
-        private void DroneStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DroneListView.ItemsSource = BLObject.GetDronesToList(x => x.DroneStatus == (DroneStatuses)DroneStatusSelector.SelectedItem);
-        }
 
-        private void DroneWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DroneListView.ItemsSource = BLObject.GetDronesToList(x => x.MaxWeight == (WeightCategories)DroneWeightSelector.SelectedItem);
-        }
-
+        #region Add a new drone
         private void AddNewDrone_Click(object sender, RoutedEventArgs e)
         {
             //---- sound while you're clicking on the button ----//
@@ -58,21 +49,52 @@ namespace PL
                 DroneListView.Items.Refresh();
             }
         }
+        #endregion
+
+
+        #region Drone List View
         private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (DroneListView.SelectedIndex >= 0)
             {
                 DroneToList selectedDrone = (DroneToList)sourceCollectionView.GetItemAt(DroneListView.SelectedIndex);
                 if (new DroneActions(selectedDrone).ShowDialog() == false)
+                {
                     DroneListView.Items.Refresh();
+                }
             }
         }
+
+        private void DroneStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DroneListView.ItemsSource = BLObject.GetDronesToList(x => x.DroneStatus == (DroneStatuses)DroneStatusSelector.SelectedItem);
+        }
+
+        private void DroneWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DroneListView.ItemsSource = BLObject.GetDronesToList(x => x.MaxWeight == (WeightCategories)DroneWeightSelector.SelectedItem);
+        }
+          
+        private void RegularViewButton_Checked(object sender, RoutedEventArgs e)
+        {
+            DroneListView.ItemsSource = BLObject.GetAllDroneToList();
+        }
+
+        private void GrupViewButton_Checked(object sender, RoutedEventArgs e)
+        {
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
+            sourceCollectionView.GroupDescriptions.Add(groupDescription);
+            DroneListView.ItemsSource = sourceCollectionView;
+        }
+        #endregion
+
+
+        #region Close Window
         private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
             this.Close();
         }
-
         //Bouns.
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -86,14 +108,10 @@ namespace PL
                 this.DragMove();
             }
         }
+        #endregion
 
-        private void ViewDroneListGrouping_Click(object sender, RoutedEventArgs e)
-        {
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
-            sourceCollectionView.GroupDescriptions.Add(groupDescription);
-            DroneListView.ItemsSource = sourceCollectionView;
-        }
 
+        #region Overloading the "Delete" Key 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
@@ -118,5 +136,6 @@ namespace PL
                 }
             }
         }
+        #endregion
     }
 }
