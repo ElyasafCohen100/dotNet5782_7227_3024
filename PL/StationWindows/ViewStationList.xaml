@@ -9,11 +9,11 @@
         WindowStyle="None" MouseDown="MoveMouse">
 
     <Window.Background>
-        <ImageBrush ImageSource="https://inteng-storage.s3.amazonaws.com/images/contents/sizes/zipline-5_resize_md.jpg" Opacity="0.75"/>
+        <ImageBrush ImageSource="\resources\UpperGridPicture.jpg" Opacity="0.55"/>
     </Window.Background>
 
     <Window.Resources>
-        <ImageBrush Opacity="0.5" ImageSource="https://www.researchgate.net/profile/Vinay-Chamola/publication/336282262/figure/fig1/AS:811326456754178@1570446709910/Pictorial-representation-of-proposed-drone-charging-framework.jpg" x:Key="1" />
+        <ImageBrush ImageSource="\resources\stationListView.jpg" x:Key="1" Opacity="0.85"/>
     </Window.Resources>
 
     <Grid Name="MainGrid">
@@ -31,14 +31,14 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Name="AddButton" Content="Add new Station" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddNewStationButton_Click" Height="28" Width="115" Cursor="Hand" Margin="0,21,0,0"/>
+            <Button Name="AddButton" Content="Add A New Station" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddNewStationButton_Click" Height="28" Width="115" Cursor="Hand" Margin="0,21,0,0"/>
             <Button Name="ViewChrgingSlot" Content="View Charging Slot" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="28" Width="128" Cursor="Hand" Margin="0,21,0,0"/>
             <Button Name="CloseButton" Content="Close" Grid.Column="2" HorizontalAlignment="Right" Margin="0,14,27,0" VerticalAlignment="Top" Height="22" Width="67" Foreground="#FFF60C0C" Click="CloseButton_Click" Cursor="Hand"/>
         </Grid>
 
 
-        <ListView x:Name="StationListView" MouseDoubleClick="StationListView_MouseDoubleClick" Cursor="Hand" Margin="-4,72,4,4"
-                  Background="{StaticResource ResourceKey = 1}" Grid.RowSpan="2">
+        <ListView x:Name="StationListView" MouseDoubleClick="StationListView_MouseDoubleClick" Cursor="Hand" Margin="0,72,0,4"
+                  Background="{StaticResource ResourceKey = 1}" Grid.RowSpan="2" BorderBrush="Blue">
 
             <ListView.View>
                 <GridView>

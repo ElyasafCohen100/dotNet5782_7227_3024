@@ -16,6 +16,7 @@ namespace PL
         private BlApi.IBL BLObject;
         private StationToList selcetedStationToList;
 
+        #region Action Constructor
         public StationActions(StationToList selectedStationToList)
         {
             InitializeComponent();
@@ -27,29 +28,34 @@ namespace PL
             {
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
             this.selcetedStationToList = selectedStationToList;
             DataContext = false;
 
 
-            BO.Station station = BLObject.GetStationByIdBL(selcetedStationToList.Id);
+            Station station = BLObject.GetStationByIdBL(selcetedStationToList.Id);
             grid1.DataContext = station;
 
-            StationIdTB.IsEnabled = false;
-            StationLatitudeTB.IsEnabled = false;
-            StationLongitudeTB.IsEnabled = false;
             StationId.IsEnabled = false;
-            StationName.IsEnabled = false;
+            StationIdTB.IsEnabled = false;
+           
             StationLatitude.IsEnabled = false;
+            StationLatitudeTB.IsEnabled = false;
+            
             StationLongitude.IsEnabled = false;
+            StationLongitudeTB.IsEnabled = false;
+            
+            StationName.IsEnabled = false;
             AvailableChargeSlots.IsEnabled = false;
             DroneChargesList.IsEnabled = false;
-
             AddStation.Visibility = Visibility.Hidden;
 
             DroneChargeListView.ItemsSource = from droneCharge in station.DroneChargesList select droneCharge;
-
         }
-        //addNewStation
+        #endregion
+
+
+        #region Add Constructor
         public StationActions()
         {
 
@@ -63,12 +69,16 @@ namespace PL
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             DataContext = false;
+
             DroneChargesList.Visibility = Visibility.Hidden;
             UpdateStationButton.Visibility = Visibility.Hidden;
             DroneChargeListView.Visibility = Visibility.Hidden;
             DeleteStationButton.Visibility = Visibility.Hidden;
         }
+        #endregion
 
+
+        #region Update Station Details
         private void UpdateStationButton_Click(object sender, RoutedEventArgs e)
         {
             int.TryParse(AvailableChargeSlotsTB.Text, out int chargeSlots);
@@ -77,30 +87,22 @@ namespace PL
             {
                 BLObject.UpdateBaseStationDetailsBL(selcetedStationToList.Id, newName, chargeSlots);
                 MessageBox.Show("Station's details has been update sucssesfuly",
-                    "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                                 "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            this.CloseButton_Click(sender, e);
             }
             catch (InvalidInputException exception)
             {
                 MessageBox.Show(exception.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            this.CloseButton_Click(sender, e);
         }
+        #endregion
 
-        private void StationIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-      
-        private void StationNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
 
+        #region Add A New Station
         private void AddStation_Click(object sender, RoutedEventArgs e)
         {
-            BO.Station station = new();
+            Station station = new();
             int.TryParse(StationIdTB.Text, out int Id);
             station.Id = Id;
 
@@ -120,6 +122,7 @@ namespace PL
                 BLObject.AddNewStationBL(station);
                 MessageBox.Show("Station has been added sucssesfuly",
                                 "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 this.CloseButton_Click(sender, e);
 
             }
@@ -128,7 +131,29 @@ namespace PL
                 MessageBox.Show("Invalid input", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+
+        #region Delete Station
+        private void DeleteStationButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                BLObject.DeleteStation(selcetedStationToList.Id);
+                MessageBox.Show("Station has been removed",
+                                "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.CloseButton_Click(sender, e);
+            }
+            catch (ObjectNotFoundException exception)
+            {
+                MessageBox.Show(exception.Message,
+                                "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        #endregion
+
+
+        #region DroneCharge List View
         private void DroneChargeListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DroneToList selectedDrone = BLObject.GetAllDroneToList().ToList()[DroneChargeListView.SelectedIndex];
@@ -137,7 +162,10 @@ namespace PL
                 DroneChargeListView.Items.Refresh();
             }
         }
+        #endregion
 
+
+        #region Statin TextBox
         private void StationIdTB_TextChanged(object sender, TextChangedEventArgs e)
         {
             int.TryParse(StationIdTB.Text, out int Id);
@@ -152,23 +180,32 @@ namespace PL
                 StationIdTB.Foreground = Brushes.Black;
             }
         }
-
-        private void DeleteStationButton_Click(object sender, RoutedEventArgs e)
+  
+        private void StationIdTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            try
-            {
-                BLObject.DeleteStation(selcetedStationToList.Id);
-                MessageBox.Show("Station has been removed",
-                                "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (ObjectNotFoundException exception)
-            {
-                MessageBox.Show(exception.Message,
-                                "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            this.CloseButton_Click(sender, e);
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+      
+        private void StationNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-z,A-Z,0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }      
+
+        private void StationNameTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            UpdateStationButton.IsEnabled = true;
         }
 
+        private void AvailableChargeSlotsTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            UpdateStationButton.IsEnabled = true;
+        }
+        #endregion
+
+
+        #region Close Window
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             DataContext = true;
@@ -187,16 +224,6 @@ namespace PL
                 this.DragMove();
             }
         }
-
-
-        private void StationNameTB_KeyDown(object sender, KeyEventArgs e)
-        {
-            UpdateStationButton.IsEnabled = true;
-        }
-
-        private void AvailableChargeSlotsTB_KeyDown(object sender, KeyEventArgs e)
-        {
-            UpdateStationButton.IsEnabled = true;
-        }
+        #endregion
     }
 }

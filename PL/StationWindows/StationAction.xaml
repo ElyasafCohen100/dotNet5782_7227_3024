@@ -7,13 +7,9 @@
         Title="StationActions" Height="450" Width="800"
         WindowStyle="None" MouseDown="MoveMouse">
 
-
     <Window.Background>
-        <ImageBrush ImageSource="https://dronedj.com/wp-content/uploads/sites/2/2021/04/WiBotic-CE-drone-charging.jpg" Opacity="0.5"/>
+        <ImageBrush ImageSource="\resources\stationActions.jpg" Opacity="0.5"/>
     </Window.Background>
-
-
-
 
     <Grid x:Name="grid1">
 
@@ -28,14 +24,14 @@
         <TextBlock Name="StationLongitude" HorizontalAlignment="Left" Margin="49,115,0,0" Text="Station Longitude:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" Foreground="White" FontFamily="Sitka Text" FontStyle="Italic"/>
         <TextBlock Name="StationLatitude" HorizontalAlignment="Left" Margin="49,159,0,0" Text="Station Latitude:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" Foreground="White" FontFamily="Sitka Text" FontStyle="Italic"/>
         <TextBlock Name="AvailableChargeSlots" HorizontalAlignment="Left" Margin="49,207,0,0" Text="Available Charge Slots:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" Foreground="White" FontFamily="Sitka Text" FontStyle="Italic"/>
-        <TextBlock Name="DroneChargesList" HorizontalAlignment="Left" Margin="49,269,0,0" Text="Drone Charge List:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" Foreground="White" FontFamily="Sitka Text" FontStyle="Italic"/>
+        <TextBlock Name="DroneChargesList" HorizontalAlignment="Left" Margin="50,253,0,0" Text="Drone Charge List:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" Foreground="White" FontFamily="Sitka Text" FontStyle="Italic"/>
 
-        <Button Name="UpdateStationButton" Content="Update Station Detailes" HorizontalAlignment="Left" Margin="577,159,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateStationButton_Click" IsEnabled="False" Cursor="Hand"/>
-        <Button Name="AddStation" Content="Add Station" HorizontalAlignment="Left" Margin="577,101,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="AddStation_Click" Cursor="Hand"/>
-        <Button Name="DeleteStationButton" Content="Delete Station" HorizontalAlignment="Left" Margin="577,219,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="DeleteStationButton_Click" Cursor="Hand"/>
-        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="690,20,0,0" VerticalAlignment="Top" Height="28" Width="87" Click="CloseButton_Click" Cursor="Hand" Foreground="#FFF60C0C"/>
+        <Button Name="UpdateStationButton" Content="Update Station Detailes" HorizontalAlignment="Left" Margin="577,159,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateStationButton_Click" IsEnabled="False"/>
+        <Button Name="AddStation" Content="Add A New Station" HorizontalAlignment="Left" Margin="578,103,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="AddStation_Click"/>
+        <Button Name="DeleteStationButton" Content="Delete Station" HorizontalAlignment="Left" Margin="577,219,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="DeleteStationButton_Click"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="690,20,0,0" VerticalAlignment="Top" Height="28" Width="87" Click="CloseButton_Click" Foreground="#FFF60C0C"/>
 
-        <ListView Name="DroneChargeListView" Margin="49,288,35,10" MouseDoubleClick="DroneChargeListView_MouseDoubleClick">
+        <ListView Name="DroneChargeListView" Margin="49,270,400,28" MouseDoubleClick="DroneChargeListView_MouseDoubleClick" Cursor="Hand">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding DroneId, Mode=OneWay}" Header="DRONE ID" Width="100"/>
