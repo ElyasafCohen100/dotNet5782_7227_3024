@@ -44,12 +44,11 @@ namespace PL
         #endregion
 
 
-        #region Add
+        #region Add A New Parcel
         private void AddParcelButton_Click(object sender, RoutedEventArgs e)
         {
             Parcel newParcle = new();
             int.TryParse(ReceiverCustomerIdSelector.SelectedItem.ToString(), out int receiverId);
-
 
             newParcle.receiverCustomer.Id = receiverId;
             newParcle.senderCustomer.Id = BLObject.GetCustomerByUserName(userName).Id;
@@ -60,16 +59,31 @@ namespace PL
             {
                 BLObject.AddNewParcelBL(newParcle);
                 MessageBox.Show("Parcel has been added sucssesfuly",
-                "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                                "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (InvalidInputException)
             {
                 MessageBox.Show("Invalid input",
-                  "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+                                "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            DataContext = false;
         }
         #endregion
 
+
+        #region Close Window
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
+        }
+       
         private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -77,6 +91,6 @@ namespace PL
                 this.DragMove();
             }
         }
-
+        #endregion
     }
 }

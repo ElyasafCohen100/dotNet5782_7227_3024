@@ -29,7 +29,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Name="AddNewCustomer" Content="Add New Customer" HorizontalAlignment="Center" VerticalAlignment="Center" Height="28" Width="115" Click="AddNewCustomer_Click"/>
+            <Button Name="AddNewCustomer" Content="Add A New Customer" HorizontalAlignment="Center" VerticalAlignment="Center" Height="28" Width="161" Click="AddNewCustomer_Click"/>
             <Button Name="CLoseButton" Content="Close" Grid.Column="2" HorizontalAlignment="Left" Margin="190,17,0,0" VerticalAlignment="Top"    Height="23" Width="56" Click="CLoseButton_Click" Foreground="#FFF60C0C"/>
 
         </Grid>

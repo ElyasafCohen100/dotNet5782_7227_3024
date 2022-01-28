@@ -10,7 +10,7 @@
 
 
     <Window.Background>
-        <ImageBrush ImageSource="https://m.media-amazon.com/images/I/61jxQe+k0kL._AC_SL1500_.jpg" Opacity="0.75"/>
+        <ImageBrush ImageSource="\resources\UpperGridPicture.jpg" Opacity="0.75"/>
     </Window.Background>
 
 

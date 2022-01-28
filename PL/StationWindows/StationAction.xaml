@@ -31,7 +31,7 @@
         <Button Name="DeleteStationButton" Content="Delete Station" HorizontalAlignment="Left" Margin="577,219,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="DeleteStationButton_Click"/>
         <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="690,20,0,0" VerticalAlignment="Top" Height="28" Width="87" Click="CloseButton_Click" Foreground="#FFF60C0C"/>
 
-        <ListView Name="DroneChargeListView" Margin="49,270,400,28" MouseDoubleClick="DroneChargeListView_MouseDoubleClick" Cursor="Hand">
+        <ListView Name="DroneChargeListView" Margin="49,270,400,28" MouseDoubleClick="DroneChargeListView_MouseDoubleClick" Cursor="Hand" BorderBrush="Blue">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding DroneId, Mode=OneWay}" Header="DRONE ID" Width="100"/>

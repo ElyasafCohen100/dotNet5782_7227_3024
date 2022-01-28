@@ -19,9 +19,9 @@ namespace BO
         public override string ToString()
         {
             return $"Drone In Parcel:\n" +
-                    $"Id: {Id}\n" +
-                    $"Battery status: {BatteryStatus}\n" +
-                    $"Current location: {CurrentLocation}\n";
+                   $"Id: {Id}\n" +
+                   $"Battery status: {BatteryStatus}\n" +
+                   $"Current location: {CurrentLocation}\n";
         }
     }
 }

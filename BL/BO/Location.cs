@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace BO
 {
     public class Location
@@ -18,9 +17,7 @@ namespace BO
         /// <returns> Describe of Station class string </returns>
         public override string ToString()
         {
-            return $"Location: " +
-                   $"Longitude: {BlApi.IBL.SexagesimalPresentation(Longitude)}, " +
-                   $"Lattitude: {BlApi.IBL.SexagesimalPresentation(Latitude)}\n";
+            return $"{BL.BL.BlObj.SexagesimalPresentation(Longitude)}, {BL.BL.BlObj.SexagesimalPresentation(Latitude)}";
         }
     }
 }

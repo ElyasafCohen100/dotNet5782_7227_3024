@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-
     [Serializable]
     public class OutOfBatteryException : Exception
     {
         public OutOfBatteryException() { }
-        public OutOfBatteryException(string message) : base($"Could not send the drone {message} to charging " +
+        public OutOfBatteryException(string message) : base($"Could not send drone {message} to charging " +
                                                             $"because it hasn't enough battery")
         { }
         public OutOfBatteryException(string message, Exception inner) : base(message, inner) { }
@@ -26,7 +25,6 @@ namespace BO
         public InvalidInputException(string message) : base($"Invalid input for {message} field") { }
         public InvalidInputException(string message, Exception inner) : base(message, inner) { }
     }
-
 
     [Serializable]
     public class ObjectNotFoundException : Exception
@@ -71,6 +69,17 @@ namespace BO
         public ObjectIsNotActiveException(string message) : base(message) { }
         public ObjectIsNotActiveException(string message, Exception inner) : base(message, inner) { }
 
+    }
+
+    [Serializable]
+    public class NoParcelsMatchToDroneException : Exception
+    {
+        public NoParcelsMatchToDroneException() { }
+        public NoParcelsMatchToDroneException(string message) : base(message) { }
+        public NoParcelsMatchToDroneException(string message, Exception inner) : base(message, inner) { }
+        protected NoParcelsMatchToDroneException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
     public class XMLFileLoadCreateException : Exception
     {

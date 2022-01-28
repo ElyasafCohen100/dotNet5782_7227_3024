@@ -54,7 +54,6 @@ namespace Dal
 
 
         #region Distance
-
         /// <summary>
         /// Convert the receive angle to radian degree
         /// </summary>
@@ -65,6 +64,7 @@ namespace Dal
             //Angle in 10th of a degree
             return (angleIn10thofDegree * Math.PI) / 180;
         }
+
 
         /// <summary>
         /// Calcute and return the distance between two points on earth (using longitude and lattitude).

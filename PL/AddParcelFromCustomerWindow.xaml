@@ -13,15 +13,16 @@
     </Window.Background>
 
     <Grid>
-        <TextBlock Name="PriorityTextBlock" HorizontalAlignment="Left" Margin="41,72,0,0" Text="Priority:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
-        <TextBlock Name="WeightTextBlock" HorizontalAlignment="Left" Margin="326,73,0,0" Text="Max Weight:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
-        <TextBlock Name="ReceiverCustomerIdTextBlock" HorizontalAlignment="Left" Margin="615,73,0,0" Text="Receiver Customer Id:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
+        <TextBlock Name="PriorityTextBlock" HorizontalAlignment="Left" Margin="41,88,0,0" Text="Priority:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
+        <TextBlock Name="WeightTextBlock" HorizontalAlignment="Left" Margin="326,89,0,0" Text="Max Weight:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
+        <TextBlock Name="ReceiverCustomerIdTextBlock" HorizontalAlignment="Left" Margin="615,89,0,0" Text="Receiver Id:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
 
-        <ComboBox Name="PrioritySelctor" HorizontalAlignment="Left" Margin="39,88,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="WeightSelctor" HorizontalAlignment="Left" Margin="324,88,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ReceiverCustomerIdSelector" HorizontalAlignment="Left" Margin="615,88,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ReceiverCustomerIdSelector_SelectionChanged"/>
+        <ComboBox Name="PrioritySelctor" HorizontalAlignment="Left" Margin="39,104,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="WeightSelctor" HorizontalAlignment="Left" Margin="324,104,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="ReceiverCustomerIdSelector" HorizontalAlignment="Left" Margin="615,104,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ReceiverCustomerIdSelector_SelectionChanged"/>
 
-        <Button Name="AddParcelButton" Content="Add Parcel" HorizontalAlignment="Center" Margin="0,330,0,0" VerticalAlignment="Top" Height="38" Width="152" Click="AddParcelButton_Click"/>
+        <Button Name="AddParcelButton" Content="Add A Parcel" HorizontalAlignment="Left" Margin="308,334,0,0" VerticalAlignment="Top" Height="38" Width="152" Click="AddParcelButton_Click"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="696,18,0,0" VerticalAlignment="Top" Height="25" Width="79" Foreground="Red" Click="CloseButton_Click"/>
 
     </Grid>
 </Window>

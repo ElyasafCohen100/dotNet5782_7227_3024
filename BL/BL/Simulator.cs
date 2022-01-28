@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using BO;
 
@@ -10,7 +7,7 @@ namespace BL
 {
     class Simulator
     {
-        #region Const
+        #region Const Value
         public const double DRONE_VELOCITY = 10;
         public const int DELAY = 500;
         #endregion
@@ -83,7 +80,7 @@ namespace BL
                         lock (BLObject)
                         {
                             DroneCharge droneCharge = BLObject.FindDroneChargeByDroneIdBL(drone.Id);
-                            batteryStatus = BLObject.BatteryCalac(drone, droneCharge);
+                            batteryStatus = BLObject.BatteryCalc(drone, droneCharge);
                         }
 
                         if (batteryStatus == 100)

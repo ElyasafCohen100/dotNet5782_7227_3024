@@ -8,7 +8,7 @@ namespace PL
         private BlApi.IBL BLObgect;
         string userName;
 
-        //Add 
+
         #region Constructor
         public MainCustomerWindow(string usreName)
         {

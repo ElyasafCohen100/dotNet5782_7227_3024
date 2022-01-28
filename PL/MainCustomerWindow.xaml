@@ -16,9 +16,9 @@
 
         <Image Source="\resources\OurLogo.png" Margin="238,35,256,217"/>
 
-        <Button Name="AddParcelButton" Content="Add Parcel" HorizontalAlignment="Left" Margin="496,290,0,0" VerticalAlignment="Top" Height="38" Width="203" Click="AddParcelFromCustomerButton_Click"/>
-        <Button Name="ViewParcel" Content="View Parcel" HorizontalAlignment="Left" Margin="106,290,0,0" VerticalAlignment="Top" Height="38" Width="208" Click="ViewParcelFromCustomer_Click"/>
-        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="706,26,0,0" VerticalAlignment="Top" Height="22" Width="70" Foreground="Red" Click="CloseButton_Click"/>
+        <Button Name="AddParcelButton" Content="Add A Parcel" HorizontalAlignment="Left" Margin="496,290,0,0" VerticalAlignment="Top" Height="38" Width="203" Click="AddParcelFromCustomerButton_Click" FontSize="20"/>
+        <Button Name="ViewParcel" Content="View Parcel" HorizontalAlignment="Left" Margin="106,290,0,0" VerticalAlignment="Top" Height="38" Width="208" Click="ViewParcelFromCustomer_Click" FontSize="20"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="700,23,0,0" VerticalAlignment="Top" Height="25" Width="76" Foreground="Red" Click="CloseButton_Click"/>
 
     </Grid>
 </Window>

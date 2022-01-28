@@ -41,12 +41,12 @@ namespace BO
             }
 
             return $"Customer:\n" +
-                $"Id: {Id}\n" +
-                $"Name: {Name}\n" +
-                $"Phone: {Phone}\n" +
-                Location.ToString() +
-                $"Parcel From Customer:\n{stringParcelFromCustomerList}\n" +
-                $"Parcel To Customer:\n{stringParcelFromCustomerList}\n";
+                   $"Id: {Id}\n" +
+                   $"Name: {Name}\n" +
+                   $"Phone: {Phone}\n" +
+                   Location.ToString() +
+                   $"Parcel From Customer:\n{stringParcelFromCustomerList}\n" +
+                   $"Parcel To Customer:\n{stringParcelFromCustomerList}\n";
         }
     }
 }

@@ -40,11 +40,11 @@
         <TextBox x:Name="PasswordTB" Grid.Column="1" HorizontalAlignment="Center" Margin="0,126,0,0" Text="{Binding Password}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
 
         <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="603,12,0,0" VerticalAlignment="Top" Height="21" Width="57" Cursor="Hand" Click="CloseButton_Click" Grid.Column="1" Foreground="#FFF60C0C"/>
-        <Button Name="AddNewCustomerButton"  Content="Add a New Customer" HorizontalAlignment="Left" Margin="460,44,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.381,0.359" Width="200" Height="30" Cursor="Hand" Click="AddCustomerBustton_Click" Grid.Column="1"/>
+        <Button Name="AddNewCustomerButton"  Content="Add A New Customer" HorizontalAlignment="Left" Margin="460,44,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.381,0.359" Width="200" Height="30" Cursor="Hand" Click="AddCustomerBustton_Click" Grid.Column="1"/>
         <Button Name="UpdateCustomerButton"  Content="Update Customer" HorizontalAlignment="Left" Margin="460,96,0,0" VerticalAlignment="Top" Width="200" Height="30" Cursor="Hand" Grid.Column="1" Click="UpdateCustomerDetailes_Click" IsEnabled="False"/>
         <Button Name="DeleteCustomerButton" Content="Delelte Customer" Grid.Column="1" HorizontalAlignment="Left" Margin="460,146,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="DeleteCustomerButton_Click" Cursor="Hand"/>
 
-        <ListView Name="ParcelFromCustomerList" Margin="0,183,0,146" Grid.ColumnSpan="2" MouseDoubleClick="ParcelFromCustomerList_MouseDoubleClick" Cursor="Hand">
+        <ListView Name="ParcelFromCustomerList" Margin="0,183,0,146" Grid.ColumnSpan="2" MouseDoubleClick="ParcelFromCustomerList_MouseDoubleClick" Cursor="Hand" BorderBrush="Blue"> 
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID " Width="100"/>
@@ -58,7 +58,7 @@
         </ListView>
 
 
-        <ListView Name="ParcelToCustomerList" Margin="0,325,0,5" Grid.ColumnSpan="2" MouseDoubleClick="ParcelToCustomerList_MouseDoubleClick" Cursor="Hand">
+        <ListView Name="ParcelToCustomerList" Margin="0,325,0,5" Grid.ColumnSpan="2" MouseDoubleClick="ParcelToCustomerList_MouseDoubleClick" Cursor="Hand" BorderBrush="Blue">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID " Width="100"/>

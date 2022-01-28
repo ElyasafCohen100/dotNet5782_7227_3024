@@ -13,8 +13,8 @@
     </Window.Background>
 
     <Grid KeyDown="Window_KeyDown">
-        <Button Content="Close" HorizontalAlignment="Left" Margin="699,24,0,0" VerticalAlignment="Top" Foreground="#FFF60C0C" Cursor="Hand" Click="Close_Button_Click" Height="21" Width="62"/>
-        <Button Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="328,287,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click" Cursor="Hand" Height="39" Width="136"/>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="699,24,0,0" VerticalAlignment="Top" Foreground="#FFF60C0C" Click="Close_Button_Click" Height="21" Width="62"/>
+        <Button Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="328,287,0,0" VerticalAlignment="Top" Click="UpdateDroneModelButton_Click" Height="39" Width="136" FontSize="15"/>
 
         <TextBox Name ="ModelTextBox" HorizontalAlignment="Left"  Margin="274,0,0,0" Text="Enter Model" TextWrapping="NoWrap" VerticalAlignment="Center" Width="245" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" Cursor="Hand" PreviewTextInput="ModelIdTextBox_PreviewTextInput" KeyDown="ModelTextBox_KeyDown" Height="57"/>
 

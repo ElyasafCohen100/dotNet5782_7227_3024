@@ -8,6 +8,56 @@ namespace Dal
 {
     partial class DalObject : DalApi.IDal
     {
+        #region Get
+        /// <summary>
+        /// Finds Station by specific Id.
+        /// </summary>
+        /// <param name="stationId"> Station Id </param>
+        /// <returns> Station object </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Station GetStationById(int stationId)
+        {
+            Station station = DataSource.Stations.Find(x => x.Id == stationId);
+            return station.Id != stationId ? throw new ObjectNotFoundException("station") : station;
+        }
+
+
+        /// <summary>
+        /// Return list of Stations.
+        /// </summary>
+        /// <returns> List of Stations </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Station> GetBaseStationList()
+        {
+            return from station in DataSource.Stations where station.IsActive select station;
+        }
+
+
+        /// <summary>
+        /// Return List of Stations with available charging slot.
+        /// </summary>
+        /// <returns> List of Stations with available charging slot </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Station> GetStations(Predicate<Station> predicate)
+        {
+            return DataSource.Stations.FindAll(predicate).FindAll(x => x.IsActive);
+        }
+        #endregion
+
+
+        #region Add
+        /// <summary>
+        /// Set new Station.
+        /// </summary>
+        /// <param name="station"> Station object </param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void AddNewStation(Station station)
+        {
+            station.IsActive = true;
+            DataSource.Stations.Add(station);
+        }
+        #endregion
+
 
         #region Update
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -20,22 +70,6 @@ namespace Dal
             station.Name = baseStationNewName;
             station.ChargeSlots = baseStationChargeSlots;
             DataSource.Stations[index] = station;
-        }
-
-        #endregion
-
-
-        #region Add
-
-        /// <summary>
-        /// Set new Station.
-        /// </summary>
-        /// <param name="station"> Station object </param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddNewStation(Station station)
-        {
-            station.IsActive = true;
-            DataSource.Stations.Add(station);
         }
         #endregion
 
@@ -50,43 +84,6 @@ namespace Dal
             station.IsActive = false;
             DataSource.Stations[index] = station;
         }
-        #endregion
-
-
-        #region Getters
-
-        /// <summary>
-        /// Finds Station by specific Id.
-        /// </summary>
-        /// <param name="stationId"> Station Id </param>
-        /// <returns> Station object </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Station GetStationById(int stationId)
-        {
-            Station station = DataSource.Stations.Find(x => x.Id == stationId);
-            return station.Id != stationId ? throw new ObjectNotFoundException("station") : station;
-        }
-
-        /// <summary>
-        /// Return list of Stations.
-        /// </summary>
-        /// <returns> List of Stations </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Station> GetBaseStationList()
-        {
-            return from station in DataSource.Stations where station.IsActive select station;
-        }
-
-        /// <summary>
-        /// Return List of Stations with available charging slot.
-        /// </summary>
-        /// <returns> List of Stations with available charging slot </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Station> GetStations(Predicate<Station> predicate)
-        {
-            return DataSource.Stations.FindAll(predicate).FindAll(x => x.IsActive);
-        }
-
         #endregion
     }
 }

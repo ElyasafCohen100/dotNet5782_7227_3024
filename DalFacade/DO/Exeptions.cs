@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-
     [Serializable]
     public class ObjectNotFoundException : Exception
     {
@@ -15,7 +14,6 @@ namespace DO
         public ObjectNotFoundException(string message, Exception inner) : base(message, inner) { }
     }
 
-
     [Serializable]
     public class ObjectIsNotActiveException : Exception
     {
@@ -23,6 +21,7 @@ namespace DO
         public ObjectIsNotActiveException(string message) : base($"The {message} is not active") { }
         public ObjectIsNotActiveException(string message, Exception inner) : base(message, inner) { }
     }
+
     public class XMLFileLoadCreateException : Exception
     {
         public string xmlFilePath;

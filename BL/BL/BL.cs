@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using BO;
 using DalApi;
@@ -208,7 +206,6 @@ namespace BL
 
 
         #region Find
-
         /// <summary>
         /// Find the nearest base-station to the customer by customer id.
         /// </summary>
@@ -451,7 +448,6 @@ namespace BL
 
 
         #region Sexagesimal
-
         /// <summary>
         /// Return string of sexagesimal presentation.
         /// </summary>

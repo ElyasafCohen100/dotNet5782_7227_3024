@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using BO;
 
@@ -21,6 +19,7 @@ namespace BL
         {
             return (from admin in GetAdminsListBL() where admin.UserName == userName select admin).FirstOrDefault();
         }
+
 
         /// <summary>
         /// get the admin's list

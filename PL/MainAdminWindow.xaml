@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainAdminWindow" Height="450" Width="800"
-        WindowStyle="None" MouseDown="MoveMouse">
+        WindowStyle="None" MouseDown="Moz">
 
     <Window.Background>
         <ImageBrush ImageSource ="\resources\DroneDelivery.jpeg"/>
@@ -14,34 +14,13 @@
 
     <Grid>
 
-        <Viewbox Stretch="Fill" StretchDirection="Both">
+        <Button Name="DroneListButton" Content="Drone List" Grid.Row="0" HorizontalAlignment="Left" Click="ViewDroneList_Click" Cursor="Hand" FontSize="20" Height="48"  Width="234" VerticalAlignment="Top" FontFamily="Sitka Text" Margin="22,103,0,0"/>
+        <Button Name ="StationListButton" Content="Station List" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ViewStationList_Click" Height="45" Width="234" FontSize="20" Cursor="Hand" FontFamily="Sitka Text" Margin="22,190,0,0"/>
+        <Button Name="CustomerListButton" Content="Coustomer List" HorizontalAlignment="Left" Margin="22,274,0,0" VerticalAlignment="Top" Height="45" Width="234" FontSize="18" Click="ViewCustomerList_Click" Cursor="Hand"/>
+        <Button Name="ParcelListButton" Content="Parcel List" HorizontalAlignment="Left" Margin="22,359,0,0" VerticalAlignment="Top" Height="49" Width="234" FontSize="18" Click="ViewParcelList_Click" Grid.Column="0" Cursor="Hand"/>
+        <Button Name="CloseButton" Content="Close"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,10,0" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Margin="673,20,0,0" Height="34" Width="89" FontSize="20" FontFamily="Sitka Text"/>
 
-            <Grid x:Name="Grid" Grid.Row="0" Width="auto" Height="auto">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Name="SubGridC0" Width="180*"/>
-                    <ColumnDefinition Name="SubGridC1" Width="113*"/>
-                    <ColumnDefinition Name="SubGridC2" Width="0*"/>
-                    <ColumnDefinition Name="SubGridC3" Width="178*"/>
-                </Grid.ColumnDefinitions>
-
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Name="SubGridR0" Height="139*"/>
-                    <RowDefinition Name="SubGridR1" Height="115*"/>
-                    <RowDefinition Name="SubGridR2" Height="88*"/>
-                    <RowDefinition Name="SubGridR3" Height="92*"/>
-                </Grid.RowDefinitions>
-
-                <Button Name="DroneListButton" Content="Drone List" Grid.Row="0" HorizontalAlignment="Left" Click="ViewDroneList_Click" Cursor="Hand" FontSize="20" Height="38"  Width="140" VerticalAlignment="Top" FontFamily="Sitka Text" Margin="14,69,0,0"/>
-                <Button Name ="StationListButton" Content="Station List" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ViewStationList_Click" Height="38" Width="140" FontSize="20" Cursor="Hand" FontFamily="Sitka Text" Margin="14,39,0,0"/>
-                <Button Name="CustomerListButton" Content="Coustomer List" HorizontalAlignment="Left" Margin="14,30,0,0" VerticalAlignment="Top" Height="38" Width="140" FontSize="18" Click="ViewCustomerList_Click" Grid.Row="2" Cursor="Hand"/>
-                <Button Name="ParcelListButton" Content="Parcel List" HorizontalAlignment="Left" Margin="14,31,0,0" VerticalAlignment="Top" Height="38" Width="140" FontSize="18" Click="ViewParcelList_Click" Grid.Row="3" Grid.Column="0" Cursor="Hand"/>
-                <Button Name="CloseButton" Content="Close"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,10,0" Foreground="#FFF60C0C" Click="Close_Click" FontWeight="Normal" Cursor="Hand" Margin="103,22,0,0" Height="28" Width="75" FontSize="20" FontFamily="Sitka Text" Grid.Column="3"/>
-
-                <Label Content="Welcome" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" Width="283" HorizontalContentAlignment="Center" FontSize="48" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Height="66"/>
-
-            </Grid>
-        </Viewbox>
+        <Label Content="Welcome" HorizontalAlignment="Left" VerticalAlignment="Top" Width="405" HorizontalContentAlignment="Center" FontSize="60" FontWeight="Bold" FontStyle="Italic" Height="88"/>
 
     </Grid>
 
