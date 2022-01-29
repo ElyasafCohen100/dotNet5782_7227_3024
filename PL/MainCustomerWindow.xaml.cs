@@ -5,18 +5,18 @@ namespace PL
 {
     public partial class MainCustomerWindow : Window
     {
-        private BlApi.IBL BLObgect;
+        private BlApi.IBL BLObject;
         string userName;
 
 
         #region Constructor
-        public MainCustomerWindow(string usreName)
+        public MainCustomerWindow(string userName)
         {
             InitializeComponent();
-
+            this.userName = userName;
             try
             {
-                BLObgect = BlApi.BlFactory.GetBl();
+                BLObject = BlApi.BlFactory.GetBl();
             }
             catch (DalApi.DalConfigException e)
             {

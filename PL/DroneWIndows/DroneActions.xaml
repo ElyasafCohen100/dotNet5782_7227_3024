@@ -14,8 +14,8 @@
 
     <Grid x:Name="grid1">
 
-        <Button Name="ManualButton" Content="Manual" Visibility="Hidden" HorizontalAlignment="Center" Foreground="Salmon" Margin="0,143,0,0" VerticalAlignment="Top" Height="23" Width="124" Click="ManualButton_Click"/>
-        <Button Name="SimulatorButton" Content="Simulator" HorizontalAlignment="Center" Margin="0,103,0,0" VerticalAlignment="Top" Height="23" Width="124" Foreground="Salmon" Click="SimulatorButton_Click"/>
+        <Button Name="ManualButton" Content="Manual" Visibility="Visible" HorizontalAlignment="Center" Foreground="Salmon" Margin="0,133,0,0" VerticalAlignment="Top" Height="23" Width="124" Click="ManualButton_Click"/>
+        <Button Name="SimulatorButton" Content="Simulator" HorizontalAlignment="Center" Margin="0,99,0,0" VerticalAlignment="Top" Height="23" Width="124" Foreground="Salmon" Click="SimulatorButton_Click"/>
 
         <TextBox x:Name="IdTextBox" HorizontalAlignment="Left" Margin="116,20,0,0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="DroneIdTextBox_GotFocus" LostFocus="DroneIdTextBox_LostFocus" TextChanged="IdTextBox_TextChanged" PreviewTextInput="DroneIdTextBox_PreviewTextInput"/>
         <TextBox Name="ModelTextBox" HorizontalAlignment="Left" Margin="116,50,0,0" Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="ModelTextBox_GotFocus" LostFocus="ModelTextBox_LostFocus" PreviewTextInput="ModelIdTextBox_PreviewTextInput"/>
@@ -28,13 +28,13 @@
             <TextBox Name="LocationTB" HorizontalAlignment="Left" Margin="116,106,0,0" Text="{Binding CurrentLocation.Latitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
             <TextBox Name="MaxWeightTB" HorizontalAlignment="Left" Margin="116,136,0,0" Text="{Binding MaxWeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
             <TextBox Name="StatusTB" HorizontalAlignment="Left" Margin="116,167,0,0" Text="{Binding DroneStatus, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-            <TextBox Name="DeliveryTB" HorizontalAlignment="Left" Margin="26,223,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="481" Height="217"/>
+            <TextBox Name="DeliveryTB" HorizontalAlignment="Left" Margin="24,208,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="481" Height="232"/>
 
             <TextBlock Name="BatteryTextBlock" HorizontalAlignment="Left" Margin="26,79,0,0" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
             <TextBlock Name="LatitudeTextBlock" HorizontalAlignment="Left" Margin="26,109,0,0" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
             <TextBlock Name="MaxweightTextBlock" HorizontalAlignment="Left" Margin="25,138,0,0" Text="Max weight:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
             <TextBlock Name="StatusTextBlock" HorizontalAlignment="Left" Margin="25,168,0,0" Text="Status:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
-            <TextBlock Name="ParcelInDelivery" Text="Parcel In Delivery:" HorizontalAlignment="Left" Margin="27,205,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
+            <TextBlock Name="ParcelInDelivery" Text="Parcel In Delivery:" HorizontalAlignment="Left" Margin="24,194,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
 
             <ProgressBar Name="Pb" Visibility="Visible" HorizontalAlignment="Left" Height="18" Margin="116,80,0,0" VerticalAlignment="Top" Width="120" />
             <TextBlock Name="BatteryTB" Text="{Binding Value, ElementName=Pb, StringFormat=\{0:0\}%}" Margin="165,81,515,0" VerticalAlignment="Top"/>
@@ -42,7 +42,7 @@
 
 
         <Grid x:Name= "grid3">
-            <Button Name="AddButton" Content="Add A New Drone" HorizontalAlignment="Center" Margin="0,182,0,0" VerticalAlignment="Top" Click="AddNewDroneButton_Click" Height="24" Width="126" KeyDown="AddButton_KeyDown"/>
+            <Button Name="AddButton" Content="Add A New Drone" HorizontalAlignment="Center" Margin="0,170,0,0" VerticalAlignment="Top" Click="AddNewDroneButton_Click" Height="24" Width="126" KeyDown="AddButton_KeyDown"/>
             <TextBlock Name="WeightTextBlock" HorizontalAlignment="Left" Margin="290,24,0,0" Text="Max weight:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
             <TextBlock Name="StationTextBlock" HorizontalAlignment="Left" Margin="290,53,0,0" Text="Stations Id:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
             <ComboBox Name="MaxWeightCB" HorizontalAlignment="Left" Margin="368,20,0,0" VerticalAlignment="Top" Width="120"/>

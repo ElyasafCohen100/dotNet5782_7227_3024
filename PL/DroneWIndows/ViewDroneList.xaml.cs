@@ -77,11 +77,21 @@ namespace PL
           
         private void RegularViewButton_Checked(object sender, RoutedEventArgs e)
         {
+            //---- sound while you're clicking on the button ----//
+            System.Media.SoundPlayer player = new(@"sources/clickSound.wav");
+            player.Load();
+            player.PlaySync();
+
             DroneListView.ItemsSource = BLObject.GetAllDroneToList();
         }
 
         private void GrupViewButton_Checked(object sender, RoutedEventArgs e)
         {
+            //---- sound while you're clicking on the button ----//
+            System.Media.SoundPlayer player = new(@"sources/clickSound.wav");
+            player.Load();
+            player.PlaySync();
+
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
             sourceCollectionView.GroupDescriptions.Add(groupDescription);
             DroneListView.ItemsSource = sourceCollectionView;

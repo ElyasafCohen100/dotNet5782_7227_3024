@@ -23,34 +23,12 @@ namespace PL
             {
                 BLObject = BlApi.BlFactory.GetBl();
             }
-            catch(DalApi.DalConfigException e)
+            catch (DalApi.DalConfigException e)
             {
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             DataContext = false;
-        }
-        #endregion
-
-
-        #region Close Window
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            DataContext = true;
-            this.Close();
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (DataContext.Equals(false)) e.Cancel = true;
-        }
-
-        private void MoveWindow(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                this.DragMove();
-            }
         }
         #endregion
 
@@ -88,6 +66,41 @@ namespace PL
             catch (ObjectAlreadyExistException)
             {
                 MessageBox.Show("Customer already exist", "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                //---- sound while you're clicking on the button ----//
+                System.Media.SoundPlayer player = new(@"sources/clickSound.wav");
+                player.Load();
+                player.PlaySync();
+
+                new MainCustomerWindow(UserNameTB.Text).Show();
+            }
+        }
+        #endregion
+
+
+        #region Close Window
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = true;
+            this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext.Equals(false)) e.Cancel = true;
+        }
+
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
             }
         }
         #endregion
