@@ -7,9 +7,6 @@ using BO;
 
 namespace PL
 {
-    /// <summary>
-    /// Interaction logic for UpdateDroneWindow.xaml
-    /// </summary>
     public partial class UpdateDroneModel : Window
     {
         private BlApi.IBL BLObject;

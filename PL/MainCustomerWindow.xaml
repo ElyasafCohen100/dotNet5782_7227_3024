@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainCustomerWindow" Height="450" Width="800"
-        WindowStyle="None" MouseDown="NoveMouse">
+        WindowStyle="None" MouseDown="MoveWindow">
 
     <Window.Background>
         <ImageBrush ImageSource="resources/mainCustomerWindow.jpg" Stretch="Fill" Opacity="0.3"/>

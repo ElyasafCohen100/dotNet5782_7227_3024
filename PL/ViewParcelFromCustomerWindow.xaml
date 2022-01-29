@@ -24,7 +24,7 @@
 
         <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="698,16,0,0" VerticalAlignment="Top" Height="28" Width="83" Foreground="Red" Click="CloseButton_Click"/>
 
-        <ListView x:Name="ParcelListView" Cursor="Hand" MouseDoubleClick="ParcelListView_MouseDoubleClick" Margin="0,84,0,0" SelectionChanged="ParcelListView_SelectionChanged"
+        <ListView x:Name="ParcelListView" Cursor="Hand" MouseDoubleClick="ParcelListView_MouseDoubleClick" Margin="0,84,0,0"
                   Background="{StaticResource ResourceKey = 1}">
             <ListView.View>
 

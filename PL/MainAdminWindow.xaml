@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainAdminWindow" Height="450" Width="800"
-        WindowStyle="None" MouseDown="Moz">
+        WindowStyle="None" MouseDown="MoveWindow">
 
     <Window.Background>
         <ImageBrush ImageSource ="\resources\DroneDelivery.jpeg"/>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="UpdateDroneModel" Height="450" Width="800" Closing="Window_Closing"
-        WindowStyle="None" MouseDown="MoveMouse">
+        WindowStyle="None" MouseDown="MoveWindow">
 
     <Window.Background>
         <ImageBrush ImageSource= "\resources\UpdateModel.jpg" Opacity="0.4"/>

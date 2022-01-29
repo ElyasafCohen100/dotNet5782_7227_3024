@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="AddParcelFromCustomerWindow" Height="450" Width="800"
-        WindowStyle="None" MouseDown="MoveMouse">
+        WindowStyle="None" MouseDown="MoveWindow">
 
     <Window.Background>
         <ImageBrush ImageSource="\resources\AddParcelFromCustomer.jpg" Stretch="Fill"/>
@@ -18,8 +18,8 @@
         <TextBlock Name="ReceiverCustomerIdTextBlock" HorizontalAlignment="Left" Margin="615,89,0,0" Text="Receiver Id:" TextWrapping="NoWrap" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic"/>
 
         <ComboBox Name="PrioritySelctor" HorizontalAlignment="Left" Margin="39,104,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="WeightSelctor" HorizontalAlignment="Left" Margin="324,104,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox Name="ReceiverCustomerIdSelector" HorizontalAlignment="Left" Margin="615,104,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ReceiverCustomerIdSelector_SelectionChanged"/>
+        <ComboBox Name="WeightSelctor" HorizontalAlignment="Left" Margin="324,104,0,0" VerticalAlignment="Top" Width="120" />
+        <ComboBox Name="ReceiverCustomerIdSelector" HorizontalAlignment="Left" Margin="615,104,0,0" VerticalAlignment="Top" Width="120"/>
 
         <Button Name="AddParcelButton" Content="Add A Parcel" HorizontalAlignment="Left" Margin="308,334,0,0" VerticalAlignment="Top" Height="38" Width="152" Click="AddParcelButton_Click"/>
         <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="696,18,0,0" VerticalAlignment="Top" Height="25" Width="79" Foreground="Red" Click="CloseButton_Click"/>

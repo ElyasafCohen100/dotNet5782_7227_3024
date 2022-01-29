@@ -7,18 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="resources\AddParcelFromCustomer.jpg" />
     <None Remove="resources\CoverPage.jpg" />
     <None Remove="resources\CustomerAction.jpg" />
     <None Remove="resources\CustomerSignUp .jpg" />
     <None Remove="resources\CustomerSignUP.jpg" />
     <None Remove="resources\DroneBackground.jpg" />
     <None Remove="resources\DroneDelivery.jpeg" />
+    <None Remove="resources\mainCustomerWindow.jpg" />
     <None Remove="resources\OurLogo.png" />
     <None Remove="resources\ParcelAction.jpg" />
     <None Remove="resources\ParcelListView.jpg" />
+    <None Remove="resources\stationActions.jpg" />
+    <None Remove="resources\stationListView.jpg" />
+    <None Remove="resources\StationListView2.png" />
     <None Remove="resources\UpdateModel.jpg" />
     <None Remove="resources\UpperGridPicture.jpg" />
     <None Remove="resources\ViewCustomerList.jpg" />
+    <None Remove="resources\ViewParcelFromCustomer.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,17 +32,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="resources\AddParcelFromCustomer.jpg" />
     <Resource Include="resources\CoverPage.jpg" />
     <Resource Include="resources\CustomerAction.jpg" />
     <Resource Include="resources\CustomerSignUP.jpg" />
     <Resource Include="resources\DroneBackground.jpg" />
     <Resource Include="resources\DroneDelivery.jpeg" />
+    <Resource Include="resources\mainCustomerWindow.jpg" />
     <Resource Include="resources\OurLogo.png" />
     <Resource Include="resources\ParcelAction.jpg" />
     <Resource Include="resources\ParcelListView.jpg" />
+    <Resource Include="resources\stationActions.jpg" />
+    <Resource Include="resources\stationListView.jpg" />
+    <Resource Include="resources\StationListView2.png" />
     <Resource Include="resources\UpdateModel.jpg" />
     <Resource Include="resources\UpperGridPicture.jpg" />
     <Resource Include="resources\ViewCustomerList.jpg" />
+    <Resource Include="resources\ViewParcelFromCustomer.jpg" />
   </ItemGroup>
 
 

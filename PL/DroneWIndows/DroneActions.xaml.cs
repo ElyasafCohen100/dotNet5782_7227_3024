@@ -10,16 +10,13 @@ using System.ComponentModel;
 
 namespace PL
 {
-    /// <summary>
-    /// Interaction logic for DroneActions.xaml
-    /// </summary>
     public partial class DroneActions : Window
     {
         private BlApi.IBL BLObject;
         private DroneToList selectedDroneToList;
+        BackgroundWorker backgroundWorker = new BackgroundWorker();
 
-
-        //Drone actions c-tor.
+        #region Drone Action Constructor
         public DroneActions(DroneToList droneToList)
         {
             InitializeComponent();
@@ -31,39 +28,57 @@ namespace PL
             {
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            try
+            {
+                Drone drone = BLObject.GetDroneByIdBL(droneToList.Id);
+                this.selectedDroneToList = droneToList;
 
-            Drone drone = BLObject.GetDroneByIdBL(droneToList.Id);
-            this.selectedDroneToList = droneToList;
+                DataContext = false;
+                grid1.DataContext = drone;
 
-            DataContext = false;
+                IdTextBox.IsEnabled = false;
+                ModelTextBox.IsEnabled = false;
+                BatteryTB.IsEnabled = false;
+                MaxWeightTB.IsEnabled = false;
+                StatusTB.IsEnabled = false;
+                DeliveryTB.IsEnabled = false;
+                LocationTB.IsEnabled = false;
+                LocationTB.Text = drone.CurrentLocation.ToString();
+                DeliveryTB.Text = drone.ParcelInDelivery.ToString();
 
-            grid1.DataContext = drone;
-            IdTextBox.IsEnabled = false;
+                if (droneToList.DroneStatus == DroneStatuses.Maintenance)
+                {
+                    DroneCharge droneCharge = BLObject.FindDroneChargeByDroneIdBL(droneToList.Id);
+                    Pb.Value = BLObject.BatteryCalc(droneToList, droneCharge);
 
-            ModelTextBox.IsEnabled = false;
-            BatteryTB.IsEnabled = false;
+                }
+                else
+                {
+                    Pb.Value = droneToList.BatteryStatus;
+                }
+                progressBarColor();
 
-            MaxWeightTB.IsEnabled = false;
-            StatusTB.IsEnabled = false;
+                grid3.Visibility = Visibility.Hidden;
 
-            DeliveryTB.IsEnabled = false;
-            DeliveryTB.Text = drone.ParcelInDelivery.ToString();
-
-            LatitudeTB.IsEnabled = false;
-            LongitudeTB.IsEnabled = false;
-
-            WeightTextBlock.Visibility = Visibility.Hidden;
-            StationTextBlock.Visibility = Visibility.Hidden;
-
-            BaseStationCB.Visibility = Visibility.Hidden;
-            MaxWeightCB.Visibility = Visibility.Hidden;
-
-            AddButton.Visibility = Visibility.Hidden;
-            if (selectedDroneToList.DeliveryParcelId <= 0)
-                ViewParcelButton.Visibility = Visibility.Hidden;
+                AddButton.Visibility = Visibility.Hidden;
+                if (selectedDroneToList.DeliveryParcelId <= 0)
+                    ViewParcelButton.Visibility = Visibility.Hidden;
+                if (selectedDroneToList.DeliveryParcelId == 0)
+                {
+                    DeliveryTB.Visibility = Visibility.Hidden;
+                    ParcelInDelivery.Visibility = Visibility.Hidden;
+                }
+            }
+            catch (ObjectNotFoundException exception)
+            {
+                MessageBox.Show(exception.Message,
+                                "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+        #endregion
 
-        //Add new Drone c-tor.
+
+        #region Add Constructor
         public DroneActions()
         {
             InitializeComponent();
@@ -77,27 +92,11 @@ namespace PL
             }
 
             DataContext = false;
-            UpdateModel.Visibility = Visibility.Hidden;
-            SendDroneToDelivery.Visibility = Visibility.Hidden;
-            UpdateDroneToCharging.Visibility = Visibility.Hidden;
-            UpdateDroneFromCharging.Visibility = Visibility.Hidden;
-            UpdateParcelToPickedUp.Visibility = Visibility.Hidden;
-            UpdateParcelToDeliverd.Visibility = Visibility.Hidden;
-
-            DeliveryTB.Visibility = Visibility.Hidden;
-            LongitudeTB.Visibility = Visibility.Hidden;
-            LatitudeTB.Visibility = Visibility.Hidden;
-            BatteryTB.Visibility = Visibility.Hidden;
-            MaxWeightTB.Visibility = Visibility.Hidden;
-            StatusTB.Visibility = Visibility.Hidden;
-
-            BatteryTextBlock.Visibility = Visibility.Hidden;
-            LatitudeTextBlock.Visibility = Visibility.Hidden;
-            LongitudeTextBlock.Visibility = Visibility.Hidden;
-            MaxweightTextBlock.Visibility = Visibility.Hidden;
-            StatusTextBlock.Visibility = Visibility.Hidden;
-            ViewParcelButton.Visibility = Visibility.Hidden;
             DeleteDroneButton.Visibility = Visibility.Hidden;
+            SimulatorButton.Visibility = Visibility.Hidden;
+            grid2.Visibility = Visibility.Hidden;
+            grid4.Visibility = Visibility.Hidden;
+
 
             AddButton.IsEnabled = false;
 
@@ -108,10 +107,10 @@ namespace PL
             MaxWeightCB.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             MaxWeightCB.SelectedItem = (WeightCategories)0;
         }
+        #endregion
 
 
-        //-------------------  DroneIdTextBox -------------------//
-
+        #region Drone's TextBox Function
         private void DroneIdTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (IdTextBox.Text == "Id")
@@ -154,8 +153,6 @@ namespace PL
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        //-------------------  ModelTextBox -------------------//
-
         private void ModelTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (ModelTextBox.Text == "Model")
@@ -170,8 +167,47 @@ namespace PL
                 AddButton.IsEnabled = true;
         }
 
-        //Drone actions.
+        //Bouns.
+        private void IdTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (IdTextBox.Text != "Id")
+            {
+                int.TryParse(IdTextBox.Text, out int Id);
+                if (Id > 10000 || Id < 1000)
+                {
+                    IdTextBox.BorderBrush = Brushes.Red;
+                    IdTextBox.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    IdTextBox.BorderBrush = Brushes.Gray;
+                    IdTextBox.Foreground = Brushes.Black;
+                }
+            }
+        }
+        #endregion
+
+
         #region Drone Actions
+        /// <summary>
+        /// getting all the details of the drone that has been chosen, from drone to list at the BL layer.
+        /// </summary>
+        /// <param name="droneId">property of drone - ID</param>
+        private void GetDroneFields(int droneId)
+        {
+            Drone drone = BLObject.GetDroneByIdBL(droneId);
+
+            IdTextBox.Text = drone.Id.ToString();
+            ModelTextBox.Text = drone.Model;
+            BatteryTB.Text = String.Format("{0:0.000}%", drone.BatteryStatus);
+            Pb.Value = drone.BatteryStatus;
+            progressBarColor();
+            MaxWeightTB.Text = drone.MaxWeight.ToString();
+            StatusTB.Text = drone.DroneStatus.ToString();
+            DeliveryTB.Text = drone.ParcelInDelivery.ToString();
+            LocationTB.Text = drone.CurrentLocation.ToString();
+        }
+
         private void UpdateDroneModel_Click(object sender, RoutedEventArgs e)
         {
             bool? flag = new UpdateDroneModel(selectedDroneToList.Id).ShowDialog();
@@ -311,27 +347,14 @@ namespace PL
                     "Operation failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        #endregion
-
-        private void Close_Button_Click(object sender, RoutedEventArgs e)
+  
+        //Bouns.
+        private void ViewParcel_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = true;
-            this.Close();
+            ParcelToList parcelToList = BLObject.GetParcelToList(selectedDroneToList.DeliveryParcelId);
+            new ParcelActions(parcelToList).Show();
         }
-        #region Add Drone
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (DataContext.Equals(false)) e.Cancel = true;
-        }
-
-        private void MoveWindow(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                this.DragMove();
-            }
-        }
-
+        
         private void AddNewDroneButton_Click(object sender, RoutedEventArgs e)
         {
             int Id;
@@ -363,50 +386,7 @@ namespace PL
             }
             this.Close_Button_Click(sender, e);
         }
-        #endregion
-
-        //Bouns.
-        private void IdTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (IdTextBox.Text != "Id")
-            {
-                int.TryParse(IdTextBox.Text, out int Id);
-                if (Id > 10000 || Id < 1000)
-                {
-                    IdTextBox.BorderBrush = Brushes.Red;
-                    IdTextBox.Foreground = Brushes.Red;
-                }
-                else
-                {
-                    IdTextBox.BorderBrush = Brushes.Gray;
-                    IdTextBox.Foreground = Brushes.Black;
-                }
-            }
-        }
-
-        private void GetDroneFields(int droneId)
-        {
-
-            Drone drone = BLObject.GetDroneByIdBL(droneId);
-
-            IdTextBox.Text = drone.Id.ToString();
-            ModelTextBox.Text = drone.Model;
-            BatteryTB.Text = drone.BatteryStatus.ToString();
-            MaxWeightTB.Text = drone.MaxWeight.ToString();
-            StatusTB.Text = drone.DroneStatus.ToString();
-            DeliveryTB.Text = drone.ParcelInDelivery.ToString();
-            LatitudeTB.Text = drone.CurrentLocation.Latitude.ToString();
-            LongitudeTB.Text = drone.CurrentLocation.Longitude.ToString();
-        }
-
-        //Bouns.
-
-        private void ViewParcel_Click(object sender, RoutedEventArgs e)
-        {
-            ParcelToList parcelToList = BLObject.GetParcelToList(selectedDroneToList.DeliveryParcelId);
-            new ParcelActions(parcelToList).Show();
-        }
-
+       
         private void DeleteDroneButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -428,7 +408,99 @@ namespace PL
                 "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+
+        #region Simulator
+        private void SimulatorButton_Click(object sender, RoutedEventArgs e)
+        {
+            SimulatorButton.Visibility = Visibility.Hidden;
+            ManualButton.Visibility = Visibility.Visible;
+            grid4.Visibility = Visibility.Hidden;
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+
+
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
+            backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Drone drone = BLObject.GetDroneByIdBL(selectedDroneToList.Id);
+            StatusTB.Text = drone.DroneStatus.ToString();
+            LocationTB.Text = drone.CurrentLocation.ToString();
+
+            DeliveryTB.Text = drone.ParcelInDelivery.ToString();
+            if (selectedDroneToList.DeliveryParcelId != 0)
+            {
+                DeliveryTB.Visibility = Visibility.Visible;
+                ParcelInDelivery.Visibility = Visibility.Visible;
+            }
+
+            if (selectedDroneToList.DroneStatus == DroneStatuses.Maintenance)
+            {
+                DeliveryTB.Visibility = Visibility.Hidden;
+                ParcelInDelivery.Visibility = Visibility.Hidden;
+                double batteryStatus;
+                DroneCharge droneCharge = BLObject.FindDroneChargeByDroneIdBL(drone.Id);
+                batteryStatus = BLObject.BatteryCalc(selectedDroneToList, droneCharge);
+                BatteryTB.Text = String.Format("{0:0.000}%", batteryStatus);
+                Pb.Value = batteryStatus;
+                progressBarColor();
+            }
+            else
+            {
+                BatteryTB.Text = String.Format("{0:0.000}%", drone.BatteryStatus);
+                Pb.Value = drone.BatteryStatus;
+            }
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                BLObject.StartSimulator(selectedDroneToList.Id,
+                                        UpdateAction,
+                                        () => { return backgroundWorker.CancellationPending; });
+            }
+            catch (ObjectNotFoundException)
+            {
+                MessageBox.Show("There is no parcels to delivered",
+                    "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (NoParcelsMatchToDroneException)
+            {
+                MessageBox.Show("There is no parcels this drone can delivered",
+                                 "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+        private void UpdateAction()
+        {
+            backgroundWorker.ReportProgress(0);
+        }
+       
+        private void ManualButton_Click(object sender, RoutedEventArgs e)
+        {
+            backgroundWorker.CancelAsync();
+            ManualButton.Visibility = Visibility.Hidden;
+            SimulatorButton.Visibility = Visibility.Visible;
+            grid4.Visibility = Visibility.Visible;
+        }
+      
+        private void progressBarColor()
+        {
+            if (Pb.Value <= 33) Pb.Foreground = Brushes.Red;
+            else if (Pb.Value <= 66) Pb.Foreground = Brushes.Yellow;
+            else Pb.Foreground = Brushes.LimeGreen;
+        }
+        #endregion
+
+
+        #region Overloading the "Enter" key
         private void AddButton_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -436,40 +508,28 @@ namespace PL
                 this.AddNewDroneButton_Click(sender, e);
             }
         }
+        #endregion
 
 
-        BackgroundWorker backgroundWorker = new BackgroundWorker();
-        private void SimulatorButton_Click(object sender, RoutedEventArgs e)
+        #region Close Window
+        private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
-            backgroundWorker.DoWork += BackgroundWorker_DoWork;
-
-            backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
-            backgroundWorker.RunWorkerCompleted += (sender, args) => { MessageBox.Show("Completed"); };
-            backgroundWorker.RunWorkerAsync();
+            DataContext = true;
+            this.Close();
         }
 
-        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Drone drone = BLObject.GetDroneByIdBL(selectedDroneToList.Id);
-            DataContext = drone;
-            BatteryTB.Text = drone.BatteryStatus.ToString();
+            if (DataContext.Equals(false)) e.Cancel = true;
         }
 
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
-            lock (BLObject)
+            if (e.ChangedButton == MouseButton.Left)
             {
-                BLObject.StartSimulator(selectedDroneToList.Id,
-                                        UpdateAction,
-                                        () => { return backgroundWorker.CancellationPending; });
+                this.DragMove();
             }
         }
-
-        private void UpdateAction()
-        {
-            MessageBox.Show("Elyasaf The King!!!");
-            backgroundWorker.ReportProgress(0);
-        }
+        #endregion
     }
 }

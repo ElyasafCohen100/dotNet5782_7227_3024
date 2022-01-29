@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ViewStationList" Height="450" Width="800"
-        WindowStyle="None" MouseDown="MoveMouse">
+        WindowStyle="None" MouseDown="MoveWindow">
 
     <Window.Background>
         <ImageBrush ImageSource="\resources\UpperGridPicture.jpg" Opacity="0.55"/>

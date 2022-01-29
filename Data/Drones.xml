@@ -1,33 +1,93 @@
 <?xml version="1.0"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
-    <MaxWeight>Average</MaxWeight>
-    <Id>2749</Id>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>2509</Id>
     <Model>A0</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
-    <MaxWeight>Average</MaxWeight>
-    <Id>8908</Id>
+    <MaxWeight>Heavy</MaxWeight>
+    <Id>3296</Id>
     <Model>A1</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
-    <MaxWeight>Average</MaxWeight>
-    <Id>2788</Id>
+    <MaxWeight>Heavy</MaxWeight>
+    <Id>7564</Id>
     <Model>A2</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
-    <MaxWeight>Average</MaxWeight>
-    <Id>4743</Id>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>8259</Id>
     <Model>A3</Model>
     <IsActive>true</IsActive>
   </Drone>
   <Drone>
-    <MaxWeight>Light</MaxWeight>
-    <Id>5413</Id>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>1416</Id>
     <Model>A4</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>3040</Id>
+    <Model>A5</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>4308</Id>
+    <Model>A6</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>3008</Id>
+    <Model>A7</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>6303</Id>
+    <Model>A8</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>8773</Id>
+    <Model>A9</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>2205</Id>
+    <Model>A10</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Intermediate</MaxWeight>
+    <Id>8467</Id>
+    <Model>A11</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Heavy</MaxWeight>
+    <Id>7603</Id>
+    <Model>A12</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Heavy</MaxWeight>
+    <Id>2607</Id>
+    <Model>A13</Model>
+    <IsActive>true</IsActive>
+  </Drone>
+  <Drone>
+    <MaxWeight>Heavy</MaxWeight>
+    <Id>8729</Id>
+    <Model>A14</Model>
     <IsActive>true</IsActive>
   </Drone>
 </ArrayOfDrone>

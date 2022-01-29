@@ -4,4 +4,8 @@
     <UserName>admin</UserName>
     <Password>admin</Password>
   </Admin>
+  <Admin>
+    <UserName>adina</UserName>
+    <Password>adina</Password>
+  </Admin>
 </ArrayOfAdmin>

@@ -1,9 +1,8 @@
 ﻿<Window x:Class="PL.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown"
         WindowStyle="None" MouseDown="MoveWindow">
@@ -47,7 +46,7 @@
             <PasswordBox Name="PasswordPB" Password="Password" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus" Grid.Row="1" Grid.Column="1" PreviewTextInput="PasswordPB_PreviewTextInput" Grid.ColumnSpan="2" Margin="0,54,283,54"/>
             <TextBox Name="PasswordTB" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40" Margin="0,56,0,0" Width="241" Grid.Column="1" Grid.Row="1"/>
 
-            <CheckBox Name="revealModeCheckBox" Content="Show Password" Grid.Column="2" Visibility="Hidden" IsChecked="False" Unchecked="ShowPassword_Unchecked" HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Row="1" VerticalAlignment="Center" Checked="ShowPassword_Checked" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic" />
+            <CheckBox Name="RevealModeCheckBox" Content="Show Password" Grid.Column="2" Visibility="Hidden" IsChecked="False" Checked="ShowPassword_Checked" Unchecked="ShowPassword_UnChecked" HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic" />
 
         </Grid>
 
