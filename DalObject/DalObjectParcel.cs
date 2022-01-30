@@ -54,10 +54,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddNewParcel(Parcel parcel)
         {
-            parcel.Id = DataSource.Config.SerialNum;
+            parcel.Id = DataSource.Config.SerialNumber;
             parcel.IsActive = true;
             DataSource.Parcels.Add(parcel);
-            ++DataSource.Config.SerialNum;
+            ++DataSource.Config.SerialNumber;
         }
         #endregion
 

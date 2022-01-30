@@ -32,9 +32,9 @@ namespace Dal
             internal static double Intermediate = 3.7;
             internal static double Heavy = 4.3;
             internal static double Available = 3.2;
-            internal static double DroneChargingRate = 10;
+            internal static double DroneChargingRate = 2;
 
-            internal static int SerialNum = 1;
+            internal static int SerialNumber = 1;
 
             internal static Random r = new Random();
             internal static DateTime currentDate = DateTime.Now;
@@ -57,8 +57,8 @@ namespace Dal
 
             Admins.Add(new Admin
             {
-                UserName = "adina",
-                Password = "adina"
+                UserName = "Elyasaf",
+                Password = "Elyasaf"
             });
 
             for (int i = 0; i < 20; i++)
@@ -99,12 +99,12 @@ namespace Dal
                 });
             }
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 50; i++)
             {
                 Parcel parcel = new Parcel();
-                parcel.Id = Config.SerialNum;
-                parcel.SenderId = Customers[i].Id;
-                parcel.TargetId = Customers[i + 1].Id;
+                parcel.Id = Config.SerialNumber;
+                parcel.SenderId = Customers[i % 25].Id;
+                parcel.TargetId = Customers[(i + 1) % 25].Id;
                 parcel.Weight = (WeightCategories)Config.r.Next(2);
                 parcel.Priority = (Priorities)Config.r.Next(2);
                 parcel.Requested = Config.currentDate;
@@ -130,7 +130,7 @@ namespace Dal
                 }
                 Parcels.Add(parcel);
 
-                Config.SerialNum++;
+                Config.SerialNumber++;
             }
         }
         #endregion

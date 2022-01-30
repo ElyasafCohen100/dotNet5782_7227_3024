@@ -8,7 +8,6 @@ namespace PL
         private BlApi.IBL BLObject;
         string userName;
 
-
         #region Constructor
         public MainCustomerWindow(string userName)
         {

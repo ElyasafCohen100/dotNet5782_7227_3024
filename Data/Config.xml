@@ -5,7 +5,7 @@
     <Intermediate>3.7</Intermediate>
     <Heavy>4.3</Heavy>
     <Available>3.2</Available>
-    <DroneChargingRate>10</DroneChargingRate>
+    <DroneChargingRate>2</DroneChargingRate>
   </ElectricityUseRequest>
-  <SerialNum>16</SerialNum>
+  <SerialNum>17</SerialNum>
 </Config>

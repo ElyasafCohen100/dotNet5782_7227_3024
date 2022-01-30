@@ -14,7 +14,7 @@ namespace PL
         private string userName;
 
         #region Constructor
-        public ViewParcelFromCustomerWindow(string useName)
+        public ViewParcelFromCustomerWindow(string userName)
         {
             InitializeComponent();
 

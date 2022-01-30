@@ -26,7 +26,6 @@ namespace PL
 
             Customer customer = BLObject.GetCustomerByIdBL(selcetedCustomerToList.Id);
 
-            DataContext = false;
             grid1.DataContext = customer;
 
             CustomerId.IsEnabled = false;
@@ -224,22 +223,16 @@ namespace PL
         #region Close Window
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = true;
             this.Close();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (DataContext.Equals(false)) e.Cancel = true;
-        }
-
-        private void MoveWindow(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                this.DragMove();
-            }
-        }
+        //private void MoveWindow(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (e.ChangedButton == MouseButton.Left)
+        //    {
+        //        this.DragMove();
+        //    }
+        //}
         #endregion
     }
 }

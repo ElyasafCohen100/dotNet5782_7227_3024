@@ -21,7 +21,7 @@ namespace Dal
             XElement dalCustomersRoot = XElement.Load(dalCustomerPath);
 
             Customer dalCustomer = (from customer in dalCustomersRoot.Elements()
-                                    where customer.Element("Id").Value == customerId.ToString()
+                                    where customer.Element("Id").Value == customerId.ToString() && bool.Parse(customer.Element("IsActive").Value) == true
                                     select new Customer
                                     {
                                         Id = customerId,
@@ -43,7 +43,8 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomerByUserName(string username)
         {
-            return (from customer in GetCustomerList() where customer.UserName == username select customer).FirstOrDefault();
+            Customer newCustomer = (from customer in GetCustomerList() where customer.UserName == username select customer).FirstOrDefault();
+            return newCustomer.Id != 0 && newCustomer.IsActive == true ? newCustomer : throw new ObjectNotFoundException("customer");
         }
 
 

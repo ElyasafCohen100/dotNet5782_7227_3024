@@ -9,7 +9,7 @@
         WindowStyle="None" MouseDown="MoveWindow">
 
     <Window.Background>
-        <ImageBrush ImageSource="resources/mainCustomerWindow.jpg" Stretch="Fill" Opacity="0.3"/>
+        <ImageBrush ImageSource="\resources/mainCustomerWindow.jpg" Stretch="Fill" Opacity="0.3"/>
     </Window.Background>
 
     <Grid>

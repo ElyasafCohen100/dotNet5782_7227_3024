@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="CustomerAction" Height="450" Width="800"
-        WindowStyle="None" MouseDown="MoveWindow">
+        Title="CustomerAction" Height="450" Width="800">
+         <!--WindowStyle="None" MouseDown="MoveWindow"-->
 
     <Window.Background>
         <ImageBrush ImageSource = "/resources/CustomerAction.jpg" Stretch="Fill"/>
@@ -42,7 +42,7 @@
         <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="603,12,0,0" VerticalAlignment="Top" Height="21" Width="57" Cursor="Hand" Click="CloseButton_Click" Grid.Column="1" Foreground="#FFF60C0C"/>
         <Button Name="AddNewCustomerButton"  Content="Add A New Customer" HorizontalAlignment="Left" Margin="460,44,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.381,0.359" Width="200" Height="30" Cursor="Hand" Click="AddCustomerBustton_Click" Grid.Column="1"/>
         <Button Name="UpdateCustomerButton"  Content="Update Customer" HorizontalAlignment="Left" Margin="460,96,0,0" VerticalAlignment="Top" Width="200" Height="30" Cursor="Hand" Grid.Column="1" Click="UpdateCustomerDetailes_Click" IsEnabled="False"/>
-        <Button Name="DeleteCustomerButton" Content="Delelte Customer" Grid.Column="1" HorizontalAlignment="Left" Margin="460,146,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="DeleteCustomerButton_Click" Cursor="Hand"/>
+        <Button Name="DeleteCustomerButton" Content="Delete Customer" Grid.Column="1" HorizontalAlignment="Left" Margin="460,146,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="DeleteCustomerButton_Click" Cursor="Hand"/>
 
         <ListView Name="ParcelFromCustomerList" Margin="0,183,0,146" Grid.ColumnSpan="2" MouseDoubleClick="ParcelFromCustomerList_MouseDoubleClick" Cursor="Hand" BorderBrush="Blue"> 
             <ListView.View>
