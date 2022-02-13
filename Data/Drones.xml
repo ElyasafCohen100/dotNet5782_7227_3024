@@ -90,4 +90,10 @@
     <MaxWeight>Intermediate</MaxWeight>
     <IsActive>true</IsActive>
   </Drone>
+  <Drone>
+    <Id>1212</Id>
+    <Model>djdkd</Model>
+    <MaxWeight>Heavy</MaxWeight>
+    <IsActive>true</IsActive>
+  </Drone>
 </ArrayOfDrone>

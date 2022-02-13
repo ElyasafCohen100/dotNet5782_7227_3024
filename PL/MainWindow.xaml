@@ -40,13 +40,9 @@
 
         <PasswordBox Name="PasswordPB" Password="Password" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus" PreviewTextInput="PasswordPB_PreviewTextInput" HorizontalAlignment="Left" Margin="260,197,0,0" VerticalAlignment="Top" Width="254" Height="36"/>
 
-        <TextBox Name="PasswordTB" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40" Margin="0,56,0,0" Width="241" Grid.Column="1" Grid.Row="1"/>
+        <TextBox Name="PasswordTB" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" Margin="260,197,0,0" Width="254"/>
 
-        <CheckBox Name="RevealModeCheckBox" Content="Show Password" Grid.Column="2" Visibility="Hidden" IsChecked="False" Checked="ShowPassword_Checked" Unchecked="ShowPassword_UnChecked" HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic" />
-
-
-
-
+        <CheckBox Name="RevealModeCheckBox" Content="Show Password" Visibility="Hidden" IsChecked="False" Checked="ShowPassword_Checked" Unchecked="ShowPassword_UnChecked" HorizontalAlignment="Left" Margin="535,207,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Sitka Text" FontStyle="Italic" />
 
     </Grid>
 

@@ -124,6 +124,12 @@ namespace PL
                 UpdateDroneModelButton_Click(sender, e);
             }
         }
+
+
+
+
+
+
         #endregion
     }
 }
