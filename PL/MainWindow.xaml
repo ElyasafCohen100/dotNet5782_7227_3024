@@ -38,7 +38,7 @@
 
         <TextBlock Name="UserNameMessage" HorizontalAlignment="Left" Visibility="Hidden" Margin="282,181,0,0" Text="User Name is not valid ,please sign up" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Gold" Height="16" Width="210"/>
 
-        <PasswordBox Name="PasswordPB" Password="Password" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus" PreviewTextInput="PasswordPB_PreviewTextInput" HorizontalAlignment="Left" Margin="260,197,0,0" VerticalAlignment="Top" Width="254" Height="36"/>
+        <PasswordBox Name="PasswordPB" Password="Password" GotFocus="PasswordTB_GotFocus" LostFocus="PasswordTB_LostFocus" PreviewTextInput="PasswordPB_PreviewTextInput" HorizontalAlignment="Left" Margin="260,197,0,0" VerticalAlignment="Top" Width="242" Height="41"/>
 
         <TextBox Name="PasswordTB" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" Margin="260,197,0,0" Width="254"/>
 
