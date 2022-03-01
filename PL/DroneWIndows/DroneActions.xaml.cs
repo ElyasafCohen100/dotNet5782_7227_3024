@@ -46,23 +46,15 @@ namespace PL
                 LocationTB.Text = drone.CurrentLocation.ToString();
                 DeliveryTB.Text = drone.ParcelInDelivery.ToString();
 
-                if (droneToList.DroneStatus == DroneStatuses.Maintenance)
-                {
-                    DroneCharge droneCharge = BLObject.FindDroneChargeByDroneIdBL(droneToList.Id);
-                    Pb.Value = BLObject.BatteryCalc(droneToList, droneCharge);
-
-                }
-                else
-                {
-                    Pb.Value = droneToList.BatteryStatus;
-                }
+                Pb.Value = droneToList.BatteryStatus;
                 progressBarColor();
 
                 grid3.Visibility = Visibility.Hidden;
-
                 AddButton.Visibility = Visibility.Hidden;
+
                 if (selectedDroneToList.DeliveryParcelId <= 0)
                     ViewParcelButton.Visibility = Visibility.Hidden;
+
                 if (selectedDroneToList.DeliveryParcelId == 0)
                 {
                     DeliveryTB.Visibility = Visibility.Hidden;
@@ -94,6 +86,7 @@ namespace PL
             DataContext = false;
             DeleteDroneButton.Visibility = Visibility.Hidden;
             SimulatorButton.Visibility = Visibility.Hidden;
+            ManualButton.Visibility = Visibility.Hidden;
             grid2.Visibility = Visibility.Hidden;
             grid4.Visibility = Visibility.Hidden;
 

@@ -14,9 +14,9 @@ namespace BO
         public WeightCategories MaxWeight { get; set; }
         public double BatteryStatus { get; set; }
 
-        public DroneStatuses DroneStatus;
-        public ParcelInDelivery ParcelInDelivery = new();
-        public Location CurrentLocation = new();
+        public DroneStatuses DroneStatus { get; set; }
+        public ParcelInDelivery ParcelInDelivery { get; set; } = new();
+        public Location CurrentLocation { get; set; } = new();
 
         /// <summary>
         /// Return describe of Drone class string.

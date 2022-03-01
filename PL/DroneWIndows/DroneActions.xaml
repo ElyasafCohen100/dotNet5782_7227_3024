@@ -14,7 +14,7 @@
 
     <Grid x:Name="grid1">
 
-        <Button Name="ManualButton" Content="Manual" Visibility="Visible" HorizontalAlignment="Center" Foreground="Salmon" Margin="0,133,0,0" VerticalAlignment="Top" Height="23" Width="124" Click="ManualButton_Click"/>
+        <Button Name="ManualButton" Content="Manual" HorizontalAlignment="Center" Foreground="Salmon" Margin="0,133,0,0" VerticalAlignment="Top" Height="23" Width="124" Click="ManualButton_Click"/>
         <Button Name="SimulatorButton" Content="Simulator" HorizontalAlignment="Center" Margin="0,99,0,0" VerticalAlignment="Top" Height="23" Width="124" Foreground="Salmon" Click="SimulatorButton_Click"/>
 
         <TextBox x:Name="IdTextBox" HorizontalAlignment="Left" Margin="116,20,0,0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" GotFocus="DroneIdTextBox_GotFocus" LostFocus="DroneIdTextBox_LostFocus" TextChanged="IdTextBox_TextChanged" PreviewTextInput="DroneIdTextBox_PreviewTextInput"/>
@@ -50,8 +50,9 @@
         </Grid>
 
 
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="666,14,0,0" VerticalAlignment="Top" Foreground="#FFF60C0C" Click="Close_Button_Click" Height="24" Width="95"/>
+        
         <Grid x:Name="grid4">
-            <Button Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="666,14,0,0" VerticalAlignment="Top" Foreground="#FFF60C0C" Click="Close_Button_Click" Height="24" Width="95"/>
             <Button Name="UpdateModel" Content="Update Model" HorizontalAlignment="Left" Margin="570,99,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneModel_Click"/>
             <Button Name="UpdateDroneToCharging" Content="Update Drone To Charging" HorizontalAlignment="Left" Margin="570,146,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneToChargingButton_Click"/>
             <Button Name="UpdateDroneFromCharging" Content="Update Drone From Charging" HorizontalAlignment="Left" Margin="570,195,0,0" VerticalAlignment="Top" Height="30" Width="200" Click="UpdateDroneFromChargingButton_Click"/>
