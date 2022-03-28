@@ -18,20 +18,34 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsCustomerRegistered(string username, string password)
         {
+            bool result = false;
+            try { 
             DO.Customer customer = dalObject.GetCustomerByUserName(username);
             if (customer.UserName == username && customer.Password == password)
-                return true;
-            return false;
+                result = true;
+            }
+            catch(DO.ObjectNotFoundException e)
+            { result = false; }
+            return result;
         }
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsCustomerExsist(string username)
         {
-            DO.Customer customer = dalObject.GetCustomerByUserName(username);
-            if (customer.UserName == username)
-                return true;
-            return false;
+            bool result = false;
+
+            try
+            {
+                DO.Customer customer = dalObject.GetCustomerByUserName(username);
+                if (customer.UserName == username)
+                    result = true;
+            }
+            catch (DO.ObjectNotFoundException)
+            { result = false; }
+            
+
+            return result;
         }
 
 

@@ -250,24 +250,4 @@
     <UserName>Customer24</UserName>
     <Password>Customer24</Password>
   </Customer>
-  <Customer>
-    <Id>311557227</Id>
-    <Name>Elyasaf</Name>
-    <Phone>0505915943</Phone>
-    <Longitude>35.2</Longitude>
-    <Latitude>35.2</Latitude>
-    <IsActive>false</IsActive>
-    <UserName>Elyasaf</UserName>
-    <Password>Elyasaf</Password>
-  </Customer>
-  <Customer>
-    <Id>311557227</Id>
-    <Name>Elyasaf</Name>
-    <Phone>0505915943</Phone>
-    <Longitude>32.5</Longitude>
-    <Latitude>32.5</Latitude>
-    <IsActive>true</IsActive>
-    <UserName>Elyasaf</UserName>
-    <Password>Elyasaf</Password>
-  </Customer>
 </ArrayOfCustomer>

@@ -40,7 +40,7 @@ namespace PL
             {
                 if (!BLObject.IsCustomerRegistered(UserNameTB.Text, PasswordPB.Password))
                 {
-                    MessageBox.Show("The user Does't exist", "Operation Failure",
+                    MessageBox.Show("username or password incorrect", "Operation Failure",
                                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else 
@@ -72,11 +72,11 @@ namespace PL
             {
                 UserNameTB.Clear();
             }
-            if (!BLObject.IsAdminExsist(UserNameTB.Text))
+            else if (BLObject.IsAdminExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Hidden;
             }
-            else if (!BLObject.IsCustomerExsist(UserNameTB.Text))
+            else if (BLObject.IsCustomerExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Hidden;
             }
