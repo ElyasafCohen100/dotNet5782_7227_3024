@@ -15,6 +15,7 @@ namespace PL
     {
         private BlApi.IBL BLObject;
         private StationToList selcetedStationToList;
+        private bool closeFlag = false;
 
         #region Action Constructor
         public StationActions(StationToList selectedStationToList)
@@ -30,7 +31,7 @@ namespace PL
             }
 
             this.selcetedStationToList = selectedStationToList;
-            DataContext = false;
+            
 
 
             Station station = BLObject.GetStationByIdBL(selcetedStationToList.Id);
@@ -68,7 +69,7 @@ namespace PL
             {
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            DataContext = false;
+            closeFlag = false;
 
             DroneChargesList.Visibility = Visibility.Hidden;
             UpdateStationButton.Visibility = Visibility.Hidden;
@@ -208,13 +209,13 @@ namespace PL
         #region Close Window
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = true;
+            closeFlag = true;
             this.Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (DataContext.Equals(false)) e.Cancel = true;
+            if (!closeFlag) e.Cancel = true;
         }
 
         private void MoveWindow(object sender, MouseButtonEventArgs e)

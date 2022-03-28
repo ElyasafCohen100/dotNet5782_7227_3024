@@ -42,10 +42,11 @@
         </Grid>
 
         <ListView x:Name="ParcelListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="ParcelListView_MouseDoubleClick" Cursor="Hand"
-                    Background="{StaticResource ResourceKey = 1}" BorderBrush="Blue">
+                    Background="{StaticResource ResourceKey = 1}"  >
+            
             <ListView.View>
 
-                <GridView>
+                <GridView >
                     <GridViewColumn DisplayMemberBinding="{Binding Id, Mode=OneWay}" Header="ID " Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding ReceiverName, Mode=OneWay}"  Header="RECIEVER NAME" Width="100"/>
                     <GridViewColumn DisplayMemberBinding="{Binding SenderName, Mode=OneWay}" Header="SENDER NAME" Width="100"/>

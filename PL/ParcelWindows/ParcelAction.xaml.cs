@@ -11,6 +11,7 @@ namespace PL
     {
         private BlApi.IBL BLObject;
         private ParcelToList selecetedParcelToList;
+        private bool closeFlag = true;
 
         #region Actions Constructor
         public ParcelActions(ParcelToList selecetedParcelToList)
@@ -34,7 +35,7 @@ namespace PL
                 grid4.Visibility = Visibility.Hidden;
             }
 
-            grid1.DataContext = parcel;
+            DataContext = parcel;
 
 
             if (parcel.Scheduled == null || parcel.Delivered != null) 
@@ -173,13 +174,13 @@ namespace PL
         #region Close Window
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = true;
+            closeFlag = true;
             this.Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (DataContext.Equals(false)) e.Cancel = true;
+            if (!closeFlag) e.Cancel = true;
         }
 
         private void MoveWindow(object sender, MouseButtonEventArgs e)

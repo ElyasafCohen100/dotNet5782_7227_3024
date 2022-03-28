@@ -9,6 +9,7 @@ namespace PL
     {
         private BlApi.IBL BLObject;
         private CustomerToList selcetedCustomerToList;
+        private bool closeFlag = false;
 
         #region Action's Constructor
         public CustomerActions(CustomerToList selcetedCustomerToList)
@@ -63,8 +64,6 @@ namespace PL
             {
                 MessageBox.Show(e.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            DataContext = false;
           
             UpdateCustomerButton.Visibility = Visibility.Hidden;
             DeleteCustomerButton.Visibility = Visibility.Hidden;
@@ -218,21 +217,27 @@ namespace PL
             }
         }
         #endregion
-     
-        
+
+
         #region Close Window
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            closeFlag = true;
             this.Close();
         }
 
-        //private void MoveWindow(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (e.ChangedButton == MouseButton.Left)
-        //    {
-        //        this.DragMove();
-        //    }
-        //}
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!closeFlag) e.Cancel = true;
+        }
+
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
         #endregion
     }
 }

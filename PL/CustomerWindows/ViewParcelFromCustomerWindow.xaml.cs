@@ -12,6 +12,7 @@ namespace PL
     {
         private BlApi.IBL BLObject;
         private string userName;
+        private bool closeFlag = false;
 
         #region Constructor
         public ViewParcelFromCustomerWindow(string userName)
@@ -31,8 +32,6 @@ namespace PL
             Customer customer = BLObject.GetCustomerByUserName(userName);
 
             ParcelListView.ItemsSource = from parcelToList in customer.ParcelFromCustomerList select BLObject.GetParcelToList(parcelToList.Id);
-           
-            DataContext = false;
         }
         #endregion
 
@@ -56,13 +55,13 @@ namespace PL
         #region Window Closing
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = true;
+            closeFlag = true;
             this.Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (DataContext.Equals(false)) e.Cancel = true;
+            if (!closeFlag) e.Cancel = true;
         }
 
         private void MoveWindow(object sender, MouseButtonEventArgs e)

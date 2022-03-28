@@ -6,17 +6,17 @@ namespace BO
     {
         public int Id { get; set; }
 
-        public CustomerInParcel senderCustomer = new();
-        public CustomerInParcel receiverCustomer = new();
-        public DroneInParcel Drone = new();
+        public CustomerInParcel senderCustomer { get; set; } = new();
+        public CustomerInParcel receiverCustomer { get; set; } = new();
+        public DroneInParcel Drone { get; set; } = new();
 
-        public Priorities Priority;
-        public WeightCategories Weight;
+        public Priorities Priority { get; set; }
+        public WeightCategories Weight { get; set; }
 
-        public DateTime? Requested = null;
-        public DateTime? Scheduled = null;
-        public DateTime? PickedUp = null;
-        public DateTime? Delivered = null;
+        public DateTime? Requested { get; set; } = null;
+        public DateTime? Scheduled { get; set; }  = null;
+        public DateTime? PickedUp { get; set; }  = null;
+        public DateTime? Delivered { get; set; } = null;
 
         /// <summary>
         /// Return describe of Parcel class string.

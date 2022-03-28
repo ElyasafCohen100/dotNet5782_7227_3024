@@ -9,6 +9,7 @@ namespace PL
     public partial class ViewStationList : Window
     {
         private BlApi.IBL BLObject;
+        private bool closeFlag = false;
 
         #region Constructor
         public ViewStationList()
@@ -24,7 +25,6 @@ namespace PL
             }
 
             StationListView.ItemsSource = BLObject.GetAllBaseStationsToList();
-            DataContext = false;
         }
         #endregion
 
@@ -77,13 +77,13 @@ namespace PL
         #region Close Window
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = true;
+            closeFlag = true;
             this.Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (DataContext.Equals(false)) e.Cancel = true;
+            if (!closeFlag) e.Cancel = true;
         }
 
         private void MoveWindow(object sender, MouseButtonEventArgs e)

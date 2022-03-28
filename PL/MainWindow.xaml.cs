@@ -88,22 +88,14 @@ namespace PL
             {
                 UserNameTB.Text = "User Name";
             }
-            if (!BLObject.IsAdminExsist(UserNameTB.Text))
+            else if (!BLObject.IsAdminExsist(UserNameTB.Text) && !BLObject.IsCustomerExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Visible;
             }
-            else if (BLObject.IsAdminExsist(UserNameTB.Text))
+            else if (BLObject.IsAdminExsist(UserNameTB.Text) || BLObject.IsCustomerExsist(UserNameTB.Text))
             {
                 UserNameMessage.Visibility = Visibility.Hidden;
-            }
-            else if (!BLObject.IsCustomerExsist(UserNameTB.Text))
-            {
-                UserNameMessage.Visibility = Visibility.Visible;
-            }
-            else if (BLObject.IsCustomerExsist(UserNameTB.Text))
-            {
-                UserNameMessage.Visibility = Visibility.Hidden;
-            }
+            } 
         }
        
         private void PasswordTB_GotFocus(object sender, RoutedEventArgs e)

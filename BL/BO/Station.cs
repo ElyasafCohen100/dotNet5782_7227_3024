@@ -11,7 +11,7 @@ namespace BO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Location Location = new();
+        public Location Location { get; set; }  = new();
         public int AvailableChargeSlots { get; set; }
         public List<DroneCharge> DroneChargesList = new();
 
