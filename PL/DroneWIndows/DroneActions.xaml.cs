@@ -436,8 +436,10 @@ namespace PL
             {
                 DeliveryTB.Visibility = Visibility.Hidden;
                 ParcelInDelivery.Visibility = Visibility.Hidden;
+
                 double batteryStatus;
                 DroneCharge droneCharge = BLObject.FindDroneChargeByDroneIdBL(drone.Id);
+
                 batteryStatus = BLObject.BatteryCalc(selectedDroneToList, droneCharge);
                 BatteryTB.Text = String.Format("{0:0.000}%", batteryStatus);
                 Pb.Value = batteryStatus;
